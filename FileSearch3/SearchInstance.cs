@@ -57,6 +57,20 @@ namespace FileSearch
 			set { searchPhrases = value; OnPropertyChanged("SearchPhrases"); }
 		}
 
+		ObservableCollection<SearchPhrase> searchDirectories = new ObservableCollection<SearchPhrase>();
+		public ObservableCollection<SearchPhrase> SearchDirectories
+		{
+			get { return searchDirectories; }
+			set { searchDirectories = value; OnPropertyChanged("SearchDirectories"); }
+		}
+
+		ObservableCollection<SearchPhrase> searchFiles = new ObservableCollection<SearchPhrase>();
+		public ObservableCollection<SearchPhrase> SearchFiles
+		{
+			get { return searchFiles; }
+			set { searchFiles = value; OnPropertyChanged("SearchFiles"); }
+		}
+
 		#endregion
 
 		#region INotifyPropertyChanged

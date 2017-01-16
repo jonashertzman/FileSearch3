@@ -8,12 +8,6 @@ namespace FileSearch
 	public class AppSettings : INotifyPropertyChanged
 	{
 
-		#region Members
-
-		ObservableCollection<SearchInstance> searchInstances = new ObservableCollection<SearchInstance>();
-
-		#endregion
-
 		#region Properties
 
 		[IgnoreDataMemberAttribute]
@@ -36,6 +30,7 @@ namespace FileSearch
 			}
 		}
 
+		ObservableCollection<SearchInstance> searchInstances = new ObservableCollection<SearchInstance>();
 		public ObservableCollection<SearchInstance> SearchInstances
 		{
 			get
@@ -47,6 +42,20 @@ namespace FileSearch
 				searchInstances = value;
 				OnPropertyChanged("SearchInstances");
 			}
+		}
+
+		int windowWidth;
+		public int WindowWidth
+		{
+			get { return windowWidth; }
+			set { windowWidth = value; OnPropertyChanged("WindowWidth"); }
+		}
+
+		int windowHeight;
+		public int WindowHeight
+		{
+			get { return windowHeight; }
+			set { windowHeight = value; OnPropertyChanged("WindowHeight"); }
 		}
 
 		#endregion
