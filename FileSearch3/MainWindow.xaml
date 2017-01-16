@@ -1,0 +1,253 @@
+﻿<Window
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:FileSearch" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="FileSearch.MainWindow"
+		Title="File Search 3 - Alpha" Height="377" Width="676" TextOptions.TextFormattingMode="Display" Closed="Window_Closed" Initialized="Window_Initialized" SnapsToDevicePixels="True">
+	<Grid>
+		<Grid.Resources>
+
+			<!-- Normal Brushes -->
+			<SolidColorBrush x:Key="NormalBrush" Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" />
+			<SolidColorBrush x:Key="DarkBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
+			<SolidColorBrush x:Key="PressedBrush" Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}" />
+			<SolidColorBrush x:Key="SelectedBrush" Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}" />
+
+			<!-- Border Brushes -->
+			<SolidColorBrush x:Key="NormalBorderBrush" Color="{DynamicResource {x:Static SystemColors.ScrollBarColorKey}}" />
+			<SolidColorBrush x:Key="DefaultedBorderBrush" Color="#777" />
+			<SolidColorBrush x:Key="PressedBorderBrush" Color="{DynamicResource {x:Static SystemColors.HotTrackColorKey}}" />
+			<SolidColorBrush x:Key="HighLightBorderBrush" Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}" />
+
+			<Style TargetType="Button" x:Key="TabButtonStyle">
+				<Setter Property="SnapsToDevicePixels" Value="true"/>
+				<Setter Property="OverridesDefaultStyle" Value="true"/>
+				<Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="Button">
+							<Border x:Name="Border" BorderThickness="1"	BorderBrush="{StaticResource NormalBorderBrush}" Background="{StaticResource NormalBrush}">
+								<ContentPresenter Margin="2" HorizontalAlignment="Center"	VerticalAlignment="Center" RecognizesAccessKey="True"/>
+							</Border>
+							<ControlTemplate.Triggers>
+								<!--<Trigger Property="IsKeyboardFocused" Value="true">
+									<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DefaultedBorderBrush}" />
+								</Trigger>-->
+								<Trigger Property="IsMouseOver" Value="true">
+									<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HighLightBorderBrush}" />
+								</Trigger>
+								<!--<Trigger Property="IsPressed" Value="true">
+									<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+								</Trigger>-->
+
+								<DataTrigger Binding="{Binding IsSelected}" Value="True">
+									<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0"/>
+									<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}"/>
+									<Setter Property="Margin" Value="0,0,0,0"/>
+									<Setter Property="Padding" Value="2,1,2,1"/>
+								</DataTrigger>
+								<DataTrigger Binding="{Binding IsSelected}" Value="False">
+									<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1"/>
+									<Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}"/>
+									<Setter Property="Margin" Value="0,1,0,0"/>
+									<Setter Property="Padding" Value="2,1,2,1"/>
+								</DataTrigger>
+
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+			<DataTemplate x:Key="ListTemplate">
+				<StackPanel Orientation="Vertical">
+					<TextBlock Text="{Binding Name}" />
+					<TextBox Text="{Binding Name}"/>
+				</StackPanel>
+			</DataTemplate>
+
+			<DataTemplate x:Key="SearcInstenceTabTemplate">
+				<Button Click="TabButton_Click" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" >
+					<StackPanel Margin="0" Orientation="Vertical" MinWidth="20">
+						<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,0,0,1" />
+						<ProgressBar BorderThickness="1" Value="50"  Visibility="Visible"/>
+					</StackPanel>
+				</Button>
+			</DataTemplate>
+
+		</Grid.Resources>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<!--Menu-->
+		<Grid x:Name="GridMenu" Margin="0,2,0,0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}">
+				<Menu Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" VerticalAlignment="Center" Margin="2,0" >
+					<MenuItem Header="File">
+						<MenuItem Header="Exit"/>
+						<MenuItem Header="New Search"/>
+					</MenuItem>
+					<MenuItem Header="Tools">
+						<MenuItem Header="Options"/>
+					</MenuItem>
+					<MenuItem Header="Help">
+						<MenuItem Header="About"/>
+					</MenuItem>
+				</Menu>
+			</Border>
+			<ItemsControl x:Name="Tab" ItemsSource="{Binding SearchInstances}" Grid.Column="1" Grid.Row="0" ItemTemplate="{DynamicResource SearcInstenceTabTemplate}" IsTabStop="False" >
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal"/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
+			<Button x:Name="ButtonNewSearchInstance" Content="*" Click="ButtonNewSearchInstance_Click" Grid.Column="2" Margin="0,1,0,0" Style="{StaticResource TabButtonStyle}" MinWidth="26"/>
+			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}"/>
+		</Grid>
+
+		<!--Main Toolbar-->
+		<WrapPanel x:Name="ToolbarMain" Grid.Row="1" Orientation="Horizontal">
+			<WrapPanel.Background>
+				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+					<GradientStop Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}" Offset="0"/>
+					<GradientStop Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" Offset="1"/>
+				</LinearGradientBrush>
+			</WrapPanel.Background>
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Margin="1" Focusable="False">
+				<StackPanel Orientation="Horizontal">
+					<Image Source="Resources/ImageStartSearch.png" VerticalAlignment="Center" Margin="3"/>
+					<TextBlock Text="Start Search" VerticalAlignment="Center"/>
+				</StackPanel>
+			</Button>
+			<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+				<StackPanel Orientation="Horizontal">
+					<Image Source="Resources/ImageStopSearch.png" VerticalAlignment="Center" Margin="3"/>
+					<TextBlock Text="Stop Search" VerticalAlignment="Center"/>
+				</StackPanel>
+			</Button>
+			<ToggleButton Content="Find All Phrases" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey }}" Focusable="False"/>
+			<ToggleButton Content="Case Sensitive" Style="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey }}" Focusable="False"/>
+			<Button Content="Delete Search" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Click="ToolbarButtonDeleteSearch_Click" Focusable="False"/>
+			<Button Content="Duplicate Search" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False"/>
+		</WrapPanel>
+
+		<Grid x:Name="MainGrid" Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="133"/>
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+
+			<!--Search Attributes-->
+			<Grid x:Name="GridSearchAttributes">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="100"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="100"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+				<DataGrid  x:Name="dataGridSearchPhrases" Grid.Row="0" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases}" AutoGenerateColumns="False" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,1,1,1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" RowHeaderWidth="0" CanUserResizeRows="False">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{Binding Phrase}" ClipboardContentBinding="{x:Null}" Header="Phrase" CanUserResize="False" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+				<DataGrid Grid.Row="2" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,1,1,1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Search Directories" CanUserResize="False" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				<GridSplitter Grid.Row="3" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+				<DataGrid Grid.Row="4" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,1,1,1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Files to Search" CanUserResize="False" Width="*"/>
+					</DataGrid.Columns>
+				</DataGrid>
+			</Grid>
+			<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"/>
+			<Grid Grid.Column="2">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="122"/>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition />
+				</Grid.RowDefinitions>
+
+				<!--File List-->
+				<DataGrid x:Name="dataGridFileList" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}">
+					<DataGrid.Columns>
+						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="File"/>
+						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Size"/>
+						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Date"/>
+					</DataGrid.Columns>
+				</DataGrid>
+				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+				<Border Grid.Row="2" BorderBrush="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1">
+					<Grid  >
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+
+						<!--Preview Toolbar-->
+						<WrapPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
+							<WrapPanel.Background>
+								<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+									<GradientStop Color="{DynamicResource {x:Static SystemColors.WindowColorKey}}" Offset="0"/>
+									<GradientStop Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}" Offset="1"/>
+								</LinearGradientBrush>
+							</WrapPanel.Background>
+							<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="Resources/ImageStartSearch.png" Margin="3" VerticalAlignment="Center"/>
+								</StackPanel>
+							</Button>
+							<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+								<StackPanel Orientation="Horizontal" >
+									<Image Source="Resources/ImageStartSearch.png" Margin="3" VerticalAlignment="Center"/>
+								</StackPanel>
+							</Button>
+							<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="Resources/ImageStartSearch.png" Margin="3" VerticalAlignment="Center"/>
+								</StackPanel>
+							</Button>
+							<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="Resources/ImageStartSearch.png" Margin="3" VerticalAlignment="Center"/>
+								</StackPanel>
+							</Button>
+							<Button Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Focusable="False">
+								<StackPanel Orientation="Horizontal">
+									<Image Source="Resources/ImageStartSearch.png" Margin="3" VerticalAlignment="Center"/>
+								</StackPanel>
+							</Button>
+						</WrapPanel>
+
+						<!--Preview-->
+						<RichTextBox Grid.Row="1" BorderThickness="0"/>
+
+					</Grid>
+				</Border>
+			</Grid>
+		</Grid>
+
+		<!--Status Bar-->
+		<Grid x:Name="GridStatusbar" Grid.Row="3" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+			<TextBlock Text="Status" Margin="3"/>
+		</Grid>
+		<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{DynamicResource ListTemplate}" HorizontalAlignment="Left" Margin="402,41,0,28" Width="169" IsSynchronizedWithCurrentItem="True" Grid.Row="2"/>
+
+	</Grid>
+</Window>
