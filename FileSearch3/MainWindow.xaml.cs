@@ -36,13 +36,16 @@ namespace FileSearch
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			dataGridFileList.Focus();
 			Stuff.WriteSettingsToDisk();
 		}
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
 			Stuff.ReadSettingsFromDisk();
+			if (Stuff.SettingsData.SearchInstances.Count == 0)
+			{
+				AddNewSearch();
+			}
 		}
 
 		private void ButtonNewSearchInstance_Click(object sender, RoutedEventArgs e)

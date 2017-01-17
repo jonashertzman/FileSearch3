@@ -44,18 +44,32 @@ namespace FileSearch
 			}
 		}
 
-		int windowWidth;
+		int windowWidth = 800;
 		public int WindowWidth
 		{
 			get { return windowWidth; }
 			set { windowWidth = value; OnPropertyChanged("WindowWidth"); }
 		}
 
-		int windowHeight;
+		int windowHeight = 600;
 		public int WindowHeight
 		{
 			get { return windowHeight; }
 			set { windowHeight = value; OnPropertyChanged("WindowHeight"); }
+		}
+
+		int phrasesHeight = 100;
+		public int PhrasesHeight
+		{
+			get { return phrasesHeight; }
+			set { phrasesHeight = value; OnPropertyChanged("PhrasesHeight"); }
+		}
+
+		int directoriesHeight = 100;
+		public int DirectoriesHeight
+		{
+			get { return directoriesHeight; }
+			set { directoriesHeight = value; OnPropertyChanged("DirectoriesHeight"); }
 		}
 
 		#endregion
