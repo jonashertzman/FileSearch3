@@ -50,22 +50,22 @@ namespace FileSearch
 			}
 		}
 
-		ObservableCollection<SearchPhrase> searchPhrases = new ObservableCollection<SearchPhrase>();
-		public ObservableCollection<SearchPhrase> SearchPhrases
+		ObservableCollection<SearchAttribute> searchPhrases = new ObservableCollection<SearchAttribute>();
+		public ObservableCollection<SearchAttribute> SearchPhrases
 		{
 			get { return searchPhrases; }
 			set { searchPhrases = value; OnPropertyChanged("SearchPhrases"); }
 		}
 
-		ObservableCollection<SearchPhrase> searchDirectories = new ObservableCollection<SearchPhrase>();
-		public ObservableCollection<SearchPhrase> SearchDirectories
+		ObservableCollection<SearchAttribute> searchDirectories = new ObservableCollection<SearchAttribute>();
+		public ObservableCollection<SearchAttribute> SearchDirectories
 		{
 			get { return searchDirectories; }
 			set { searchDirectories = value; OnPropertyChanged("SearchDirectories"); }
 		}
 
-		ObservableCollection<SearchPhrase> searchFiles = new ObservableCollection<SearchPhrase>();
-		public ObservableCollection<SearchPhrase> SearchFiles
+		ObservableCollection<SearchAttribute> searchFiles = new ObservableCollection<SearchAttribute>();
+		public ObservableCollection<SearchAttribute> SearchFiles
 		{
 			get { return searchFiles; }
 			set { searchFiles = value; OnPropertyChanged("SearchFiles"); }
@@ -79,10 +79,7 @@ namespace FileSearch
 
 		public void OnPropertyChanged(string name)
 		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
 		#endregion

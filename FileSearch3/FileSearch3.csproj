@@ -56,7 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="SearchInstance.cs" />
-    <Compile Include="SearchPhrase.cs" />
+    <Compile Include="SearchAttribute.cs" />
     <Compile Include="Stuff.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
