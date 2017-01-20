@@ -44,6 +44,20 @@ namespace FileSearch
 			}
 		}
 
+		ObservableCollection<TextAttribute> ignoreDirectories = new ObservableCollection<TextAttribute>();
+		public ObservableCollection<TextAttribute> IgnoreDirectories
+		{
+			get { return ignoreDirectories; }
+			set { ignoreDirectories = value; OnPropertyChanged("IgnoreDirectories"); }
+		}
+
+		ObservableCollection<TextAttribute> ignoreFiles = new ObservableCollection<TextAttribute>();
+		public ObservableCollection<TextAttribute> IgnoreFiles
+		{
+			get { return ignoreFiles; }
+			set { ignoreFiles = value; OnPropertyChanged("IgnoreFiles"); }
+		}
+
 		int windowWidth = 800;
 		public int WindowWidth
 		{

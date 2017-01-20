@@ -2,19 +2,33 @@
 
 namespace FileSearch
 {
-	public class SearchAttribute : INotifyPropertyChanged
+	public class TextAttribute : INotifyPropertyChanged
 	{
-		public SearchAttribute()
+		public TextAttribute()
 		{
 
+		}
+
+		public TextAttribute(string v)
+		{
+			this.text = v;
 		}
 
 		string text;
 		public string Text
 		{
 			get { return text; }
-			set { text = value; OnPropertyChanged("Text"); }
+			set { text = value; uppercaseText = value.ToUpper(); OnPropertyChanged("Text"); }
 		}
+
+		string uppercaseText;
+		private string v;
+
+		internal string UppercaseText
+		{
+			get { return uppercaseText; }
+		}
+
 
 		#region INotifyPropertyChanged
 

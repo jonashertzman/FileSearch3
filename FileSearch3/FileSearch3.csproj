@@ -55,8 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileHIt.cs" />
+    <Compile Include="PhraseHit.cs" />
     <Compile Include="SearchInstance.cs" />
-    <Compile Include="SearchAttribute.cs" />
+    <Compile Include="TextAttribute.cs" />
+    <Compile Include="SearchPhrase.cs" />
     <Compile Include="Stuff.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
