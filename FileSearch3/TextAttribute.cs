@@ -22,13 +22,10 @@ namespace FileSearch
 		}
 
 		string uppercaseText;
-		private string v;
-
 		internal string UppercaseText
 		{
 			get { return uppercaseText; }
 		}
-
 
 		#region INotifyPropertyChanged
 

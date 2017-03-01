@@ -59,7 +59,6 @@
     <Compile Include="PhraseHit.cs" />
     <Compile Include="SearchInstance.cs" />
     <Compile Include="TextAttribute.cs" />
-    <Compile Include="SearchPhrase.cs" />
     <Compile Include="Stuff.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FileSearch
 {
@@ -54,6 +55,13 @@ namespace FileSearch
 		{
 			get { return isSelected; }
 			set { isSelected = value; OnPropertyChanged("IsSelected"); }
+		}
+
+		bool regexSearch;
+		public bool RegexSearch
+		{
+			get { return regexSearch; }
+			set { regexSearch = value; OnPropertyChanged("RegexSearch"); }
 		}
 
 		ObservableCollection<TextAttribute> searchPhrases = new ObservableCollection<TextAttribute>();
@@ -278,47 +286,38 @@ namespace FileSearch
 		{
 			try
 			{
-				byte[] allBytes = File.ReadAllBytes(path);
-
-				bool unicodeFile = false;
-
-				if (allBytes.Length > 2 && allBytes[0] == 239 && allBytes[1] == 187 && allBytes[2] == 191) // UTF8
-				{
-					unicodeFile = true;
-				}
-
-				else if (allBytes.Length > 1 && allBytes[0] == 254 && allBytes[1] == 255) // UTF16 BE
-				{
-					unicodeFile = true;
-				}
-
-				else if (allBytes.Length > 1 && allBytes[0] == 255 && allBytes[1] == 254) // UTF16 LE
-				{
-					unicodeFile = true;
-				}
-
-				else if (allBytes.Length > 3 && allBytes[0] == 0 && allBytes[1] == 0 && allBytes[2] == 254 && allBytes[3] == 255) // UTF32 BE
-				{
-					unicodeFile = true;
-				}
-
-				else if (allBytes.Length > 3 && allBytes[0] == 255 && allBytes[1] == 254 && allBytes[2] == 0 && allBytes[3] == 0) // UTF32 LE
-				{
-					unicodeFile = true;
-				}
-
 				FileHit currentHit = null;
 				SearchedFilesCount++;
 
-				// Ansi search
-				if (!unicodeFile)
+				if (RegexSearch)
 				{
+					string allText = File.ReadAllText(path);
+					foreach (TextAttribute searchPhrase in SearchPhrases)
+					{
+						Match match = Regex.Match(allText, searchPhrase.Text, RegexOptions.Multiline | RegexOptions.IgnoreCase);
+						while (match.Success)
+						{
+							if (currentHit == null)
+							{
+								currentHit = new FileHit(path);
+							}
+							Match caseSensitiveMatch = Regex.Match(allText.Substring(match.Index), searchPhrase.Text);
+							currentHit.AddPhraseHit(searchPhrase.Text, caseSensitiveMatch.Success && caseSensitiveMatch.Index == 0);
+							match = match.NextMatch();
+						}
+					}
+				}
+
+				else
+				{
+					string allText = File.ReadAllText(path);
+
 					foreach (TextAttribute searchPhrase in SearchPhrases)
 					{
 						int i = 0;
 						do
 						{
-							i = FindString(allBytes, searchPhrase.UppercaseText, i, false);
+							i = allText.IndexOf(searchPhrase.Text, i, StringComparison.OrdinalIgnoreCase);
 							if (i == -1)
 							{
 								break;
@@ -327,43 +326,11 @@ namespace FileSearch
 							{
 								currentHit = new FileHit(path);
 							}
-							currentHit.AddPhraseHit(searchPhrase.Text, FindString(allBytes, searchPhrase.Text, i, true) == i);
+							currentHit.AddPhraseHit(searchPhrase.Text, allText.IndexOf(searchPhrase.Text, i, StringComparison.Ordinal) == i);
+
 							i += searchPhrase.Text.Length;
 						}
 						while (true);
-					}
-				}
-
-				// Unicode search
-				else
-				{
-					string[] allLines = File.ReadAllLines(path, Encoding.Default);
-
-					string upperLine;
-
-					foreach (string line in allLines)
-					{
-						upperLine = line.ToUpper();
-						foreach (TextAttribute searchPhrase in SearchPhrases)
-						{
-							int i = 0;
-							do
-							{
-								i = upperLine.IndexOf(searchPhrase.UppercaseText, i);
-								if (i == -1)
-								{
-									break;
-								}
-								if (currentHit == null)
-								{
-									currentHit = new FileHit(path);
-								}
-								currentHit.AddPhraseHit(searchPhrase.Text, line.IndexOf(searchPhrase.Text, i) == i);
-
-								i += searchPhrase.Text.Length;
-							}
-							while (true);
-						}
 					}
 				}
 
@@ -376,41 +343,6 @@ namespace FileSearch
 			{
 				//LogedItems.Add(e.Message);
 			}
-		}
-
-		private int FindString(byte[] allBytes, string phrase, int start, bool caseSensitive)
-		{
-			for (int i = start; i <= allBytes.Length - phrase.Length; i++)
-			{
-				if (allBytes[i] == 0)
-				{
-					break;
-				}
-
-				for (int j = 0; j < phrase.Length; j++)
-				{
-					if (caseSensitive)
-					{
-						if (allBytes[i + j] != phrase[j])
-						{
-							break;
-						}
-					}
-					else
-					{
-						if (allBytes[i + j] != phrase[j] && Char.ToUpper((char)allBytes[i + j]) != phrase[j])
-						{
-							break;
-						}
-					}
-
-					if (j == phrase.Length - 1)
-					{
-						return i;
-					}
-				}
-			}
-			return -1;
 		}
 
 		internal static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
