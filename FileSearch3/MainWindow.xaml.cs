@@ -9,13 +9,16 @@ namespace FileSearch
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
 		#region Constructor
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			DataContext = Stuff.SettingsData;
+
+			DataContext = ViewModel;
+
 		}
 
 		#endregion
@@ -26,7 +29,7 @@ namespace FileSearch
 		{
 			get
 			{
-				return Stuff.SettingsData.ActiveSearchInstance;
+				return ViewModel.ActiveSearchInstance;
 			}
 		}
 
@@ -36,13 +39,14 @@ namespace FileSearch
 
 		private void Window_Closed(object sender, EventArgs e)
 		{
-			Stuff.WriteSettingsToDisk();
+			SaveSettings();
 		}
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
-			Stuff.ReadSettingsFromDisk();
-			if (Stuff.SettingsData.SearchInstances.Count == 0)
+			LoadSettings();
+
+			if (AppSettings.SearchInstances.Count == 0)
 			{
 				AddNewSearch();
 			}
@@ -60,11 +64,11 @@ namespace FileSearch
 
 		private void ToolbarButtonDeleteSearch_Click(object sender, RoutedEventArgs e)
 		{
-			int removedIndex = Stuff.SettingsData.SearchInstances.IndexOf(ActiveSearch);
-			Stuff.SettingsData.SearchInstances.RemoveAt(removedIndex);
-			if (Stuff.SettingsData.SearchInstances.Count > 0)
+			int removedIndex = AppSettings.SearchInstances.IndexOf(ActiveSearch);
+			AppSettings.SearchInstances.RemoveAt(removedIndex);
+			if (AppSettings.SearchInstances.Count > 0)
 			{
-				SetActiveTab(Stuff.SettingsData.SearchInstances[Math.Max(0, removedIndex - 1)]);
+				SetActiveTab(AppSettings.SearchInstances[Math.Max(0, removedIndex - 1)]);
 			}
 			else
 			{
@@ -76,23 +80,57 @@ namespace FileSearch
 
 		#region Methods
 
+		private void LoadSettings()
+		{
+			AppSettings.ReadSettingsFromDisk();
+
+			this.Left = AppSettings.PositionLeft;
+			this.Top = AppSettings.PositionTop;
+			this.Width = AppSettings.Width;
+			this.Height = AppSettings.Height;
+		}
+
+		private void SaveSettings()
+		{
+			AppSettings.PositionLeft = this.Left;
+			AppSettings.PositionTop = this.Top;
+			AppSettings.Width = this.Width;
+			AppSettings.Height = this.Height;
+			AppSettings.WindowState = this.WindowState;
+
+			AppSettings.WriteSettingsToDisk();
+		}
+
 		private void AddNewSearch()
 		{
 			SearchInstance newInstance = new SearchInstance();
-			Stuff.SettingsData.SearchInstances.Add(newInstance);
+			AppSettings.SearchInstances.Add(newInstance);
 			SetActiveTab(newInstance);
 		}
 
 		private void SetActiveTab(SearchInstance searchInstance)
 		{
-			foreach (SearchInstance s in Stuff.SettingsData.SearchInstances)
+			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
 				s.IsSelected = s == searchInstance;
 			}
-			Stuff.SettingsData.ActiveSearchInstance = searchInstance;
 		}
 
 		#endregion
 
+		private void CommandCompare_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandSaveLeftFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandSaveLeftFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
+		}
 	}
 }

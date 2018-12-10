@@ -246,7 +246,7 @@ namespace FileSearch
 
 		private bool FileIsIgnored(string fileName)
 		{
-			foreach (TextAttribute s in Stuff.SettingsData.IgnoreFiles)
+			foreach (TextAttribute s in AppSettings.IgnoredFiles)
 			{
 				if (WildcardCompare(fileName, s.UppercaseText, false))
 				{
@@ -258,7 +258,7 @@ namespace FileSearch
 
 		private bool DirectoryIsIgnored(string directory)
 		{
-			foreach (TextAttribute s in Stuff.SettingsData.IgnoreDirectories)
+			foreach (TextAttribute s in AppSettings.IgnoredFolders)
 			{
 				if (WildcardCompare(directory, s.UppercaseText, false))
 				{
@@ -339,7 +339,7 @@ namespace FileSearch
 					FilesWithHits.Add(currentHit);
 				}
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				//LogedItems.Add(e.Message);
 			}
