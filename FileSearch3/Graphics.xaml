@@ -1,43 +1,47 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:FileSearch">
 
 
-	<DataTemplate x:Key="CompareIcon">
+	<DataTemplate x:Key="StartSearchIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="100" Height="140">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="LightGreen" Offset="0" />
-							<GradientStop Color="#FF03C203" Offset="1" />
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FF0AC30A" Offset="0" />
+							<GradientStop Color="#FF006E00" Offset="1" />
 						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="100" Height="140">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="LightPink" Offset="0" />
-							<GradientStop Color="#FFFF5252" Offset="1" />
-						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Path StrokeThickness="23">
-					<Path.Stroke>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="#FF707070" Offset="0" />
-							<GradientStop Color="#FF3C3C3C" Offset="1" />
-						</LinearGradientBrush>
-					</Path.Stroke>
+					</Path.Fill>
 					<Path.Data>
-						<GeometryGroup FillRule="Nonzero">
-							<EllipseGeometry Center="65,65" RadiusX="40" RadiusY="40" />
-							<LineGeometry StartPoint="90,90" EndPoint="150,150" />
-						</GeometryGroup>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="40,10" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="130,80" />
+										<LineSegment Point="40,150" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
 					</Path.Data>
 				</Path>
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="StopSearchIcon">
+		<Viewbox>
+			<Canvas Width="160" Height="160">
+				<Rectangle Canvas.Left="20" Canvas.Top="20" Width="120" Height="120">
+					<Rectangle.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FFDE4B4B" Offset="0" />
+							<GradientStop Color="#FF850000" Offset="1" />
+						</LinearGradientBrush>
+					</Rectangle.Fill>
+				</Rectangle>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
 
 	<DataTemplate x:Key="SaveIcon">
 		<Viewbox>
@@ -80,14 +84,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="70" Canvas.Top="80" Width="20" Height="60">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="Gray" Offset="0" />
-							<GradientStop Color="Black" Offset="1" />
-						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
+
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
