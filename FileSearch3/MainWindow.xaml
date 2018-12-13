@@ -1,4 +1,4 @@
-﻿<Window x:Class="FileSearch.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileSearch" mc:Ignorable="d" Title="File Search 3 - Alpha" TextOptions.TextFormattingMode="Display" Closed="Window_Closed" Initialized="Window_Initialized" SnapsToDevicePixels="True" ResizeMode="CanResizeWithGrip">
+﻿<Window x:Class="FileSearch.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileSearch" mc:Ignorable="d" Title="File Search 3 - Alpha" TextOptions.TextFormattingMode="Display" Closed="Window_Closed" Initialized="Window_Initialized" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip">
 
 	<Window.Resources>
 
@@ -94,6 +94,7 @@
 			<Button Style="{StaticResource ToolbarButton}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StartSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Start Search" VerticalAlignment="Center" />
 				</StackPanel>
 				<Button.ToolTip>
 					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
@@ -108,6 +109,8 @@
 			<Button Style="{StaticResource ToolbarButton}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StopSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Stop Search" VerticalAlignment="Center" />
+
 				</StackPanel>
 				<Button.ToolTip>
 					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
@@ -189,9 +192,48 @@
 								</LinearGradientBrush>
 							</WrapPanel.Background>
 
+							<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}" IsChecked="{Binding EditMode}">
+								<ToggleButton.Resources>
+									<DataTemplate x:Key="Unpressed">
+										<StackPanel Orientation="Horizontal">
+											<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
+											<StackPanel.ToolTip>
+												<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+													<StackPanel Orientation="Horizontal">
+														<TextBlock Text="Enable Editing" />
+													</StackPanel>
+												</ToolTip>
+											</StackPanel.ToolTip>
+										</StackPanel>
+									</DataTemplate>
+									<DataTemplate x:Key="Pressed">
+										<StackPanel Orientation="Horizontal">
+											<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
+											<StackPanel.ToolTip>
+												<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+													<StackPanel Orientation="Horizontal">
+														<TextBlock Text="Unlocked" />
+													</StackPanel>
+												</ToolTip>
+											</StackPanel.ToolTip>
+										</StackPanel>
+									</DataTemplate>
+								</ToggleButton.Resources>
+								<ToggleButton.Style>
+									<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+										<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+										<Style.Triggers>
+											<Trigger Property="IsChecked" Value="True">
+												<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+											</Trigger>
+										</Style.Triggers>
+									</Style>
+								</ToggleButton.Style>
+							</ToggleButton>
+
 							<Button Style="{StaticResource ToolbarButton}">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource StartSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
@@ -205,7 +247,77 @@
 
 							<Button Style="{StaticResource ToolbarButton}">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource StopSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<Button.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Path=Command.Text}" />
+											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+										</StackPanel>
+									</ToolTip>
+								</Button.ToolTip>
+							</Button>
+
+							<Button Style="{StaticResource ToolbarButton}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<Button.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Path=Command.Text}" />
+											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+										</StackPanel>
+									</ToolTip>
+								</Button.ToolTip>
+							</Button>
+
+							<Button Style="{StaticResource ToolbarButton}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<Button.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Path=Command.Text}" />
+											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+										</StackPanel>
+									</ToolTip>
+								</Button.ToolTip>
+							</Button>
+
+							<Button Style="{StaticResource ToolbarButton}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<Button.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Path=Command.Text}" />
+											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+										</StackPanel>
+									</ToolTip>
+								</Button.ToolTip>
+							</Button>
+
+							<Button Style="{StaticResource ToolbarButton}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<Button.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="{Binding Path=Command.Text}" />
+											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+										</StackPanel>
+									</ToolTip>
+								</Button.ToolTip>
+							</Button>
+
+							<Button Style="{StaticResource ToolbarButton}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
