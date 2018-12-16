@@ -11,8 +11,10 @@
 
 
 	<Window.CommandBindings>
-		<CommandBinding Command="local:Commands.Compare" Executed="CommandCompare_Executed" />
-		<CommandBinding Command="local:Commands.SaveLeftFile" Executed="CommandSaveLeftFile_Executed" CanExecute="CommandSaveLeftFile_CanExecute" />
+		<CommandBinding Command="local:Commands.StartSearch" Executed="CommandStartSearch_Executed" CanExecute="CommandStartSearch_CanExecute" />
+		<CommandBinding Command="local:Commands.StopSearch" Executed="CommandStopSearch_Executed" CanExecute="CommandStopSearch_CanExecute" />
+		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
+
 	</Window.CommandBindings>
 
 
@@ -343,7 +345,7 @@
 		<Grid x:Name="GridStatusbar" Grid.Row="3" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<TextBlock Text="Status" Margin="3" />
 		</Grid>
-		<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,41,0,28" Width="169" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />
+		<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,40.8,0,38.2" Width="166" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />
 
 	</Grid>
 </Window>

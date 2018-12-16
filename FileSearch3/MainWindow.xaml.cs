@@ -35,6 +35,46 @@ namespace FileSearch
 
 		#endregion
 
+		#region Methods
+
+		private void LoadSettings()
+		{
+			AppSettings.ReadSettingsFromDisk();
+
+			this.Left = AppSettings.PositionLeft;
+			this.Top = AppSettings.PositionTop;
+			this.Width = AppSettings.Width;
+			this.Height = AppSettings.Height;
+		}
+
+		private void SaveSettings()
+		{
+			AppSettings.PositionLeft = this.Left;
+			AppSettings.PositionTop = this.Top;
+			AppSettings.Width = this.Width;
+			AppSettings.Height = this.Height;
+			AppSettings.WindowState = this.WindowState;
+
+			AppSettings.WriteSettingsToDisk();
+		}
+
+		private void AddNewSearch()
+		{
+			SearchInstance newInstance = new SearchInstance();
+			AppSettings.SearchInstances.Add(newInstance);
+			SetActiveTab(newInstance);
+		}
+
+		private void SetActiveTab(SearchInstance searchInstance)
+		{
+			foreach (SearchInstance s in AppSettings.SearchInstances)
+			{
+				s.IsSelected = s == searchInstance;
+			}
+		}
+
+		#endregion
+
 		#region Events
 
 		private void Window_Closed(object sender, EventArgs e)
@@ -78,59 +118,39 @@ namespace FileSearch
 
 		#endregion
 
-		#region Methods
+		#region Commands
 
-		private void LoadSettings()
+		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			AppSettings.ReadSettingsFromDisk();
 
-			this.Left = AppSettings.PositionLeft;
-			this.Top = AppSettings.PositionTop;
-			this.Width = AppSettings.Width;
-			this.Height = AppSettings.Height;
+		}
+		private void CommandStartSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
 		}
 
-		private void SaveSettings()
-		{
-			AppSettings.PositionLeft = this.Left;
-			AppSettings.PositionTop = this.Top;
-			AppSettings.Width = this.Width;
-			AppSettings.Height = this.Height;
-			AppSettings.WindowState = this.WindowState;
 
-			AppSettings.WriteSettingsToDisk();
+		private void CommandStopSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+		private void CommandStopSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
 		}
 
-		private void AddNewSearch()
+
+		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			SearchInstance newInstance = new SearchInstance();
-			AppSettings.SearchInstances.Add(newInstance);
-			SetActiveTab(newInstance);
+
+		}
+		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
 		}
 
-		private void SetActiveTab(SearchInstance searchInstance)
-		{
-			foreach (SearchInstance s in AppSettings.SearchInstances)
-			{
-				s.IsSelected = s == searchInstance;
-			}
-		}
 
 		#endregion
 
-		private void CommandCompare_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void CommandSaveLeftFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-
-		}
-
-		private void CommandSaveLeftFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-
-		}
 	}
 }
