@@ -150,6 +150,15 @@ namespace FileSearch
 		}
 
 
+		private void CommandDeleteSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+		private void CommandDeleteSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
+		}
+
 		#endregion
 
 	}

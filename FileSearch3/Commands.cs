@@ -27,6 +27,8 @@ namespace FileSearch
 			new InputGestureCollection() { new KeyGesture(Key.F5, ModifierKeys.Shift) }
 		);
 
+		public static readonly RoutedUICommand DeleteSearch = new RoutedUICommand("Delete Search", "DeleteSearch", typeof(Commands));
+
 		#endregion
 
 		#region Preview

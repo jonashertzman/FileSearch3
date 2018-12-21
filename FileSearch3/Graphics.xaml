@@ -43,6 +43,42 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="DeleteSearchIcon">
+		<Viewbox>
+			<Canvas Width="160" Height="160">
+				<Path StrokeThickness="0">
+					<Path.Fill>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FF646464" Offset="0" />
+							<GradientStop Color="Black" Offset="1" />
+						</LinearGradientBrush>
+					</Path.Fill>
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="40,20" IsClosed="True">
+									<PathFigure.Segments>
+										<LineSegment Point="80,60" />
+										<LineSegment Point="120,20" />
+										<LineSegment Point="140,40" />
+										<LineSegment Point="100,80" />
+										<LineSegment Point="140,120" />
+										<LineSegment Point="120,140" />
+										<LineSegment Point="80,100" />
+										<LineSegment Point="40,140" />
+										<LineSegment Point="20,120" />
+										<LineSegment Point="60,80" />
+										<LineSegment Point="20,40" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 	<DataTemplate x:Key="EditIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
