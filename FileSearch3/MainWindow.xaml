@@ -139,6 +139,21 @@
 				</Button.ToolTip>
 			</Button>
 
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource DuplicateSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Duplicate Search" VerticalAlignment="Center" />
+				</StackPanel>
+				<Button.ToolTip>
+					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Text="{Binding Path=Command.Text}" />
+							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+
 		</WrapPanel>
 
 
