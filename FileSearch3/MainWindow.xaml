@@ -14,6 +14,8 @@
 		<CommandBinding Command="local:Commands.StartSearch" Executed="CommandStartSearch_Executed" CanExecute="CommandStartSearch_CanExecute" />
 		<CommandBinding Command="local:Commands.StopSearch" Executed="CommandStopSearch_Executed" CanExecute="CommandStopSearch_CanExecute" />
 		<CommandBinding Command="local:Commands.DeleteSearch" Executed="CommandDeleteSearch_Executed" CanExecute="CommandDeleteSearch_CanExecute" />
+		<CommandBinding Command="local:Commands.DuplicateSearch" Executed="CommandDuplicateSearch_Executed" CanExecute="CommandDuplicateSearch_CanExecute" />
+
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
 
 	</Window.CommandBindings>
@@ -41,7 +43,7 @@
 		</Grid.Resources>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
@@ -80,7 +82,7 @@
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
-			<Button x:Name="ButtonNewSearchInstance" Content="*" Click="ButtonNewSearchInstance_Click" Grid.Column="2" Margin="0,2,0,0" Style="{StaticResource TabButtonStyle}" MinWidth="26" />
+			<Button x:Name="ButtonNewSearchInstance" Content="*" Click="ButtonNewSearchInstance_Click" Grid.Column="2" Margin="0,4,0,0" Style="{StaticResource TabButtonStyle}" MinWidth="26" />
 			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 		</Grid>
 
@@ -139,7 +141,7 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DuplicateSearch">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DuplicateSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Duplicate Search" VerticalAlignment="Center" />

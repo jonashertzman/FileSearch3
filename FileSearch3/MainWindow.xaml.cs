@@ -102,20 +102,6 @@ namespace FileSearch
 			SetActiveTab((SearchInstance)((Button)e.Source).Tag);
 		}
 
-		private void ToolbarButtonDeleteSearch_Click(object sender, RoutedEventArgs e)
-		{
-			int removedIndex = AppSettings.SearchInstances.IndexOf(ActiveSearch);
-			AppSettings.SearchInstances.RemoveAt(removedIndex);
-			if (AppSettings.SearchInstances.Count > 0)
-			{
-				SetActiveTab(AppSettings.SearchInstances[Math.Max(0, removedIndex - 1)]);
-			}
-			else
-			{
-				AddNewSearch();
-			}
-		}
-
 		#endregion
 
 		#region Commands
@@ -152,11 +138,30 @@ namespace FileSearch
 
 		private void CommandDeleteSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			int removedIndex = ViewModel.SearchInstances.IndexOf(ActiveSearch);
+			ViewModel.SearchInstances.RemoveAt(removedIndex);
+			if (ViewModel.SearchInstances.Count > 0)
+			{
+				SetActiveTab(ViewModel.SearchInstances[Math.Max(0, removedIndex - 1)]);
+			}
+			else
+			{
+				AddNewSearch();
+			}
 		}
 		private void CommandDeleteSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
+			e.CanExecute = ActiveSearch != null;
+		}
 
+
+		private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			ViewModel.SearchInstances.Add(new SearchInstance());
+		}
+		private void CommandDuplicateSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ActiveSearch != null;
 		}
 
 		#endregion

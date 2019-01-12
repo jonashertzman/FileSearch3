@@ -29,6 +29,8 @@ namespace FileSearch
 
 		public static readonly RoutedUICommand DeleteSearch = new RoutedUICommand("Delete Search", "DeleteSearch", typeof(Commands));
 
+		public static readonly RoutedUICommand DuplicateSearch = new RoutedUICommand("Duplicate Search", "DuplicateSearch", typeof(Commands));
+
 		#endregion
 
 		#region Preview

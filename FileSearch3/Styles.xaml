@@ -35,14 +35,12 @@
 						<DataTrigger Binding="{Binding IsSelected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}" />
-							<Setter Property="Margin" Value="0,0,0,0" />
-							<Setter Property="Padding" Value="2,1,2,1" />
+							<Setter Property="Margin" Value="0,1,0,0" />
 						</DataTrigger>
 						<DataTrigger Binding="{Binding IsSelected}" Value="False">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
-							<Setter Property="Margin" Value="0,1,0,0" />
-							<Setter Property="Padding" Value="2,1,2,1" />
+							<Setter Property="Margin" Value="0,4,0,0" />
 						</DataTrigger>
 
 					</ControlTemplate.Triggers>
