@@ -12,14 +12,7 @@ namespace FileSearch
 	public class SearchInstance : INotifyPropertyChanged
 	{
 
-		#region Constructor
-
-		public SearchInstance()
-		{
-			Name = "[New Search]";
-		}
-
-		#endregion
+		#region Menmbers
 
 		DateTime lastStatusUpdateTime = DateTime.UtcNow;
 		BackgroundWorker backgroundWorker = new BackgroundWorker();
@@ -27,16 +20,37 @@ namespace FileSearch
 		DateTime startTime = new DateTime();
 		DateTime endTime = new DateTime();
 
+		MainWindow mainWindow;
+
+		string currentRoot;
+
 		bool searchInProgress;
 		//List<string> uppercaseIgnoreDirectories = new List<string>();
 		//List<string> uppercaseIgnoreFiles = new List<string>();
 		//List<string> uppercaseSearchFiles = new List<string>();
+
+		#endregion
+
+		#region Constructor
+
+		public SearchInstance()
+		{
+			Name = "[New Search]";
+
+
+			backgroundWorker.DoWork += BackgroundWorker_DoWork;
+
+			backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+		}
+
+		#endregion
 
 		#region Overrides
 
 		public override string ToString()
 		{
 			return name;
+
 		}
 
 		#endregion
@@ -99,74 +113,7 @@ namespace FileSearch
 			set { searchedFilesCount = value; OnPropertyChanged("SearchedFilesCount"); }
 		}
 
-		#endregion
-
-		#region INotifyPropertyChanged
-
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void OnPropertyChanged(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-		}
-
-		#endregion
-
-		#region API Imports
-
-		public const int MAX_PATH = 260;
-		public const int MAX_ALTERNATE = 14;
-		public const long MAXDWORD = 0xffffffff;
-		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
-
-		public enum FINDEX_INFO_LEVELS
-		{
-			FindExInfoStandard = 0,
-			FindExInfoBasic = 1
-		}
-
-		public enum FINDEX_SEARCH_OPS
-		{
-			FindExSearchNameMatch = 0,
-			FindExSearchLimitToDirectories = 1,
-			FindExSearchLimitToDevices = 2
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct FILETIME
-		{
-			public uint dwLowDateTime;
-			public uint dwHighDateTime;
-		}
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-		public struct WIN32_FIND_DATA
-		{
-			public FileAttributes dwFileAttributes;
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
-			public int nFileSizeHigh;
-			public int nFileSizeLow;
-			public int dwReserved0;
-			public int dwReserved1;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-			public string cFileName;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_ALTERNATE)]
-			public string cAlternate;
-		}
-
-		[DllImport("kernel32", CharSet = CharSet.Auto)]
-		public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
-
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern IntPtr FindFirstFileEx(string lpFileName, FINDEX_INFO_LEVELS fInfoLevelId, out WIN32_FIND_DATA lpFindFileData, FINDEX_SEARCH_OPS fSearchOp, IntPtr lpSearchFilter, int dwAdditionalFlags);
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-		public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
-
-		[DllImport("kernel32.dll")]
-		static extern bool FindClose(IntPtr hFindFile);
+		internal List<FileHit> SearchResults = new List<FileHit>();
 
 		#endregion
 
@@ -420,8 +367,9 @@ namespace FileSearch
 			return true;
 		}
 
-		internal void Search()
+		internal void Search(MainWindow window)
 		{
+			mainWindow = window;
 
 			if (searchFiles.Count == 0)
 			{
@@ -430,6 +378,7 @@ namespace FileSearch
 
 			searchInProgress = true;
 			FilesWithHits.Clear();
+			SearchResults.Clear();
 			//LogedItems.Clear();
 			SearchedFilesCount = 0;
 
@@ -447,10 +396,8 @@ namespace FileSearch
 
 		void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-			//mainForm.CompleteSearch(this);
+			mainWindow.CompleteSearch(this);
 		}
-
-		string currentRoot;
 
 		void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
@@ -459,11 +406,82 @@ namespace FileSearch
 			foreach (TextAttribute s in SearchDirectories)
 			{
 				currentRoot = s + (s.Text.EndsWith("\\") ? "" : "\\");
-				FindFiles(currentRoot);
+				//FindFiles(currentRoot);
+
+				SearchResults.Add(new FileHit(currentRoot));
 			}
 
 			endTime = DateTime.UtcNow;
 		}
+
+		#endregion
+
+		#region INotifyPropertyChanged
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void OnPropertyChanged(string name)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+		}
+
+		#endregion
+
+		#region API Imports
+
+		public const int MAX_PATH = 260;
+		public const int MAX_ALTERNATE = 14;
+		public const long MAXDWORD = 0xffffffff;
+		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
+		public enum FINDEX_INFO_LEVELS
+		{
+			FindExInfoStandard = 0,
+			FindExInfoBasic = 1
+		}
+
+		public enum FINDEX_SEARCH_OPS
+		{
+			FindExSearchNameMatch = 0,
+			FindExSearchLimitToDirectories = 1,
+			FindExSearchLimitToDevices = 2
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct FILETIME
+		{
+			public uint dwLowDateTime;
+			public uint dwHighDateTime;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public struct WIN32_FIND_DATA
+		{
+			public FileAttributes dwFileAttributes;
+			public FILETIME ftCreationTime;
+			public FILETIME ftLastAccessTime;
+			public FILETIME ftLastWriteTime;
+			public int nFileSizeHigh;
+			public int nFileSizeLow;
+			public int dwReserved0;
+			public int dwReserved1;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
+			public string cFileName;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_ALTERNATE)]
+			public string cAlternate;
+		}
+
+		[DllImport("kernel32", CharSet = CharSet.Auto)]
+		public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
+
+		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+		public static extern IntPtr FindFirstFileEx(string lpFileName, FINDEX_INFO_LEVELS fInfoLevelId, out WIN32_FIND_DATA lpFindFileData, FINDEX_SEARCH_OPS fSearchOp, IntPtr lpSearchFilter, int dwAdditionalFlags);
+
+		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+		public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+
+		[DllImport("kernel32.dll")]
+		static extern bool FindClose(IntPtr hFindFile);
 
 		#endregion
 

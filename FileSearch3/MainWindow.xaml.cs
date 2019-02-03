@@ -73,6 +73,14 @@ namespace FileSearch
 			}
 		}
 
+		internal void CompleteSearch(SearchInstance searchInstance)
+		{
+			foreach ( FileHit f in searchInstance.SearchResults)
+			{
+				searchInstance.FilesWithHits.Add(f);
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -108,11 +116,11 @@ namespace FileSearch
 
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			ActiveSearch.Search(this);
 		}
 		private void CommandStartSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-
+			e.CanExecute = true;
 		}
 
 

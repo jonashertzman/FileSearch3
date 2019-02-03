@@ -202,7 +202,7 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<DataGrid x:Name="dataGridFileList" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="File" />
 						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Size" />
