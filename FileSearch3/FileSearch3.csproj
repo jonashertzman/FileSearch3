@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands.cs" />
+    <Compile Include="Converters.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="FileHIt.cs" />
     <Compile Include="MainWindowViewModel.cs" />

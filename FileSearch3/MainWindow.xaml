@@ -2,6 +2,8 @@
 
 	<Window.Resources>
 
+		<local:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+
 		<ContextMenu x:Key="ContextMenuFileItem">
 			<MenuItem Header="Open Containing Folder" />
 			<MenuItem Header="Copy Path to Clipboard" />
@@ -11,10 +13,10 @@
 
 
 	<Window.CommandBindings>
-		<CommandBinding Command="local:Commands.StartSearch" Executed="CommandStartSearch_Executed" CanExecute="CommandStartSearch_CanExecute" />
-		<CommandBinding Command="local:Commands.StopSearch" Executed="CommandStopSearch_Executed" CanExecute="CommandStopSearch_CanExecute" />
-		<CommandBinding Command="local:Commands.DeleteSearch" Executed="CommandDeleteSearch_Executed" CanExecute="CommandDeleteSearch_CanExecute" />
-		<CommandBinding Command="local:Commands.DuplicateSearch" Executed="CommandDuplicateSearch_Executed" CanExecute="CommandDuplicateSearch_CanExecute" />
+		<CommandBinding Command="local:Commands.StartSearch" Executed="CommandStartSearch_Executed" />
+		<CommandBinding Command="local:Commands.StopSearch" Executed="CommandStopSearch_Executed" />
+		<CommandBinding Command="local:Commands.DeleteSearch" Executed="CommandDeleteSearch_Executed" />
+		<CommandBinding Command="local:Commands.DuplicateSearch" Executed="CommandDuplicateSearch_Executed" />
 
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
 
@@ -82,7 +84,8 @@
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
-			<Button x:Name="ButtonNewSearchInstance" Content="*" Click="ButtonNewSearchInstance_Click" Grid.Column="2" Margin="0,4,0,0" Style="{StaticResource TabButtonStyle}" MinWidth="26" />
+
+			<Button x:Name="ButtonNewSearchInstance" Content="*" Click="ButtonNewSearchInstance_Click" Grid.Column="2" Margin="0,4,0,0" MinWidth="26" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
 			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 		</Grid>
 
@@ -96,7 +99,7 @@
 				</LinearGradientBrush>
 			</WrapPanel.Background>
 
-			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StartSearch">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StartSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StartSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Start Search" VerticalAlignment="Center" />
@@ -111,7 +114,7 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StopSearch">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StopSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StopSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Stop Search" VerticalAlignment="Center" />
@@ -126,7 +129,7 @@
 				</Button.ToolTip>
 			</Button>
 
-			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch">
+			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DeleteSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Delete Search" VerticalAlignment="Center" />
@@ -202,11 +205,11 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
+				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" AutoGenerateColumns="False">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="File" />
-						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Size" />
-						<DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Date" />
+						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
+						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
+						<DataGridTextColumn Binding="{x:Null}" Header="Date" />
 					</DataGrid.Columns>
 				</DataGrid>
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
@@ -377,7 +380,7 @@
 		<Grid x:Name="GridStatusbar" Grid.Row="3" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<TextBlock Text="Status" Margin="3" />
 		</Grid>
-		<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,40.8,0,38.2" Width="166" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />
+		<!--<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,40.8,0,38.2" Width="166" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />-->
 
 	</Grid>
 </Window>

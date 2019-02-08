@@ -27,22 +27,11 @@ namespace FileSearch
 
 		#region Properties
 
+		private SearchInstance activeSearchInstance;
 		public SearchInstance ActiveSearchInstance
 		{
-			get
-			{
-				if (SearchInstances.Count == 0)
-					return null;
-
-				foreach (SearchInstance s in SearchInstances)
-				{
-					if (s.IsSelected)
-					{
-						return s;
-					}
-				}
-				return SearchInstances[0];
-			}
+			get { return activeSearchInstance; }
+			set { activeSearchInstance = value; OnPropertyChanged(nameof(ActiveSearchInstance)); }
 		}
 
 		public ObservableCollection<SearchInstance> SearchInstances

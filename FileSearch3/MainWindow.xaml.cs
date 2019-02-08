@@ -45,6 +45,13 @@ namespace FileSearch
 			this.Top = AppSettings.PositionTop;
 			this.Width = AppSettings.Width;
 			this.Height = AppSettings.Height;
+
+			if (ViewModel.SearchInstances.Count == 0)
+			{
+				ViewModel.SearchInstances.Add(new SearchInstance());
+			}
+
+			SetActiveTab(ViewModel.SearchInstances[0]);
 		}
 
 		private void SaveSettings()
@@ -61,12 +68,14 @@ namespace FileSearch
 		private void AddNewSearch()
 		{
 			SearchInstance newInstance = new SearchInstance();
-			AppSettings.SearchInstances.Add(newInstance);
+			ViewModel.SearchInstances.Add(newInstance);
 			SetActiveTab(newInstance);
 		}
 
 		private void SetActiveTab(SearchInstance searchInstance)
 		{
+			ViewModel.ActiveSearchInstance = searchInstance;
+
 			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
 				s.IsSelected = s == searchInstance;
@@ -75,7 +84,7 @@ namespace FileSearch
 
 		internal void CompleteSearch(SearchInstance searchInstance)
 		{
-			foreach ( FileHit f in searchInstance.SearchResults)
+			foreach (FileHit f in searchInstance.SearchResults)
 			{
 				searchInstance.FilesWithHits.Add(f);
 			}
@@ -118,31 +127,11 @@ namespace FileSearch
 		{
 			ActiveSearch.Search(this);
 		}
-		private void CommandStartSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = true;
-		}
-
 
 		private void CommandStopSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			ActiveSearch.CancelSearch();
 		}
-		private void CommandStopSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-
-		}
-
-
-		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-
-		}
-		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-
-		}
-
 
 		private void CommandDeleteSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
@@ -157,19 +146,20 @@ namespace FileSearch
 				AddNewSearch();
 			}
 		}
-		private void CommandDeleteSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = ActiveSearch != null;
-		}
-
 
 		private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			ViewModel.SearchInstances.Add(new SearchInstance());
 		}
-		private void CommandDuplicateSearch_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+
+		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			e.CanExecute = ActiveSearch != null;
+
+		}
+
+		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
 		}
 
 		#endregion

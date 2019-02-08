@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace FileSearch
 {
-	public class FileHit
+	public class FileHit : INotifyPropertyChanged
 	{
 
 		#region Constructors
@@ -87,6 +88,17 @@ namespace FileSearch
 				return PhraseHits[searchPhrase].CaseSensitiveCount;
 			}
 			return 0;
+		}
+
+		#endregion
+
+		#region INotifyPropertyChanged
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		public void OnPropertyChanged(string name)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
 
 		#endregion

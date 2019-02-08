@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace FileSearch
 {
@@ -14,17 +15,16 @@ namespace FileSearch
 
 		#region Menmbers
 
-		DateTime lastStatusUpdateTime = DateTime.UtcNow;
+		MainWindow mainWindow;
+
 		BackgroundWorker backgroundWorker = new BackgroundWorker();
 
+		DateTime lastStatusUpdateTime = DateTime.UtcNow;
 		DateTime startTime = new DateTime();
 		DateTime endTime = new DateTime();
 
-		MainWindow mainWindow;
-
 		string currentRoot;
 
-		bool searchInProgress;
 		//List<string> uppercaseIgnoreDirectories = new List<string>();
 		//List<string> uppercaseIgnoreFiles = new List<string>();
 		//List<string> uppercaseSearchFiles = new List<string>();
@@ -56,61 +56,67 @@ namespace FileSearch
 		#endregion
 
 		#region Properties
+		private bool searchInProgress;
+		public bool SearchInProgress
+		{
+			get { return searchInProgress; }
+			private set { searchInProgress = value; OnPropertyChanged(nameof(SearchInProgress)); }
+		}
 
 		string name;
 		public string Name
 		{
 			get { return name; }
-			set { name = value; OnPropertyChanged("Name"); }
+			set { name = value; OnPropertyChanged(nameof(Name)); }
 		}
 
 		bool isSelected;
 		public bool IsSelected
 		{
 			get { return isSelected; }
-			set { isSelected = value; OnPropertyChanged("IsSelected"); }
+			set { isSelected = value; OnPropertyChanged(nameof(IsSelected)); }
 		}
 
 		bool regexSearch;
 		public bool RegexSearch
 		{
 			get { return regexSearch; }
-			set { regexSearch = value; OnPropertyChanged("RegexSearch"); }
+			set { regexSearch = value; OnPropertyChanged(nameof(RegexSearch)); }
 		}
 
 		ObservableCollection<TextAttribute> searchPhrases = new ObservableCollection<TextAttribute>();
 		public ObservableCollection<TextAttribute> SearchPhrases
 		{
 			get { return searchPhrases; }
-			set { searchPhrases = value; OnPropertyChanged("SearchPhrases"); }
+			set { searchPhrases = value; OnPropertyChanged(nameof(SearchPhrases)); }
 		}
 
 		ObservableCollection<TextAttribute> searchDirectories = new ObservableCollection<TextAttribute>();
 		public ObservableCollection<TextAttribute> SearchDirectories
 		{
 			get { return searchDirectories; }
-			set { searchDirectories = value; OnPropertyChanged("SearchDirectories"); }
+			set { searchDirectories = value; OnPropertyChanged(nameof(SearchDirectories)); }
 		}
 
 		ObservableCollection<TextAttribute> searchFiles = new ObservableCollection<TextAttribute>();
 		public ObservableCollection<TextAttribute> SearchFiles
 		{
 			get { return searchFiles; }
-			set { searchFiles = value; OnPropertyChanged("SearchFiles"); }
+			set { searchFiles = value; OnPropertyChanged(nameof(SearchFiles)); }
 		}
 
 		ObservableCollection<FileHit> filesWithHits = new ObservableCollection<FileHit>();
 		public ObservableCollection<FileHit> FilesWithHits
 		{
 			get { return filesWithHits; }
-			set { filesWithHits = value; OnPropertyChanged("FilesWithHits"); }
+			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
 		int searchedFilesCount = 0;
 		public int SearchedFilesCount
 		{
 			get { return searchedFilesCount; }
-			set { searchedFilesCount = value; OnPropertyChanged("SearchedFilesCount"); }
+			set { searchedFilesCount = value; OnPropertyChanged(nameof(SearchedFilesCount)); }
 		}
 
 		internal List<FileHit> SearchResults = new List<FileHit>();
@@ -121,12 +127,10 @@ namespace FileSearch
 
 		private void FindFiles(string searchDirectory)
 		{
-			if (searchInProgress)
+			if (SearchInProgress)
 			{
 				IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
-				WIN32_FIND_DATA findData;
-				IntPtr findHandle = FindFirstFile(Path.Combine(searchDirectory, "*"), out findData);
-				//IntPtr findHandle = FindFirstFileEx(Path.Combine(searchDirectory, "*"), FINDEX_INFO_LEVELS.FindExInfoBasic, out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
+				IntPtr findHandle = FindFirstFile(Path.Combine(searchDirectory, "*"), out WIN32_FIND_DATA findData);
 
 				string uppercaseFileName;
 				string newPath;
@@ -151,7 +155,7 @@ namespace FileSearch
 										{
 											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
 											{
-												FilesWithHits.Add(new FileHit(newPath));
+												SearchResults.Add(new FileHit(newPath));
 											}
 										}
 									}
@@ -172,7 +176,7 @@ namespace FileSearch
 									{
 										if (SearchPhrases.Count == 0)
 										{
-											FilesWithHits.Add(new FileHit(newPath));
+											SearchResults.Add(new FileHit(newPath));
 											break;
 										}
 										UpdateStatus(newPath);
@@ -184,7 +188,7 @@ namespace FileSearch
 							}
 						}
 					}
-					while (FindNextFile(findHandle, out findData) && searchInProgress);
+					while (FindNextFile(findHandle, out findData) && SearchInProgress);
 				}
 
 				FindClose(findHandle);
@@ -283,7 +287,7 @@ namespace FileSearch
 
 				if (currentHit != null)
 				{
-					FilesWithHits.Add(currentHit);
+					SearchResults.Add(currentHit);
 				}
 			}
 			catch (Exception)
@@ -376,7 +380,7 @@ namespace FileSearch
 				searchFiles.Add(new TextAttribute("*"));
 			}
 
-			searchInProgress = true;
+			SearchInProgress = true;
 			FilesWithHits.Clear();
 			SearchResults.Clear();
 			//LogedItems.Clear();
@@ -396,6 +400,7 @@ namespace FileSearch
 
 		void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
+			SearchInProgress = false;
 			mainWindow.CompleteSearch(this);
 		}
 
@@ -405,10 +410,8 @@ namespace FileSearch
 
 			foreach (TextAttribute s in SearchDirectories)
 			{
-				currentRoot = s + (s.Text.EndsWith("\\") ? "" : "\\");
-				//FindFiles(currentRoot);
-
-				SearchResults.Add(new FileHit(currentRoot));
+				currentRoot = s.Text + (s.Text.EndsWith("\\") ? "" : "\\");
+				FindFiles(currentRoot);
 			}
 
 			endTime = DateTime.UtcNow;
