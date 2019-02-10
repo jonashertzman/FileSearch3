@@ -205,14 +205,35 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" AutoGenerateColumns="False">
+				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column">
 					<DataGrid.Columns>
-						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
-						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
-						<DataGridTextColumn Binding="{x:Null}" Header="Date" />
+						<DataGridTextColumn Binding="{Binding Path}" Header="File" CellStyle="{StaticResource DataGridCell2}" />
+						<DataGridTextColumn Binding="{x:Null}" Header="Size" CellStyle="{StaticResource DataGridCell2}" />
+						<DataGridTextColumn Binding="{x:Null}" Header="Date" CellStyle="{StaticResource DataGridCell2}" />
 					</DataGrid.Columns>
+					<DataGrid.RowStyle>
+						<Style TargetType="{x:Type DataGridRow}">
+							<Style.Triggers>
+								<Trigger Property="DataGridRow.IsSelected" Value="True">
+									<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</DataGrid.RowStyle>
+					<!--<DataGrid.ItemContainerStyle>
+						<Style TargetType="{x:Type DataGridRow}">
+							<Style.Triggers>
+							<Trigger Property="DataGridRow.IsSelected" Value="True">
+								<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+							</Trigger>
+							</Style.Triggers>
+						</Style>									 			
+					</DataGrid.ItemContainerStyle>-->
 				</DataGrid>
+				
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+
+				<!--Preview Pane-->
 				<Border Grid.Row="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -368,7 +389,7 @@
 
 						</WrapPanel>
 
-						<!--Preview-->
+						<!--Preview Text Box-->
 						<RichTextBox Grid.Row="1" BorderThickness="0" />
 
 					</Grid>
