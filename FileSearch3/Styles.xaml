@@ -61,7 +61,7 @@
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 
-	<Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCell">
+	<Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellAttributes">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
@@ -80,14 +80,14 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-	
-	<Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCell2">
-		<Setter Property="Focusable" Value="False" />
-		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-			</Trigger>
-		</Style.Triggers>
+
+	<Style TargetType="{x:Type DataGridCell}" x:Key="DataGridCellFileList">
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Margin" Value="2" />
+		<Setter Property="Background" Value="Transparent" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
