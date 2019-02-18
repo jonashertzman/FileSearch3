@@ -205,7 +205,7 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting">
+				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" VirtualizingPanel.IsVirtualizing="False" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting">
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
 						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
@@ -213,7 +213,7 @@
 					</DataGrid.Columns>
 					<DataGrid.RowStyle>
 						<Style TargetType="{x:Type DataGridRow}">
-							<Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							<Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}" />
 							<Setter Property="BorderThickness" Value="0" />
 						</Style>
 					</DataGrid.RowStyle>
