@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -90,6 +91,19 @@ namespace FileSearch
 			}
 		}
 
+		private void UpdatePreview()
+		{
+			Debug.Print("\n\n");
+
+			foreach (FileHit f in dataGridFileList.Items)
+			{
+				if (f.Selected)
+				{
+					Debug.Print(f.Path);
+				}
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -117,6 +131,20 @@ namespace FileSearch
 		private void TabButton_Click(object sender, RoutedEventArgs e)
 		{
 			SetActiveTab((SearchInstance)((Button)e.Source).Tag);
+		}
+
+		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			UpdatePreview();
+		}
+
+		private void DataGridFileList_Sorting(object sender, DataGridSortingEventArgs e)
+		{
+			// Workaround to trigger update after sorting is done since there is no Sorted event.
+			this.Dispatcher.BeginInvoke((Action)delegate ()
+			{
+				UpdatePreview();
+			}, null);
 		}
 
 		#endregion
