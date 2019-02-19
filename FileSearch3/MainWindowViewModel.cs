@@ -40,6 +40,25 @@ namespace FileSearch
 			set { AppSettings.SearchInstances = value; OnPropertyChanged(nameof(SearchInstances)); }
 		}
 
+		ObservableCollection<Line> previewLines = new ObservableCollection<Line>();
+		public ObservableCollection<Line> PreviewLines
+		{
+			get { return previewLines; }
+			set { previewLines = value; OnPropertyChangedRepaint(nameof(PreviewLines)); }
+		}
+
+		FileEncoding fileEncoding = null;
+		public FileEncoding FileEncoding
+		{
+			get { return fileEncoding; }
+			set { fileEncoding = value; OnPropertyChanged(nameof(FileEncoding)); OnPropertyChanged(nameof(FileDescription)); }
+		}
+
+		public string FileDescription
+		{
+			get { return FileEncoding?.ToString(); }
+		}
+
 		bool fileDirty = false;
 		public bool FileDirty
 		{
@@ -73,32 +92,18 @@ namespace FileSearch
 			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
 		}
 
-		int maxVerialcalScroll;
-		public int MaxVerialcalScroll
+		int currentMatch = -1;
+		public int CurrentMatch
 		{
-			get { return maxVerialcalScroll; }
-			set { maxVerialcalScroll = value; OnPropertyChanged(nameof(MaxVerialcalScroll)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
+			get { return currentMatch; }
+			set { currentMatch = value; OnPropertyChangedRepaint(nameof(CurrentMatch)); }
 		}
 
-		int visibleLines;
-		public int VisibleLines
+		int currentMatchLength;
+		public int CurrentMatchLength
 		{
-			get { return visibleLines; }
-			set { visibleLines = value; OnPropertyChanged(nameof(VisibleLines)); OnPropertyChanged(nameof(MaxVerialcalScroll)); }
-		}
-
-		int currentDiff = -1;
-		public int CurrentDiff
-		{
-			get { return currentDiff; }
-			set { currentDiff = value; OnPropertyChangedRepaint(nameof(CurrentDiff)); }
-		}
-
-		int currentDiffLength;
-		public int CurrentDiffLength
-		{
-			get { return currentDiffLength; }
-			set { currentDiffLength = value; OnPropertyChangedRepaint(nameof(currentDiffLength)); }
+			get { return currentMatchLength; }
+			set { currentMatchLength = value; OnPropertyChangedRepaint(nameof(currentMatchLength)); }
 		}
 
 		public double NameColumnWidth

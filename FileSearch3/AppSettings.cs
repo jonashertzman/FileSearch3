@@ -96,6 +96,12 @@ namespace FileSearch
 			set { Settings.TabSize = value; }
 		}
 
+		public static bool ShowWhiteSpaceCharacters
+		{
+			get { return Settings.ShowWhiteSpaceCharacters; }
+			set { Settings.ShowWhiteSpaceCharacters = value; }
+		}
+
 		private static SolidColorBrush fullMatchForeground;
 		public static SolidColorBrush FullMatchForeground
 		{

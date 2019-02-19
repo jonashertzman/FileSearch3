@@ -20,6 +20,11 @@
 
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
 
+		<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
+		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
+		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute" />
+		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
+
 	</Window.CommandBindings>
 
 
@@ -48,6 +53,7 @@
 			<RowDefinition Height="auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
@@ -253,7 +259,7 @@
 								</LinearGradientBrush>
 							</WrapPanel.Background>
 
-							<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding FileVissible}" IsChecked="{Binding EditMode}">
+							<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
 								<ToggleButton.Resources>
 									<DataTemplate x:Key="Unpressed">
 										<StackPanel Orientation="Horizontal">
@@ -392,18 +398,45 @@
 
 						</WrapPanel>
 
-						<!--Preview Text Box-->
-						<RichTextBox Grid.Row="1" BorderThickness="0" />
+						<!--Preview Control-->
+						<Grid Grid.Row="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding PreviewLines, Mode=TwoWay}" CurrentMatch="{Binding CurrentMatch}" CurrentMatchLength="{Binding CurrentMatchLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" />
+							<ScrollBar Grid.Column="1" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll }" />
+							<ScrollBar Grid.Row="1" Grid.Column="0" x:Name="HorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
+							<StackPanel Grid.Row="1" Grid.Column="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+						</Grid>
 
 					</Grid>
 				</Border>
 			</Grid>
 		</Grid>
 
+		<!--Search panel-->
+		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
+				<TextBox Name="SearchBox" Margin="5,1" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+				<Button Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+				<Button Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+				<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+			</StackPanel>
+		</Border>
+
 		<!--Status Bar-->
-		<Grid x:Name="GridStatusbar" Grid.Row="3" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<Grid x:Name="GridStatusbar" Grid.Row="4" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<TextBlock Text="Status" Margin="3" />
 		</Grid>
+
 		<!--<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,40.8,0,38.2" Width="166" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />-->
 
 	</Grid>

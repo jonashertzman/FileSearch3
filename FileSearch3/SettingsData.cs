@@ -31,6 +31,8 @@ namespace FileSearch
 		public int FontSize { get; set; } = DefaultSettings.FontSize;
 		public int TabSize { get; set; } = DefaultSettings.TabSize;
 
+		public bool ShowWhiteSpaceCharacters { get; set; } = false;
+		
 		public double PositionLeft { get; set; }
 		public double PositionTop { get; set; }
 		public double Width { get; set; } = 700;

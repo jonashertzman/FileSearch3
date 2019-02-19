@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -20,6 +21,7 @@ namespace FileSearch
 
 			DataContext = ViewModel;
 
+			SearchPanel.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
@@ -93,6 +95,9 @@ namespace FileSearch
 
 		private void UpdatePreview()
 		{
+
+			ViewModel.PreviewLines.Clear();
+
 			Debug.Print("\n\n");
 
 			foreach (FileHit f in dataGridFileList.Items)
@@ -100,6 +105,27 @@ namespace FileSearch
 				if (f.Selected)
 				{
 					Debug.Print(f.Path);
+
+
+					try
+					{
+						if (File.Exists(f.Path))
+						{
+							ViewModel.FileEncoding = Unicode.GetEncoding(f.Path);
+							ViewModel.FileDirty = false;
+
+							int i = 0;
+							foreach (string s in File.ReadAllLines(f.Path, ViewModel.FileEncoding.Type))
+							{
+								ViewModel.PreviewLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+							}
+						}
+					}
+					catch (Exception e)
+					{
+						MessageBox.Show(e.Message);
+
+					}
 				}
 			}
 		}
@@ -147,6 +173,22 @@ namespace FileSearch
 			}, null);
 		}
 
+		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+
+		}
+
+		private void MatchCase_Checked(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void Preview_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+		{
+			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+			VerticalScrollbar.Value -= lines;
+		}
+
 		#endregion
 
 		#region Commands
@@ -184,8 +226,35 @@ namespace FileSearch
 		{
 
 		}
-
 		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandFindNext_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+		private void CommandFindNext_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandFindPrevious_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+		private void CommandFindPrevious_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+
+		}
+
+		private void CommandCloseFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 
 		}
