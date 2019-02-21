@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -96,7 +97,7 @@ namespace FileSearch
 		private void UpdatePreview()
 		{
 
-			ViewModel.PreviewLines.Clear();
+			ObservableCollection<Line> allLines = new ObservableCollection<Line>();
 
 			Debug.Print("\n\n");
 
@@ -117,17 +118,17 @@ namespace FileSearch
 							int i = 0;
 							foreach (string s in File.ReadAllLines(f.Path, ViewModel.FileEncoding.Type))
 							{
-								ViewModel.PreviewLines.Add(new Line() { Type = TextState.Deleted, Text = s, LineIndex = i++ });
+								allLines.Add(new Line() { Type = TextState.FullMatch, Text = s, LineIndex = i++ });
 							}
 						}
 					}
 					catch (Exception e)
 					{
 						MessageBox.Show(e.Message);
-
 					}
 				}
 			}
+			ViewModel.PreviewLines = allLines;
 		}
 
 		#endregion
