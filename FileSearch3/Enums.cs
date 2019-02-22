@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileSearch
+﻿namespace FileSearch
 {
 	public enum TextState
 	{
-		FullMatch,
-		PartialMatch,
-		Deleted,
-		New,
+		Normal,
+		Hit,
+		Header,
 		Filler,
-		Ignored
 	}
 
 	public enum NewlineMode

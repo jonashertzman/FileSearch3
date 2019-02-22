@@ -115,10 +115,15 @@ namespace FileSearch
 							ViewModel.FileEncoding = Unicode.GetEncoding(f.Path);
 							ViewModel.FileDirty = false;
 
-							int i = 0;
+							if (dataGridFileList.SelectedItems.Count > 1)
+							{
+								allLines.Add(new Line() { Type = TextState.Header, Text = f.Path });
+							}
+
+							int i = 1;
 							foreach (string s in File.ReadAllLines(f.Path, ViewModel.FileEncoding.Type))
 							{
-								allLines.Add(new Line() { Type = TextState.FullMatch, Text = s, LineIndex = i++ });
+								allLines.Add(new Line() { Type = TextState.Normal, Text = s, LineIndex = i++ });
 							}
 						}
 					}

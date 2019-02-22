@@ -78,7 +78,7 @@ namespace FileSearch
 			Debug.Print("PreviewControl OnRender");
 
 			// Fill background
-			drawingContext.DrawRectangle(AppSettings.FullMatchBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.NormalTextBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
@@ -109,7 +109,7 @@ namespace FileSearch
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 
 				// Draw line background
-				if (line.Type != TextState.FullMatch)
+				if (line.Type != TextState.Normal)
 				{
 					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
 				}
@@ -119,7 +119,7 @@ namespace FileSearch
 
 				if (lineIndex >= CurrentMatch && lineIndex < CurrentMatch + CurrentMatchLength && !Edited)
 				{
-					lineNumberColor = AppSettings.FullMatchBackground;
+					lineNumberColor = AppSettings.NormalTextBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else
@@ -820,7 +820,7 @@ namespace FileSearch
 		private void SetLineText(int index, string newText)
 		{
 			Lines[index].Text = newText;
-			Lines[index].Type = TextState.FullMatch;
+			Lines[index].Type = TextState.Normal;
 			if (Lines[index].LineIndex == null && newText != "")
 			{
 				Lines[index].LineIndex = -1;

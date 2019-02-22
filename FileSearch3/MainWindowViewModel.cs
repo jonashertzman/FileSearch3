@@ -126,62 +126,38 @@ namespace FileSearch
 
 		public SolidColorBrush FullMatchForeground
 		{
-			get { return AppSettings.FullMatchForeground; }
-			set { AppSettings.FullMatchForeground = value; OnPropertyChangedRepaint(nameof(FullMatchForeground)); }
+			get { return AppSettings.NormalTextForeground; }
+			set { AppSettings.NormalTextForeground = value; OnPropertyChangedRepaint(nameof(FullMatchForeground)); }
 		}
 
 		public SolidColorBrush FullMatchBackground
 		{
-			get { return AppSettings.FullMatchBackground; }
-			set { AppSettings.FullMatchBackground = value; OnPropertyChangedRepaint(nameof(FullMatchBackground)); }
+			get { return AppSettings.NormalTextBackground; }
+			set { AppSettings.NormalTextBackground = value; OnPropertyChangedRepaint(nameof(FullMatchBackground)); }
 		}
 
 		public SolidColorBrush PartialMatchForeground
 		{
-			get { return AppSettings.PartialMatchForeground; }
-			set { AppSettings.PartialMatchForeground = value; OnPropertyChangedRepaint(nameof(PartialMatchForeground)); }
+			get { return AppSettings.HitTextForeground; }
+			set { AppSettings.HitTextForeground = value; OnPropertyChangedRepaint(nameof(PartialMatchForeground)); }
 		}
 
 		public SolidColorBrush PartialMatchBackground
 		{
-			get { return AppSettings.PartialMatchBackground; }
-			set { AppSettings.PartialMatchBackground = value; OnPropertyChangedRepaint(nameof(PartialMatchBackground)); }
-		}
-
-		public SolidColorBrush DeletedForeground
-		{
-			get { return AppSettings.DeletedForeground; }
-			set { AppSettings.DeletedForeground = value; OnPropertyChangedRepaint(nameof(DeletedForeground)); }
-		}
-
-		public SolidColorBrush DeletedBackground
-		{
-			get { return AppSettings.DeletedBackground; }
-			set { AppSettings.DeletedBackground = value; OnPropertyChangedRepaint(nameof(DeletedBackground)); }
-		}
-
-		public SolidColorBrush NewForeground
-		{
-			get { return AppSettings.NewForeground; }
-			set { AppSettings.NewForeground = value; OnPropertyChangedRepaint(nameof(NewForeground)); }
-		}
-
-		public SolidColorBrush NewBackground
-		{
-			get { return AppSettings.NewBackground; }
-			set { AppSettings.NewBackground = value; OnPropertyChangedRepaint(nameof(NewBackground)); }
+			get { return AppSettings.HitTextBackground; }
+			set { AppSettings.HitTextBackground = value; OnPropertyChangedRepaint(nameof(PartialMatchBackground)); }
 		}
 
 		public SolidColorBrush IgnoredForeground
 		{
-			get { return AppSettings.IgnoredForeground; }
-			set { AppSettings.IgnoredForeground = value; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
+			get { return AppSettings.HeaderTextForeground; }
+			set { AppSettings.HeaderTextForeground = value; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
 		}
 
 		public SolidColorBrush IgnoredBackground
 		{
-			get { return AppSettings.IgnoredBackground; }
-			set { AppSettings.IgnoredBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
+			get { return AppSettings.HeaderTextBackground; }
+			set { AppSettings.HeaderTextBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
 		}
 
 		public FontFamily Font

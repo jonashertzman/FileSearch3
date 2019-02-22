@@ -83,15 +83,13 @@ namespace FileSearch
 			{
 				switch (type)
 				{
-					case TextState.Deleted:
-						return AppSettings.DeletedBackground;
-					case TextState.New:
-						return AppSettings.NewBackground;
-					case TextState.PartialMatch:
-						return AppSettings.PartialMatchBackground;
+					case TextState.Header:
+						return AppSettings.HeaderTextBackground;
+					case TextState.Hit:
+						return AppSettings.HitTextBackground;
 
 					default:
-						return AppSettings.FullMatchBackground;
+						return AppSettings.NormalTextBackground;
 				}
 			}
 		}
@@ -102,15 +100,13 @@ namespace FileSearch
 			{
 				switch (type)
 				{
-					case TextState.Deleted:
-						return AppSettings.DeletedForeground;
-					case TextState.New:
-						return AppSettings.NewForeground;
-					case TextState.PartialMatch:
-						return AppSettings.PartialMatchForeground;
+					case TextState.Header:
+						return AppSettings.HeaderTextForeground;
+					case TextState.Hit:
+						return AppSettings.HitTextForeground;
 
 					default:
-						return AppSettings.FullMatchForeground;
+						return AppSettings.NormalTextForeground;
 				}
 			}
 		}

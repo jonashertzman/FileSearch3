@@ -102,74 +102,46 @@ namespace FileSearch
 			set { Settings.ShowWhiteSpaceCharacters = value; }
 		}
 
-		private static SolidColorBrush fullMatchForeground;
-		public static SolidColorBrush FullMatchForeground
+		private static SolidColorBrush normalTextForeground;
+		public static SolidColorBrush NormalTextForeground
 		{
-			get { return fullMatchForeground; }
-			set { fullMatchForeground = value; Settings.FullMatchForeground = value.Color; }
+			get { return normalTextForeground; }
+			set { normalTextForeground = value; Settings.NormalTextForeground = value.Color; }
 		}
 
-		private static SolidColorBrush fullMatchBackground;
-		public static SolidColorBrush FullMatchBackground
+		private static SolidColorBrush normalTextBackground;
+		public static SolidColorBrush NormalTextBackground
 		{
-			get { return fullMatchBackground; }
-			set { fullMatchBackground = value; Settings.FullMatchBackground = value.Color; }
+			get { return normalTextBackground; }
+			set { normalTextBackground = value; Settings.NormalTextBackground = value.Color; }
 		}
 
-		private static SolidColorBrush partialMatchForeground;
-		public static SolidColorBrush PartialMatchForeground
+		private static SolidColorBrush hitTextForeground;
+		public static SolidColorBrush HitTextForeground
 		{
-			get { return partialMatchForeground; }
-			set { partialMatchForeground = value; Settings.PartialMatchForeground = value.Color; }
+			get { return hitTextForeground; }
+			set { hitTextForeground = value; Settings.HitTextForeground = value.Color; }
 		}
 
-		private static SolidColorBrush partialMatchBackground;
-		public static SolidColorBrush PartialMatchBackground
+		private static SolidColorBrush hitTextBackground;
+		public static SolidColorBrush HitTextBackground
 		{
-			get { return partialMatchBackground; }
-			set { partialMatchBackground = value; Settings.PartialMatchBackground = value.Color; }
+			get { return hitTextBackground; }
+			set { hitTextBackground = value; Settings.HitTextBackground = value.Color; }
 		}
 
-		private static SolidColorBrush deletedForeground;
-		public static SolidColorBrush DeletedForeground
+		private static SolidColorBrush headerTextForeground;
+		public static SolidColorBrush HeaderTextForeground
 		{
-			get { return deletedForeground; }
-			set { deletedForeground = value; Settings.DeletedForeground = value.Color; }
+			get { return headerTextForeground; }
+			set { headerTextForeground = value; Settings.HeaderTextForeground = value.Color; }
 		}
 
-		private static SolidColorBrush deletedBackground;
-		public static SolidColorBrush DeletedBackground
+		private static SolidColorBrush headerTextBackground;
+		public static SolidColorBrush HeaderTextBackground
 		{
-			get { return deletedBackground; }
-			set { deletedBackground = value; Settings.DeletedBackground = value.Color; }
-		}
-
-		private static SolidColorBrush newForeground;
-		public static SolidColorBrush NewForeground
-		{
-			get { return newForeground; }
-			set { newForeground = value; Settings.NewForeground = value.Color; }
-		}
-
-		private static SolidColorBrush newBackground;
-		public static SolidColorBrush NewBackground
-		{
-			get { return newBackground; }
-			set { newBackground = value; Settings.NewBackground = value.Color; }
-		}
-
-		private static SolidColorBrush ignoredForeground;
-		public static SolidColorBrush IgnoredForeground
-		{
-			get { return ignoredForeground; }
-			set { ignoredForeground = value; Settings.IgnoredForeground = value.Color; }
-		}
-
-		private static SolidColorBrush ignoredBackground;
-		public static SolidColorBrush IgnoredBackground
-		{
-			get { return ignoredBackground; }
-			set { ignoredBackground = value; Settings.IgnoredBackground = value.Color; }
+			get { return headerTextBackground; }
+			set { headerTextBackground = value; Settings.HeaderTextBackground = value.Color; }
 		}
 
 		public static double NameColumnWidth { get; internal set; } = 300;
@@ -239,20 +211,14 @@ namespace FileSearch
 		{
 			Font = new FontFamily(Settings.Font);
 
-			FullMatchForeground = new SolidColorBrush(Settings.FullMatchForeground);
-			FullMatchBackground = new SolidColorBrush(Settings.FullMatchBackground);
+			NormalTextForeground = new SolidColorBrush(Settings.NormalTextForeground);
+			NormalTextBackground = new SolidColorBrush(Settings.NormalTextBackground);
 
-			PartialMatchForeground = new SolidColorBrush(Settings.PartialMatchForeground);
-			PartialMatchBackground = new SolidColorBrush(Settings.PartialMatchBackground);
+			HitTextForeground = new SolidColorBrush(Settings.HitTextForeground);
+			HitTextBackground = new SolidColorBrush(Settings.HitTextBackground);
 
-			DeletedForeground = new SolidColorBrush(Settings.DeletedForeground);
-			DeletedBackground = new SolidColorBrush(Settings.DeletedBackground);
-
-			NewForeground = new SolidColorBrush(Settings.NewForeground);
-			NewBackground = new SolidColorBrush(Settings.NewBackground);
-
-			IgnoredForeground = new SolidColorBrush(Settings.IgnoredForeground);
-			IgnoredBackground = new SolidColorBrush(Settings.IgnoredBackground);
+			HeaderTextForeground = new SolidColorBrush(Settings.HeaderTextForeground);
+			HeaderTextBackground = new SolidColorBrush(Settings.HeaderTextBackground);
 		}
 
 		#endregion

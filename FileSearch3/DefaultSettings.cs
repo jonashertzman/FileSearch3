@@ -5,20 +5,14 @@ namespace FileSearch
 	public static class DefaultSettings
 	{
 
-		internal static Color FullMatchForeground { get; } = Colors.Black;
-		internal static Color FullMatchBackground { get; } = Colors.White;
+		internal static Color NormalTextForeground { get; } = Colors.Black;
+		internal static Color NormalTextBackground { get; } = Colors.White;
 
-		internal static Color PartialMatchForeground { get; } = Colors.Black;
-		internal static Color PartialMatchBackground { get; } = Color.FromRgb(220, 220, 255);
+		internal static Color HitTextForeground { get; } = Color.FromRgb(255, 255, 0);
+		internal static Color HitTextBackground { get; } = Color.FromRgb(255, 100, 100);
 
-		internal static Color DeletedForeground { get; } = Color.FromRgb(200, 0, 0);
-		internal static Color DeletedBackground { get; } = Color.FromRgb(255, 220, 220);
-
-		internal static Color NewForeground { get; } = Color.FromRgb(0, 120, 0);
-		internal static Color NewBackground { get; } = Color.FromRgb(220, 255, 220);
-
-		internal static Color IgnoredForeground { get; } = Color.FromRgb(90, 90, 90);
-		internal static Color IgnoredBackground { get; } = Color.FromRgb(220, 220, 220);
+		internal static Color HeaderTextForeground { get; } = Color.FromRgb(130, 130, 130);
+		internal static Color HeaderTextBackground { get; } = Color.FromRgb(210, 210, 210);
 
 		internal static string Font { get; } = "Courier New";
 		internal static int FontSize { get; } = 12;
