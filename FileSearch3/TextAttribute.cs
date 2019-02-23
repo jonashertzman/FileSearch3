@@ -18,7 +18,7 @@ namespace FileSearch
 		public string Text
 		{
 			get { return text; }
-			set { text = value; uppercaseText = value.ToUpper(); OnPropertyChanged("Text"); }
+			set { text = value; uppercaseText = value.ToUpper(); OnPropertyChanged(nameof(Text)); }
 		}
 
 		string uppercaseText;
