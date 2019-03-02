@@ -15,7 +15,7 @@ namespace FileSearch
 		internal static Color HeaderTextBackground { get; } = Color.FromRgb(210, 210, 210);
 
 		internal static string Font { get; } = "Courier New";
-		internal static int FontSize { get; } = 12;
+		internal static int FontSize { get; } = 11;
 		internal static int TabSize { get; } = 2;
 
 	}

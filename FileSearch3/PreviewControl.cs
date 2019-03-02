@@ -64,7 +64,7 @@ namespace FileSearch
 		{
 			this.ClipToBounds = true;
 
-			slectionBrush = new SolidColorBrush(Color.FromArgb(40, 0, 0, 0));
+			slectionBrush = new SolidColorBrush(Color.FromArgb(40, 0, 90, 255));
 
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}

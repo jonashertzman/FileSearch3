@@ -119,6 +119,8 @@ namespace FileSearch
 			set { searchedFilesCount = value; OnPropertyChanged(nameof(SearchedFilesCount)); }
 		}
 
+		public bool CaseSensitive { get; internal set; }
+
 		internal List<FileHit> SearchResults = new List<FileHit>();
 
 		#endregion

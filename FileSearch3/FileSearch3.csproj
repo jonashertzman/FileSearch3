@@ -70,6 +70,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="PhraseHit.cs" />
     <Compile Include="PreviewControl.cs" />
+    <Compile Include="RegexHit.cs" />
     <Compile Include="SearchInstance.cs" />
     <Compile Include="Selection.cs" />
     <Compile Include="SettingsData.cs" />
