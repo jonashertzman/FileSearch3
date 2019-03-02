@@ -127,9 +127,9 @@ namespace FileSearch
 					lineNumberColor = SystemColors.ControlDarkBrush;
 				}
 
-				if (line.LineIndex != null)
+				if (line.LineNumber != null)
 				{
-					GlyphRun rowNumberRun = line.GetRenderedLineIndexText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
+					GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
 					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
@@ -803,7 +803,7 @@ namespace FileSearch
 
 		private void InsertNewLine(int index, string newText)
 		{
-			Lines.Insert(index, new Line() { Text = newText, LineIndex = -1 });
+			Lines.Insert(index, new Line() { Text = newText, LineNumber = -1 });
 			Edited = true;
 		}
 
@@ -821,9 +821,9 @@ namespace FileSearch
 		{
 			Lines[index].Text = newText;
 			Lines[index].Type = TextState.Normal;
-			if (Lines[index].LineIndex == null && newText != "")
+			if (Lines[index].LineNumber == null && newText != "")
 			{
-				Lines[index].LineIndex = -1;
+				Lines[index].LineNumber = -1;
 			}
 			Edited = true;
 		}

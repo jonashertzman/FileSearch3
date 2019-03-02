@@ -187,11 +187,13 @@ namespace FileSearch
 					}
 					else
 					{
+						int lineNumber = 1;
 						foreach (string line in allLines)
 						{
 							Line previewLine = new Line();
 							previewLine.Text = line;
 							previewLine.CurrentFile = f.Path;
+							previewLine.LineNumber = lineNumber++;
 
 							foreach (TextAttribute phrase in ActiveSearch.SearchPhrases)
 							{

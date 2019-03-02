@@ -20,7 +20,7 @@ namespace FileSearch
 
 		public override string ToString()
 		{
-			return $"{LineIndex}  {Text}  {MatchingLineIndex}";
+			return $"{LineNumber}  {Text}";
 		}
 
 		#endregion
@@ -59,7 +59,7 @@ namespace FileSearch
 			}
 		}
 
-		public int? LineIndex { get; set; }
+		public int? LineNumber { get; set; }
 
 		private TextState type;
 		public TextState Type
@@ -107,8 +107,6 @@ namespace FileSearch
 			}
 		}
 
-		public int? MatchingLineIndex { get; set; }
-
 		public GlyphRun RenderedText { get; private set; }
 		public object CurrentFile { get; internal set; }
 
@@ -119,13 +117,13 @@ namespace FileSearch
 		private double renderedFontSize;
 		private double renderedDpiScale;
 
-		public GlyphRun GetRenderedLineIndexText(Typeface typeface, double fontSize, double dpiScale, out double runWidth)
+		public GlyphRun GetRenderedLineNumberText(Typeface typeface, double fontSize, double dpiScale, out double runWidth)
 		{
-			if (renderedLineIndex != LineIndex || !typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
+			if (renderedLineIndex != LineNumber || !typeface.Equals(renderedTypeface) || fontSize != renderedFontSize || dpiScale != renderedDpiScale)
 			{
-				RenderedText = TextUtils.CreateGlyphRun(LineIndex == -1 ? "+" : LineIndex.ToString(), typeface, fontSize, dpiScale, out renderedTextWidth);
+				RenderedText = TextUtils.CreateGlyphRun(LineNumber == -1 ? "+" : LineNumber.ToString(), typeface, fontSize, dpiScale, out renderedTextWidth);
 
-				renderedLineIndex = LineIndex;
+				renderedLineIndex = LineNumber;
 				renderedTypeface = typeface;
 				renderedFontSize = fontSize;
 				renderedDpiScale = dpiScale;
