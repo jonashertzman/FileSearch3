@@ -281,6 +281,45 @@ namespace FileSearch
 
 		#region Commands
 
+		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			// Store existing settings data in case the changes are canceled.
+			var oldFont = ViewModel.Font;
+			var oldFontSize = ViewModel.FontSize;
+			var oldTabSize = ViewModel.TabSize;
+			var oldNormalForeground = ViewModel.NormalForeground;
+			var oldNormalBackground = ViewModel.NormalBackground;
+			var oldHitForeground = ViewModel.HitForeground;
+			var oldHitBackground = ViewModel.HitBackground;
+			var oldHeaderForeground = ViewModel.HeaderForeground;
+			var oldHeaderBackground = ViewModel.HeaderBackground;
+			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
+			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
+
+			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
+			optionsWindow.ShowDialog();
+
+			if (optionsWindow.DialogResult == true)
+			{
+				SaveSettings();
+			}
+			else
+			{
+				// Options window was canceled, revert to old settings.
+				ViewModel.Font = oldFont;
+				ViewModel.FontSize = oldFontSize;
+				ViewModel.TabSize = oldTabSize;
+				ViewModel.NormalForeground = oldNormalForeground;
+				ViewModel.NormalBackground = oldNormalBackground;
+				ViewModel.HitForeground = oldHitForeground;
+				ViewModel.HitBackground = oldHitBackground;
+				ViewModel.HeaderForeground = oldHeaderForeground;
+				ViewModel.HeaderBackground = oldHeaderBackground;
+				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
+				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
+			}
+		}
+
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			ActiveSearch.Search(this);

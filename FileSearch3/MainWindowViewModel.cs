@@ -124,40 +124,40 @@ namespace FileSearch
 			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
 		}
 
-		public SolidColorBrush FullMatchForeground
+		public SolidColorBrush NormalForeground
 		{
-			get { return AppSettings.NormalTextForeground; }
-			set { AppSettings.NormalTextForeground = value; OnPropertyChangedRepaint(nameof(FullMatchForeground)); }
+			get { return AppSettings.NormalForeground; }
+			set { AppSettings.NormalForeground = value; OnPropertyChangedRepaint(nameof(NormalForeground)); }
 		}
 
-		public SolidColorBrush FullMatchBackground
+		public SolidColorBrush NormalBackground
 		{
-			get { return AppSettings.NormalTextBackground; }
-			set { AppSettings.NormalTextBackground = value; OnPropertyChangedRepaint(nameof(FullMatchBackground)); }
+			get { return AppSettings.NormalBackground; }
+			set { AppSettings.NormalBackground = value; OnPropertyChangedRepaint(nameof(NormalBackground)); }
 		}
 
-		public SolidColorBrush PartialMatchForeground
+		public SolidColorBrush HeaderForeground
 		{
-			get { return AppSettings.HitTextForeground; }
-			set { AppSettings.HitTextForeground = value; OnPropertyChangedRepaint(nameof(PartialMatchForeground)); }
+			get { return AppSettings.HeaderForeground; }
+			set { AppSettings.HeaderForeground = value; OnPropertyChangedRepaint(nameof(HeaderForeground)); }
 		}
 
-		public SolidColorBrush PartialMatchBackground
+		public SolidColorBrush HeaderBackground
 		{
-			get { return AppSettings.HitTextBackground; }
-			set { AppSettings.HitTextBackground = value; OnPropertyChangedRepaint(nameof(PartialMatchBackground)); }
+			get { return AppSettings.HeaderBackground; }
+			set { AppSettings.HeaderBackground = value; OnPropertyChangedRepaint(nameof(HeaderBackground)); }
 		}
 
-		public SolidColorBrush IgnoredForeground
+		public SolidColorBrush HitForeground
 		{
-			get { return AppSettings.HeaderTextForeground; }
-			set { AppSettings.HeaderTextForeground = value; OnPropertyChangedRepaint(nameof(IgnoredForeground)); }
+			get { return AppSettings.HitForeground; }
+			set { AppSettings.HitForeground = value; OnPropertyChangedRepaint(nameof(HitForeground)); }
 		}
 
-		public SolidColorBrush IgnoredBackground
+		public SolidColorBrush HitBackground
 		{
-			get { return AppSettings.HeaderTextBackground; }
-			set { AppSettings.HeaderTextBackground = value; OnPropertyChangedRepaint(nameof(IgnoredBackground)); }
+			get { return AppSettings.HitBackground; }
+			set { AppSettings.HitBackground = value; OnPropertyChangedRepaint(nameof(HitBackground)); }
 		}
 
 		public FontFamily Font

@@ -102,46 +102,46 @@ namespace FileSearch
 			set { Settings.ShowWhiteSpaceCharacters = value; }
 		}
 
-		private static SolidColorBrush normalTextForeground;
-		public static SolidColorBrush NormalTextForeground
+		private static SolidColorBrush normalForeground;
+		public static SolidColorBrush NormalForeground
 		{
-			get { return normalTextForeground; }
-			set { normalTextForeground = value; Settings.NormalTextForeground = value.Color; }
+			get { return normalForeground; }
+			set { normalForeground = value; Settings.NormalForeground = value.Color; }
 		}
 
-		private static SolidColorBrush normalTextBackground;
-		public static SolidColorBrush NormalTextBackground
+		private static SolidColorBrush normalBackground;
+		public static SolidColorBrush NormalBackground
 		{
-			get { return normalTextBackground; }
-			set { normalTextBackground = value; Settings.NormalTextBackground = value.Color; }
+			get { return normalBackground; }
+			set { normalBackground = value; Settings.NormalBackground = value.Color; }
 		}
 
-		private static SolidColorBrush hitTextForeground;
-		public static SolidColorBrush HitTextForeground
+		private static SolidColorBrush hitForeground;
+		public static SolidColorBrush HitForeground
 		{
-			get { return hitTextForeground; }
-			set { hitTextForeground = value; Settings.HitTextForeground = value.Color; }
+			get { return hitForeground; }
+			set { hitForeground = value; Settings.HitForeground = value.Color; }
 		}
 
-		private static SolidColorBrush hitTextBackground;
-		public static SolidColorBrush HitTextBackground
+		private static SolidColorBrush hitBackground;
+		public static SolidColorBrush HitBackground
 		{
-			get { return hitTextBackground; }
-			set { hitTextBackground = value; Settings.HitTextBackground = value.Color; }
+			get { return hitBackground; }
+			set { hitBackground = value; Settings.HitBackground = value.Color; }
 		}
 
-		private static SolidColorBrush headerTextForeground;
-		public static SolidColorBrush HeaderTextForeground
+		private static SolidColorBrush headerForeground;
+		public static SolidColorBrush HeaderForeground
 		{
-			get { return headerTextForeground; }
-			set { headerTextForeground = value; Settings.HeaderTextForeground = value.Color; }
+			get { return headerForeground; }
+			set { headerForeground = value; Settings.HeaderForeground = value.Color; }
 		}
 
-		private static SolidColorBrush headerTextBackground;
-		public static SolidColorBrush HeaderTextBackground
+		private static SolidColorBrush headerBackground;
+		public static SolidColorBrush HeaderBackground
 		{
-			get { return headerTextBackground; }
-			set { headerTextBackground = value; Settings.HeaderTextBackground = value.Color; }
+			get { return headerBackground; }
+			set { headerBackground = value; Settings.HeaderBackground = value.Color; }
 		}
 
 		public static double NameColumnWidth { get; internal set; } = 300;
@@ -211,14 +211,14 @@ namespace FileSearch
 		{
 			Font = new FontFamily(Settings.Font);
 
-			NormalTextForeground = new SolidColorBrush(Settings.NormalTextForeground);
-			NormalTextBackground = new SolidColorBrush(Settings.NormalTextBackground);
+			NormalForeground = new SolidColorBrush(Settings.NormalForeground);
+			NormalBackground = new SolidColorBrush(Settings.NormalBackground);
 
-			HitTextForeground = new SolidColorBrush(Settings.HitTextForeground);
-			HitTextBackground = new SolidColorBrush(Settings.HitTextBackground);
+			HitForeground = new SolidColorBrush(Settings.HitForeground);
+			HitBackground = new SolidColorBrush(Settings.HitBackground);
 
-			HeaderTextForeground = new SolidColorBrush(Settings.HeaderTextForeground);
-			HeaderTextBackground = new SolidColorBrush(Settings.HeaderTextBackground);
+			HeaderForeground = new SolidColorBrush(Settings.HeaderForeground);
+			HeaderBackground = new SolidColorBrush(Settings.HeaderBackground);
 		}
 
 		#endregion

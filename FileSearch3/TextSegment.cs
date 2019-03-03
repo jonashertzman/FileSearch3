@@ -44,12 +44,12 @@ namespace FileSearch
 				switch (Type)
 				{
 					case TextState.Header:
-						return AppSettings.HeaderTextBackground;
+						return AppSettings.HeaderBackground;
 					case TextState.Hit:
-						return AppSettings.HitTextBackground;
+						return AppSettings.HitBackground;
 
 					default:
-						return AppSettings.NormalTextBackground;
+						return AppSettings.NormalBackground;
 				}
 			}
 		}
@@ -61,12 +61,12 @@ namespace FileSearch
 				switch (Type)
 				{
 					case TextState.Header:
-						return AppSettings.HeaderTextForeground;
+						return AppSettings.HeaderForeground;
 					case TextState.Hit:
-						return AppSettings.HitTextForeground;
+						return AppSettings.HitForeground;
 
 					default:
-						return AppSettings.NormalTextForeground;
+						return AppSettings.NormalForeground;
 				}
 			}
 		}

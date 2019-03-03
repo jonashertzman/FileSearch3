@@ -78,7 +78,7 @@ namespace FileSearch
 			Debug.Print("PreviewControl OnRender");
 
 			// Fill background
-			drawingContext.DrawRectangle(AppSettings.NormalTextBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.NormalBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			if (Lines.Count == 0)
 				return;
@@ -119,7 +119,7 @@ namespace FileSearch
 
 				if (lineIndex >= CurrentMatch && lineIndex < CurrentMatch + CurrentMatchLength && !Edited)
 				{
-					lineNumberColor = AppSettings.NormalTextBackground;
+					lineNumberColor = AppSettings.NormalBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 				}
 				else

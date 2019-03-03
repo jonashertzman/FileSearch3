@@ -12,14 +12,14 @@ namespace FileSearch
 
 		public ObservableCollection<SearchInstance> SearchInstances { get; set; } = new ObservableCollection<SearchInstance>();
 
-		public Color NormalTextForeground { get; set; } = DefaultSettings.NormalTextForeground;
-		public Color NormalTextBackground { get; set; } = DefaultSettings.NormalTextBackground;
+		public Color NormalForeground { get; set; } = DefaultSettings.NormalForeground;
+		public Color NormalBackground { get; set; } = DefaultSettings.NormalBackground;
 
-		public Color HitTextForeground { get; set; } = DefaultSettings.HitTextForeground;
-		public Color HitTextBackground { get; set; } = DefaultSettings.HitTextBackground;
+		public Color HitForeground { get; set; } = DefaultSettings.HitForeground;
+		public Color HitBackground { get; set; } = DefaultSettings.HitBackground;
 
-		public Color HeaderTextForeground { get; set; } = DefaultSettings.HeaderTextForeground;
-		public Color HeaderTextBackground { get; set; } = DefaultSettings.HeaderTextBackground;
+		public Color HeaderForeground { get; set; } = DefaultSettings.HeaderForeground;
+		public Color HeaderBackground { get; set; } = DefaultSettings.HeaderBackground;
 
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;
