@@ -17,6 +17,7 @@ namespace FileSearch
 		private double characterHeight;
 		private double characterWidth;
 		private double lineNumberMargin;
+		private double rightMargin;
 		private double textMargin;
 		private double maxTextwidth = 0;
 
@@ -93,6 +94,7 @@ namespace FileSearch
 
 			textMargin = RoundToWholePixels(3);
 			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
+			rightMargin = RoundToWholePixels(10);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
@@ -107,12 +109,6 @@ namespace FileSearch
 				Line line = Lines[lineIndex];
 
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
-
-				// Draw line background
-				if (line.Type != TextState.Normal)
-				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
-				}
 
 				// Draw line number
 				SolidColorBrush lineNumberColor = new SolidColorBrush();
@@ -136,7 +132,13 @@ namespace FileSearch
 					drawingContext.Pop();
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
+
+				// Draw line background
+				if (line.Type != TextState.Normal)
+				{
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
+				}
 				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 
 				// Draw line
@@ -194,6 +196,7 @@ namespace FileSearch
 			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
+			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(this.ActualWidth - rightMargin, 0), new Point(this.ActualWidth - rightMargin, this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
