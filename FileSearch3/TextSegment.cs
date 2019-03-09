@@ -37,23 +37,6 @@ namespace FileSearch
 
 		public GlyphRun RenderedText { get; private set; }
 
-		public SolidColorBrush BackgroundBrush
-		{
-			get
-			{
-				switch (Type)
-				{
-					case TextState.Header:
-						return AppSettings.HeaderBackground;
-					case TextState.Hit:
-						return AppSettings.HitBackground;
-
-					default:
-						return AppSettings.NormalBackground;
-				}
-			}
-		}
-
 		public SolidColorBrush ForegroundBrush
 		{
 			get

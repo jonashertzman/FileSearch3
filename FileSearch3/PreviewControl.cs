@@ -150,15 +150,9 @@ namespace FileSearch
 						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
 
 						GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
-						//if (line.Type != textSegment.Type && AppSettings.ShowLineChanges)
-						//{
-						//	drawingContext.DrawRectangle(textSegment.BackgroundBrush, null, new Rect(nextPosition == 0 ? -textMargin : 0, 0, runWidth + (nextPosition == 0 ? textMargin : 0), characterHeight));
-						//}
 
-						// If the choosen font is missing some glyphs, we could revert to slow as fuck rendering...
 						// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
-
-						drawingContext.DrawGlyphRun(line.ForegroundBrush, segmentRun);
+						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, segmentRun);
 
 						nextPosition += runWidth;
 

@@ -191,6 +191,7 @@ namespace FileSearch
 						foreach (string line in allLines)
 						{
 							Line previewLine = new Line();
+							bool[] hitCharacters = new bool[line.Length];
 							previewLine.Text = line;
 							previewLine.CurrentFile = f.Path;
 							previewLine.LineNumber = lineNumber++;
@@ -205,10 +206,31 @@ namespace FileSearch
 									{
 										break;
 									}
-									//previewLine.TextSegments.Add(new TextSegment(hitIndex, phrase.Text.Length));
+
+									for (int i = hitIndex; i < hitIndex + phrase.Text.Length; i++)
+									{
+										hitCharacters[i] = true;
+									}
+
 									hitIndex += phrase.Text.Length;
 									previewLine.Type = TextState.Hit;
 								}
+							}
+
+							if (previewLine.Type == TextState.Hit)
+							{
+								previewLine.TextSegments.Clear();
+
+								int start = 0;
+								for (int i = 1; i < line.Length ; i++)
+								{
+									if (hitCharacters[start] == hitCharacters[i])
+										continue;
+
+									previewLine.TextSegments.Add(new TextSegment(line.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+									start = i;
+								}
+								previewLine.TextSegments.Add(new TextSegment(line.Substring(start, line.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
 							}
 
 							Lines.Add(previewLine);
