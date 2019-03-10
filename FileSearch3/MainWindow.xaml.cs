@@ -6,6 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace FileSearch
 {
@@ -14,7 +15,13 @@ namespace FileSearch
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+
+		#region Members
+
 		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+		DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
+
+		#endregion
 
 		#region Constructor
 
@@ -25,6 +32,9 @@ namespace FileSearch
 			DataContext = ViewModel;
 
 			SearchPanel.Visibility = Visibility.Collapsed;
+
+			updatePrevirewTimer.Interval = new TimeSpan(500);
+			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
 		}
 
 		#endregion
@@ -98,17 +108,14 @@ namespace FileSearch
 
 		private void UpdatePreview()
 		{
+			Debug.Print("UpdatePreview");
 
 			ObservableCollection<Line> Lines = new ObservableCollection<Line>();
-
-			Debug.Print("\n\n");
 
 			foreach (FileHit f in dataGridFileList.Items)
 			{
 				if (f.Selected)
 				{
-					Debug.Print(f.Path);
-
 					string[] allLines = new string[0];
 					string allText = "";
 
@@ -222,7 +229,7 @@ namespace FileSearch
 								previewLine.TextSegments.Clear();
 
 								int start = 0;
-								for (int i = 1; i < line.Length ; i++)
+								for (int i = 1; i < line.Length; i++)
 								{
 									if (hitCharacters[start] == hitCharacters[i])
 										continue;
@@ -271,6 +278,12 @@ namespace FileSearch
 
 		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			updatePrevirewTimer.Start();
+		}
+
+		private void UpdatePrevirewTimer_Tick(object sender, EventArgs e)
+		{
+			updatePrevirewTimer.Stop();
 			UpdatePreview();
 		}
 
