@@ -8,8 +8,8 @@ namespace FileSearch
 		internal static Color NormalForeground { get; } = Colors.Black;
 		internal static Color NormalBackground { get; } = Colors.White;
 
-		internal static Color HitForeground { get; } = Color.FromRgb(255, 255, 0);
-		internal static Color HitBackground { get; } = Color.FromRgb(255, 100, 100);
+		internal static Color HitForeground { get; } = Color.FromRgb(255, 255, 150);
+		internal static Color HitBackground { get; } = Color.FromRgb(255, 140, 140);
 
 		internal static Color HeaderForeground { get; } = Color.FromRgb(130, 130, 130);
 		internal static Color HeaderBackground { get; } = Color.FromRgb(210, 210, 210);
