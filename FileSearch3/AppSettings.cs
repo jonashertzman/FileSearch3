@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -102,6 +101,7 @@ namespace FileSearch
 			set { Settings.ShowWhiteSpaceCharacters = value; }
 		}
 
+
 		private static SolidColorBrush normalForeground;
 		public static SolidColorBrush NormalForeground
 		{
@@ -143,6 +143,14 @@ namespace FileSearch
 			get { return headerBackground; }
 			set { headerBackground = value; Settings.HeaderBackground = value.Color; }
 		}
+
+		private static SolidColorBrush selectionBackground;
+		public static SolidColorBrush SelectionBackground
+		{
+			get { return selectionBackground; }
+			set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
+		}
+
 
 		public static double NameColumnWidth { get; internal set; } = 300;
 
@@ -219,6 +227,8 @@ namespace FileSearch
 
 			HeaderForeground = new SolidColorBrush(Settings.HeaderForeground);
 			HeaderBackground = new SolidColorBrush(Settings.HeaderBackground);
+
+			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
 		}
 
 		#endregion

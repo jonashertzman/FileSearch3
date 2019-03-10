@@ -36,6 +36,7 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
 							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
@@ -63,6 +64,9 @@
 							<Label Grid.Row="5" Content="Header" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="HeaderForeground" Grid.Row="5" Grid.Column="1" Fill="{Binding HeaderForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 							<Rectangle x:Name="HeaderBackground" Grid.Row="5" Grid.Column="2" Fill="{Binding HeaderBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
+
+							<Label Grid.Row="6" Content="Selection" Style="{StaticResource CommonTextLabel}" />
+							<Rectangle x:Name="SelectionBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 						</Grid>
 					</Border>

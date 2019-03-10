@@ -21,6 +21,8 @@ namespace FileSearch
 		public Color HeaderForeground { get; set; } = DefaultSettings.HeaderForeground;
 		public Color HeaderBackground { get; set; } = DefaultSettings.HeaderBackground;
 
+		public Color SelectionBackground { get; set; } = DefaultSettings.SelectionBackground;
+
 		public string Font { get; set; } = DefaultSettings.Font;
 		public int FontSize { get; set; } = DefaultSettings.FontSize;
 		public int TabSize { get; set; } = DefaultSettings.TabSize;
@@ -33,7 +35,5 @@ namespace FileSearch
 		public double Height { get; set; } = 500;
 		public double FolderRowHeight { get; set; } = 300;
 		public WindowState WindowState { get; set; }
-
-
 	}
 }

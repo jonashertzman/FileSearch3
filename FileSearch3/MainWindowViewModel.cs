@@ -160,6 +160,12 @@ namespace FileSearch
 			set { AppSettings.HitBackground = value; OnPropertyChangedRepaint(nameof(HitBackground)); }
 		}
 
+		public SolidColorBrush SelectionBackground
+		{
+			get { return AppSettings.SelectionBackground; }
+			set { AppSettings.SelectionBackground = value; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+		}
+
 		public FontFamily Font
 		{
 			get { return AppSettings.Font; }

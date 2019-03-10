@@ -43,8 +43,6 @@ namespace FileSearch
 			}
 		}
 
-		private readonly SolidColorBrush slectionBrush;
-
 		private double dpiScale = 0;
 
 		private int cursorLine = 0;
@@ -64,8 +62,6 @@ namespace FileSearch
 		public PreviewControl()
 		{
 			this.ClipToBounds = true;
-
-			slectionBrush = new SolidColorBrush(Color.FromArgb(40, 0, 90, 255));
 
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
@@ -111,7 +107,7 @@ namespace FileSearch
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 
 				// Draw line number
-				SolidColorBrush lineNumberColor = new SolidColorBrush();
+				SolidColorBrush lineNumberColor;
 
 				if (lineIndex >= CurrentMatch && lineIndex < CurrentMatch + CurrentMatchLength && !Edited)
 				{
@@ -173,7 +169,7 @@ namespace FileSearch
 					{
 						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter) - selectionRect.X);
 					}
-					drawingContext.DrawRectangle(slectionBrush, null, selectionRect);
+					drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, selectionRect);
 				}
 
 				// Draw cursor

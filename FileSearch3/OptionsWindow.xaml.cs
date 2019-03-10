@@ -46,9 +46,11 @@ namespace FileSearch
 			Rectangle rectangle = e.Source as Rectangle;
 
 			ColorDialog colorDialog = new ColorDialog();
+
 			if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				rectangle.Fill = new SolidColorBrush(Color.FromRgb(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B));
+				Color newColor = Color.FromArgb((byte)(sender == SelectionBackground ? 50 : 255), colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
+				rectangle.Fill = new SolidColorBrush(newColor);
 			}
 		}
 
@@ -62,6 +64,8 @@ namespace FileSearch
 
 			HeaderForeground.Fill = new SolidColorBrush(DefaultSettings.HeaderForeground);
 			HeaderBackground.Fill = new SolidColorBrush(DefaultSettings.HeaderBackground);
+
+			SelectionBackground.Fill = new SolidColorBrush(DefaultSettings.SelectionBackground);
 		}
 
 		private void ButtonResetFont_Click(object sender, RoutedEventArgs e)
