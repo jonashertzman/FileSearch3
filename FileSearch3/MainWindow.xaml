@@ -23,6 +23,13 @@
 
 		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
 
+		<CommandBinding Command="local:Commands.SaveFile" Executed="CommandSaveFile_Executed" CanExecute="CommandSaveFile_CanExecute" />
+		<CommandBinding Command="local:Commands.PreviousHit" Executed="CommandPreviousHit_Executed" CanExecute="CommandPreviousHit_CanExecute" />
+		<CommandBinding Command="local:Commands.NextHit" Executed="CommandNextHit_Executed" CanExecute="CommandNextHit_CanExecute" />
+		<CommandBinding Command="local:Commands.CurrentHit" Executed="CommandCurrentHit_Executed" CanExecute="CommandCurrentHit_CanExecute" />
+		<CommandBinding Command="local:Commands.FirstHit" Executed="CommandFirstHit_Executed" CanExecute="CommandFirstHit_CanExecute" />
+		<CommandBinding Command="local:Commands.LastHit" Executed="CommandLastHit_Executed" CanExecute="CommandLastHit_CanExecute" />
+
 		<CommandBinding Command="local:Commands.Find" Executed="CommandFind_Executed" />
 		<CommandBinding Command="local:Commands.FindNext" Executed="CommandFindNext_Executed" CanExecute="CommandFindNext_CanExecute" />
 		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute" />
@@ -262,7 +269,7 @@
 								</LinearGradientBrush>
 							</WrapPanel.Background>
 
-							<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
+							<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding SingleFileView}" IsChecked="{Binding EditMode}">
 								<ToggleButton.Resources>
 									<DataTemplate x:Key="Unpressed">
 										<StackPanel Orientation="Horizontal">
@@ -301,7 +308,7 @@
 								</ToggleButton.Style>
 							</ToggleButton>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveFile">
 								<StackPanel Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
@@ -309,77 +316,77 @@
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Ctrl+S" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstHit">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource FirstDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource FirstHitIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousHit">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource PreviousDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource PreviousHitIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Left" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentHit">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource CurrentDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource CurrentHitIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextHit">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource NextDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource NextHitIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Right" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastHit">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource LastDiffIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource LastHitIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
 								<Button.ToolTip>
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
@@ -393,7 +400,7 @@
 									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
 										<StackPanel Orientation="Horizontal">
 											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
+											<!--<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />-->
 										</StackPanel>
 									</ToolTip>
 								</Button.ToolTip>
@@ -413,7 +420,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding PreviewLines, Mode=TwoWay}" CurrentMatch="{Binding CurrentMatch}" CurrentMatchLength="{Binding CurrentMatchLength}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" />
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" />
 							<ScrollBar Grid.Column="1" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll }" />
 							<ScrollBar Grid.Row="1" Grid.Column="0" x:Name="HorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
 							<StackPanel Grid.Row="1" Grid.Column="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
@@ -440,7 +447,7 @@
 			<TextBlock Text="Status" Margin="3" />
 		</Grid>
 
-		<!--<ListBox x:Name="listBox" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource ListTemplate}" HorizontalAlignment="Left" Margin="402,40.8,0,38.2" Width="166" IsSynchronizedWithCurrentItem="True" Grid.Row="2" />-->
-
+		<!--Used to measure the size of one character in the chosen font-->
+		<TextBlock x:Name="OneCharacter" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 	</Grid>
 </Window>

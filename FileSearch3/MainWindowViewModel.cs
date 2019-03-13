@@ -47,6 +47,13 @@ namespace FileSearch
 			set { previewLines = value; OnPropertyChangedRepaint(nameof(PreviewLines)); }
 		}
 
+		int currentHit;
+		public int CurrentHit
+		{
+			get { return currentHit; }
+			set { currentHit = value; OnPropertyChanged(nameof(CurrentHit)); }
+		}
+
 		FileEncoding fileEncoding = null;
 		public FileEncoding FileEncoding
 		{
@@ -90,20 +97,6 @@ namespace FileSearch
 		{
 			get { return AppSettings.IgnoredFiles; }
 			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
-		}
-
-		int currentMatch = -1;
-		public int CurrentMatch
-		{
-			get { return currentMatch; }
-			set { currentMatch = value; OnPropertyChangedRepaint(nameof(CurrentMatch)); }
-		}
-
-		int currentMatchLength;
-		public int CurrentMatchLength
-		{
-			get { return currentMatchLength; }
-			set { currentMatchLength = value; OnPropertyChangedRepaint(nameof(currentMatchLength)); }
 		}
 
 		public double NameColumnWidth

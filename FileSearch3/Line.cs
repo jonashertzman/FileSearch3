@@ -20,7 +20,7 @@ namespace FileSearch
 
 		public override string ToString()
 		{
-			return $"{LineNumber}  {Text}";
+			return $"{LineNumber}  {Text}  {Type}";
 		}
 
 		#endregion

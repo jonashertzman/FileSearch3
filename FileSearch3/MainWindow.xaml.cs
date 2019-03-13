@@ -21,6 +21,9 @@ namespace FileSearch
 		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 		DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
 
+		int firstHit = -1;
+		int lastHit = -1;
+
 		#endregion
 
 		#region Constructor
@@ -111,6 +114,8 @@ namespace FileSearch
 			Debug.Print("UpdatePreview");
 
 			ObservableCollection<Line> Lines = new ObservableCollection<Line>();
+			firstHit = -1;
+			lastHit = -1;
 
 			foreach (FileHit f in dataGridFileList.Items)
 			{
@@ -226,6 +231,12 @@ namespace FileSearch
 
 							if (previewLine.Type == TextState.Hit)
 							{
+								lastHit = Lines.Count;
+								if (firstHit == -1)
+								{
+									firstHit = lastHit;
+								}
+
 								previewLine.TextSegments.Clear();
 
 								int start = 0;
@@ -250,6 +261,53 @@ namespace FileSearch
 			Preview.Init();
 
 			ViewModel.PreviewLines = Lines;
+
+			MoveToFirstHit();
+		}
+
+		private void MoveToFirstHit()
+		{
+			ViewModel.CurrentHit = -1;
+			MoveToNextHit();
+		}
+
+		private void MoveToLastHit()
+		{
+			ViewModel.CurrentHit = ViewModel.PreviewLines.Count;
+			MoveToPrevoiusHit();
+		}
+
+		private void MoveToPrevoiusHit()
+		{
+			for (int i = ViewModel.CurrentHit - 1; i >= 0; i--)
+			{
+				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
+				{
+					CenterOnLine(i);
+					return;
+				}
+			}
+		}
+
+		private void MoveToNextHit()
+		{
+			for (int i = ViewModel.CurrentHit + 1; i < ViewModel.PreviewLines.Count; i++)
+			{
+				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
+				{
+					CenterOnLine(i);
+					return;
+				}
+			}
+		}
+
+		private void CenterOnLine(int i)
+		{
+			ViewModel.CurrentHit = i;
+
+			int visibleLines = Preview.VisibleLines <= 0 ? (int)(Preview.ActualHeight / OneCharacter.ActualHeight) : Preview.VisibleLines;
+
+			VerticalScrollbar.Value = i - (visibleLines / 2) + 1;
 		}
 
 		#endregion
@@ -316,6 +374,8 @@ namespace FileSearch
 
 		#region Commands
 
+		#region Menu
+
 		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			// Store existing settings data in case the changes are canceled.
@@ -355,6 +415,10 @@ namespace FileSearch
 			}
 		}
 
+		#endregion
+
+		#region Main Toolbar
+
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			ActiveSearch.Search(this);
@@ -384,14 +448,76 @@ namespace FileSearch
 			ViewModel.SearchInstances.Add(new SearchInstance());
 		}
 
+		#endregion
+
+		#region Preview Toolbar
+
+		private void CommandSaveFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+
+		}
+		private void CommandSaveFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = true;
+		}
+
 		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 
 		}
 		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-
+			e.CanExecute = true;
 		}
+
+		private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			MoveToFirstHit();
+		}
+		private void CommandFirstHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit;
+		}
+
+		private void CommandPreviousHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			MoveToPrevoiusHit();
+		}
+		private void CommandPreviousHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit;
+		}
+
+		private void CommandCurrentHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			CenterOnLine(ViewModel.CurrentHit);
+		}
+		private void CommandCurrentHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = ViewModel.CurrentHit != -1;
+		}
+
+		private void CommandNextHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			MoveToNextHit();
+		}
+		private void CommandNextHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit;
+		}
+
+		private void CommandLastHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			MoveToLastHit();
+		}
+		private void CommandLastHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit;
+		}
+
+		#endregion
+
+		#region Find Toolbar
 
 		private void CommandFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
@@ -420,6 +546,8 @@ namespace FileSearch
 		{
 
 		}
+
+		#endregion
 
 		#endregion
 

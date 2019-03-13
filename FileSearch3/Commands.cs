@@ -35,29 +35,30 @@ namespace FileSearch
 
 		#region Preview
 
-		public static readonly RoutedUICommand SaveFile = new RoutedUICommand("Save File", "SaveFile", typeof(Commands));
+		public static readonly RoutedUICommand SaveFile = new RoutedUICommand("Save File", "SaveFile", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.S, ModifierKeys.Control) }
+		);
 
 		public static readonly RoutedUICommand Edit = new RoutedUICommand("Enable Editing", "Edit", typeof(Commands));
 
-
-		public static readonly RoutedUICommand PreviousDiff = new RoutedUICommand("Move to Previous Diff", "PreviousDiff", typeof(Commands),
-			new InputGestureCollection() { new KeyGesture(Key.Up) }
+		public static readonly RoutedUICommand PreviousHit = new RoutedUICommand("Move to Previous Hit", "PreviousHit", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.Left) }
 		);
 
-		public static readonly RoutedUICommand NextDiff = new RoutedUICommand("Move to Next Diff", "NextDiff", typeof(Commands),
-			new InputGestureCollection() { new KeyGesture(Key.Down) }
+		public static readonly RoutedUICommand NextHit = new RoutedUICommand("Move to Next Hit", "NextHit", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.Right) }
 		);
 
-		public static readonly RoutedUICommand FirstDiff = new RoutedUICommand("Move to First Diff", "FirstDiff", typeof(Commands),
-			new InputGestureCollection() { new KeyGesture(Key.Up, ModifierKeys.Control) }
+		public static readonly RoutedUICommand FirstHit = new RoutedUICommand("Move to First Hit", "FirstHit", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.Left, ModifierKeys.Control) }
 		);
 
-		public static readonly RoutedUICommand CurrentDiff = new RoutedUICommand("Move to Current Diff", "CurrentDiff", typeof(Commands),
+		public static readonly RoutedUICommand CurrentHit = new RoutedUICommand("Move to Current Hit", "CurrentHit", typeof(Commands),
 			new InputGestureCollection() { new KeyGesture(Key.Space, ModifierKeys.Control) }
 		);
 
-		public static readonly RoutedUICommand LastDiff = new RoutedUICommand("Move to Last Diff", "LastDiff", typeof(Commands),
-			new InputGestureCollection() { new KeyGesture(Key.Down, ModifierKeys.Control) }
+		public static readonly RoutedUICommand LastHit = new RoutedUICommand("Move to Last Hit", "LastHit", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.Right, ModifierKeys.Control) }
 		);
 
 		public static readonly RoutedUICommand Find = new RoutedUICommand("Find", "Find", typeof(Commands),

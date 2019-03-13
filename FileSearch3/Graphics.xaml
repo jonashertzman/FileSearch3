@@ -208,7 +208,7 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="PreviousDiffIcon">
+	<DataTemplate x:Key="PreviousHitIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
@@ -235,7 +235,7 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="NextDiffIcon">
+	<DataTemplate x:Key="NextHitIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
@@ -262,7 +262,7 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="CurrentDiffIcon">
+	<DataTemplate x:Key="CurrentHitIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
@@ -290,7 +290,7 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="FirstDiffIcon">
+	<DataTemplate x:Key="FirstHitIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
@@ -322,7 +322,7 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="LastDiffIcon">
+	<DataTemplate x:Key="LastHitIcon">
 		<Viewbox>
 			<Canvas Width="16" Height="16">
 				<Path StrokeThickness="0">
