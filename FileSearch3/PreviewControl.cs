@@ -109,7 +109,7 @@ namespace FileSearch
 				// Draw line number
 				SolidColorBrush lineNumberColor;
 
-				if (lineIndex >= CurrentMatch && lineIndex < CurrentMatch + CurrentMatchLength && !Edited)
+				if (lineIndex == CurrentMatch && !Edited)
 				{
 					lineNumberColor = AppSettings.NormalBackground;
 					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
@@ -128,13 +128,14 @@ namespace FileSearch
 					drawingContext.Pop();
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
-
 				// Draw line background
 				if (line.Type != TextState.Normal)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - rightMargin - lineNumberMargin, 0), characterHeight));
 				}
+
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
+
 				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 
 				// Draw line

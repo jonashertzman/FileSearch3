@@ -119,9 +119,30 @@ namespace FileSearch
 			set { searchedFilesCount = value; OnPropertyChanged(nameof(SearchedFilesCount)); }
 		}
 
+		string statusText;
+		public string StatusText
+		{
+			get { return statusText; }
+			set { statusText = value; OnPropertyChanged(nameof(StatusText)); }
+		}
+
+		string fileCountStatus;
+		public string FileCountStatus
+		{
+			get { return fileCountStatus; }
+			set { fileCountStatus = value; OnPropertyChanged(nameof(FileCountStatus)); }
+		}
+
+		int progress;
+		public int Progress
+		{
+			get { return progress; }
+			set { progress = value; OnPropertyChanged(nameof(Progress)); }
+		}
+
 		public bool CaseSensitive { get; internal set; }
 
-		internal List<FileHit> SearchResults = new List<FileHit>();
+		private List<FileHit> SearchResults = new List<FileHit>();
 
 		#endregion
 
@@ -221,16 +242,25 @@ namespace FileSearch
 			return false;
 		}
 
-		private void UpdateStatus(string statusText)
+		private void UpdateStatus(string statusText, bool finalUpdate = false)
 		{
 			const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+			int percentageComplete;
 
-			if ((DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 100)
+			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 300)
 			{
-				char firstLetter = Char.ToUpper(statusText[currentRoot.Length]);
-				int index = alphabet.IndexOf(firstLetter);
-				int percentageComplete = index == -1 ? index : (int)((float)(index / (float)alphabet.Length) * 100.0);
-				//mainForm.Invoke(mainForm.statusUpdateDelegate, new Object[] { this, statusText, percentageComplete });
+				if (!finalUpdate)
+				{
+					char firstLetter = Char.ToUpper(statusText[currentRoot.Length]);
+					int index = alphabet.IndexOf(firstLetter);
+					percentageComplete = index == -1 ? index : (int)((float)(index / (float)alphabet.Length) * 100.0);
+				}
+				else
+				{
+					percentageComplete = 0;
+				}
+
+				mainWindow.Dispatcher.BeginInvoke(mainWindow.searchProgressUpdateDelegate, new Object[] { this, SearchResults, statusText, percentageComplete });
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
 		}
@@ -402,8 +432,8 @@ namespace FileSearch
 
 		void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
+			UpdateStatus("Done", true);
 			SearchInProgress = false;
-			mainWindow.CompleteSearch(this);
 		}
 
 		void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)

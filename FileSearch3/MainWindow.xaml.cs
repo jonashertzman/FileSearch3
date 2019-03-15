@@ -18,6 +18,9 @@ namespace FileSearch
 
 		#region Members
 
+		public delegate void SearchProgressUpdateDelegate(SearchInstance searchInstance, List<FileHit> SearchResults, String statusText, int percentageComplete);
+		public SearchProgressUpdateDelegate searchProgressUpdateDelegate;
+
 		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 		DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
 
@@ -31,6 +34,8 @@ namespace FileSearch
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			searchProgressUpdateDelegate = new SearchProgressUpdateDelegate(SearchProgressUpdate);
 
 			DataContext = ViewModel;
 
@@ -55,6 +60,19 @@ namespace FileSearch
 		#endregion
 
 		#region Methods
+
+		private void SearchProgressUpdate(SearchInstance searchInstance, List<FileHit> SearchResults, string statusText, int percentageComplete)
+		{
+			searchInstance.StatusText = statusText;
+			searchInstance.Progress = percentageComplete;
+
+			for (int i = searchInstance.FilesWithHits.Count; i < SearchResults.Count; i++)
+			{
+				searchInstance.FilesWithHits.Add(SearchResults[i]);
+			}
+
+			searchInstance.FileCountStatus = $"{searchInstance.FilesWithHits.Count} files found in {searchInstance.SearchedFilesCount} searched";
+		}
 
 		private void LoadSettings()
 		{
@@ -98,14 +116,6 @@ namespace FileSearch
 			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
 				s.IsSelected = s == searchInstance;
-			}
-		}
-
-		internal void CompleteSearch(SearchInstance searchInstance)
-		{
-			foreach (FileHit f in searchInstance.SearchResults)
-			{
-				searchInstance.FilesWithHits.Add(f);
 			}
 		}
 
