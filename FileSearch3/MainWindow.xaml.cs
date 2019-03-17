@@ -386,6 +386,11 @@ namespace FileSearch
 
 		#region Menu
 
+		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			this.Close();
+		}
+
 		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			// Store existing settings data in case the changes are canceled.
@@ -423,6 +428,12 @@ namespace FileSearch
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
 			}
+		}
+
+		private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		{
+			AboutWindow aboutWindow = new AboutWindow() { Owner = this };
+			aboutWindow.ShowDialog();
 		}
 
 		#endregion
