@@ -2,32 +2,21 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace FileSearch
 {
 	public class SearchInstance : INotifyPropertyChanged
 	{
 
-		#region Menmbers
+		#region Members
 
-		MainWindow mainWindow;
+		internal MainWindow mainWindow;
 
-		BackgroundWorker backgroundWorker = new BackgroundWorker();
+		BackgroundSearch backgroundSearch;
 
-		DateTime lastStatusUpdateTime = DateTime.UtcNow;
-		DateTime startTime = new DateTime();
-		DateTime endTime = new DateTime();
+		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete);
+		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
-		string currentRoot;
-
-		//List<string> uppercaseIgnoreDirectories = new List<string>();
-		//List<string> uppercaseIgnoreFiles = new List<string>();
-		//List<string> uppercaseSearchFiles = new List<string>();
 
 		#endregion
 
@@ -38,9 +27,7 @@ namespace FileSearch
 			Name = "[New Search]";
 
 
-			backgroundWorker.DoWork += BackgroundWorker_DoWork;
-
-			backgroundWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
+			searchProgressUpdateDelegate = new SearchProgressUpdateDelegate(SearchProgressUpdate);
 		}
 
 		#endregion
@@ -56,11 +43,11 @@ namespace FileSearch
 		#endregion
 
 		#region Properties
-		private bool searchInProgress;
+
 		public bool SearchInProgress
 		{
-			get { return searchInProgress; }
-			private set { searchInProgress = value; OnPropertyChanged(nameof(SearchInProgress)); }
+			get {return backgroundSearch!= null && backgroundSearch.SearchInProgress; }
+			set { OnPropertyChanged(nameof(SearchInProgress)); }
 		}
 
 		string name;
@@ -142,311 +129,40 @@ namespace FileSearch
 
 		public bool CaseSensitive { get; internal set; }
 
-		private List<FileHit> SearchResults = new List<FileHit>();
-
 		#endregion
 
 		#region Methods
 
-		private void FindFiles(string searchDirectory)
+		internal void StartSearch(MainWindow window)
 		{
-			if (SearchInProgress)
-			{
-				IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
-				IntPtr findHandle = FindFirstFile(Path.Combine(searchDirectory, "*"), out WIN32_FIND_DATA findData);
+			SearchInProgress = true;
 
-				string uppercaseFileName;
-				string newPath;
-
-				if (findHandle != INVALID_HANDLE_VALUE)
-				{
-					do
-					{
-						uppercaseFileName = findData.cFileName.ToUpper();
-						newPath = Path.Combine(searchDirectory, findData.cFileName);
-
-						// Directory
-						if ((findData.dwFileAttributes & FileAttributes.Directory) != 0)
-						{
-							if (findData.cFileName != "." && findData.cFileName != "..")
-							{
-								if (!DirectoryIsIgnored(uppercaseFileName))
-								{
-									if (SearchPhrases.Count == 0)
-									{
-										foreach (TextAttribute s in searchFiles)
-										{
-											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
-											{
-												SearchResults.Add(new FileHit(newPath));
-											}
-										}
-									}
-									UpdateStatus(newPath);
-									FindFiles(newPath);
-								}
-							}
-						}
-
-						// File
-						else
-						{
-							if (!FileIsIgnored(uppercaseFileName))
-							{
-								foreach (TextAttribute s in searchFiles)
-								{
-									if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
-									{
-										if (SearchPhrases.Count == 0)
-										{
-											SearchResults.Add(new FileHit(newPath));
-											break;
-										}
-										UpdateStatus(newPath);
-
-										SearchInFile(newPath);
-										break;
-									}
-								}
-							}
-						}
-					}
-					while (FindNextFile(findHandle, out findData) && SearchInProgress);
-				}
-
-				FindClose(findHandle);
-			}
-		}
-
-		private bool FileIsIgnored(string fileName)
-		{
-			foreach (TextAttribute s in AppSettings.IgnoredFiles)
-			{
-				if (WildcardCompare(fileName, s.UppercaseText, false))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private bool DirectoryIsIgnored(string directory)
-		{
-			foreach (TextAttribute s in AppSettings.IgnoredFolders)
-			{
-				if (WildcardCompare(directory, s.UppercaseText, false))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private void UpdateStatus(string statusText, bool finalUpdate = false)
-		{
-			const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-			int percentageComplete;
-
-			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 300)
-			{
-				if (!finalUpdate)
-				{
-					char firstLetter = Char.ToUpper(statusText[currentRoot.Length]);
-					int index = alphabet.IndexOf(firstLetter);
-					percentageComplete = index == -1 ? index : (int)((float)(index / (float)alphabet.Length) * 100.0);
-				}
-				else
-				{
-					percentageComplete = 0;
-				}
-
-				mainWindow.Dispatcher.BeginInvoke(mainWindow.searchProgressUpdateDelegate, new Object[] { this, SearchResults, statusText, percentageComplete });
-				lastStatusUpdateTime = DateTime.UtcNow;
-			}
-		}
-
-		private void SearchInFile(string path)
-		{
-			try
-			{
-				FileHit currentHit = null;
-				SearchedFilesCount++;
-
-				if (RegexSearch)
-				{
-					string allText = File.ReadAllText(path);
-					foreach (TextAttribute searchPhrase in SearchPhrases)
-					{
-						Match match = Regex.Match(allText, searchPhrase.Text, RegexOptions.Multiline | RegexOptions.IgnoreCase);
-						while (match.Success)
-						{
-							if (currentHit == null)
-							{
-								currentHit = new FileHit(path);
-							}
-							Match caseSensitiveMatch = Regex.Match(allText.Substring(match.Index), searchPhrase.Text);
-							currentHit.AddPhraseHit(searchPhrase.Text, caseSensitiveMatch.Success && caseSensitiveMatch.Index == 0);
-							match = match.NextMatch();
-						}
-					}
-				}
-
-				else
-				{
-					string allText = File.ReadAllText(path);
-
-					foreach (TextAttribute searchPhrase in SearchPhrases)
-					{
-						int i = 0;
-						do
-						{
-							i = allText.IndexOf(searchPhrase.Text, i, StringComparison.OrdinalIgnoreCase);
-							if (i == -1)
-							{
-								break;
-							}
-							if (currentHit == null)
-							{
-								currentHit = new FileHit(path);
-							}
-							currentHit.AddPhraseHit(searchPhrase.Text, allText.IndexOf(searchPhrase.Text, i, StringComparison.Ordinal) == i);
-
-							i += searchPhrase.Text.Length;
-						}
-						while (true);
-					}
-				}
-
-				if (currentHit != null)
-				{
-					SearchResults.Add(currentHit);
-				}
-			}
-			catch (Exception)
-			{
-				//LogedItems.Add(e.Message);
-			}
-		}
-
-		internal static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
-		{
-			if (ignoreCase)
-			{
-				wildString = wildString.ToUpper();
-				compare = compare.ToUpper();
-			}
-
-			int wildStringLength = wildString.Length;
-			int CompareLength = compare.Length;
-
-			int wildMatched = wildStringLength;
-			int compareBase = CompareLength;
-
-			int wildPosition = 0;
-			int comparePosition = 0;
-
-			// Match until first wildcard '*'
-			while (comparePosition < CompareLength && (wildPosition >= wildStringLength || wildString[wildPosition] != '*'))
-			{
-				if (wildPosition >= wildStringLength || (wildString[wildPosition] != compare[comparePosition] && wildString[wildPosition] != '?'))
-				{
-					return false;
-				}
-
-				wildPosition++;
-				comparePosition++;
-			}
-
-			// Process wildcard
-			while (comparePosition < CompareLength)
-			{
-				if (wildPosition < wildStringLength)
-				{
-					if (wildString[wildPosition] == '*')
-					{
-						wildPosition++;
-
-						if (wildPosition == wildStringLength)
-						{
-							return true;
-						}
-
-						wildMatched = wildPosition;
-						compareBase = comparePosition + 1;
-
-						continue;
-					}
-
-					if (wildString[wildPosition] == compare[comparePosition] || wildString[wildPosition] == '?')
-					{
-						wildPosition++;
-						comparePosition++;
-
-						continue;
-					}
-				}
-
-				wildPosition = wildMatched;
-				comparePosition = compareBase++;
-			}
-
-			while (wildPosition < wildStringLength && wildString[wildPosition] == '*')
-			{
-				wildPosition++;
-			}
-
-			if (wildPosition < wildStringLength)
-			{
-				return false;
-			}
-
-			return true;
-		}
-
-		internal void Search(MainWindow window)
-		{
 			mainWindow = window;
 
-			if (searchFiles.Count == 0)
-			{
-				searchFiles.Add(new TextAttribute("*"));
-			}
-
-			SearchInProgress = true;
 			FilesWithHits.Clear();
-			SearchResults.Clear();
 			//LogedItems.Clear();
+
 			SearchedFilesCount = 0;
 
-			backgroundWorker.RunWorkerAsync();
+			backgroundSearch = new BackgroundSearch(this);
 		}
 
 		internal void CancelSearch()
 		{
-			searchInProgress = false;
+			backgroundSearch.CancelSaerch();
 		}
 
-		#endregion
-
-		#region Events
-
-		void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		private void SearchProgressUpdate(List<FileHit> SearchResults, string statusText, int percentageComplete)
 		{
-			UpdateStatus("Done", true);
-			SearchInProgress = false;
-		}
+			StatusText = statusText;
+			Progress = percentageComplete;
 
-		void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-		{
-			startTime = DateTime.UtcNow;
-
-			foreach (TextAttribute s in SearchDirectories)
+			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
 			{
-				currentRoot = s.Text + (s.Text.EndsWith("\\") ? "" : "\\");
-				FindFiles(currentRoot);
+				FilesWithHits.Add(SearchResults[i]);
 			}
 
-			endTime = DateTime.UtcNow;
+			FileCountStatus = $"{FilesWithHits.Count} files found in {SearchedFilesCount} searched";
 		}
 
 		#endregion
@@ -459,64 +175,6 @@ namespace FileSearch
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 		}
-
-		#endregion
-
-		#region API Imports
-
-		public const int MAX_PATH = 260;
-		public const int MAX_ALTERNATE = 14;
-		public const long MAXDWORD = 0xffffffff;
-		public const int FIND_FIRST_EX_LARGE_FETCH = 2;
-
-		public enum FINDEX_INFO_LEVELS
-		{
-			FindExInfoStandard = 0,
-			FindExInfoBasic = 1
-		}
-
-		public enum FINDEX_SEARCH_OPS
-		{
-			FindExSearchNameMatch = 0,
-			FindExSearchLimitToDirectories = 1,
-			FindExSearchLimitToDevices = 2
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct FILETIME
-		{
-			public uint dwLowDateTime;
-			public uint dwHighDateTime;
-		}
-
-		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-		public struct WIN32_FIND_DATA
-		{
-			public FileAttributes dwFileAttributes;
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
-			public int nFileSizeHigh;
-			public int nFileSizeLow;
-			public int dwReserved0;
-			public int dwReserved1;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_PATH)]
-			public string cFileName;
-			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = MAX_ALTERNATE)]
-			public string cAlternate;
-		}
-
-		[DllImport("kernel32", CharSet = CharSet.Auto)]
-		public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
-
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern IntPtr FindFirstFileEx(string lpFileName, FINDEX_INFO_LEVELS fInfoLevelId, out WIN32_FIND_DATA lpFindFileData, FINDEX_SEARCH_OPS fSearchOp, IntPtr lpSearchFilter, int dwAdditionalFlags);
-
-		[DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-		public static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
-
-		[DllImport("kernel32.dll")]
-		static extern bool FindClose(IntPtr hFindFile);
 
 		#endregion
 

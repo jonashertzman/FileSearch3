@@ -9,9 +9,9 @@ namespace FileSearch
 
 		}
 
-		public TextAttribute(string v)
+		public TextAttribute(string text)
 		{
-			this.text = v;
+			this.Text = text;
 		}
 
 		string text;
@@ -19,6 +19,13 @@ namespace FileSearch
 		{
 			get { return text; }
 			set { text = value; uppercaseText = value.ToUpper(); OnPropertyChanged(nameof(Text)); }
+		}
+
+		bool used = true;
+		public bool Used
+		{
+			get { return used; }
+			set { used = value; OnPropertyChanged(nameof(Used)); }
 		}
 
 		string uppercaseText;
