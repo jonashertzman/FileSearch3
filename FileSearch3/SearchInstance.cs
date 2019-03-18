@@ -46,7 +46,7 @@ namespace FileSearch
 
 		public bool SearchInProgress
 		{
-			get {return backgroundSearch!= null && backgroundSearch.SearchInProgress; }
+			get { return backgroundSearch != null && backgroundSearch.SearchInProgress; }
 			set { OnPropertyChanged(nameof(SearchInProgress)); }
 		}
 

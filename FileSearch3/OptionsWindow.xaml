@@ -84,7 +84,7 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFolders}" Margin="5">
+							<DataGrid Grid.Row="0" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredDirectories}" Margin="5">
 								<DataGrid.Columns>
 									<DataGridTextColumn Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" Width="*" />
 								</DataGrid.Columns>

@@ -22,10 +22,10 @@ namespace FileSearch
 
 		#region Properies
 
-		public static ObservableCollection<TextAttribute> IgnoredFolders
+		public static ObservableCollection<TextAttribute> IgnoredDirectories
 		{
-			get { return Settings.IgnoredFolders; }
-			set { Settings.IgnoredFolders = value; }
+			get { return Settings.IgnoredDirectories; }
+			set { Settings.IgnoredDirectories = value; }
 		}
 
 		public static ObservableCollection<TextAttribute> IgnoredFiles
@@ -64,10 +64,10 @@ namespace FileSearch
 			set { Settings.Height = value; }
 		}
 
-		public static double FolderRowHeight
+		public static double FileListHeight
 		{
-			get { return Settings.FolderRowHeight; }
-			set { Settings.FolderRowHeight = value; }
+			get { return Settings.FileListHeight; }
+			set { Settings.FileListHeight = value; }
 		}
 
 		public static WindowState WindowState

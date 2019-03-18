@@ -87,10 +87,10 @@ namespace FileSearch
 			set { editMode = value; OnPropertyChanged(nameof(EditMode)); }
 		}
 
-		public ObservableCollection<TextAttribute> IgnoredFolders
+		public ObservableCollection<TextAttribute> IgnoredDirectories
 		{
-			get { return AppSettings.IgnoredFolders; }
-			set { AppSettings.IgnoredFolders = value; OnPropertyChangedRepaint(nameof(IgnoredFolders)); }
+			get { return AppSettings.IgnoredDirectories; }
+			set { AppSettings.IgnoredDirectories = value; OnPropertyChangedRepaint(nameof(IgnoredDirectories)); }
 		}
 
 		public ObservableCollection<TextAttribute> IgnoredFiles

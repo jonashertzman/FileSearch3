@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace FileSearch
@@ -22,7 +21,7 @@ namespace FileSearch
 		private List<TextAttribute> searchDirectories = new List<TextAttribute>();
 		private List<TextAttribute> searchFiles = new List<TextAttribute>();
 
-		List<string> uppercaseIgnoreFolders = new List<string>();
+		List<string> uppercaseIgnoreDirecrories = new List<string>();
 		List<string> uppercaseIgnoreFiles = new List<string>();
 
 		bool regexSearch;
@@ -83,9 +82,9 @@ namespace FileSearch
 				uppercaseIgnoreFiles.Add(attribute.UppercaseText);
 			}
 
-			foreach (TextAttribute attribute in AppSettings.IgnoredFolders)
+			foreach (TextAttribute attribute in AppSettings.IgnoredDirectories)
 			{
-				uppercaseIgnoreFolders.Add(attribute.UppercaseText);
+				uppercaseIgnoreDirecrories.Add(attribute.UppercaseText);
 			}
 
 			Search();
@@ -183,9 +182,9 @@ namespace FileSearch
 
 		private bool FileIsIgnored(string fileName)
 		{
-			foreach (TextAttribute s in AppSettings.IgnoredFiles)
+			foreach (string s in uppercaseIgnoreFiles)
 			{
-				if (WildcardCompare(fileName, s.UppercaseText, false))
+				if (WildcardCompare(fileName, s, false))
 				{
 					return true;
 				}
@@ -195,9 +194,9 @@ namespace FileSearch
 
 		private bool DirectoryIsIgnored(string directory)
 		{
-			foreach (TextAttribute s in AppSettings.IgnoredFolders)
+			foreach (string s in uppercaseIgnoreDirecrories)
 			{
-				if (WildcardCompare(directory, s.UppercaseText, false))
+				if (WildcardCompare(directory, s, false))
 				{
 					return true;
 				}
@@ -210,7 +209,7 @@ namespace FileSearch
 			const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 			int percentageComplete;
 
-			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 150)
+			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 100)
 			{
 				if (!finalUpdate)
 				{

@@ -71,7 +71,14 @@ namespace FileSearch
 				ViewModel.SearchInstances.Add(new SearchInstance());
 			}
 
-			SetActiveTab(ViewModel.SearchInstances[0]);
+			foreach (SearchInstance s in AppSettings.SearchInstances)
+			{
+				if (s.IsSelected)
+				{
+					ViewModel.ActiveSearchInstance = s;
+					break;
+				}
+			}
 		}
 
 		private void SaveSettings()
@@ -246,6 +253,10 @@ namespace FileSearch
 
 							Lines.Add(previewLine);
 						}
+						if (dataGridFileList.SelectedItems.Count > 1)
+						{
+							Lines.Add(new Line() { Type = TextState.Filler, Text = "" });
+						}
 					}
 
 				}
@@ -387,7 +398,7 @@ namespace FileSearch
 			var oldHeaderForeground = ViewModel.HeaderForeground;
 			var oldHeaderBackground = ViewModel.HeaderBackground;
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
-			var oldIgnoredFolders = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFolders);
+			var oldIgnoredDirectories = new ObservableCollection<TextAttribute>(ViewModel.IgnoredDirectories);
 
 			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
 			optionsWindow.ShowDialog();
@@ -409,7 +420,7 @@ namespace FileSearch
 				ViewModel.HeaderForeground = oldHeaderForeground;
 				ViewModel.HeaderBackground = oldHeaderBackground;
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
-				ViewModel.IgnoredFolders = new ObservableCollection<TextAttribute>(oldIgnoredFolders);
+				ViewModel.IgnoredDirectories = new ObservableCollection<TextAttribute>(oldIgnoredDirectories);
 			}
 		}
 

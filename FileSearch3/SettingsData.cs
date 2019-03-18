@@ -6,7 +6,7 @@ namespace FileSearch
 {
 	public class SettingsData
 	{
-		public ObservableCollection<TextAttribute> IgnoredFolders { get; set; } = new ObservableCollection<TextAttribute>();
+		public ObservableCollection<TextAttribute> IgnoredDirectories { get; set; } = new ObservableCollection<TextAttribute>();
 
 		public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
 
@@ -33,7 +33,7 @@ namespace FileSearch
 		public double PositionTop { get; set; }
 		public double Width { get; set; } = 700;
 		public double Height { get; set; } = 500;
-		public double FolderRowHeight { get; set; } = 300;
+		public double FileListHeight { get; set; } = 300;
 		public WindowState WindowState { get; set; }
 	}
 }
