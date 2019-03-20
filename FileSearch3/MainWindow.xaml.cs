@@ -68,7 +68,7 @@ namespace FileSearch
 
 			if (ViewModel.SearchInstances.Count == 0)
 			{
-				ViewModel.SearchInstances.Add(new SearchInstance());
+				ViewModel.SearchInstances.Add(new SearchInstance() { IsSelected = true });
 			}
 
 			foreach (SearchInstance s in AppSettings.SearchInstances)
@@ -161,11 +161,14 @@ namespace FileSearch
 						List<RegexHit> regexHits = new List<RegexHit>();
 						foreach (TextAttribute searchPhrase in ActiveSearch.SearchPhrases)
 						{
-							Match match = Regex.Match(allText, searchPhrase.Text, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
-							while (match.Success)
+							if (searchPhrase.Used)
 							{
-								regexHits.Add(new RegexHit(match.Index, match.Length));
-								match = match.NextMatch();
+								Match match = Regex.Match(allText, searchPhrase.Text, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
+								while (match.Success)
+								{
+									regexHits.Add(new RegexHit(match.Index, match.Length));
+									match = match.NextMatch();
+								}
 							}
 						}
 
@@ -210,22 +213,25 @@ namespace FileSearch
 
 							foreach (TextAttribute phrase in ActiveSearch.SearchPhrases)
 							{
-								int hitIndex = 0;
-								while (true)
+								if (phrase.Used)
 								{
-									hitIndex = line.IndexOf(phrase.Text, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-									if (hitIndex == -1)
+									int hitIndex = 0;
+									while (true)
 									{
-										break;
-									}
+										hitIndex = line.IndexOf(phrase.Text, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+										if (hitIndex == -1)
+										{
+											break;
+										}
 
-									for (int i = hitIndex; i < hitIndex + phrase.Text.Length; i++)
-									{
-										hitCharacters[i] = true;
-									}
+										for (int i = hitIndex; i < hitIndex + phrase.Text.Length; i++)
+										{
+											hitCharacters[i] = true;
+										}
 
-									hitIndex += phrase.Text.Length;
-									previewLine.Type = TextState.Hit;
+										hitIndex += phrase.Text.Length;
+										previewLine.Type = TextState.Hit;
+									}
 								}
 							}
 
