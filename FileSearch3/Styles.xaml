@@ -14,13 +14,13 @@
 	<SolidColorBrush x:Key="HighLightBorderBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />
 	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
 
-	<Style TargetType="Button" x:Key="TabButtonStyle">
+	<Style TargetType="{x:Type Button}" x:Key="TabButtonStyle">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Background" Value="{StaticResource NormalBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="Button">
+				<ControlTemplate TargetType="{x:Type Button}">
 					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}" Background="{StaticResource NormalBrush}">
 						<ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
@@ -51,7 +51,7 @@
 		</Setter>
 	</Style>
 
-	<Style TargetType="DataGrid" x:Key="SearchAttributeGrid">
+	<Style TargetType="{x:Type DataGrid}" x:Key="SearchAttributeGrid">
 		<Setter Property="CanUserReorderColumns" Value="False" />
 		<Setter Property="CanUserResizeColumns" Value="False" />
 		<Setter Property="AutoGenerateColumns" Value="False" />
@@ -85,7 +85,13 @@
 		</Style.Triggers>
 	</Style>
 
-
+	<Style TargetType="{x:Type DataGridCell}" x:Key="CheckBoxColumn" BasedOn="{StaticResource DataGridCellAttributes}">
+		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter Property="IsEditing" Value="True" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
 		<Setter Property="Margin" Value="20,0,0,0" />
