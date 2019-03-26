@@ -14,7 +14,7 @@ namespace FileSearch
 
 		BackgroundSearch backgroundSearch;
 
-		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete);
+		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
 
@@ -99,13 +99,6 @@ namespace FileSearch
 			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
-		int searchedFilesCount = 0;
-		public int SearchedFilesCount
-		{
-			get { return searchedFilesCount; }
-			set { searchedFilesCount = value; OnPropertyChanged(nameof(SearchedFilesCount)); }
-		}
-
 		string statusText;
 		public string StatusText
 		{
@@ -141,8 +134,8 @@ namespace FileSearch
 
 			FilesWithHits.Clear();
 			//LogedItems.Clear();
-
-			SearchedFilesCount = 0;
+			StatusText = "";
+			FileCountStatus = "";
 
 			backgroundSearch = new BackgroundSearch(this);
 		}
@@ -152,7 +145,7 @@ namespace FileSearch
 			backgroundSearch.CancelSaerch();
 		}
 
-		private void SearchProgressUpdate(List<FileHit> SearchResults, string statusText, int percentageComplete)
+		private void SearchProgressUpdate(List<FileHit> SearchResults, string statusText, int percentageComplete, int filesSearched)
 		{
 			StatusText = statusText;
 			Progress = percentageComplete;
@@ -162,7 +155,7 @@ namespace FileSearch
 				FilesWithHits.Add(SearchResults[i]);
 			}
 
-			FileCountStatus = $"{FilesWithHits.Count} files found in {SearchedFilesCount} searched";
+			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{FilesWithHits.Count} files found in {filesSearched} searched";
 		}
 
 		#endregion

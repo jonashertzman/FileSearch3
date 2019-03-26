@@ -11,15 +11,15 @@ namespace FileSearch
 
 		#region Members
 
-		private SearchInstance searchInstance;
+		SearchInstance searchInstance;
 
 		DateTime lastStatusUpdateTime = DateTime.UtcNow;
 		DateTime startTime = new DateTime();
 		DateTime endTime = new DateTime();
 
-		private List<TextAttribute> searchPhrases = new List<TextAttribute>();
-		private List<TextAttribute> searchDirectories = new List<TextAttribute>();
-		private List<TextAttribute> searchFiles = new List<TextAttribute>();
+		List<TextAttribute> searchPhrases = new List<TextAttribute>();
+		List<TextAttribute> searchDirectories = new List<TextAttribute>();
+		List<TextAttribute> searchFiles = new List<TextAttribute>();
 
 		List<string> uppercaseIgnoreDirecrories = new List<string>();
 		List<string> uppercaseIgnoreFiles = new List<string>();
@@ -28,11 +28,11 @@ namespace FileSearch
 
 		string currentRoot;
 
-		private List<FileHit> SearchResults = new List<FileHit>();
+		List<FileHit> SearchResults = new List<FileHit>();
 
 		BackgroundWorker backgroundWorker = new BackgroundWorker();
 
-		internal bool abortPosted = false;
+		bool abortPosted = false;
 
 		int searchedFilesCount = 0;
 
@@ -204,25 +204,30 @@ namespace FileSearch
 			return false;
 		}
 
-		private void UpdateStatus(string statusText, bool finalUpdate = false)
+		private void UpdateStatus(string currentPath, bool finalUpdate = false)
 		{
-			const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-			int percentageComplete;
-
 			if (finalUpdate || (DateTime.UtcNow - lastStatusUpdateTime).TotalMilliseconds >= 100)
 			{
-				if (!finalUpdate)
+				const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+				int percentageComplete;
+
+				string status;
+				if (currentPath != null)
 				{
-					char firstLetter = Char.ToUpper(statusText[currentRoot.Length]);
+					char firstLetter = Char.ToUpper(currentPath[currentRoot.Length]);
 					int index = alphabet.IndexOf(firstLetter);
 					percentageComplete = index == -1 ? index : (int)((float)(index / (float)alphabet.Length) * 100.0);
+
+					status = currentPath;
 				}
 				else
 				{
 					percentageComplete = 0;
+
+					status = TimeSpanToShortString(endTime.Subtract(startTime));
 				}
 
-				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { SearchResults, statusText, percentageComplete });
+				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { SearchResults, status, percentageComplete, searchedFilesCount });
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
 		}
@@ -232,7 +237,6 @@ namespace FileSearch
 			try
 			{
 				FileHit currentHit = null;
-				searchedFilesCount++;
 
 				if (regexSearch)
 				{
@@ -283,6 +287,7 @@ namespace FileSearch
 				{
 					SearchResults.Add(currentHit);
 				}
+				searchedFilesCount++;
 			}
 			catch (Exception)
 			{
@@ -290,7 +295,7 @@ namespace FileSearch
 			}
 		}
 
-		internal static bool WildcardCompare(string compare, string wildString, bool ignoreCase)
+		private bool WildcardCompare(string compare, string wildString, bool ignoreCase)
 		{
 			if (ignoreCase)
 			{
@@ -400,7 +405,7 @@ namespace FileSearch
 		void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			searchInstance.SearchInProgress = false;
-			UpdateStatus(TimeSpanToShortString(endTime.Subtract(startTime)), true);
+			UpdateStatus(null, true);
 		}
 
 		#endregion
