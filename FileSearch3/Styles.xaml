@@ -52,6 +52,8 @@
 	</Style>
 
 	<Style TargetType="DataGrid" x:Key="SearchAttributeGrid">
+		<Setter Property="CanUserReorderColumns" Value="False" />
+		<Setter Property="CanUserResizeColumns" Value="False" />
 		<Setter Property="AutoGenerateColumns" Value="False" />
 		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 		<Setter Property="BorderThickness" Value="0,1,1,1" />
