@@ -6,6 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
 
 namespace FileSearch
@@ -112,6 +113,8 @@ namespace FileSearch
 		private void UpdatePreview()
 		{
 			Debug.Print("UpdatePreview");
+
+			Mouse.OverrideCursor = Cursors.Wait;
 
 			ObservableCollection<Line> Lines = new ObservableCollection<Line>();
 			firstHit = -1;
@@ -273,6 +276,9 @@ namespace FileSearch
 			ViewModel.PreviewLines = Lines;
 
 			MoveToFirstHit();
+
+
+			Mouse.OverrideCursor = null;
 		}
 
 		private void MoveToFirstHit()
@@ -346,6 +352,15 @@ namespace FileSearch
 
 		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			foreach (FileHit f in e.AddedItems)
+			{
+				f.Selected = true;
+			}
+			foreach (FileHit f in e.RemovedItems)
+			{
+				f.Selected = false;
+			}
+
 			updatePrevirewTimer.Start();
 		}
 
