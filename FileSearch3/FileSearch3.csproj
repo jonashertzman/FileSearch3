@@ -69,6 +69,7 @@
     <Compile Include="Converters.cs" />
     <Compile Include="DefaultSettings.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="ExtendedDataGrid.cs" />
     <Compile Include="FileEncoding.cs" />
     <Compile Include="FileHIt.cs" />
     <Compile Include="FontData.cs" />

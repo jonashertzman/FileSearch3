@@ -227,7 +227,7 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<DataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
 						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
@@ -257,7 +257,7 @@
 						</Style>
 					</DataGrid.CellStyle>
 
-				</DataGrid>
+				</local:ExtendedDataGrid>
 
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 
