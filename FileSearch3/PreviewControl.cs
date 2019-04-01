@@ -95,6 +95,8 @@ namespace FileSearch
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
+			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+
 			for (int i = 0; i < VisibleLines; i++)
 			{
 				int lineIndex = i + VerticalOffset;
@@ -104,38 +106,28 @@ namespace FileSearch
 
 				Line line = Lines[lineIndex];
 
-				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
+				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i)); // Line Y offset
 
 				// Draw line number
-				SolidColorBrush lineNumberColor;
-
-				if (lineIndex == CurrentMatch && !Edited)
-				{
-					lineNumberColor = AppSettings.NormalBackground;
-					drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-				}
-				else
-				{
-					lineNumberColor = SystemColors.ControlDarkBrush;
-				}
-
 				if (line.LineNumber != null)
 				{
 					GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
 					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
-					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
+					drawingContext.DrawGlyphRun(SystemColors.ControlDarkDarkBrush, rowNumberRun);
 					drawingContext.Pop();
 				}
+
+				// Text clipping rect
+				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
 
 				// Draw line background
 				if (line.Type != TextState.Normal)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - rightMargin - lineNumberMargin, 0), characterHeight));
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth - rightMargin, 0), characterHeight));
 				}
 
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
-
+				// Line X offset
 				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
 
 				// Draw line
@@ -180,7 +172,7 @@ namespace FileSearch
 				}
 
 				drawingContext.Pop(); // Line X offset
-				drawingContext.Pop(); // Clipping rect
+				drawingContext.Pop(); // Text clipping rect
 				drawingContext.Pop(); // Line Y offset
 			}
 
