@@ -10,19 +10,13 @@
 
 		}
 
-		public PhraseHit(bool caseSensitive)
-		{
-			this.Count = 1;
-			this.CaseSensitiveCount = caseSensitive ? 1 : 0;
-		}
-
 		#endregion
 
 		#region Properties
 
-		public int Count { get; set; }
+		public int Count { get; set; } = 0;
 
-		public int CaseSensitiveCount { get; set; }
+		public int CaseSensitiveCount { get; set; } = 0;
 
 		#endregion
 

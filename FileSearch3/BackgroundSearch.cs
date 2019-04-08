@@ -140,7 +140,7 @@ namespace FileSearch
 										{
 											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
 											{
-												SearchResults.Add(new FileHit(newPath));
+												SearchResults.Add(new FileHit(newPath, searchPhrases));
 											}
 										}
 									}
@@ -161,7 +161,7 @@ namespace FileSearch
 									{
 										if (searchPhrases.Count == 0)
 										{
-											SearchResults.Add(new FileHit(newPath));
+											SearchResults.Add(new FileHit(newPath, searchPhrases));
 											break;
 										}
 										UpdateStatus(newPath);
@@ -248,7 +248,7 @@ namespace FileSearch
 						{
 							if (currentHit == null)
 							{
-								currentHit = new FileHit(path);
+								currentHit = new FileHit(path, searchPhrases);
 							}
 							Match caseSensitiveMatch = Regex.Match(allText.Substring(match.Index), searchPhrase.Text);
 							currentHit.AddPhraseHit(searchPhrase.Text, caseSensitiveMatch.Success && caseSensitiveMatch.Index == 0);
@@ -273,7 +273,7 @@ namespace FileSearch
 							}
 							if (currentHit == null)
 							{
-								currentHit = new FileHit(path);
+								currentHit = new FileHit(path, searchPhrases);
 							}
 							currentHit.AddPhraseHit(searchPhrase.Text, allText.IndexOf(searchPhrase.Text, i, StringComparison.Ordinal) == i);
 
