@@ -119,9 +119,9 @@ namespace FileSearch
 			AddPhraseColumns();
 		}
 
-		private void AddPhraseColumns()
+		internal void AddPhraseColumns()
 		{
-			while(dataGridFileList.Columns.Count > standardColumnCount)
+			while (dataGridFileList.Columns.Count > standardColumnCount)
 			{
 				dataGridFileList.Columns.RemoveAt(standardColumnCount);
 			}
@@ -130,8 +130,13 @@ namespace FileSearch
 			{
 				if (t.Used)
 				{
-					dataGridFileList.Columns.Add(new DataGridTextColumn()
-					{ Header = t.Text, Binding = new Binding($"PhraseHits[{t.Text}].Count") });
+					try
+					{
+						dataGridFileList.Columns.Add(new DataGridTextColumn() { Header = $"{t.Text} ({ActiveSearch.PhraseSums[t.Text]})", Binding = new Binding($"PhraseHits[{t.Text}].Count"), CellStyle = (Style)FindResource("RightAlignedCell") });
+					}
+					catch
+					{
+					}
 				}
 			}
 		}
@@ -483,6 +488,13 @@ namespace FileSearch
 
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			ActiveSearch.PhraseSums.Clear();
+
+			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
+			{
+				ActiveSearch.PhraseSums.Add(t.Text, 0);
+			}
+
 			AddPhraseColumns();
 
 			ActiveSearch.StartSearch(this);

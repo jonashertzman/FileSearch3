@@ -99,6 +99,13 @@ namespace FileSearch
 			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
+		Dictionary<string, int> phraseSums = new Dictionary<string, int>();
+		public Dictionary<string, int> PhraseSums
+		{
+			get { return phraseSums; }
+			set { phraseSums = value; OnPropertyChanged(nameof(PhraseSums)); }
+		}
+
 		string statusText;
 		public string StatusText
 		{
@@ -153,9 +160,19 @@ namespace FileSearch
 			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
 			{
 				FilesWithHits.Add(SearchResults[i]);
+
+				foreach (KeyValuePair<string, PhraseHit> phraseHit in SearchResults[i].PhraseHits)
+				{
+					PhraseSums[phraseHit.Key] += phraseHit.Value.Count;
+				}
 			}
 
 			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{FilesWithHits.Count} files found in {filesSearched} searched";
+
+			if (mainWindow.ActiveSearch == this)
+			{
+				mainWindow.AddPhraseColumns();
+			}
 		}
 
 		#endregion

@@ -188,4 +188,25 @@
 		</Style.Triggers>
 	</Style>
 
+	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}">
+		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="BorderBrush" Value="White" />
+		<Setter Property="BorderThickness" Value="4" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+		<Style.Triggers>
+			<Trigger Property="IsSelected" Value="True">
+				<Setter Property="IsTabStop" Value="True" />
+				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="BorderBrush" Value="{StaticResource HighLightCellBrush}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="RightAlignedCell" TargetType="DataGridCell" BasedOn="{StaticResource FileListCell}">
+		<Style.Setters>
+			<Setter Property="TextBlock.TextAlignment" Value="Right" />
+		</Style.Setters>
+	</Style>
+
 </ResourceDictionary>
