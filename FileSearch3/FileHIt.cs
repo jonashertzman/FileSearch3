@@ -25,7 +25,7 @@ namespace FileSearch
 
 		public bool Selected { get; set; }
 
-		public Dictionary<string, PhraseHit> PhraseHits = new Dictionary<string, PhraseHit>();
+		public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
 
 		internal int FoundPhrasesCount
 		{

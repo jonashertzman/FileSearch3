@@ -757,6 +757,17 @@ namespace FileSearch
 				InsertNewLine(0, "");
 				Edited = false;
 			}
+			else
+			{
+				foreach (Line l in Lines)
+				{
+					if (l.Text.Length > 65535)
+					{
+						MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Search 3", MessageBoxButton.OK, MessageBoxImage.Warning);
+						break;
+					}
+				}
+			}
 		}
 
 		private void DeleteSelection()

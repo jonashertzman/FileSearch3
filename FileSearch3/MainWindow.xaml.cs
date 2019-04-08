@@ -6,6 +6,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -25,6 +26,8 @@ namespace FileSearch
 		int firstHit = -1;
 		int lastHit = -1;
 
+		int standardColumnCount = 0;
+
 		#endregion
 
 		#region Constructor
@@ -40,6 +43,10 @@ namespace FileSearch
 
 			updatePrevirewTimer.Interval = new TimeSpan(500);
 			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
+
+			standardColumnCount = dataGridFileList.Columns.Count;
+
+			AddPhraseColumns();
 		}
 
 		#endregion
@@ -107,6 +114,25 @@ namespace FileSearch
 			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
 				s.IsSelected = s == searchInstance;
+			}
+
+			AddPhraseColumns();
+		}
+
+		private void AddPhraseColumns()
+		{
+			while(dataGridFileList.Columns.Count > standardColumnCount)
+			{
+				dataGridFileList.Columns.RemoveAt(standardColumnCount);
+			}
+
+			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
+			{
+				if (t.Used)
+				{
+					dataGridFileList.Columns.Add(new DataGridTextColumn()
+					{ Header = t.Text, Binding = new Binding($"PhraseHits[{t.Text}].Count") });
+				}
 			}
 		}
 
@@ -271,9 +297,9 @@ namespace FileSearch
 				}
 			}
 
-			Preview.Init();
-
 			ViewModel.PreviewLines = Lines;
+
+			Preview.Init();
 
 			MoveToFirstHit();
 
@@ -457,6 +483,8 @@ namespace FileSearch
 
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			AddPhraseColumns();
+
 			ActiveSearch.StartSearch(this);
 		}
 
