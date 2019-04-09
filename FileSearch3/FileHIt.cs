@@ -28,7 +28,7 @@ namespace FileSearch
 
 		public string Path { get; set; }
 
-		public bool Selected { get; set; }
+		internal bool Selected { get; set; }
 
 		public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
 

@@ -41,7 +41,7 @@ namespace FileSearch
 
 			SearchPanel.Visibility = Visibility.Collapsed;
 
-			updatePrevirewTimer.Interval = new TimeSpan(500);
+			updatePrevirewTimer.Interval = new TimeSpan(200);
 			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
 
 			standardColumnCount = dataGridFileList.Columns.Count;
@@ -383,6 +383,11 @@ namespace FileSearch
 
 		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
+			//Debug.Print($"Added {e.AddedItems.Count}");
+			//Debug.Print($"Removed {e.RemovedItems.Count}");
+			//Debug.Print($"SelectedItems {dataGridFileList.SelectedItems.Count}");
+			//Debug.Print($"Items {dataGridFileList.Items.Count}");
+
 			foreach (FileHit f in e.AddedItems)
 			{
 				f.Selected = true;
@@ -403,11 +408,7 @@ namespace FileSearch
 
 		private void DataGridFileList_Sorting(object sender, DataGridSortingEventArgs e)
 		{
-			// Workaround to trigger update after sorting is done since there is no Sorted event.
-			this.Dispatcher.BeginInvoke((Action)delegate ()
-			{
-				UpdatePreview();
-			}, null);
+			updatePrevirewTimer.Start();
 		}
 
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)

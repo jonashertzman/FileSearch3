@@ -227,14 +227,7 @@
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
 						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
 						<DataGridTextColumn Binding="{x:Null}" Header="Date" />
-
 					</DataGrid.Columns>
-
-					<DataGrid.RowStyle>
-						<Style TargetType="{x:Type DataGridRow}">
-							<Setter Property="IsSelected" Value="{Binding Selected, Mode=TwoWay}" />
-						</Style>
-					</DataGrid.RowStyle>
 				</local:ExtendedDataGrid>
 
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
@@ -256,7 +249,7 @@
 								</LinearGradientBrush>
 							</WrapPanel.Background>
 
-							<ToggleButton Command="local:Commands.Edit" IsEnabled="{Binding SingleFileView}" IsChecked="{Binding EditMode}">
+							<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
 								<ToggleButton.Resources>
 									<DataTemplate x:Key="Unpressed">
 										<StackPanel Orientation="Horizontal">
