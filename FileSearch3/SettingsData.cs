@@ -31,9 +31,14 @@ namespace FileSearch
 
 		public double PositionLeft { get; set; }
 		public double PositionTop { get; set; }
-		public double Width { get; set; } = 700;
+		public double Width { get; set; } = 750;
 		public double Height { get; set; } = 500;
-		public double FileListHeight { get; set; } = 300;
 		public WindowState WindowState { get; set; }
+
+		public double PhraseGridHeight { get; set; } = 120;
+		public double DirectoriesGridHeight { get; set; } = 120;
+		public double FileListHeight { get; set; } = 150;
+		public double SearchAttributesWidth { get; set; } = 150;
+
 	}
 }

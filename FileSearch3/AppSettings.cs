@@ -64,12 +64,6 @@ namespace FileSearch
 			set { Settings.Height = value; }
 		}
 
-		public static double FileListHeight
-		{
-			get { return Settings.FileListHeight; }
-			set { Settings.FileListHeight = value; }
-		}
-
 		public static WindowState WindowState
 		{
 			get { return Settings.WindowState; }
@@ -100,6 +94,7 @@ namespace FileSearch
 			get { return Settings.ShowWhiteSpaceCharacters; }
 			set { Settings.ShowWhiteSpaceCharacters = value; }
 		}
+
 
 
 		private static SolidColorBrush normalForeground;
@@ -152,11 +147,30 @@ namespace FileSearch
 		}
 
 
-		public static double NameColumnWidth { get; internal set; } = 300;
 
-		public static double SizeColumnWidth { get; internal set; } = 70;
+		public static double PhraseGridHeight
+		{
+			get { return Settings.PhraseGridHeight; }
+			set { Settings.PhraseGridHeight = value; }
+		}
 
-		public static double DateColumnWidth { get; internal set; } = 120;
+		public static double DirectoriesGridHeight
+		{
+			get { return Settings.DirectoriesGridHeight; }
+			set { Settings.DirectoriesGridHeight = value; }
+		}
+
+		public static double SearchAttributesWidth
+		{
+			get { return Settings.SearchAttributesWidth; }
+			set { Settings.SearchAttributesWidth = value; }
+		}
+
+		public static double FileListHeight
+		{
+			get { return Settings.FileListHeight; }
+			set { Settings.FileListHeight = value; }
+		}
 
 		#endregion
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -27,7 +28,7 @@ namespace FileSearch
 
 		#region Properties
 
-		private SearchInstance activeSearchInstance;
+		SearchInstance activeSearchInstance;
 		public SearchInstance ActiveSearchInstance
 		{
 			get { return activeSearchInstance; }
@@ -99,22 +100,28 @@ namespace FileSearch
 			set { AppSettings.IgnoredFiles = value; OnPropertyChangedRepaint(nameof(IgnoredFiles)); }
 		}
 
-		public double NameColumnWidth
+		public GridLength PhraseGridHeight
 		{
-			get { return AppSettings.NameColumnWidth; }
-			set { AppSettings.NameColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(NameColumnWidth)); }
+			get { return new GridLength(AppSettings.PhraseGridHeight); }
+			set { AppSettings.PhraseGridHeight = value.Value; OnPropertyChanged(nameof(PhraseGridHeight)); }
 		}
 
-		public double SizeColumnWidth
+		public GridLength DirectoriesGridHeight
 		{
-			get { return AppSettings.SizeColumnWidth; }
-			set { AppSettings.SizeColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(SizeColumnWidth)); }
+			get { return new GridLength(AppSettings.DirectoriesGridHeight); }
+			set { AppSettings.DirectoriesGridHeight = value.Value; OnPropertyChanged(nameof(DirectoriesGridHeight)); }
 		}
 
-		public double DateColumnWidth
+		public GridLength SearchAttributesWidth
 		{
-			get { return AppSettings.DateColumnWidth; }
-			set { AppSettings.DateColumnWidth = value; OnPropertyChangedSlowRepaint(nameof(DateColumnWidth)); }
+			get { return new GridLength(AppSettings.SearchAttributesWidth); }
+			set { AppSettings.SearchAttributesWidth = value.Value; OnPropertyChanged(nameof(SearchAttributesWidth)); }
+		}
+
+		public GridLength FileListHeight
+		{
+			get { return new GridLength(AppSettings.FileListHeight); }
+			set { AppSettings.FileListHeight = value.Value; OnPropertyChanged(nameof(FileListHeight)); }
 		}
 
 		public SolidColorBrush NormalForeground

@@ -58,7 +58,7 @@
 		</Grid.Resources>
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition />
 			<RowDefinition Height="Auto" />
@@ -178,7 +178,7 @@
 
 		<Grid x:Name="MainGrid" Grid.Row="2">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="133" />
+				<ColumnDefinition Width="{Binding SearchAttributesWidth, Mode=TwoWay}" />
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
@@ -186,9 +186,9 @@
 			<!--Search Attributes-->
 			<Grid x:Name="GridSearchAttributes">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="100" />
+					<RowDefinition Height="{Binding PhraseGridHeight, Mode=TwoWay}" />
 					<RowDefinition Height="Auto" />
-					<RowDefinition Height="100" />
+					<RowDefinition Height="{Binding DirectoriesGridHeight, Mode=TwoWay}" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition />
 				</Grid.RowDefinitions>
@@ -216,7 +216,7 @@
 			<GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center" Focusable="False" />
 			<Grid Grid.Column="2">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="122" />
+					<RowDefinition Height="{Binding FileListHeight, Mode=TwoWay}" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition />
 				</Grid.RowDefinitions>
