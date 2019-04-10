@@ -61,11 +61,6 @@ namespace FileSearch
 				return null;
 			}
 
-			if (text.Length > 65535)
-			{
-				text = "[Line is too long to show in preview]";
-			}
-
 			FontData fontData = GetFontData(typeface, fontSize);
 
 			ushort[] glyphIndexes = new ushort[text.Length];
