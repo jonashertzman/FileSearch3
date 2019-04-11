@@ -759,13 +759,20 @@ namespace FileSearch
 			}
 			else
 			{
+				bool linesTooLong = false;
+
 				foreach (Line l in Lines)
 				{
 					if (l.Text.Length > 65535)
 					{
-						MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Search 3", MessageBoxButton.OK, MessageBoxImage.Warning);
-						break;
+						l.Text = "[Line is too long to show in preview]";
+						linesTooLong = true;
 					}
+				}
+
+				if (linesTooLong)
+				{
+					MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Search 3", MessageBoxButton.OK, MessageBoxImage.Warning);
 				}
 			}
 		}
