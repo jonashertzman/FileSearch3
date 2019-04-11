@@ -81,6 +81,9 @@
     <Compile Include="PhraseHit.cs" />
     <Compile Include="PreviewControl.cs" />
     <Compile Include="RegexHit.cs" />
+    <Compile Include="RenameTabWindow.xaml.cs">
+      <DependentUpon>RenameTabWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SearchInstance.cs" />
     <Compile Include="Selection.cs" />
     <Compile Include="SettingsData.cs" />
@@ -111,6 +114,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OptionsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RenameTabWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

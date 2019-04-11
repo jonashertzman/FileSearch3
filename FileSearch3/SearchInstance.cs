@@ -17,15 +17,13 @@ namespace FileSearch
 		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
-		const string defaultInstanceName = "[New Search]";
-
 		#endregion
 
 		#region Constructor
 
 		public SearchInstance()
 		{
-			Name = defaultInstanceName;
+			Name = "[New Search]";
 
 			searchProgressUpdateDelegate = new SearchProgressUpdateDelegate(SearchProgressUpdate);
 		}
@@ -56,6 +54,8 @@ namespace FileSearch
 			get { return name; }
 			set { name = value; OnPropertyChanged(nameof(Name)); }
 		}
+
+		public bool Renamed { get; set; } = false;
 
 		bool isSelected;
 		public bool IsSelected
@@ -137,7 +137,7 @@ namespace FileSearch
 		{
 			SearchInProgress = true;
 
-			if (Name == defaultInstanceName)
+			if (!Renamed)
 			{
 				foreach (TextAttribute a in SearchPhrases)
 				{

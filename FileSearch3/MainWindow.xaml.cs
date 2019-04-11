@@ -41,7 +41,7 @@ namespace FileSearch
 
 			SearchPanel.Visibility = Visibility.Collapsed;
 
-			updatePrevirewTimer.Interval = new TimeSpan(200);
+			updatePrevirewTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
 			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
 
 			standardColumnCount = dataGridFileList.Columns.Count;
@@ -378,7 +378,12 @@ namespace FileSearch
 
 		private void TabButton_Click(object sender, RoutedEventArgs e)
 		{
-			SetActiveTab((SearchInstance)((Button)e.Source).Tag);
+			SetActiveTab((SearchInstance)((Button)sender).Tag);
+		}
+
+		private void TabButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+		{
+			SetActiveTab((SearchInstance)((Button)sender).Tag);
 		}
 
 		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -431,7 +436,7 @@ namespace FileSearch
 
 		#region Commands
 
-		#region Menu
+		#region Menues
 
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
@@ -481,6 +486,18 @@ namespace FileSearch
 		{
 			AboutWindow aboutWindow = new AboutWindow() { Owner = this };
 			aboutWindow.ShowDialog();
+		}
+
+		private void CommandRenameTab_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			RenameTabWindow renameTabWindow = new RenameTabWindow() { TabName = ActiveSearch.Name };
+			renameTabWindow.ShowDialog();
+
+			if (renameTabWindow.DialogResult == true)
+			{
+				ActiveSearch.Name = renameTabWindow.TabName;
+				ActiveSearch.Renamed = true;
+			}
 		}
 
 		#endregion

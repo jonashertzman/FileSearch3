@@ -6,8 +6,12 @@
 		<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
 		<ContextMenu x:Key="ContextMenuFileItem">
-			<MenuItem Header="Open Containing Folder" />
-			<MenuItem Header="Copy Path to Clipboard" />
+			<MenuItem Header="Open Containing Folder" Command="local:Commands.OpenContainingFolder" />
+			<MenuItem Header="Copy Path to Clipboard" Command="local:Commands.CopyPathToClipboard" />
+		</ContextMenu>
+
+		<ContextMenu x:Key="ContextMenuTabButton">
+			<MenuItem Header="Rename" Command="local:Commands.RenameTab" />
 		</ContextMenu>
 
 	</Window.Resources>
@@ -38,6 +42,11 @@
 		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute" />
 		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 
+		<CommandBinding Command="local:Commands.OpenContainingFolder" />
+		<CommandBinding Command="local:Commands.CopyPathToClipboard" />
+
+		<CommandBinding Command="local:Commands.RenameTab" Executed="CommandRenameTab_Executed" />
+
 	</Window.CommandBindings>
 
 
@@ -45,7 +54,7 @@
 		<Grid.Resources>
 
 			<DataTemplate x:Key="SearcInstenceTabTemplate">
-				<Button Click="TabButton_Click" Tag="{Binding}" Style="{StaticResource TabButtonStyle}">
+				<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
 					<StackPanel Margin="2,0" Orientation="Vertical" MinWidth="20">
 						<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,0,0,1" />
 						<StackPanel Height="2">

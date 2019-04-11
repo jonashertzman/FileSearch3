@@ -81,6 +81,8 @@ namespace FileSearch
 
 		public static readonly RoutedUICommand CopyPathToClipboard = new RoutedUICommand("Copy Path to Clipboard", "CopyPathToClipboard", typeof(Commands));
 
+		public static readonly RoutedUICommand RenameTab = new RoutedUICommand("Rename", "RenameTab", typeof(Commands));
+
 		#endregion
 
 	}
