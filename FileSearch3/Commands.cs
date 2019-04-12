@@ -41,6 +41,10 @@ namespace FileSearch
 
 		public static readonly RoutedUICommand Edit = new RoutedUICommand("Enable Editing", "Edit", typeof(Commands));
 
+		public static readonly RoutedUICommand NewTab = new RoutedUICommand("New Tab", "NewTab", typeof(Commands),
+			new InputGestureCollection() { new KeyGesture(Key.T, ModifierKeys.Control) }
+		);
+
 		public static readonly RoutedUICommand PreviousHit = new RoutedUICommand("Move to Previous Hit", "PreviousHit", typeof(Commands),
 			new InputGestureCollection() { new KeyGesture(Key.Left) }
 		);

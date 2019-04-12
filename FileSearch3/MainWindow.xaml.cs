@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FileSearch
@@ -357,6 +358,19 @@ namespace FileSearch
 			VerticalScrollbar.Value = i - (visibleLines / 2) + 1;
 		}
 
+		private void ProcessSearchResult(int result)
+		{
+			if (result != -1)
+			{
+				SearchBox.Background = new SolidColorBrush(Colors.White);
+				CenterOnLine(result);
+			}
+			else
+			{
+				SearchBox.Background = new SolidColorBrush(Colors.Tomato);
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -369,11 +383,6 @@ namespace FileSearch
 		private void Window_Initialized(object sender, EventArgs e)
 		{
 			LoadSettings();
-		}
-
-		private void ButtonNewSearchInstance_Click(object sender, RoutedEventArgs e)
-		{
-			AddNewSearch();
 		}
 
 		private void TabButton_Click(object sender, RoutedEventArgs e)
@@ -418,12 +427,12 @@ namespace FileSearch
 
 		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-
+			ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void MatchCase_Checked(object sender, RoutedEventArgs e)
 		{
-
+			ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 
 		private void Preview_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -441,6 +450,11 @@ namespace FileSearch
 		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			this.Close();
+		}
+
+		private void CommandNewTab_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			AddNewSearch();
 		}
 
 		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -498,6 +512,28 @@ namespace FileSearch
 				ActiveSearch.Name = renameTabWindow.TabName;
 				ActiveSearch.Renamed = true;
 			}
+		}
+
+		private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			string args = $"/Select, {((FileHit)dataGridFileList.SelectedItem).Path}";
+			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+			Process.Start(pfi);
+		}
+
+		private void CommandOpenContainingFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
+		}
+
+		private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			Clipboard.SetText(Path.GetFullPath(((FileHit)dataGridFileList.SelectedItem).Path));
+		}
+
+		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
 		}
 
 		#endregion
@@ -615,30 +651,39 @@ namespace FileSearch
 
 		private void CommandFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			SearchPanel.Visibility = Visibility.Visible;
+			SearchBox.Focus();
 		}
 
 		private void CommandFindNext_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			if (SearchPanel.Visibility != Visibility.Visible)
+			{
+				SearchPanel.Visibility = Visibility.Visible;
+				SearchBox.Focus();
+			}
+			else
+			{
+				ProcessSearchResult(Preview.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
+			}
 		}
 		private void CommandFindNext_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-
+			e.CanExecute = (SearchBox.Text != "" && Preview.Lines.Count > 0) || SearchPanel.Visibility != Visibility.Visible;
 		}
 
 		private void CommandFindPrevious_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			ProcessSearchResult(Preview.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true));
 		}
 		private void CommandFindPrevious_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-
+			e.CanExecute = SearchBox.Text != "" && Preview.Lines.Count > 0;
 		}
 
 		private void CommandCloseFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-
+			SearchPanel.Visibility = Visibility.Collapsed;
 		}
 
 		#endregion
