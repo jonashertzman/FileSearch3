@@ -99,8 +99,8 @@ namespace FileSearch
 			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
-		Dictionary<string, int> phraseSums = new Dictionary<string, int>();
-		public Dictionary<string, int> PhraseSums
+		Dictionary<string, PhraseHit> phraseSums = new Dictionary<string, PhraseHit>();
+		public Dictionary<string, PhraseHit> PhraseSums
 		{
 			get { return phraseSums; }
 			set { phraseSums = value; OnPropertyChanged(nameof(PhraseSums)); }
@@ -127,7 +127,7 @@ namespace FileSearch
 			set { progress = value; OnPropertyChanged(nameof(Progress)); }
 		}
 
-		public bool CaseSensitive { get; internal set; }
+		public bool CaseSensitive { get; set; }
 
 		#endregion
 
@@ -175,7 +175,8 @@ namespace FileSearch
 
 				foreach (KeyValuePair<string, PhraseHit> phraseHit in SearchResults[i].PhraseHits)
 				{
-					PhraseSums[phraseHit.Key] += phraseHit.Value.Count;
+					PhraseSums[phraseHit.Key].Count += phraseHit.Value.Count;
+					PhraseSums[phraseHit.Key].CaseSensitiveCount += phraseHit.Value.CaseSensitiveCount;
 				}
 			}
 

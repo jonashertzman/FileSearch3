@@ -133,9 +133,14 @@ namespace FileSearch
 				{
 					try
 					{
-						dataGridFileList.Columns.Add(new DataGridTextColumn() { Header = $"{t.Text} ({ActiveSearch.PhraseSums[t.Text]})", Binding = new Binding($"PhraseHits[{t.Text}].Count"), CellStyle = (Style)FindResource("RightAlignedCell") });
+						dataGridFileList.Columns.Add(new DataGridTextColumn()
+						{
+							Header = $"{t.Text} ({(ActiveSearch.CaseSensitive ? ActiveSearch.PhraseSums[t.Text].CaseSensitiveCount : ActiveSearch.PhraseSums[t.Text].Count)})",
+							Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHits[{t.Text}].CaseSensitiveCount") : new Binding($"PhraseHits[{t.Text}].Count"),
+							CellStyle = (Style)FindResource("RightAlignedCell")
+						});
 					}
-					catch
+					catch (Exception e)
 					{
 					}
 				}
@@ -414,6 +419,12 @@ namespace FileSearch
 			updatePrevirewTimer.Start();
 		}
 
+		private void ToggleButtonCaseSensitive_Checked(object sender, RoutedEventArgs e)
+		{
+			AddPhraseColumns();
+			UpdatePreview();
+		}
+
 		private void UpdatePrevirewTimer_Tick(object sender, EventArgs e)
 		{
 			updatePrevirewTimer.Stop();
@@ -546,7 +557,7 @@ namespace FileSearch
 
 			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
 			{
-				ActiveSearch.PhraseSums.Add(t.Text, 0);
+				ActiveSearch.PhraseSums.Add(t.Text, new PhraseHit());
 			}
 
 			AddPhraseColumns();

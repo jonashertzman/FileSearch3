@@ -158,6 +158,13 @@
 				</Button.ToolTip>
 			</Button>
 
+			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButtonCaseSensitive_Checked" Checked="ToggleButtonCaseSensitive_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource CaseSemsitiveIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Case Sensitive" VerticalAlignment="Center" />
+				</StackPanel>
+			</ToggleButton>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DeleteSearchIcon}" Style="{StaticResource CommonButtonIcon}" />

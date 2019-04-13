@@ -43,6 +43,29 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="CaseSemsitiveIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="16" Text="A" Canvas.Top="-4" Canvas.Left="0">
+					<TextBlock.Foreground>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FF4B66DE" Offset="0" />
+							<GradientStop Color="#FF120085" Offset="1" />
+						</LinearGradientBrush>
+					</TextBlock.Foreground>
+				</TextBlock>
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="16" Text="a" Canvas.Top="-2" Canvas.Left="9">
+					<TextBlock.Foreground>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FFDE4B4B" Offset="0" />
+							<GradientStop Color="#FF850000" Offset="1" />
+						</LinearGradientBrush>
+					</TextBlock.Foreground>
+				</TextBlock>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 	<DataTemplate x:Key="DeleteSearchIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
