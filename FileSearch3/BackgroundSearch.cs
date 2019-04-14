@@ -289,7 +289,7 @@ namespace FileSearch
 				}
 				searchedFilesCount++;
 			}
-			catch (Exception)
+			catch (Exception e)
 			{
 				//LogedItems.Add(e.Message);
 			}

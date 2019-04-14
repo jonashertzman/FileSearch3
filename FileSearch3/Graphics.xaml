@@ -66,6 +66,21 @@
 		</Viewbox>
 	</DataTemplate>
 
+	<DataTemplate x:Key="RegexIcon">
+		<Viewbox>
+			<Canvas Width="16" Height="16">
+				<TextBlock FontFamily="Tahoma" FontWeight="Normal" FontSize="9" Text="[a-z]" Canvas.Top="2" Canvas.Left="-1">
+					<TextBlock.Foreground>
+						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
+							<GradientStop Color="#FF8193E2" Offset="0" />
+							<GradientStop Color="#FF220F97" Offset="1" />
+						</LinearGradientBrush>
+					</TextBlock.Foreground>
+				</TextBlock>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
 	<DataTemplate x:Key="DeleteSearchIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">

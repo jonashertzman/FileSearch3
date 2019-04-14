@@ -142,6 +142,7 @@ namespace FileSearch
 					}
 					catch (Exception e)
 					{
+						Debug.Print(e.Message);
 					}
 				}
 			}
@@ -221,8 +222,9 @@ namespace FileSearch
 							Line previewLine = new Line();
 							previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
 							previewLine.CurrentFile = f.Path;
-
 							int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
+
+							bool[] hitCharacters = new bool[previewLine.Text.Length];
 
 							foreach (RegexHit regexHit in regexHits)
 							{
@@ -230,11 +232,37 @@ namespace FileSearch
 								{
 									previewLine.Type = TextState.Hit;
 									int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
-									int selectionEndIndex = Math.Min((regexHit.Start - lineSourceIndex) + regexHit.Length, previewLine.Text.Length);
+									int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
 
-									//previewLine.TextSegments.Add(new TextSegment(selectionStartIndex, selectionEndIndex - selectionStartIndex));
+									for (int i = selectionStartIndex; i < selectionEndIndex; i++)
+									{
+										hitCharacters[i] = true;
+									}
 								}
 							}
+
+							if (previewLine.Type == TextState.Hit)
+							{
+								lastHit = Lines.Count;
+								if (firstHit == -1)
+								{
+									firstHit = lastHit;
+								}
+
+								previewLine.TextSegments.Clear();
+
+								int start = 0;
+								for (int i = 1; i < previewLine.Text.Length; i++)
+								{
+									if (hitCharacters[start] == hitCharacters[i])
+										continue;
+
+									previewLine.TextSegments.Add(new TextSegment(previewLine.Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+									start = i;
+								}
+								previewLine.TextSegments.Add(new TextSegment(previewLine.Text.Substring(start, previewLine.Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+							}
+
 							Lines.Add(previewLine);
 
 							lineSourceIndex += lineSourceLength;
@@ -374,6 +402,29 @@ namespace FileSearch
 			{
 				SearchBox.Background = new SolidColorBrush(Colors.Tomato);
 			}
+		}
+
+		private bool ValidateRegex()
+		{
+			if (ActiveSearch.RegexSearch)
+			{
+				foreach (TextAttribute p in ActiveSearch.SearchPhrases)
+				{
+					if (p.Used)
+					{
+						try
+						{
+							Regex.Match("", p.Text);
+						}
+						catch (ArgumentException)
+						{
+							MessageBox.Show(p.Text + "  is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+							return false;
+						}
+					}
+				}
+			}
+			return true;
 		}
 
 		#endregion
@@ -553,6 +604,11 @@ namespace FileSearch
 
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			if (!ValidateRegex())
+			{
+				return;
+			}
+
 			ActiveSearch.PhraseSums.Clear();
 
 			foreach (TextAttribute t in ActiveSearch.SearchPhrases)

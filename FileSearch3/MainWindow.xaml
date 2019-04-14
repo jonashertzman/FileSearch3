@@ -165,6 +165,13 @@
 				</StackPanel>
 			</ToggleButton>
 
+			<ToggleButton Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ActiveSearchInstance.RegexSearch}">
+				<StackPanel Orientation="Horizontal">
+					<ContentPresenter ContentTemplate="{StaticResource RegexIcon}" Style="{StaticResource CommonButtonIcon}" />
+					<TextBlock Text="Regex Search" VerticalAlignment="Center" />
+				</StackPanel>
+			</ToggleButton>
+
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DeleteSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
