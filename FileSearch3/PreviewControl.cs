@@ -183,7 +183,7 @@ namespace FileSearch
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
-			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + textMargin);
+			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 3));
 		}
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
