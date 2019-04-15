@@ -503,6 +503,17 @@ namespace FileSearch
 			VerticalScrollbar.Value -= lines;
 		}
 
+		private void DataGridFileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			if (dataGridFileList.SelectedItems.Count == 1)
+			{
+				Process p = new Process();
+				p.StartInfo.FileName = ((FileHit)dataGridFileList.SelectedItem).Path;
+				p.StartInfo.ErrorDialog = true;
+				p.Start();
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -655,7 +666,7 @@ namespace FileSearch
 		}
 		private void CommandSaveFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = true;
+			e.CanExecute = false;
 		}
 
 		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -664,7 +675,7 @@ namespace FileSearch
 		}
 		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = true;
+			e.CanExecute = false;
 		}
 
 		private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)

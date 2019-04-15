@@ -251,7 +251,7 @@
 				</Grid.RowDefinitions>
 
 				<!--File List-->
-				<local:ExtendedDataGrid CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" MouseDoubleClick="DataGridFileList_MouseDoubleClick" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
 						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
