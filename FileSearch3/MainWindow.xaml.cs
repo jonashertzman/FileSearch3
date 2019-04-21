@@ -503,15 +503,12 @@ namespace FileSearch
 			VerticalScrollbar.Value -= lines;
 		}
 
-		private void DataGridFileList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+		private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			if (dataGridFileList.SelectedItems.Count == 1)
-			{
-				Process p = new Process();
-				p.StartInfo.FileName = ((FileHit)dataGridFileList.SelectedItem).Path;
-				p.StartInfo.ErrorDialog = true;
-				p.Start();
-			}
+			Process p = new Process();
+			p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
+			p.StartInfo.ErrorDialog = true;
+			p.Start();
 		}
 
 		#endregion
