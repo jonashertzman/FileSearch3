@@ -127,24 +127,22 @@ namespace FileSearch
 				dataGridFileList.Columns.RemoveAt(standardColumnCount);
 			}
 
-			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
+			foreach (string t in ActiveSearch.StoredSearchPhrases)
 			{
-				if (t.Used)
+				dataGridFileList.Columns.Add(new DataGridTextColumn()
 				{
-					try
-					{
-						dataGridFileList.Columns.Add(new DataGridTextColumn()
-						{
-							Header = $"{t.Text} ({(ActiveSearch.CaseSensitive ? ActiveSearch.PhraseSums[t.Text].CaseSensitiveCount : ActiveSearch.PhraseSums[t.Text].Count)})",
-							Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHits[{t.Text}].CaseSensitiveCount") : new Binding($"PhraseHits[{t.Text}].Count"),
-							CellStyle = (Style)FindResource("RightAlignedCell")
-						});
-					}
-					catch (Exception e)
-					{
-						Debug.Print(e.Message);
-					}
-				}
+					Header = $"{t} ({(ActiveSearch.CaseSensitive ? ActiveSearch.PhraseSums[t].CaseSensitiveCount : ActiveSearch.PhraseSums[t].Count)})",
+					Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHits[{t}].CaseSensitiveCount") : new Binding($"PhraseHits[{t}].Count"),
+					CellStyle = (Style)FindResource("RightAlignedCell")
+				});
+			}
+		}
+
+		internal void UpdateFileList()
+		{
+			foreach (FileHit f in ActiveSearch.FilesWithHits)
+			{
+				f.Visible = f.AnyPhraseHit(ActiveSearch.CaseSensitive);
 			}
 		}
 
@@ -160,7 +158,7 @@ namespace FileSearch
 
 			foreach (FileHit f in dataGridFileList.Items)
 			{
-				if (f.Selected)
+				if (f.Selected && f.Visible)
 				{
 					string[] allLines = new string[0];
 					string allText = "";
@@ -200,16 +198,13 @@ namespace FileSearch
 					if (ActiveSearch.RegexSearch)
 					{
 						List<RegexHit> regexHits = new List<RegexHit>();
-						foreach (TextAttribute searchPhrase in ActiveSearch.SearchPhrases)
+						foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
 						{
-							if (searchPhrase.Used)
+							Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
+							while (match.Success)
 							{
-								Match match = Regex.Match(allText, searchPhrase.Text, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
-								while (match.Success)
-								{
-									regexHits.Add(new RegexHit(match.Index, match.Length));
-									match = match.NextMatch();
-								}
+								regexHits.Add(new RegexHit(match.Index, match.Length));
+								match = match.NextMatch();
 							}
 						}
 
@@ -279,27 +274,24 @@ namespace FileSearch
 							previewLine.CurrentFile = f.Path;
 							previewLine.LineNumber = lineNumber++;
 
-							foreach (TextAttribute phrase in ActiveSearch.SearchPhrases)
+							foreach (string phrase in ActiveSearch.StoredSearchPhrases)
 							{
-								if (phrase.Used)
+								int hitIndex = 0;
+								while (true)
 								{
-									int hitIndex = 0;
-									while (true)
+									hitIndex = line.IndexOf(phrase, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+									if (hitIndex == -1)
 									{
-										hitIndex = line.IndexOf(phrase.Text, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-										if (hitIndex == -1)
-										{
-											break;
-										}
-
-										for (int i = hitIndex; i < hitIndex + phrase.Text.Length; i++)
-										{
-											hitCharacters[i] = true;
-										}
-
-										hitIndex += phrase.Text.Length;
-										previewLine.Type = TextState.Hit;
+										break;
 									}
+
+									for (int i = hitIndex; i < hitIndex + phrase.Length; i++)
+									{
+										hitCharacters[i] = true;
+									}
+
+									hitIndex += phrase.Length;
+									previewLine.Type = TextState.Hit;
 								}
 							}
 
@@ -473,6 +465,7 @@ namespace FileSearch
 		private void ToggleButtonCaseSensitive_Checked(object sender, RoutedEventArgs e)
 		{
 			AddPhraseColumns();
+			UpdateFileList();
 			UpdatePreview();
 		}
 
@@ -623,8 +616,6 @@ namespace FileSearch
 			{
 				ActiveSearch.PhraseSums.Add(t.Text, new PhraseHit());
 			}
-
-			AddPhraseColumns();
 
 			ActiveSearch.StartSearch(this);
 		}

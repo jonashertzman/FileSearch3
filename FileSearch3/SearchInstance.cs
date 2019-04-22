@@ -17,6 +17,8 @@ namespace FileSearch
 		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
+		int caseSensitiveFileCount = 0;
+
 		#endregion
 
 		#region Constructor
@@ -129,6 +131,24 @@ namespace FileSearch
 
 		public bool CaseSensitive { get; set; }
 
+		internal List<string> StoredSearchPhrases
+		{
+			get
+			{
+				List<string> l = new List<string>();
+
+				if (FilesWithHits.Count > 0)
+				{
+					foreach (KeyValuePair<string, PhraseHit> kvp in FilesWithHits[0].PhraseHits)
+					{
+						l.Add(kvp.Key);
+					}
+				}
+
+				return l;
+			}
+		}
+
 		#endregion
 
 		#region Methods
@@ -155,6 +175,7 @@ namespace FileSearch
 			//LogedItems.Clear();
 			StatusText = "";
 			FileCountStatus = "";
+			caseSensitiveFileCount = 0;
 
 			backgroundSearch = new BackgroundSearch(this);
 		}
@@ -171,7 +192,18 @@ namespace FileSearch
 
 			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
 			{
-				FilesWithHits.Add(SearchResults[i]);
+				FileHit fileHit = SearchResults[i];
+				if (fileHit.AnyPhraseHit(CaseSensitive))
+				{
+					fileHit.Visible = true;
+					caseSensitiveFileCount++;
+				}
+				else
+				{
+					fileHit.Visible = false;
+				}
+
+				FilesWithHits.Add(fileHit);
 
 				foreach (KeyValuePair<string, PhraseHit> phraseHit in SearchResults[i].PhraseHits)
 				{
@@ -180,7 +212,7 @@ namespace FileSearch
 				}
 			}
 
-			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{FilesWithHits.Count} files found in {filesSearched} searched";
+			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{(CaseSensitive ? caseSensitiveFileCount : FilesWithHits.Count)} files found in {filesSearched} searched";
 
 			if (mainWindow.ActiveSearch == this)
 			{

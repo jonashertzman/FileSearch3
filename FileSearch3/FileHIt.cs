@@ -32,6 +32,13 @@ namespace FileSearch
 
 		public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
 
+		bool visible = true;
+		public bool Visible
+		{
+			get { return visible; }
+			set { visible = value; OnPropertyChanged(nameof(Visible)); }
+		}
+
 		#endregion
 
 		#region Methods
@@ -43,6 +50,34 @@ namespace FileSearch
 			{
 				PhraseHits[phrase].CaseSensitiveCount++;
 			}
+		}
+
+		internal bool AnyPhraseHit(bool caseSensitive)
+		{
+			if (PhraseHits.Count == 0)
+				return true;
+
+			if (caseSensitive)
+			{
+				foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
+				{
+					if (kvp.Value.CaseSensitiveCount > 0)
+					{
+						return true;
+					}
+				}
+			}
+			else
+			{
+				foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
+				{
+					if (kvp.Value.Count > 0)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		#endregion

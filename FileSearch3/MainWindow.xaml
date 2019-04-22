@@ -255,6 +255,14 @@
 					<DataGrid.RowStyle>
 						<Style TargetType="DataGridRow">
 							<EventSetter Event="MouseDoubleClick" Handler="DataGridFileList_RowDoubleClick" />
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Visible}" Value="True">
+									<Setter Property="Visibility" Value="Visible" />
+								</DataTrigger>
+								<DataTrigger Binding="{Binding Visible}" Value="False">
+									<Setter Property="Visibility" Value="Collapsed" />
+								</DataTrigger>
+							</Style.Triggers>
 						</Style>
 					</DataGrid.RowStyle>
 					<DataGrid.Columns>
