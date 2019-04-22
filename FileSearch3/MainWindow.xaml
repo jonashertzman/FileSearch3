@@ -54,7 +54,7 @@
 	<Grid>
 		<Grid.Resources>
 
-			<DataTemplate x:Key="SearcInstenceTabTemplate">
+			<DataTemplate x:Key="SearchInstanceTabTemplate">
 				<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
 					<StackPanel Margin="2,0" Orientation="Vertical" MinWidth="20">
 						<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,0,0,1" />
@@ -106,7 +106,7 @@
 			</Border>
 
 			<!--Instance Tabs-->
-			<ItemsControl x:Name="Tab" ItemsSource="{Binding SearchInstances}" Grid.Column="1" Grid.Row="0" ItemTemplate="{StaticResource SearcInstenceTabTemplate}" IsTabStop="False">
+			<ItemsControl x:Name="Tab" ItemsSource="{Binding SearchInstances}" Grid.Column="1" Grid.Row="0" ItemTemplate="{StaticResource SearchInstanceTabTemplate}" IsTabStop="False">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />
