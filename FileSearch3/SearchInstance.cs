@@ -115,10 +115,12 @@ namespace FileSearch
 			set { statusText = value; OnPropertyChanged(nameof(StatusText)); }
 		}
 
+		public string CaseSensitiveFileCountStatus { get; set; }
+
 		string fileCountStatus;
 		public string FileCountStatus
 		{
-			get { return fileCountStatus; }
+			get { return CaseSensitive ? CaseSensitiveFileCountStatus : fileCountStatus; }
 			set { fileCountStatus = value; OnPropertyChanged(nameof(FileCountStatus)); }
 		}
 
@@ -129,7 +131,12 @@ namespace FileSearch
 			set { progress = value; OnPropertyChanged(nameof(Progress)); }
 		}
 
-		public bool CaseSensitive { get; set; }
+		bool caseSensitive;
+		public bool CaseSensitive
+		{
+			get { return caseSensitive; }
+			set { caseSensitive = value; OnPropertyChanged(nameof(CaseSensitive)); OnPropertyChanged(nameof(FileCountStatus)); }
+		}
 
 		internal List<string> StoredSearchPhrases
 		{
@@ -193,14 +200,12 @@ namespace FileSearch
 			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
 			{
 				FileHit fileHit = SearchResults[i];
-				if (fileHit.AnyPhraseHit(CaseSensitive))
+
+				fileHit.Visible = fileHit.AnyPhraseHit(CaseSensitive);
+
+				if (fileHit.AnyPhraseHit(true))
 				{
-					fileHit.Visible = true;
 					caseSensitiveFileCount++;
-				}
-				else
-				{
-					fileHit.Visible = false;
 				}
 
 				FilesWithHits.Add(fileHit);
@@ -212,7 +217,8 @@ namespace FileSearch
 				}
 			}
 
-			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{(CaseSensitive ? caseSensitiveFileCount : FilesWithHits.Count)} files found in {filesSearched} searched";
+			CaseSensitiveFileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{ caseSensitiveFileCount } files found in {filesSearched} searched";
+			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{ FilesWithHits.Count} files found in {filesSearched} searched";
 
 			if (mainWindow.ActiveSearch == this)
 			{
