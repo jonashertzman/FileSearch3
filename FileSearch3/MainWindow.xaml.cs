@@ -641,7 +641,29 @@ namespace FileSearch
 
 		private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			ViewModel.SearchInstances.Add(new SearchInstance());
+			SearchInstance newInstance = new SearchInstance();
+
+			newInstance.CaseSensitive = ActiveSearch.CaseSensitive;
+			newInstance.RegexSearch = ActiveSearch.RegexSearch;
+
+			foreach (TextAttribute attribute in ActiveSearch.SearchPhrases)
+			{
+				newInstance.SearchPhrases.Add(new TextAttribute(attribute.Text, attribute.Used));
+			}
+
+			foreach (TextAttribute attribute in ActiveSearch.SearchDirectories)
+			{
+				newInstance.SearchDirectories.Add(new TextAttribute(attribute.Text, attribute.Used));
+			}
+
+			foreach (TextAttribute attribute in ActiveSearch.SearchFiles)
+			{
+				newInstance.SearchFiles.Add(new TextAttribute(attribute.Text, attribute.Used));
+			}
+
+			ViewModel.SearchInstances.Add(newInstance);
+
+			SetActiveTab(newInstance);
 		}
 
 		#endregion

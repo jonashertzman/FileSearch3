@@ -14,11 +14,17 @@ namespace FileSearch
 			this.Text = text;
 		}
 
+		public TextAttribute(string text, bool used)
+		{
+			this.Text = text;
+			this.Used = used;
+		}
+
 		string text;
 		public string Text
 		{
 			get { return text; }
-			set { text = value; uppercaseText = value.ToUpper(); OnPropertyChanged(nameof(Text)); }
+			set { text = value; UppercaseText = value.ToUpper(); OnPropertyChanged(nameof(Text)); }
 		}
 
 		bool used = true;
@@ -28,10 +34,10 @@ namespace FileSearch
 			set { used = value; OnPropertyChanged(nameof(Used)); }
 		}
 
-		string uppercaseText;
+
 		internal string UppercaseText
 		{
-			get { return uppercaseText; }
+			get; private set;
 		}
 
 		#region INotifyPropertyChanged
