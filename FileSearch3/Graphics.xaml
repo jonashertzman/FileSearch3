@@ -392,38 +392,22 @@
 		</Viewbox>
 	</DataTemplate>
 
-	<DataTemplate x:Key="MasterDetailIcon">
+	<DataTemplate x:Key="ShowOnlyHitsIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="0" Canvas.Top="10" Width="160" Height="20">
+				<Rectangle Canvas.Left="10" Canvas.Top="30" Width="140" Height="40">
 					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
-							<GradientStop Color="#FFA9A9FF" Offset="0" />
-							<GradientStop Color="#FF2A2AFF" Offset="1" />
+						<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+							<GradientStop Color="#FFFF99AA" Offset="0" />
+							<GradientStop Color="Red" Offset="1" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="40" Width="160" Height="20">
+				<Rectangle Canvas.Left="10" Canvas.Top="90" Width="140" Height="40">
 					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="1,0">
-							<GradientStop Color="#FFA9A9FF" Offset="0" />
-							<GradientStop Color="#FF2A2AFF" Offset="1" />
-						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="80" Width="75" Height="70">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="LightPink" Offset="0" />
-							<GradientStop Color="#FFFF5252" Offset="1" />
-						</LinearGradientBrush>
-					</Rectangle.Fill>
-				</Rectangle>
-				<Rectangle Canvas.Left="85" Canvas.Top="80" Width="75" Height="70">
-					<Rectangle.Fill>
-						<LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
-							<GradientStop Color="LightGreen" Offset="0" />
-							<GradientStop Color="#FF03C203" Offset="1" />
+						<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+							<GradientStop Color="#FFFF99AA" Offset="0" />
+							<GradientStop Color="Red" Offset="1" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>

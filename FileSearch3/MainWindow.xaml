@@ -133,14 +133,6 @@
 					<ContentPresenter ContentTemplate="{StaticResource StartSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Start Search" VerticalAlignment="Center" />
 				</StackPanel>
-				<Button.ToolTip>
-					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Path=Command.Text}" />
-							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
 			</Button>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StopSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress}">
@@ -148,14 +140,6 @@
 					<ContentPresenter ContentTemplate="{StaticResource StopSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Stop Search" VerticalAlignment="Center" />
 				</StackPanel>
-				<Button.ToolTip>
-					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Path=Command.Text}" />
-							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
 			</Button>
 
 			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButtonCaseSensitive_Checked" Checked="ToggleButtonCaseSensitive_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
@@ -177,14 +161,6 @@
 					<ContentPresenter ContentTemplate="{StaticResource DeleteSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Delete Search" VerticalAlignment="Center" />
 				</StackPanel>
-				<Button.ToolTip>
-					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Path=Command.Text}" />
-							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
 			</Button>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DuplicateSearch">
@@ -192,14 +168,6 @@
 					<ContentPresenter ContentTemplate="{StaticResource DuplicateSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Duplicate Search" VerticalAlignment="Center" />
 				</StackPanel>
-				<Button.ToolTip>
-					<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Text="{Binding Path=Command.Text}" />
-							<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />
-						</StackPanel>
-					</ToolTip>
-				</Button.ToolTip>
 			</Button>
 
 		</WrapPanel>
@@ -414,19 +382,12 @@
 								</Button.ToolTip>
 							</Button>
 
-							<Button Style="{StaticResource ToolbarButton}">
+							<ToggleButton Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowOnlyHits}">
 								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource MasterDetailIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
+									<TextBlock Text="Show Only Hits" VerticalAlignment="Center" />
 								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<!--<TextBlock Text="F5" Style="{StaticResource ShortcutTooltip}" />-->
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+							</ToggleButton>
 
 						</WrapPanel>
 
