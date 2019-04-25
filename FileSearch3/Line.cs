@@ -135,5 +135,25 @@ namespace FileSearch
 
 		#endregion
 
+		#region Methods
+
+		internal void AddHitSegments(bool[] hitCharacters)
+		{
+			TextSegments.Clear();
+
+			int start = 0;
+			for (int i = 1; i < Text.Length; i++)
+			{
+				if (hitCharacters[start] == hitCharacters[i])
+					continue;
+
+				TextSegments.Add(new TextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+				start = i;
+			}
+			TextSegments.Add(new TextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+		}
+
+		#endregion
+
 	}
 }

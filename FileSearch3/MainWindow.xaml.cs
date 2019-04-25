@@ -238,24 +238,7 @@ namespace FileSearch
 
 							if (previewLine.Type == TextState.Hit)
 							{
-								lastHit = Lines.Count;
-								if (firstHit == -1)
-								{
-									firstHit = lastHit;
-								}
-
-								previewLine.TextSegments.Clear();
-
-								int start = 0;
-								for (int i = 1; i < previewLine.Text.Length; i++)
-								{
-									if (hitCharacters[start] == hitCharacters[i])
-										continue;
-
-									previewLine.TextSegments.Add(new TextSegment(previewLine.Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
-									start = i;
-								}
-								previewLine.TextSegments.Add(new TextSegment(previewLine.Text.Substring(start, previewLine.Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+								previewLine.AddHitSegments(hitCharacters);
 							}
 
 							Lines.Add(previewLine);
@@ -297,24 +280,7 @@ namespace FileSearch
 
 							if (previewLine.Type == TextState.Hit)
 							{
-								lastHit = Lines.Count;
-								if (firstHit == -1)
-								{
-									firstHit = lastHit;
-								}
-
-								previewLine.TextSegments.Clear();
-
-								int start = 0;
-								for (int i = 1; i < line.Length; i++)
-								{
-									if (hitCharacters[start] == hitCharacters[i])
-										continue;
-
-									previewLine.TextSegments.Add(new TextSegment(line.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
-									start = i;
-								}
-								previewLine.TextSegments.Add(new TextSegment(line.Substring(start, line.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+								previewLine.AddHitSegments(hitCharacters);
 							}
 
 							Lines.Add(previewLine);
@@ -328,12 +294,23 @@ namespace FileSearch
 				}
 			}
 
+			for (int i = 0; i < Lines.Count; i++)
+			{
+				if (Lines[i].Type == TextState.Hit)
+				{
+					lastHit = i;
+					if (firstHit == -1)
+					{
+						firstHit = lastHit;
+					}
+				}
+			}
+
 			ViewModel.PreviewLines = Lines;
 
 			Preview.Init();
 
 			MoveToFirstHit();
-
 
 			Mouse.OverrideCursor = null;
 		}
