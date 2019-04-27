@@ -96,6 +96,7 @@ namespace FileSearch
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(ActualWidth - rightMargin, 0, rightMargin, this.ActualHeight));
 
 			for (int i = 0; i < VisibleLines; i++)
 			{

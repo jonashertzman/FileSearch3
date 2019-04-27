@@ -147,7 +147,6 @@
 					<DataTemplate x:Key="Unpressed">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource FindAnyPhraseIcon}" Style="{StaticResource CommonButtonIcon}" />
-
 							<TextBlock Text="Find All Phrases" VerticalAlignment="Center" />
 						</StackPanel>
 					</DataTemplate>
