@@ -142,6 +142,34 @@
 				</StackPanel>
 			</Button>
 
+			<ToggleButton IsChecked="{Binding FindAllPhrases}">
+				<ToggleButton.Resources>
+					<DataTemplate x:Key="Unpressed">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource FindAnyPhraseIcon}" Style="{StaticResource CommonButtonIcon}" />
+
+							<TextBlock Text="Find All Phrases" VerticalAlignment="Center" />
+						</StackPanel>
+					</DataTemplate>
+					<DataTemplate x:Key="Pressed">
+						<StackPanel Orientation="Horizontal">
+							<ContentPresenter ContentTemplate="{StaticResource FindAllPhrasesIcon}" Style="{StaticResource CommonButtonIcon}" />
+							<TextBlock Text="Find All Phrases" VerticalAlignment="Center" />
+						</StackPanel>
+					</DataTemplate>
+				</ToggleButton.Resources>
+				<ToggleButton.Style>
+					<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+						<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+						<Style.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</ToggleButton.Style>
+			</ToggleButton>
+
 			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButtonCaseSensitive_Checked" Checked="ToggleButtonCaseSensitive_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CaseSemsitiveIcon}" Style="{StaticResource CommonButtonIcon}" />

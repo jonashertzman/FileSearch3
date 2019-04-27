@@ -14,10 +14,10 @@
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="40,10" IsClosed="True">
+								<PathFigure StartPoint="40,20" IsClosed="True">
 									<PathFigure.Segments>
-										<LineSegment Point="130,70" />
-										<LineSegment Point="40,130" />
+										<LineSegment Point="130,80" />
+										<LineSegment Point="40,140" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
@@ -31,7 +31,7 @@
 	<DataTemplate x:Key="StopSearchIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="20" Canvas.Top="20" Width="110" Height="110">
+				<Rectangle Canvas.Left="30" Canvas.Top="30" Width="100" Height="100">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
 							<GradientStop Color="#FFDE4B4B" Offset="0" />
@@ -39,6 +39,88 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
+	<DataTemplate x:Key="FindAnyPhraseIcon">
+		<Viewbox>
+			<Canvas Width="160" Height="160">
+				<Rectangle Canvas.Left="20" Canvas.Top="5" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="20" Canvas.Top="60" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="20" Canvas.Top="115" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="A" Canvas.Top="-15" Canvas.Left="80" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="B	" Canvas.Top="40" Canvas.Left="80" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="C" Canvas.Top="95" Canvas.Left="80" />
+				<Path StrokeThickness="8" Stroke="Red">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="25,75" IsClosed="False">
+									<PathFigure.Segments>
+										<LineSegment Point="35,88" />
+										<LineSegment Point="55,70" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+			</Canvas>
+		</Viewbox>
+	</DataTemplate>
+
+	<DataTemplate x:Key="FindAllPhrasesIcon">
+		<Viewbox>
+			<Canvas Width="160" Height="160">
+				<Rectangle Canvas.Left="20" Canvas.Top="10" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="20" Canvas.Top="60" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="20" Canvas.Top="110" Width="40" Height="40" Stroke="Black" StrokeThickness="2" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="A" Canvas.Top="-15" Canvas.Left="80" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="B	" Canvas.Top="40" Canvas.Left="80" />
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="65" Text="C" Canvas.Top="95" Canvas.Left="80" />
+				<Path StrokeThickness="8" Stroke="Red">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="25,25" IsClosed="False">
+									<PathFigure.Segments>
+										<LineSegment Point="35,38" />
+										<LineSegment Point="55,20" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Path StrokeThickness="8" Stroke="Red">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="25,75" IsClosed="False">
+									<PathFigure.Segments>
+										<LineSegment Point="35,88" />
+										<LineSegment Point="55,70" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
+				<Path StrokeThickness="8" Stroke="Red">
+					<Path.Data>
+						<PathGeometry>
+							<PathGeometry.Figures>
+								<PathFigure StartPoint="25,125" IsClosed="False">
+									<PathFigure.Segments>
+										<LineSegment Point="35,138" />
+										<LineSegment Point="55,120" />
+									</PathFigure.Segments>
+								</PathFigure>
+							</PathGeometry.Figures>
+						</PathGeometry>
+					</Path.Data>
+				</Path>
 			</Canvas>
 		</Viewbox>
 	</DataTemplate>
