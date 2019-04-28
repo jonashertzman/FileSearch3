@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FileSearch
 {
@@ -16,8 +17,6 @@ namespace FileSearch
 
 		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
-
-		int caseSensitiveFileCount = 0;
 
 		#endregion
 
@@ -44,6 +43,7 @@ namespace FileSearch
 
 		#region Properties
 
+		[IgnoreDataMember]
 		public bool SearchInProgress
 		{
 			get { return backgroundSearch != null && backgroundSearch.SearchInProgress; }
@@ -59,11 +59,11 @@ namespace FileSearch
 
 		public bool Renamed { get; set; } = false;
 
-		bool isSelected;
-		public bool IsSelected
+		bool selected;
+		public bool Selected
 		{
-			get { return isSelected; }
-			set { isSelected = value; OnPropertyChanged(nameof(IsSelected)); }
+			get { return selected; }
+			set { selected = value; OnPropertyChanged(nameof(Selected)); }
 		}
 
 		bool regexSearch;
@@ -71,6 +71,13 @@ namespace FileSearch
 		{
 			get { return regexSearch; }
 			set { regexSearch = value; OnPropertyChanged(nameof(RegexSearch)); }
+		}
+
+		bool findAllPrases;
+		public bool FindAllPhrases
+		{
+			get { return findAllPrases; }
+			set { findAllPrases = value; OnPropertyChanged(nameof(FindAllPhrases)); }
 		}
 
 		ObservableCollection<TextAttribute> searchPhrases = new ObservableCollection<TextAttribute>();
@@ -101,30 +108,32 @@ namespace FileSearch
 			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
-		Dictionary<string, PhraseHit> phraseSums = new Dictionary<string, PhraseHit>();
-		public Dictionary<string, PhraseHit> PhraseSums
+		Dictionary<string, int> phraseSums = new Dictionary<string, int>();
+		[IgnoreDataMember]
+		public Dictionary<string, int> PhraseSums
 		{
 			get { return phraseSums; }
 			set { phraseSums = value; OnPropertyChanged(nameof(PhraseSums)); }
 		}
 
 		string statusText;
+		[IgnoreDataMember]
 		public string StatusText
 		{
 			get { return statusText; }
 			set { statusText = value; OnPropertyChanged(nameof(StatusText)); }
 		}
 
-		public string CaseSensitiveFileCountStatus { get; set; }
-
 		string fileCountStatus;
+		[IgnoreDataMember]
 		public string FileCountStatus
 		{
-			get { return CaseSensitive ? CaseSensitiveFileCountStatus : fileCountStatus; }
+			get { return fileCountStatus; }
 			set { fileCountStatus = value; OnPropertyChanged(nameof(FileCountStatus)); }
 		}
 
 		int progress;
+		[IgnoreDataMember]
 		public int Progress
 		{
 			get { return progress; }
@@ -135,7 +144,7 @@ namespace FileSearch
 		public bool CaseSensitive
 		{
 			get { return caseSensitive; }
-			set { caseSensitive = value; OnPropertyChanged(nameof(CaseSensitive)); OnPropertyChanged(nameof(FileCountStatus)); }
+			set { caseSensitive = value; OnPropertyChanged(nameof(CaseSensitive)); }
 		}
 
 		internal List<string> StoredSearchPhrases
@@ -155,6 +164,8 @@ namespace FileSearch
 				return l;
 			}
 		}
+
+		public int FilesSearched { get; set; }
 
 		#endregion
 
@@ -182,7 +193,6 @@ namespace FileSearch
 			//LogedItems.Clear();
 			StatusText = "";
 			FileCountStatus = "";
-			caseSensitiveFileCount = 0;
 
 			backgroundSearch = new BackgroundSearch(this);
 		}
@@ -196,33 +206,16 @@ namespace FileSearch
 		{
 			StatusText = statusText;
 			Progress = percentageComplete;
+			FilesSearched = filesSearched;
 
 			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
 			{
-				FileHit fileHit = SearchResults[i];
-
-				fileHit.Visible = fileHit.AnyPhraseHit(CaseSensitive);
-
-				if (fileHit.AnyPhraseHit(true))
-				{
-					caseSensitiveFileCount++;
-				}
-
-				FilesWithHits.Add(fileHit);
-
-				foreach (KeyValuePair<string, PhraseHit> phraseHit in SearchResults[i].PhraseHits)
-				{
-					PhraseSums[phraseHit.Key].Count += phraseHit.Value.Count;
-					PhraseSums[phraseHit.Key].CaseSensitiveCount += phraseHit.Value.CaseSensitiveCount;
-				}
+				FilesWithHits.Add(SearchResults[i]);
 			}
-
-			CaseSensitiveFileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{ caseSensitiveFileCount } files found in {filesSearched} searched";
-			FileCountStatus = filesSearched == 0 ? $"{FilesWithHits.Count} files found" : $"{ FilesWithHits.Count} files found in {filesSearched} searched";
 
 			if (mainWindow.ActiveSearch == this)
 			{
-				mainWindow.AddPhraseColumns();
+				mainWindow.UpdateStats();
 			}
 		}
 

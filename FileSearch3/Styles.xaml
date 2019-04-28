@@ -32,13 +32,13 @@
 							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
 						</Trigger>
 
-						<DataTrigger Binding="{Binding IsSelected}" Value="True">
+						<DataTrigger Binding="{Binding Selected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}" />
 							<Setter Property="Margin" Value="0,2,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
 						</DataTrigger>
-						<DataTrigger Binding="{Binding IsSelected}" Value="False">
+						<DataTrigger Binding="{Binding Selected}" Value="False">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
 							<Setter Property="Margin" Value="0,4,0,0" />

@@ -47,7 +47,7 @@ namespace FileSearch
 
 			standardColumnCount = dataGridFileList.Columns.Count;
 
-			AddPhraseColumns();
+			UpdateStats();
 		}
 
 		#endregion
@@ -77,16 +77,23 @@ namespace FileSearch
 
 			if (ViewModel.SearchInstances.Count == 0)
 			{
-				ViewModel.SearchInstances.Add(new SearchInstance() { IsSelected = true });
+				ViewModel.SearchInstances.Add(new SearchInstance() { Selected = true });
 			}
 
 			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
-				if (s.IsSelected)
+				if (s.Selected)
 				{
 					ViewModel.ActiveSearchInstance = s;
 					break;
 				}
+			}
+
+			// Only for backwards compatibility against old settings file.
+			if (ViewModel.ActiveSearchInstance == null)
+			{
+				ViewModel.SearchInstances[0].Selected = true;
+				ViewModel.ActiveSearchInstance = ViewModel.SearchInstances[0];
 			}
 		}
 
@@ -114,36 +121,57 @@ namespace FileSearch
 
 			foreach (SearchInstance s in AppSettings.SearchInstances)
 			{
-				s.IsSelected = s == searchInstance;
+				s.Selected = s == searchInstance;
 			}
 
-			AddPhraseColumns();
+			UpdateStats();
 		}
 
-		internal void AddPhraseColumns()
+		internal void UpdateStats()
 		{
 			while (dataGridFileList.Columns.Count > standardColumnCount)
 			{
 				dataGridFileList.Columns.RemoveAt(standardColumnCount);
 			}
 
-			foreach (string t in ActiveSearch.StoredSearchPhrases)
+			foreach (string s in ActiveSearch.StoredSearchPhrases)
+			{
+				ActiveSearch.PhraseSums[s] = 0;
+			}
+
+			int filesFound = 0;
+
+			foreach (FileHit f in ActiveSearch.FilesWithHits)
+			{
+				if (ActiveSearch.FindAllPhrases ? f.AllPrasesHit(ActiveSearch.CaseSensitive) : f.AnyPhraseHit(ActiveSearch.CaseSensitive))
+				{
+					filesFound++;
+					f.Visible = true;
+
+					foreach (string s in ActiveSearch.StoredSearchPhrases)
+					{
+						ActiveSearch.PhraseSums[s] += f.PhraseHits[s].GetCount(ActiveSearch.CaseSensitive);
+					}
+				}
+				else
+				{
+					f.Visible = false;
+				}
+			}
+
+			int i = 0;
+			foreach (string s in ActiveSearch.StoredSearchPhrases)
 			{
 				dataGridFileList.Columns.Add(new DataGridTextColumn()
 				{
-					Header = $"{t} ({(ActiveSearch.CaseSensitive ? ActiveSearch.PhraseSums[t].CaseSensitiveCount : ActiveSearch.PhraseSums[t].Count)})",
-					Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHits[{t}].CaseSensitiveCount") : new Binding($"PhraseHits[{t}].Count"),
+					Header = $"{s} ({ActiveSearch.PhraseSums[s]})",
+					Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHitsList[{i}].CaseSensitiveCount") : new Binding($"PhraseHitsList[{i}].Count"),
 					CellStyle = (Style)FindResource("RightAlignedCell")
 				});
+				i++;
 			}
-		}
 
-		internal void UpdateFileList()
-		{
-			foreach (FileHit f in ActiveSearch.FilesWithHits)
-			{
-				f.Visible = f.AnyPhraseHit(ActiveSearch.CaseSensitive);
-			}
+			ActiveSearch.FileCountStatus = ActiveSearch.FilesSearched == 0 ? $"{filesFound} files found" : $"{ filesFound} files found in {ActiveSearch.FilesSearched} searched";
 		}
 
 		private void UpdatePreview()
@@ -439,10 +467,9 @@ namespace FileSearch
 			updatePrevirewTimer.Start();
 		}
 
-		private void ToggleButtonCaseSensitive_Checked(object sender, RoutedEventArgs e)
+		private void ToggleButton_Checked(object sender, RoutedEventArgs e)
 		{
-			AddPhraseColumns();
-			UpdateFileList();
+			UpdateStats();
 			UpdatePreview();
 		}
 
@@ -591,7 +618,7 @@ namespace FileSearch
 
 			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
 			{
-				ActiveSearch.PhraseSums.Add(t.Text, new PhraseHit());
+				ActiveSearch.PhraseSums.Add(t.Text, 0);
 			}
 
 			ActiveSearch.StartSearch(this);

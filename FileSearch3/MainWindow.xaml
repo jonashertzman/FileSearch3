@@ -142,7 +142,7 @@
 				</StackPanel>
 			</Button>
 
-			<ToggleButton IsChecked="{Binding FindAllPhrases}">
+			<ToggleButton IsChecked="{Binding ActiveSearchInstance.FindAllPhrases}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked">
 				<ToggleButton.Resources>
 					<DataTemplate x:Key="Unpressed">
 						<StackPanel Orientation="Horizontal">
@@ -169,7 +169,7 @@
 				</ToggleButton.Style>
 			</ToggleButton>
 
-			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButtonCaseSensitive_Checked" Checked="ToggleButtonCaseSensitive_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
+			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButton_Checked" Checked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CaseSemsitiveIcon}" Style="{StaticResource CommonButtonIcon}" />
 					<TextBlock Text="Case Sensitive" VerticalAlignment="Center" />
@@ -409,7 +409,7 @@
 								</Button.ToolTip>
 							</Button>
 
-							<ToggleButton Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowOnlyHits}">
+							<ToggleButton Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowOnlyHits}" IsEnabled="False">
 								<StackPanel Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
 									<TextBlock Text="Show Only Hits" VerticalAlignment="Center" />

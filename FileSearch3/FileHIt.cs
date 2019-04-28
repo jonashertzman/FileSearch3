@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Runtime.Serialization;
 
 namespace FileSearch
 {
@@ -32,7 +33,22 @@ namespace FileSearch
 
 		public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
 
+		[IgnoreDataMember]
+		public List<PhraseHit> PhraseHitsList
+		{
+			get
+			{
+				List<PhraseHit> l = new List<PhraseHit>();
+				foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
+				{
+					l.Add(kvp.Value);
+				}
+				return l;
+			}
+		}
+
 		bool visible = true;
+		[IgnoreDataMember]
 		public bool Visible
 		{
 			get { return visible; }
@@ -78,6 +94,34 @@ namespace FileSearch
 				}
 			}
 			return false;
+		}
+
+		internal bool AllPrasesHit(bool caseSensitive)
+		{
+			if (PhraseHits.Count == 0)
+				return true;
+
+			if (caseSensitive)
+			{
+				foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
+				{
+					if (kvp.Value.CaseSensitiveCount == 0)
+					{
+						return false;
+					}
+				}
+			}
+			else
+			{
+				foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
+				{
+					if (kvp.Value.Count == 0)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 
 		#endregion
