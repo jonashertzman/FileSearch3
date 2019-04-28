@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.Serialization;
 
 namespace FileSearch
@@ -17,6 +18,11 @@ namespace FileSearch
 		{
 			this.Path = path;
 
+			FileInfo fileInfo = new FileInfo(path);
+
+			Size = fileInfo.Length;
+			Date = fileInfo.LastWriteTime.ToString("g");
+
 			foreach (TextAttribute t in searchPhrases)
 			{
 				PhraseHits.Add(t.Text, new PhraseHit());
@@ -28,6 +34,10 @@ namespace FileSearch
 		#region Properties
 
 		public string Path { get; set; }
+
+		public string Date { get; set; }
+
+		public long Size { get; set; }
 
 		internal bool Selected { get; set; }
 

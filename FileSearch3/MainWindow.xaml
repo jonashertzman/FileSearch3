@@ -262,8 +262,14 @@
 					</DataGrid.RowStyle>
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
-						<DataGridTextColumn Binding="{x:Null}" Header="Size" />
-						<DataGridTextColumn Binding="{x:Null}" Header="Date" />
+						<DataGridTextColumn Binding="{Binding Size}" Header="Size">
+							<DataGridTextColumn.ElementStyle>
+								<Style>
+									<Setter Property="TextBlock.TextAlignment" Value="Right" />
+								</Style>
+							</DataGridTextColumn.ElementStyle>
+						</DataGridTextColumn>
+						<DataGridTextColumn Binding="{Binding Date}" Header="Date" />
 					</DataGrid.Columns>
 				</local:ExtendedDataGrid>
 
