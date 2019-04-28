@@ -19,8 +19,10 @@ namespace FileSearch
 			this.Path = path;
 
 			FileInfo fileInfo = new FileInfo(path);
-
-			Size = fileInfo.Length;
+			if (fileInfo.Exists)
+			{
+				Size = fileInfo.Length;
+			}
 			Date = fileInfo.LastWriteTime.ToString("g");
 
 			foreach (TextAttribute t in searchPhrases)
