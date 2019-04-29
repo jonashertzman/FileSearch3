@@ -80,6 +80,20 @@ namespace FileSearch
 			set { findAllPrases = value; OnPropertyChanged(nameof(FindAllPhrases)); }
 		}
 
+		bool showOnlyHits;
+		public bool ShowOnlyHits
+		{
+			get { return showOnlyHits; }
+			set { showOnlyHits = value; OnPropertyChanged(nameof(ShowOnlyHits)); }
+		}
+
+		int surroundingLines;
+		public int SurroundingLines
+		{
+			get { return surroundingLines; }
+			set { surroundingLines = value; OnPropertyChanged(nameof(SurroundingLines)); }
+		}
+
 		ObservableCollection<TextAttribute> searchPhrases = new ObservableCollection<TextAttribute>();
 		public ObservableCollection<TextAttribute> SearchPhrases
 		{
