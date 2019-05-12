@@ -423,7 +423,7 @@
 							</ToggleButton>
 
 							<StackPanel Orientation="Horizontal" Margin="02" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
-								<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" Width="35" VerticalAlignment="Center">
+								<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}"  Width="35" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
 									<ComboBoxItem Content="0" />
 									<ComboBoxItem Content="1" />
 									<ComboBoxItem Content="2" />

@@ -200,9 +200,13 @@ namespace FileSearch
 				string allText = "";
 				int lineNumber = 1;
 
-				try
+				if (Directory.Exists(f.Path))
 				{
-					if (File.Exists(f.Path))
+					Lines.Add(new Line() { Type = TextState.Header, Text = f.Path + "   [FOLDER]" });
+				}
+				else
+				{
+					try
 					{
 						ViewModel.FileEncoding = Unicode.GetEncoding(f.Path);
 						ViewModel.FileDirty = false;
@@ -224,103 +228,104 @@ namespace FileSearch
 						{
 							allLines = File.ReadAllLines(f.Path, ViewModel.FileEncoding.Type);
 						}
-					}
-				}
-				catch (IOException e)
-				{
-					MessageBox.Show(e.Message, e.GetType().Name);
-					continue;
-				}
 
-				if (ActiveSearch.RegexSearch)
-				{
-					List<RegexHit> regexHits = new List<RegexHit>();
-					foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
+					}
+					catch (Exception e)
 					{
-						Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
-						while (match.Success)
-						{
-							regexHits.Add(new RegexHit(match.Index, match.Length));
-							match = match.NextMatch();
-						}
+						MessageBox.Show(e.Message, e.GetType().Name);
+						continue;
 					}
 
-					int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
-
-					MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
-
-					foreach (Match newLine in newLines)
+					if (ActiveSearch.RegexSearch)
 					{
-						Line previewLine = new Line();
-						previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
-						previewLine.CurrentFile = f.Path;
-						previewLine.LineNumber = lineNumber++;
-						int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
-
-						bool[] hitCharacters = new bool[previewLine.Text.Length];
-
-						foreach (RegexHit regexHit in regexHits)
+						List<RegexHit> regexHits = new List<RegexHit>();
+						foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
 						{
-							if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
+							Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
+							while (match.Success)
 							{
-								previewLine.Type = TextState.Hit;
-								int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
-								int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
-
-								for (int i = selectionStartIndex; i < selectionEndIndex; i++)
-								{
-									hitCharacters[i] = true;
-								}
+								regexHits.Add(new RegexHit(match.Index, match.Length));
+								match = match.NextMatch();
 							}
 						}
 
-						if (previewLine.Type == TextState.Hit)
+						int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
+
+						MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
+
+						foreach (Match newLine in newLines)
 						{
-							previewLine.AddHitSegments(hitCharacters);
-						}
+							Line previewLine = new Line();
+							previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
+							previewLine.CurrentFile = f.Path;
+							previewLine.LineNumber = lineNumber++;
+							int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
 
-						Lines.Add(previewLine);
+							bool[] hitCharacters = new bool[previewLine.Text.Length];
 
-						lineSourceIndex += lineSourceLength;
-					}
-				}
-				else
-				{
-					foreach (string line in allLines)
-					{
-						Line previewLine = new Line();
-						bool[] hitCharacters = new bool[line.Length];
-						previewLine.Text = line;
-						previewLine.CurrentFile = f.Path;
-						previewLine.LineNumber = lineNumber++;
-
-						foreach (string phrase in ActiveSearch.StoredSearchPhrases)
-						{
-							int hitIndex = 0;
-							while (true)
+							foreach (RegexHit regexHit in regexHits)
 							{
-								hitIndex = line.IndexOf(phrase, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-								if (hitIndex == -1)
+								if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
 								{
-									break;
-								}
+									previewLine.Type = TextState.Hit;
+									int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
+									int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
 
-								for (int i = hitIndex; i < hitIndex + phrase.Length; i++)
-								{
-									hitCharacters[i] = true;
+									for (int i = selectionStartIndex; i < selectionEndIndex; i++)
+									{
+										hitCharacters[i] = true;
+									}
 								}
-
-								hitIndex += phrase.Length;
-								previewLine.Type = TextState.Hit;
 							}
-						}
 
-						if (previewLine.Type == TextState.Hit)
+							if (previewLine.Type == TextState.Hit)
+							{
+								previewLine.AddHitSegments(hitCharacters);
+							}
+
+							Lines.Add(previewLine);
+
+							lineSourceIndex += lineSourceLength;
+						}
+					}
+					else
+					{
+						foreach (string line in allLines)
 						{
-							previewLine.AddHitSegments(hitCharacters);
-						}
+							Line previewLine = new Line();
+							bool[] hitCharacters = new bool[line.Length];
+							previewLine.Text = line;
+							previewLine.CurrentFile = f.Path;
+							previewLine.LineNumber = lineNumber++;
 
-						Lines.Add(previewLine);
+							foreach (string phrase in ActiveSearch.StoredSearchPhrases)
+							{
+								int hitIndex = 0;
+								while (true)
+								{
+									hitIndex = line.IndexOf(phrase, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+									if (hitIndex == -1)
+									{
+										break;
+									}
+
+									for (int i = hitIndex; i < hitIndex + phrase.Length; i++)
+									{
+										hitCharacters[i] = true;
+									}
+
+									hitIndex += phrase.Length;
+									previewLine.Type = TextState.Hit;
+								}
+							}
+
+							if (previewLine.Type == TextState.Hit)
+							{
+								previewLine.AddHitSegments(hitCharacters);
+							}
+
+							Lines.Add(previewLine);
+						}
 					}
 				}
 				if (previewFiles.Count > 1)
@@ -542,6 +547,11 @@ namespace FileSearch
 		private void ToggleButton_Checked(object sender, RoutedEventArgs e)
 		{
 			UpdateStats();
+			UpdatePreview();
+		}
+
+		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
 			UpdatePreview();
 		}
 
