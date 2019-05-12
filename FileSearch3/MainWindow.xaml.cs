@@ -364,9 +364,9 @@ namespace FileSearch
 						{
 							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
 							{
-								if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
+								if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
 								{
-									Lines[i + j].Type = TextState.Surround;
+									Lines[i - j].Type = TextState.Surround;
 								}
 								else
 								{
@@ -376,9 +376,9 @@ namespace FileSearch
 
 							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
 							{
-								if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
+								if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
 								{
-									Lines[i - j].Type = TextState.Surround;
+									Lines[i + j].Type = TextState.Surround;
 								}
 								else
 								{
@@ -389,11 +389,27 @@ namespace FileSearch
 					}
 				}
 
+				bool spaceInserted = false;
+
 				for (int i = Lines.Count - 1; i >= 0; i--)
 				{
 					if (Lines[i].Type == TextState.Miss)
 					{
-						Lines.RemoveAt(i);
+						if (!spaceInserted && ActiveSearch.SurroundingLines > 0)
+						{
+							Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+							Lines[i].Type = TextState.Surround;
+							Lines[i].LineNumber = null;
+							spaceInserted = true;
+						}
+						else
+						{
+							Lines.RemoveAt(i);
+						}
+					}
+					else
+					{
+						spaceInserted = false;
 					}
 				}
 			}
