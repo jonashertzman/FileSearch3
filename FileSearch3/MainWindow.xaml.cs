@@ -198,6 +198,7 @@ namespace FileSearch
 			{
 				string[] allLines = new string[0];
 				string allText = "";
+				int lineNumber = 1;
 
 				try
 				{
@@ -253,6 +254,7 @@ namespace FileSearch
 						Line previewLine = new Line();
 						previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
 						previewLine.CurrentFile = f.Path;
+						previewLine.LineNumber = lineNumber++;
 						int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
 
 						bool[] hitCharacters = new bool[previewLine.Text.Length];
@@ -284,7 +286,6 @@ namespace FileSearch
 				}
 				else
 				{
-					int lineNumber = 1;
 					foreach (string line in allLines)
 					{
 						Line previewLine = new Line();
@@ -328,6 +329,8 @@ namespace FileSearch
 				}
 			}
 
+			RemoveMissLines(Lines);
+
 			for (int i = 0; i < Lines.Count; i++)
 			{
 				if (Lines[i].Type == TextState.Hit)
@@ -347,6 +350,53 @@ namespace FileSearch
 			MoveToFirstHit();
 
 			Mouse.OverrideCursor = null;
+		}
+
+		private void RemoveMissLines(ObservableCollection<Line> Lines)
+		{
+			if (ActiveSearch.ShowOnlyHits)
+			{
+				if (ActiveSearch.SurroundingLines > 0)
+				{
+					for (int i = 0; i < Lines.Count; i++)
+					{
+						if (Lines[i].Type == TextState.Hit)
+						{
+							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+							{
+								if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
+								{
+									Lines[i + j].Type = TextState.Surround;
+								}
+								else
+								{
+									break;
+								}
+							}
+
+							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+							{
+								if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
+								{
+									Lines[i - j].Type = TextState.Surround;
+								}
+								else
+								{
+									break;
+								}
+							}
+						}
+					}
+				}
+
+				for (int i = Lines.Count - 1; i >= 0; i--)
+				{
+					if (Lines[i].Type == TextState.Miss)
+					{
+						Lines.RemoveAt(i);
+					}
+				}
+			}
 		}
 
 		private void MoveToFirstHit()

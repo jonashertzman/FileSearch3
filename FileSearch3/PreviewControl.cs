@@ -123,7 +123,7 @@ namespace FileSearch
 				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
 
 				// Draw line background
-				if (line.Type != TextState.Normal)
+				if (line.Type != TextState.Miss)
 				{
 					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth - rightMargin, 0), characterHeight));
 				}
@@ -825,7 +825,7 @@ namespace FileSearch
 		private void SetLineText(int index, string newText)
 		{
 			Lines[index].Text = newText;
-			Lines[index].Type = TextState.Normal;
+			Lines[index].Type = TextState.Miss;
 			if (Lines[index].LineNumber == null && newText != "")
 			{
 				Lines[index].LineNumber = -1;
@@ -839,18 +839,15 @@ namespace FileSearch
 			int lineIndex = selection.TopLine;
 			do
 			{
-				if (Lines[lineIndex].Type != TextState.Filler)
+				if (sb.Length > 0)
 				{
-					if (sb.Length > 0)
-					{
-						sb.AppendLine("");
-					}
-					int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
-					int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter : Lines[lineIndex].Text.Length - startCharacter;
-					if (startCharacter < Lines[lineIndex].Text.Length)
-					{
-						sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
-					}
+					sb.AppendLine("");
+				}
+				int startCharacter = lineIndex == selection.TopLine ? selection.TopCharacter : 0;
+				int length = lineIndex == selection.BottomLine ? selection.BottomCharacter - startCharacter : Lines[lineIndex].Text.Length - startCharacter;
+				if (startCharacter < Lines[lineIndex].Text.Length)
+				{
+					sb.Append(Lines[lineIndex].Text.Substring(startCharacter, Math.Min(length, Lines[lineIndex].Text.Length - startCharacter)));
 				}
 				lineIndex++;
 			} while (lineIndex <= selection.BottomLine);

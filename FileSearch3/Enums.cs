@@ -2,10 +2,11 @@
 {
 	public enum TextState
 	{
-		Normal,
+		Miss,
 		Hit,
 		Header,
 		Filler,
+		Surround
 	}
 
 	public enum NewlineMode

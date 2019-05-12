@@ -147,10 +147,10 @@ namespace FileSearch
 				if (hitCharacters[start] == hitCharacters[i])
 					continue;
 
-				TextSegments.Add(new TextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+				TextSegments.Add(new TextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Miss));
 				start = i;
 			}
-			TextSegments.Add(new TextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Normal));
+			TextSegments.Add(new TextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Miss));
 		}
 
 		#endregion
