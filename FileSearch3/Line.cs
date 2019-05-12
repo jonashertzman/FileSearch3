@@ -34,8 +34,6 @@ namespace FileSearch
 			set
 			{
 				text = value;
-
-
 				TextSegments.Clear();
 				TextSegments.Add(new TextSegment(value, Type));
 			}
@@ -100,6 +98,8 @@ namespace FileSearch
 						return AppSettings.HeaderForeground;
 					case TextState.Hit:
 						return AppSettings.HitForeground;
+					case TextState.SurroundSpacing:
+						return AppSettings.HeaderForeground;
 
 					default:
 						return AppSettings.NormalForeground;

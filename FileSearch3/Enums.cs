@@ -6,7 +6,8 @@
 		Hit,
 		Header,
 		Filler,
-		Surround
+		Surround,
+		SurroundSpacing
 	}
 
 	public enum NewlineMode

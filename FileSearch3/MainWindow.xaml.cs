@@ -397,8 +397,8 @@ namespace FileSearch
 					{
 						if (!spaceInserted && ActiveSearch.SurroundingLines > 0)
 						{
+							Lines[i].Type = TextState.SurroundSpacing;
 							Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-							Lines[i].Type = TextState.Surround;
 							Lines[i].LineNumber = null;
 							spaceInserted = true;
 						}
