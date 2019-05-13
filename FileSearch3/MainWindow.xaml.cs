@@ -334,10 +334,17 @@ namespace FileSearch
 				}
 			}
 
-			RemoveMissLines(Lines);
+			if (ActiveSearch.ShowOnlyHits)
+			{
+				RemoveMissLines(ref Lines);
+			}
 
+			int maxLineNumber = 1;
 			for (int i = 0; i < Lines.Count; i++)
 			{
+				if (Lines[i].LineNumber > maxLineNumber)
+					maxLineNumber = (int)Lines[i].LineNumber;
+
 				if (Lines[i].Type == TextState.Hit)
 				{
 					lastHit = i;
@@ -350,74 +357,80 @@ namespace FileSearch
 
 			ViewModel.PreviewLines = Lines;
 
-			Preview.Init();
+			Preview.Init(maxLineNumber.ToString().Length);
 
 			MoveToFirstHit();
 
 			Mouse.OverrideCursor = null;
 		}
 
-		private void RemoveMissLines(ObservableCollection<Line> Lines)
+		private void RemoveMissLines(ref ObservableCollection<Line> Lines)
 		{
-			if (ActiveSearch.ShowOnlyHits)
+
+			if (ActiveSearch.SurroundingLines > 0)
 			{
-				if (ActiveSearch.SurroundingLines > 0)
+				for (int i = 0; i < Lines.Count; i++)
 				{
-					for (int i = 0; i < Lines.Count; i++)
+					if (Lines[i].Type == TextState.Hit)
 					{
-						if (Lines[i].Type == TextState.Hit)
+						for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
 						{
-							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+							if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
 							{
-								if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
-								{
-									Lines[i - j].Type = TextState.Surround;
-								}
-								else
-								{
-									break;
-								}
+								Lines[i - j].Type = TextState.Surround;
 							}
-
-							for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+							else
 							{
-								if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
-								{
-									Lines[i + j].Type = TextState.Surround;
-								}
-								else
-								{
-									break;
-								}
+								break;
 							}
 						}
-					}
-				}
 
-				bool spaceInserted = false;
-
-				for (int i = Lines.Count - 1; i >= 0; i--)
-				{
-					if (Lines[i].Type == TextState.Miss)
-					{
-						if (!spaceInserted && ActiveSearch.SurroundingLines > 0)
+						for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
 						{
-							Lines[i].Type = TextState.SurroundSpacing;
-							Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-							Lines[i].LineNumber = null;
-							spaceInserted = true;
+							if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
+							{
+								Lines[i + j].Type = TextState.Surround;
+							}
+							else
+							{
+								break;
+							}
 						}
-						else
-						{
-							Lines.RemoveAt(i);
-						}
-					}
-					else
-					{
-						spaceInserted = false;
 					}
 				}
 			}
+
+			bool spaceInserted = false;
+
+			for (int i = Lines.Count - 1; i >= 0; i--)
+			{
+				if (Lines[i].Type == TextState.Miss)
+				{
+					if (!spaceInserted && ActiveSearch.SurroundingLines > 0)
+					{
+						Lines[i].Type = TextState.SurroundSpacing;
+						Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+						Lines[i].LineNumber = null;
+						spaceInserted = true;
+					}
+				}
+				else
+				{
+					spaceInserted = false;
+				}
+			}
+
+			// Removing items from a collection is slow, much faster to create a new collection and add all wanted items. 
+			ObservableCollection<Line> newLines = new ObservableCollection<Line>();
+			foreach (Line l in Lines)
+			{
+				if (l.Type != TextState.Miss)
+				{
+					newLines.Add(l);
+				}
+			}
+
+			Lines = newLines;
 		}
 
 		private void MoveToFirstHit()

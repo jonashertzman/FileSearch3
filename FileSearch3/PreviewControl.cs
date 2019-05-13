@@ -20,6 +20,7 @@ namespace FileSearch
 		private double rightMargin;
 		private double textMargin;
 		private double maxTextwidth = 0;
+		private int lineNumberLength;
 
 		private Selection selection = null;
 
@@ -89,7 +90,7 @@ namespace FileSearch
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
 			textMargin = RoundToWholePixels(3);
-			lineNumberMargin = (characterWidth * Lines.Count.ToString().Length) + (2 * textMargin);
+			lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
 			rightMargin = RoundToWholePixels(10);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
@@ -742,8 +743,9 @@ namespace FileSearch
 
 		#region Methods
 
-		internal void Init()
+		internal void Init(int lineNumberLength)
 		{
+			this.lineNumberLength = lineNumberLength;
 			selection = null;
 			VerticalOffset = 0;
 			HorizontalOffset = 0;
