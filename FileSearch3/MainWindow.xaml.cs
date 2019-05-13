@@ -202,7 +202,8 @@ namespace FileSearch
 
 				if (Directory.Exists(f.Path))
 				{
-					Lines.Add(new Line() { Type = TextState.Header, Text = f.Path + "   [FOLDER]" });
+					Lines.Add(new Line() { Type = TextState.Header, Text = f.Path });
+					Lines.Add(new Line() { Type = TextState.SurroundSpacing, Text = "[FOLDER]" });
 				}
 				else
 				{
@@ -406,7 +407,7 @@ namespace FileSearch
 			{
 				if (Lines[i].Type == TextState.Miss)
 				{
-					if (!spaceInserted && ActiveSearch.SurroundingLines > 0)
+					if (!spaceInserted && ActiveSearch.SurroundingLines > 0 && ActiveSearch.StoredSearchPhrases.Count > 0)
 					{
 						Lines[i].Type = TextState.SurroundSpacing;
 						Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
