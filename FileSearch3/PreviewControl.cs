@@ -697,15 +697,6 @@ namespace FileSearch
 		}
 
 
-		public static readonly DependencyProperty CurrentMatchLengthProperty = DependencyProperty.Register("CurrentMatchLength", typeof(int), typeof(PreviewControl), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.AffectsRender));
-
-		public int CurrentMatchLength
-		{
-			get { return (int)GetValue(CurrentMatchLengthProperty); }
-			set { SetValue(CurrentMatchLengthProperty, value); }
-		}
-
-
 		public static readonly DependencyProperty VisibleLinesProperty = DependencyProperty.Register("VisibleLines", typeof(int), typeof(PreviewControl));
 
 		public int VisibleLines
