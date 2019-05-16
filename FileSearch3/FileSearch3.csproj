@@ -76,6 +76,7 @@
     <Compile Include="FileEncoding.cs" />
     <Compile Include="FileHIt.cs" />
     <Compile Include="FontData.cs" />
+    <Compile Include="HitMapControl.cs" />
     <Compile Include="Line.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="OptionsWindow.xaml.cs">
