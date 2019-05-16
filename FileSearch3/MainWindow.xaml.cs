@@ -452,6 +452,7 @@ namespace FileSearch
 			{
 				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
 				{
+					ViewModel.CurrentHit = i;
 					CenterOnLine(i);
 					return;
 				}
@@ -464,6 +465,7 @@ namespace FileSearch
 			{
 				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
 				{
+					ViewModel.CurrentHit = i;
 					CenterOnLine(i);
 					return;
 				}
@@ -472,10 +474,7 @@ namespace FileSearch
 
 		private void CenterOnLine(int i)
 		{
-			ViewModel.CurrentHit = i;
-
 			int visibleLines = Preview.VisibleLines <= 0 ? (int)(Preview.ActualHeight / OneCharacter.ActualHeight) : Preview.VisibleLines;
-
 			VerticalScrollbar.Value = i - (visibleLines / 2) + 1;
 		}
 

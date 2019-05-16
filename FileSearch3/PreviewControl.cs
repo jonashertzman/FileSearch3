@@ -17,7 +17,6 @@ namespace FileSearch
 		private double characterHeight;
 		private double characterWidth;
 		private double lineNumberMargin;
-		private double rightMargin;
 		private double textMargin;
 		private double maxTextwidth = 0;
 		private int lineNumberLength;
@@ -91,13 +90,11 @@ namespace FileSearch
 
 			textMargin = RoundToWholePixels(3);
 			lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
-			rightMargin = RoundToWholePixels(10);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
 			MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
 
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
-			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(ActualWidth - rightMargin, 0, rightMargin, this.ActualHeight));
 
 			for (int i = 0; i < VisibleLines; i++)
 			{
@@ -108,95 +105,107 @@ namespace FileSearch
 
 				Line line = Lines[lineIndex];
 
-				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i)); // Line Y offset
-
-				// Draw line number
-				if (line.LineNumber != null)
+				// Line Y offset
+				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
-					SolidColorBrush lineNumberColor;
-					if (lineIndex == CurrentMatch && !Edited)
+					// Draw line number
+					if (line.LineNumber != null)
 					{
-						lineNumberColor = Brushes.White;
-						drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-					}
-					else
-					{
-						lineNumberColor = SystemColors.ControlDarkDarkBrush;
-					}
+						SolidColorBrush lineNumberColor;
+						if (lineIndex == CurrentMatch && !Edited)
+						{
+							lineNumberColor = Brushes.White;
+							drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						}
+						else
+						{
+							lineNumberColor = SystemColors.ControlDarkDarkBrush;
+						}
 
-					GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
+						GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
-					drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
-					drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
-					drawingContext.Pop();
-				}
-
-				// Text clipping rect
-				drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - rightMargin - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
-
-				// Draw line background
-				if (line.Type != TextState.Miss)
-				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(0, 0, Math.Max(this.ActualWidth - rightMargin, 0), characterHeight));
-				}
-
-				// Line X offset
-				drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
-
-				// Draw line
-				if (line.Text != "")
-				{
-					double nextPosition = 0;
-					foreach (TextSegment textSegment in line.TextSegments)
-					{
-						drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
-
-						GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
-
-						// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
-						drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, segmentRun);
-
-						nextPosition += runWidth;
-
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
+						drawingContext.DrawGlyphRun(lineNumberColor, rowNumberRun);
 						drawingContext.Pop();
 					}
-					maxTextwidth = Math.Max(maxTextwidth, nextPosition);
-				}
 
-				// Draw selection
-				if (selection != null && lineIndex >= selection.TopLine && lineIndex <= selection.BottomLine)
-				{
-					Rect selectionRect = new Rect(0, 0, this.ActualWidth + HorizontalOffset, characterHeight);
-					if (selection.TopLine == lineIndex)
+					// Draw line background
+					if (line.Type == TextState.Hit || line.Type == TextState.Header)
 					{
-						selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, selection.TopCharacter));
+						drawingContext.DrawRectangle(line.BackgroundBrush, null, new Rect(lineNumberMargin, 0, Math.Max(this.ActualWidth - lineNumberMargin, 0), characterHeight));
 					}
-					if (selection.BottomLine == lineIndex)
+
+					// Text clipping rect
+					drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin + textMargin, 0, Math.Max(ActualWidth - lineNumberMargin - textMargin * 2, 0), ActualHeight)));
 					{
-						selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter) - selectionRect.X);
+						// Line X offset
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
+						{
+							// Draw line
+							if (line.Text != "")
+							{
+								double nextPosition = 0;
+								foreach (TextSegment textSegment in line.TextSegments)
+								{
+									drawingContext.PushTransform(new TranslateTransform(nextPosition, 0));
+
+									GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
+
+									// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
+									drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, segmentRun);
+
+									nextPosition += runWidth;
+
+									drawingContext.Pop();
+								}
+								maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+							}
+
+							// Draw cursor
+							if (EditMode && this.IsFocused && cursorLine == lineIndex)
+							{
+								drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+							}
+						}
+						drawingContext.Pop(); // Line X offset
 					}
-					drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, selectionRect);
-				}
+					drawingContext.Pop(); // Text clipping rect
 
-				// Draw cursor
-				if (EditMode && this.IsFocused && cursorLine == lineIndex)
-				{
-					drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
+					// Text area clipping rect
+					drawingContext.PushClip(new RectangleGeometry(new Rect(lineNumberMargin, 0, Math.Max(ActualWidth - lineNumberMargin, 0), ActualHeight)));
+					{
+						// Line X offset 2
+						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin + textMargin - HorizontalOffset, 0));
+						{
+							// Draw selection
+							if (selection != null && lineIndex >= selection.TopLine && lineIndex <= selection.BottomLine)
+							{
+								Rect selectionRect = new Rect(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
+								if (selection.TopLine == lineIndex && selection.TopCharacter > 0)
+								{
+									selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, selection.TopCharacter));
+								}
+								if (selection.BottomLine == lineIndex)
+								{
+									selectionRect.Width = Math.Max(0, CharacterPosition(lineIndex, selection.BottomCharacter) - selectionRect.X);
+								}
+								drawingContext.DrawRectangle(AppSettings.SelectionBackground, null, selectionRect);
+							}
+						}
+						drawingContext.Pop(); // Line X offset 2
+					}
+					drawingContext.Pop(); // Text area clipping rect
 				}
-
-				drawingContext.Pop(); // Line X offset
-				drawingContext.Pop(); // Text clipping rect
 				drawingContext.Pop(); // Line Y offset
 			}
 
 			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(this.ActualWidth - rightMargin, 0), new Point(this.ActualWidth - rightMargin, this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
-			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 3));
+			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 2));
 		}
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
