@@ -758,6 +758,8 @@ namespace FileSearch
 				return;
 			}
 
+			dataGridFileList.Focus();
+
 			CleanSearchAttributes();
 
 			ActiveSearch.PhraseSums.Clear();
