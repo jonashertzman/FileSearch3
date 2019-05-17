@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -99,6 +100,8 @@ namespace FileSearch
 
 		private void SaveSettings()
 		{
+			CleanSearchAttributes();
+
 			AppSettings.PositionLeft = this.Left;
 			AppSettings.PositionTop = this.Top;
 			AppSettings.Width = this.Width;
@@ -106,6 +109,34 @@ namespace FileSearch
 			AppSettings.WindowState = this.WindowState;
 
 			AppSettings.WriteSettingsToDisk();
+		}
+
+		private void CleanSearchAttributes()
+		{
+			foreach (SearchInstance s in AppSettings.SearchInstances)
+			{
+				for (int i = s.SearchPhrases.Count - 1; i >= 0; i--)
+				{
+					if (string.IsNullOrEmpty(s.SearchPhrases[i].Text))
+					{
+						s.SearchPhrases.RemoveAt(i);
+					}
+				}
+				for (int i = s.SearchDirectories.Count - 1; i >= 0; i--)
+				{
+					if (string.IsNullOrEmpty(s.SearchDirectories[i].Text))
+					{
+						s.SearchDirectories.RemoveAt(i);
+					}
+				}
+				for (int i = s.SearchFiles.Count - 1; i >= 0; i--)
+				{
+					if (string.IsNullOrEmpty(s.SearchFiles[i].Text))
+					{
+						s.SearchFiles.RemoveAt(i);
+					}
+				}
+			}
 		}
 
 		private void AddNewSearch()
@@ -603,6 +634,24 @@ namespace FileSearch
 			p.Start();
 		}
 
+		private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
+		{
+			TextAttribute t = (sender as Button).DataContext as TextAttribute;
+
+			System.Windows.Forms.FolderBrowserDialog d = new System.Windows.Forms.FolderBrowserDialog();
+			if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				if (t == null)
+				{
+					ActiveSearch.SearchDirectories.Add(new TextAttribute(d.SelectedPath));
+				}
+				else
+				{
+					t.Text = d.SelectedPath;
+				}
+			}
+		}
+
 		#endregion
 
 		#region Commands
@@ -708,6 +757,8 @@ namespace FileSearch
 			{
 				return;
 			}
+
+			CleanSearchAttributes();
 
 			ActiveSearch.PhraseSums.Clear();
 
