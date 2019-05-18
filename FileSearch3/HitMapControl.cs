@@ -37,6 +37,8 @@ namespace FileSearch
 		{
 			Debug.Print("DiffMap OnRender");
 
+			double margin = RoundToWholePixels(1);
+
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
@@ -67,7 +69,7 @@ namespace FileSearch
 					count++;
 				}
 
-				Rect rect = new Rect(RoundToWholePixels(1), (Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale), ActualWidth, Math.Ceiling(Math.Max((lineHeight * count), 1) / dpiScale) * dpiScale);
+				Rect rect = new Rect(margin, Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale, ActualWidth - margin, Math.Ceiling(Math.Max(lineHeight * count, 1) / dpiScale) * dpiScale);
 
 				if (rect.Bottom > lastHeight)
 				{

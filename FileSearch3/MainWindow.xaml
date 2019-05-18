@@ -464,7 +464,7 @@
 							</Border>
 							<ScrollBar Grid.Column="2" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll }" />
 							<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="HorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
-							<StackPanel Grid.Row="1" Grid.Column="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
+							<StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 						</Grid>
 
 					</Grid>
