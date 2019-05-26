@@ -111,15 +111,11 @@ namespace FileSearch
 					// Draw line number
 					if (line.LineNumber != null)
 					{
-						SolidColorBrush lineNumberColor;
+						SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
 						if (lineIndex == CurrentMatch && !Edited)
 						{
 							lineNumberColor = Brushes.White;
-							drawingContext.DrawRectangle(SystemColors.ControlDarkBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
-						}
-						else
-						{
-							lineNumberColor = SystemColors.ControlDarkDarkBrush;
+							drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 						}
 
 						GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
