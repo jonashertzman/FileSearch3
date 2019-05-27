@@ -88,7 +88,7 @@ namespace FileSearch
 			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
-			textMargin = RoundToWholePixels(3);
+			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
 
 			VisibleLines = (int)(ActualHeight / characterHeight + 1);
@@ -198,6 +198,8 @@ namespace FileSearch
 			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
+			drawingContext.DrawLine(new Pen(AppSettings.NormalBackground, RoundToWholePixels(1)), new Point(lineNumberMargin + RoundToWholePixels(1), 0), new Point(lineNumberMargin + RoundToWholePixels(1), this.ActualHeight + 1));
+			drawingContext.DrawLine(new Pen(AppSettings.NormalBackground, RoundToWholePixels(1)), new Point(this.ActualWidth - 1, 0), new Point(this.ActualWidth - 1, this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
@@ -761,13 +763,9 @@ namespace FileSearch
 			maxTextwidth = 0;
 			cursorLine = 0;
 			cursorCharacter = 0;
+			Edited = false;
 
-			if (Lines.Count == 0)
-			{
-				InsertNewLine(0, "");
-				Edited = false;
-			}
-			else
+			if (Lines.Count > 0)
 			{
 				bool linesTooLong = false;
 

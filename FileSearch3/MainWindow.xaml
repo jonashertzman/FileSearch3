@@ -204,7 +204,7 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="{Binding SearchAttributesWidth, Mode=TwoWay}" />
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition />
+				<ColumnDefinition Width="4*" />
 			</Grid.ColumnDefinitions>
 
 			<!--Search Attributes-->
@@ -291,13 +291,13 @@
 						</Grid.RowDefinitions>
 
 						<!--Preview Toolbar-->
-						<WrapPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
-							<WrapPanel.Background>
+						<StackPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
+							<StackPanel.Background>
 								<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 									<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
 									<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
 								</LinearGradientBrush>
-							</WrapPanel.Background>
+							</StackPanel.Background>
 
 							<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
 								<ToggleButton.Resources>
@@ -422,6 +422,19 @@
 								</Button.ToolTip>
 							</Button>
 
+							<!--<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
+								</StackPanel>
+								<ToggleButton.ToolTip>
+									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+										<StackPanel Orientation="Horizontal">
+											<TextBlock Text="Show Special Characters" VerticalAlignment="Center" />
+										</StackPanel>
+									</ToolTip>
+								</ToggleButton.ToolTip>
+							</ToggleButton>-->
+
 							<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}">
 								<StackPanel Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
@@ -429,7 +442,7 @@
 								</StackPanel>
 							</ToggleButton>
 
-							<StackPanel Orientation="Horizontal" Margin="02" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
+							<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
 								<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" Width="35" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
 									<ComboBoxItem Content="0" />
 									<ComboBoxItem Content="1" />
@@ -444,7 +457,12 @@
 								</ComboBox>
 							</StackPanel>
 
-						</WrapPanel>
+							<StackPanel Name="CurrentFilePanel" Height="20" Orientation="Horizontal">
+								<Separator Margin="8,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+								<TextBlock Name="CurrentFile" Text="Current File" Margin="0,0" Foreground="{StaticResource  {x:Static SystemColors.ControlDarkDarkBrushKey} }" VerticalAlignment="Center" />
+							</StackPanel>
+
+						</StackPanel>
 
 						<!--Preview Control-->
 						<Grid Grid.Row="1">

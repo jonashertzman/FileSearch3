@@ -225,32 +225,32 @@ namespace FileSearch
 				}
 			}
 
-			foreach (FileHit f in previewFiles)
+			foreach (FileHit currentFile in previewFiles)
 			{
 				string[] allLines = new string[0];
 				string allText = "";
 				int lineNumber = 1;
 
-				if (Directory.Exists(f.Path))
+				if (Directory.Exists(currentFile.Path))
 				{
-					Lines.Add(new Line() { Type = TextState.Header, Text = f.Path });
+					Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
 					Lines.Add(new Line() { Type = TextState.SurroundSpacing, Text = "[FOLDER]" });
 				}
 				else
 				{
 					try
 					{
-						ViewModel.FileEncoding = Unicode.GetEncoding(f.Path);
+						ViewModel.FileEncoding = Unicode.GetEncoding(currentFile.Path);
 						ViewModel.FileDirty = false;
 
 						if (previewFiles.Count > 1)
 						{
-							Lines.Add(new Line() { Type = TextState.Header, Text = f.Path });
+							Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
 						}
 
 						if (ActiveSearch.RegexSearch)
 						{
-							allText = File.ReadAllText(f.Path, ViewModel.FileEncoding.Type);
+							allText = File.ReadAllText(currentFile.Path, ViewModel.FileEncoding.Type);
 							if (!(allText.EndsWith("\r\n") || allText.EndsWith("\r") || allText.EndsWith("\n")))
 							{
 								allText += ViewModel.FileEncoding.GetNewLineString;
@@ -258,7 +258,7 @@ namespace FileSearch
 						}
 						else
 						{
-							allLines = File.ReadAllLines(f.Path, ViewModel.FileEncoding.Type);
+							allLines = File.ReadAllLines(currentFile.Path, ViewModel.FileEncoding.Type);
 						}
 
 					}
@@ -289,7 +289,7 @@ namespace FileSearch
 						{
 							Line previewLine = new Line();
 							previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
-							previewLine.CurrentFile = f.Path;
+							previewLine.CurrentFile = currentFile.Path;
 							previewLine.LineNumber = lineNumber++;
 							int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
 
@@ -327,7 +327,7 @@ namespace FileSearch
 							Line previewLine = new Line();
 							bool[] hitCharacters = new bool[line.Length];
 							previewLine.Text = line;
-							previewLine.CurrentFile = f.Path;
+							previewLine.CurrentFile = currentFile.Path;
 							previewLine.LineNumber = lineNumber++;
 
 							foreach (string phrase in ActiveSearch.StoredSearchPhrases)
@@ -365,6 +365,8 @@ namespace FileSearch
 					Lines.Add(new Line() { Type = TextState.Filler, Text = "" });
 				}
 			}
+
+			CurrentFilePanel.Visibility = previewFiles.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
 
 			if (ActiveSearch.ShowOnlyHits)
 			{
@@ -483,6 +485,7 @@ namespace FileSearch
 			{
 				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
 				{
+					CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
 					ViewModel.CurrentHit = i;
 					CenterOnLine(i);
 					return;
@@ -496,6 +499,7 @@ namespace FileSearch
 			{
 				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
 				{
+					CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
 					ViewModel.CurrentHit = i;
 					CenterOnLine(i);
 					return;

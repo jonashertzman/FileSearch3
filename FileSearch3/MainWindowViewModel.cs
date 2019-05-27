@@ -88,6 +88,12 @@ namespace FileSearch
 			set { editMode = value; OnPropertyChanged(nameof(EditMode)); }
 		}
 
+		public bool ShowWhiteSpaceCharacters
+		{
+			get { return AppSettings.ShowWhiteSpaceCharacters; }
+			set { AppSettings.ShowWhiteSpaceCharacters = value; OnPropertyChangedRepaint(nameof(ShowWhiteSpaceCharacters)); }
+		}
+
 		public ObservableCollection<TextAttribute> IgnoredDirectories
 		{
 			get { return AppSettings.IgnoredDirectories; }
@@ -211,16 +217,6 @@ namespace FileSearch
 		#region INotifyPropertyChanged
 
 		public event PropertyChangedEventHandler PropertyChanged;
-
-		private void OnPropertyChangedSlowRepaint(string name)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
-			if (!timer.IsEnabled)
-			{
-				timer.Start();
-			}
-		}
 
 		public void OnPropertyChangedRepaint(string name)
 		{

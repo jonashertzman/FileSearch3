@@ -108,10 +108,10 @@ namespace FileSearch
 		}
 
 		public GlyphRun RenderedText { get; private set; }
-		public object CurrentFile { get; internal set; }
+
+		public string CurrentFile { get; internal set; }
 
 		private double renderedTextWidth;
-
 		private int? renderedLineIndex;
 		private Typeface renderedTypeface;
 		private double renderedFontSize;

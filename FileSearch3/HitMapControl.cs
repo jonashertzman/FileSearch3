@@ -37,17 +37,13 @@ namespace FileSearch
 		{
 			Debug.Print("DiffMap OnRender");
 
-			double margin = RoundToWholePixels(1);
-
-			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(AppSettings.NormalBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
 
 			double scrollableHeight = ActualHeight - (2 * RoundToWholePixels(SystemParameters.VerticalScrollBarButtonHeight));
 			double lineHeight = scrollableHeight / Lines.Count;
-
-			SolidColorBrush lineColor = new SolidColorBrush();
 
 			double lastHeight = -1;
 
@@ -60,8 +56,6 @@ namespace FileSearch
 					continue;
 				}
 
-				lineColor = line.BackgroundBrush;
-
 				int count = 1;
 
 				while (i + count < Lines.Count && line.Type == Lines[i + count].Type)
@@ -69,11 +63,11 @@ namespace FileSearch
 					count++;
 				}
 
-				Rect rect = new Rect(margin, Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale, ActualWidth - margin, Math.Ceiling(Math.Max(lineHeight * count, 1) / dpiScale) * dpiScale);
+				Rect rect = new Rect(0, Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale, ActualWidth, Math.Ceiling(Math.Max(lineHeight * count, 1) / dpiScale) * dpiScale);
 
 				if (rect.Bottom > lastHeight)
 				{
-					drawingContext.DrawRectangle(lineColor, null, rect);
+					drawingContext.DrawRectangle(line.BackgroundBrush, null, rect);
 
 					lastHeight = rect.Bottom;
 				}
