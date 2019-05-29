@@ -38,7 +38,6 @@ namespace FileSearch
 		{
 			InitializeComponent();
 
-
 			DataContext = ViewModel;
 
 			SearchPanel.Visibility = Visibility.Collapsed;
@@ -139,9 +138,13 @@ namespace FileSearch
 			}
 		}
 
-		private void AddNewSearch()
+		private void AddNewSearch(string searchDirectory = "")
 		{
 			SearchInstance newInstance = new SearchInstance();
+			if (searchDirectory != "")
+			{
+				newInstance.SearchDirectories.Add(new TextAttribute(searchDirectory));
+			}
 			ViewModel.SearchInstances.Add(newInstance);
 			SetActiveTab(newInstance);
 		}
@@ -561,6 +564,14 @@ namespace FileSearch
 		private void Window_Initialized(object sender, EventArgs e)
 		{
 			LoadSettings();
+		}
+
+		private void Window_ContentRendered(object sender, EventArgs e)
+		{
+			if (Environment.GetCommandLineArgs().Length > 1)
+			{
+				AddNewSearch(Environment.GetCommandLineArgs()[1]);
+			}
 		}
 
 		private void TabButton_Click(object sender, RoutedEventArgs e)

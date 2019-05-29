@@ -1,5 +1,7 @@
-﻿using System.Globalization;
+﻿using Microsoft.Win32;
+using System.Globalization;
 using System.Linq;
+using System.Security.Principal;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
@@ -13,6 +15,13 @@ namespace FileSearch
 	public partial class OptionsWindow : Window
 	{
 
+		#region Members
+
+		readonly string regPath = @"Folder\shell\filesearch";
+		readonly string shellexecutePath = $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"";
+
+		#endregion
+
 		#region Constructor
 
 		public OptionsWindow()
@@ -23,11 +32,54 @@ namespace FileSearch
 			{
 				ComboBoxFont.Items.Add(family.Source);
 			}
+
+			if (IsAdministrator)
+			{
+				ShellExtensionPanel.IsEnabled = true;
+				NotAdminLabel.Visibility = Visibility.Collapsed;
+
+				AddShellExtensionsCheckBox.IsChecked = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
+
+				AddShellExtensionsCheckBox.Checked += AddShellExtensionsCheckBox_Checked;
+				AddShellExtensionsCheckBox.Unchecked += AddShellExtensionsCheckBox_Unchecked;
+			}
+		}
+
+		#endregion
+
+		#region Properties
+
+		public bool IsAdministrator
+		{
+			get
+			{
+				WindowsIdentity wi = WindowsIdentity.GetCurrent();
+				WindowsPrincipal wp = new WindowsPrincipal(wi);
+
+				return wp.IsInRole(WindowsBuiltInRole.Administrator);
+			}
 		}
 
 		#endregion
 
 		#region Events
+
+		private void AddShellExtensionsCheckBox_Unchecked(object sender, RoutedEventArgs e)
+		{
+			Registry.ClassesRoot.DeleteSubKeyTree(regPath);
+		}
+
+		private void AddShellExtensionsCheckBox_Checked(object sender, RoutedEventArgs e)
+		{
+			using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath))
+			{
+				key.SetValue(null, "Search From Here");
+			}
+			using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath + "\\command"))
+			{
+				key.SetValue(null, shellexecutePath);
+			}
+		}
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
 		{

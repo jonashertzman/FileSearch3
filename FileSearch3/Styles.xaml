@@ -95,6 +95,11 @@
 
 	<Style x:Key="CommonCheckBox" TargetType="CheckBox">
 		<Setter Property="Margin" Value="5" />
+		<Style.Triggers>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
+			</Trigger>
+		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="CommonButtonIcon" TargetType="ContentPresenter">
