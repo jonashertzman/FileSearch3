@@ -20,6 +20,8 @@ namespace FileSearch
 		readonly string regPath = @"Folder\shell\filesearch";
 		readonly string shellexecutePath = $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"";
 
+		Rectangle selectecRectangle;
+
 		#endregion
 
 		#region Constructor
@@ -95,15 +97,17 @@ namespace FileSearch
 
 		private void Rectangle_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			Rectangle rectangle = e.Source as Rectangle;
+			selectecRectangle = e.Source as Rectangle;
 
-			ColorDialog colorDialog = new ColorDialog();
+			Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
 
-			if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				Color newColor = Color.FromArgb((byte)(sender == SelectionBackground ? 50 : 255), colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
-				rectangle.Fill = new SolidColorBrush(newColor);
-			}
+			SliderR.Value = currentColor.R;
+			SliderG.Value = currentColor.G;
+			SliderB.Value = currentColor.B;
+
+			ColorHex.Text = currentColor.ToString();
+
+			ColorChooser.IsOpen = true;
 		}
 
 		private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
@@ -129,6 +133,13 @@ namespace FileSearch
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
 			DialogResult = true;
+		}
+
+		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+		{
+			Color newColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
+			ColorHex.Text = newColor.ToString();
+			selectecRectangle.Fill = new SolidColorBrush(newColor);
 		}
 
 		#endregion

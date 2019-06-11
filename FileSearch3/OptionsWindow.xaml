@@ -70,6 +70,34 @@
 							<Label Grid.Row="6" Content="Selection" Style="{StaticResource CommonTextLabel}" />
 							<Rectangle x:Name="SelectionBackground" Grid.Row="6" Grid.Column="2" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey} }" Margin="5" MouseLeftButtonUp="Rectangle_MouseUp" />
 
+							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False">
+								<Border Padding="5" BorderThickness="1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey} }">
+									<Grid Width="150">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="auto" />
+											<ColumnDefinition />
+										</Grid.ColumnDefinitions>
+										<Grid.RowDefinitions>
+											<RowDefinition />
+											<RowDefinition />
+											<RowDefinition />
+											<RowDefinition />
+										</Grid.RowDefinitions>
+
+										<TextBox Name="ColorHex" Grid.ColumnSpan="2" IsReadOnly="True" Style="{StaticResource CommonTextBox}" />
+
+										<Label Grid.Row="1" Content="R" VerticalAlignment="Center" />
+										<Slider Name="SliderR" Grid.Row="1" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+										<Label Grid.Row="2" Content="G" VerticalAlignment="Center" />
+										<Slider Name="SliderG" Grid.Row="2" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+
+										<Label Grid.Row="3" Content="B" VerticalAlignment="Center" />
+										<Slider Name="SliderB" Grid.Row="3" Grid.Column="1" Margin="5" Maximum="255" SmallChange="1" LargeChange="10" ValueChanged="Slider_ValueChanged" />
+									</Grid>
+								</Border>
+							</Popup>
+
 						</Grid>
 					</Border>
 				</TabItem>
