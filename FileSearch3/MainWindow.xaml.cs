@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -760,6 +760,65 @@ namespace FileSearch
 		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
 			e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
+		}
+
+		private void CommandCopyResultsToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			StringBuilder s = new StringBuilder();
+
+			foreach (FileHit r in dataGridFileList.Items)
+			{
+				if (r.Visible)
+				{
+					s.Append(r.Path + "\r\n");
+				}
+			}
+
+			if (s.ToString() != "")
+			{
+				Clipboard.SetText(s.ToString());
+			}
+		}
+
+		private void CommandCopyResultsToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = dataGridFileList.Items.Count > 0;
+		}
+
+		private void CommandCopyResultsAsCsv_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			StringBuilder s = new StringBuilder();
+
+			s.Append("File,Size,Date");
+			foreach (string phrase in ActiveSearch.StoredSearchPhrases)
+			{
+				s.Append($",\"{phrase.Replace("\"", "\"\"")}\"");
+			}
+			s.Append("\r\n");
+
+			foreach (FileHit r in dataGridFileList.Items)
+			{
+				if (r.Visible)
+				{
+					s.Append($"\"{r.Path}\",\"{r.Size}\",\"{r.Date}\"");
+					foreach (KeyValuePair<string, PhraseHit> kvp in r.PhraseHits)
+					{
+						s.Append($",{kvp.Value.Count}");
+					}
+
+					s.Append("\r\n");
+				}
+			}
+
+			if (s.ToString() != "")
+			{
+				Clipboard.SetText(s.ToString());
+			}
+		}
+
+		private void CommandCopyResultsAsCsv_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = dataGridFileList.Items.Count > 0;
 		}
 
 		#endregion

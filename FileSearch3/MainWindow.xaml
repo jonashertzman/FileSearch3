@@ -8,6 +8,8 @@
 		<ContextMenu x:Key="ContextMenuFileItem">
 			<MenuItem Header="Open Containing Folder" Command="local:Commands.OpenContainingFolder" />
 			<MenuItem Header="Copy Path to Clipboard" Command="local:Commands.CopyPathToClipboard" />
+			<MenuItem Header="Copy Results to Clipboard" Command="local:Commands.CopyResultsToClipboard" />
+			<MenuItem Header="Copy Results as CSV" Command="local:Commands.CopyResultsAsCsv" />
 		</ContextMenu>
 
 		<ContextMenu x:Key="ContextMenuTabButton">
@@ -44,6 +46,8 @@
 
 		<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 		<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
+		<CommandBinding Command="local:Commands.CopyResultsToClipboard" Executed="CommandCopyResultsToClipboard_Executed" CanExecute="CommandCopyResultsToClipboard_CanExecute" />
+		<CommandBinding Command="local:Commands.CopyResultsAsCsv" Executed="CommandCopyResultsAsCsv_Executed" CanExecute="CommandCopyResultsAsCsv_CanExecute" />
 
 		<CommandBinding Command="local:Commands.RenameTab" Executed="CommandRenameTab_Executed" />
 
@@ -472,7 +476,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" ContextMenu="{StaticResource ContextMenuFileItem}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" />
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" />
 							<Border Grid.Column="1" BorderThickness="1,0,0,0" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }">
 								<local:HitMapControl Width="10" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 							</Border>

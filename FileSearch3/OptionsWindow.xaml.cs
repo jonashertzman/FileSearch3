@@ -99,11 +99,15 @@ namespace FileSearch
 		{
 			selectecRectangle = e.Source as Rectangle;
 
-			Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
+			LabelA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+			SliderA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+
+			Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? ((SolidColorBrush)selectecRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
 
 			SliderR.Value = currentColor.R;
 			SliderG.Value = currentColor.G;
 			SliderB.Value = currentColor.B;
+			SliderA.Value = currentColor.A;
 
 			ColorHex.Text = currentColor.ToString();
 
@@ -137,9 +141,16 @@ namespace FileSearch
 
 		private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			Color newColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? 50 : 255), (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
+			byte alpha = (byte)(selectecRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+
+			Color newColor = Color.FromArgb(alpha, (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
 			ColorHex.Text = newColor.ToString();
 			selectecRectangle.Fill = new SolidColorBrush(newColor);
+
+			SliderR.Background = new LinearGradientBrush(Color.FromArgb(alpha, 0, newColor.G, newColor.B), Color.FromArgb(alpha, 255, newColor.G, newColor.B), 0);
+			SliderG.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, 0, newColor.B), Color.FromArgb(alpha, newColor.R, 255, newColor.B), 0);
+			SliderB.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, newColor.G, 0), Color.FromArgb(alpha, newColor.R, newColor.G, 255), 0);
+			SliderA.Background = new LinearGradientBrush(Color.FromArgb(0, newColor.R, newColor.G, newColor.B), Color.FromArgb(255, newColor.R, newColor.G, newColor.B), 0);
 		}
 
 		#endregion
