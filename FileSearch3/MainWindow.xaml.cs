@@ -695,6 +695,7 @@ namespace FileSearch
 			var oldHitBackground = ViewModel.HitBackground;
 			var oldHeaderForeground = ViewModel.HeaderForeground;
 			var oldHeaderBackground = ViewModel.HeaderBackground;
+			var oldSelectionBackground = ViewModel.SelectionBackground;
 			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 			var oldIgnoredDirectories = new ObservableCollection<TextAttribute>(ViewModel.IgnoredDirectories);
 
@@ -717,6 +718,7 @@ namespace FileSearch
 				ViewModel.HitBackground = oldHitBackground;
 				ViewModel.HeaderForeground = oldHeaderForeground;
 				ViewModel.HeaderBackground = oldHeaderBackground;
+				ViewModel.SelectionBackground = oldSelectionBackground;
 				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 				ViewModel.IgnoredDirectories = new ObservableCollection<TextAttribute>(oldIgnoredDirectories);
 			}
