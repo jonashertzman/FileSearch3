@@ -156,9 +156,10 @@ namespace FileSearch
 
 									GlyphRun segmentRun = textSegment.GetRenderedText(typeface, this.FontSize, dpiScale, AppSettings.ShowWhiteSpaceCharacters, AppSettings.TabSize, out double runWidth);
 
-									// drawingContext.DrawText(new FormattedText(textSegment.Text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight, new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch), this.FontSize, line.ForegroundBrush, null, TextFormattingMode.Display), new Point(0, 0));
-									drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, segmentRun);
-
+									if (nextPosition - HorizontalOffset < ActualWidth && nextPosition + runWidth - HorizontalOffset > 0)
+									{
+										drawingContext.DrawGlyphRun(textSegment.ForegroundBrush, segmentRun);
+									}
 									nextPosition += runWidth;
 
 									drawingContext.Pop();
@@ -207,8 +208,6 @@ namespace FileSearch
 			// Draw line number border
 			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
 			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
-			drawingContext.DrawLine(new Pen(AppSettings.NormalBackground, RoundToWholePixels(1)), new Point(lineNumberMargin + RoundToWholePixels(1), 0), new Point(lineNumberMargin + RoundToWholePixels(1), this.ActualHeight + 1));
-			drawingContext.DrawLine(new Pen(AppSettings.NormalBackground, RoundToWholePixels(1)), new Point(this.ActualWidth - 1, 0), new Point(this.ActualWidth - 1, this.ActualHeight + 1));
 			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
@@ -773,25 +772,6 @@ namespace FileSearch
 			cursorLine = 0;
 			cursorCharacter = 0;
 			Edited = false;
-
-			if (Lines.Count > 0)
-			{
-				bool linesTooLong = false;
-
-				foreach (Line l in Lines)
-				{
-					if (l.Text.Length > 65535)
-					{
-						l.Text = "[Line is too long to show in preview]";
-						linesTooLong = true;
-					}
-				}
-
-				if (linesTooLong)
-				{
-					MessageBox.Show("Selected files contain lines too long to show in the preview.\n\nPreview is not complete.", "File Search 3", MessageBoxButton.OK, MessageBoxImage.Warning);
-				}
-			}
 		}
 
 		private void DeleteSelection()

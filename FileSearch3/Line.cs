@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
 
@@ -35,7 +36,7 @@ namespace FileSearch
 			{
 				text = value;
 				TextSegments.Clear();
-				TextSegments.Add(new TextSegment(value, Type));
+				AddTextSegment(value, Type);
 			}
 		}
 
@@ -67,7 +68,7 @@ namespace FileSearch
 			{
 				type = value;
 				TextSegments.Clear();
-				TextSegments.Add(new TextSegment(Text, value));
+				AddTextSegment(Text, value);
 			}
 		}
 
@@ -147,10 +148,27 @@ namespace FileSearch
 				if (hitCharacters[start] == hitCharacters[i])
 					continue;
 
-				TextSegments.Add(new TextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Miss));
+				AddTextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Miss);
 				start = i;
 			}
-			TextSegments.Add(new TextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Miss));
+			AddTextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Miss);
+		}
+
+		public void AddTextSegment(string text, TextState state)
+		{
+			int segmentLength;
+
+			do
+			{
+				segmentLength = Math.Min(1000, text.Length);
+				if (segmentLength > 0 && char.IsHighSurrogate(text[segmentLength - 1]))
+				{
+					segmentLength--;
+				}
+
+				TextSegments.Add(new TextSegment(text.Substring(0, segmentLength), state));
+				text = text.Remove(0, segmentLength);
+			} while (text.Length > 0);
 		}
 
 		#endregion
