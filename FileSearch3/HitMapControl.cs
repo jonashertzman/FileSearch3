@@ -37,7 +37,7 @@ namespace FileSearch
 		{
 			Debug.Print("DiffMap OnRender");
 
-			drawingContext.DrawRectangle(AppSettings.NormalBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
