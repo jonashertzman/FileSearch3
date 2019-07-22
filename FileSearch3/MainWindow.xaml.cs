@@ -244,7 +244,7 @@ namespace FileSearch
 					try
 					{
 						ViewModel.FileEncoding = Unicode.GetEncoding(currentFile.Path);
-						ViewModel.FileDirty = false;
+						ViewModel.FileEdited = false;
 
 						if (previewFiles.Count > 1)
 						{
@@ -392,6 +392,7 @@ namespace FileSearch
 				}
 			}
 
+			ViewModel.EditMode = false;
 			ViewModel.PreviewLines = Lines;
 
 			Preview.Init(maxLineNumber.ToString().Length);
@@ -900,11 +901,35 @@ namespace FileSearch
 
 		private void CommandSaveFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			string filePath = ((FileHit)dataGridFileList.SelectedItem).Path;
 
+			if (File.Exists(filePath) && ViewModel.FileEdited)
+			{
+				try
+				{
+					using (StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding))
+					{
+						sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
+						foreach (Line l in ViewModel.PreviewLines)
+						{
+							if (l.Type != TextState.Filler)
+							{
+								sw.WriteLine(l.Text);
+							}
+						}
+					}
+				}
+				catch (Exception exception)
+				{
+					MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
+				}
+			}
+
+			UpdatePreview();
 		}
 		private void CommandSaveFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = false;
+			e.CanExecute = ViewModel.FileEdited;
 		}
 
 		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -913,7 +938,7 @@ namespace FileSearch
 		}
 		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = false;
+			e.CanExecute = dataGridFileList.SelectedItems.Count == 1 && !ActiveSearch.ShowOnlyHits && !ViewModel.FileEdited;
 		}
 
 		private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -922,7 +947,7 @@ namespace FileSearch
 		}
 		private void CommandFirstHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit;
+			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
 		}
 
 		private void CommandPreviousHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -931,7 +956,7 @@ namespace FileSearch
 		}
 		private void CommandPreviousHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit;
+			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
 		}
 
 		private void CommandCurrentHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -940,7 +965,7 @@ namespace FileSearch
 		}
 		private void CommandCurrentHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = ViewModel.CurrentHit != -1;
+			e.CanExecute = ViewModel.CurrentHit != -1 && !ViewModel.FileEdited;
 		}
 
 		private void CommandNextHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -949,7 +974,7 @@ namespace FileSearch
 		}
 		private void CommandNextHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit;
+			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
 		}
 
 		private void CommandLastHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
@@ -958,7 +983,7 @@ namespace FileSearch
 		}
 		private void CommandLastHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit;
+			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
 		}
 
 		#endregion

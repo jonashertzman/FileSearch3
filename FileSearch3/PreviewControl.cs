@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace FileSearch
 {
@@ -20,6 +21,7 @@ namespace FileSearch
 		private double textMargin;
 		private double maxTextwidth = 0;
 		private int lineNumberLength;
+		private bool cursorBlink = true;
 
 		private int downLine;
 		private int downCharacter;
@@ -48,6 +50,8 @@ namespace FileSearch
 
 		private Typeface typeface;
 
+		private DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
+
 		#endregion
 
 		#region Constructor
@@ -61,6 +65,10 @@ namespace FileSearch
 		{
 			this.ClipToBounds = true;
 
+			blinkTimer.Interval = new TimeSpan(5000000);
+			blinkTimer.Tick += BlinkTimer_Tick;
+			blinkTimer.Start();
+
 			typeface = new Typeface(this.FontFamily, this.FontStyle, this.FontWeight, this.FontStretch);
 		}
 
@@ -72,7 +80,7 @@ namespace FileSearch
 		private Selection Selection
 		{
 			get { return selection; }
-			set { selection = value; }
+			set { selection = value; ResetCursorBlink(); }
 		}
 
 		#endregion
@@ -168,7 +176,7 @@ namespace FileSearch
 							}
 
 							// Draw cursor
-							if (EditMode && this.IsFocused && cursorLine == lineIndex)
+							if (EditMode && this.IsFocused && cursorLine == lineIndex && cursorBlink)
 							{
 								drawingContext.DrawRectangle(Brushes.Black, null, new Rect(CharacterPosition(lineIndex, cursorCharacter), 0, RoundToWholePixels(1), characterHeight));
 							}
@@ -901,6 +909,15 @@ namespace FileSearch
 			{
 				HorizontalOffset = (int)cursorPosX - (TextAreaWidth - 10);
 			}
+
+			ResetCursorBlink();
+		}
+
+		private void ResetCursorBlink()
+		{
+			cursorBlink = true;
+			blinkTimer.Stop();
+			blinkTimer.Start();
 		}
 
 		private double CharacterPosition(int lineIndex, int characterIndex)
@@ -1064,6 +1081,19 @@ namespace FileSearch
 			Selection = null;
 			InvalidateVisual();
 			return -1;
+		}
+
+		#endregion
+
+		#region Events
+
+		private void BlinkTimer_Tick(object sender, EventArgs e)
+		{
+			if (this.EditMode && this.IsFocused)
+			{
+				cursorBlink = !cursorBlink;
+				InvalidateVisual();
+			}
 		}
 
 		#endregion

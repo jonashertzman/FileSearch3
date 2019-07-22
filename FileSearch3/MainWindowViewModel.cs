@@ -67,18 +67,11 @@ namespace FileSearch
 			get { return FileEncoding?.ToString(); }
 		}
 
-		bool fileDirty = false;
-		public bool FileDirty
-		{
-			get { return fileDirty || fileEdited; }
-			set { fileDirty = value; OnPropertyChanged(nameof(FileDirty)); }
-		}
-
 		bool fileEdited = false;
 		public bool FileEdited
 		{
 			get { return fileEdited; }
-			set { fileEdited = value; OnPropertyChanged(nameof(FileEdited)); OnPropertyChanged(nameof(FileDirty)); }
+			set { fileEdited = value; OnPropertyChanged(nameof(FileEdited)); }
 		}
 
 		bool editMode = false;

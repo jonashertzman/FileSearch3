@@ -435,7 +435,7 @@
 								</ToggleButton.ToolTip>
 							</ToggleButton>-->
 
-							<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}">
+							<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}" IsEnabled="{Binding Path=FileEdited, Converter={StaticResource InverseBooleanConverter}}">
 								<StackPanel Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
 									<TextBlock Text="Show Only Hits" VerticalAlignment="Center" />
