@@ -375,6 +375,10 @@ namespace FileSearch
 			{
 				RemoveMissLines(ref Lines);
 			}
+			else if (Lines.Count == 0)
+			{
+				Lines.Add(new Line() { Type = TextState.Miss, Text = "" });
+			}
 
 			int maxLineNumber = 1;
 			for (int i = 0; i < Lines.Count; i++)
@@ -909,10 +913,10 @@ namespace FileSearch
 				{
 					using (StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding))
 					{
-						sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
-						foreach (Line l in ViewModel.PreviewLines)
+						if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
 						{
-							if (l.Type != TextState.Filler)
+							sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
+							foreach (Line l in ViewModel.PreviewLines)
 							{
 								sw.WriteLine(l.Text);
 							}
