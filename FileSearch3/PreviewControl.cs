@@ -105,6 +105,11 @@ namespace FileSearch
 			GlyphRun g = TextUtils.CreateGlyphRun("W", typeface, this.FontSize, dpiScale, out characterWidth);
 			characterHeight = Math.Ceiling(TextUtils.FontHeight(typeface, this.FontSize, dpiScale) / dpiScale) * dpiScale;
 
+			if (EditMode)
+			{
+				lineNumberLength = Lines.Count.ToString().Length;
+			}
+
 			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
 
@@ -126,7 +131,7 @@ namespace FileSearch
 				drawingContext.PushTransform(new TranslateTransform(0, characterHeight * i));
 				{
 					// Draw line number
-					if (line.LineNumber != null)
+					if (line.LineNumber != null || EditMode)
 					{
 						SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
 						if (lineIndex == CurrentMatch && !Edited)
@@ -134,7 +139,10 @@ namespace FileSearch
 							lineNumberColor = Brushes.White;
 							drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 						}
-
+						if (EditMode)
+						{
+							line.LineNumber = lineIndex + 1;
+						}
 						GlyphRun rowNumberRun = line.GetRenderedLineNumberText(typeface, this.FontSize, dpiScale, out double rowNumberWidth);
 
 						drawingContext.PushTransform(new TranslateTransform(lineNumberMargin - rowNumberWidth - textMargin, 0));
