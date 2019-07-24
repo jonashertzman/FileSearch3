@@ -47,13 +47,27 @@ namespace FileSearch
 
 			double lastHeight = -1;
 
+			SolidColorBrush hitBrush = Darken(AppSettings.HitBackground, .85);
+			SolidColorBrush headerBrush = Darken(AppSettings.HeaderBackground, .85);
+
+			SolidColorBrush lineBrush;
+
 			for (int i = 0; i < Lines.Count; i++)
 			{
 				Line line = Lines[i];
 
-				if (line.Type != TextState.Hit && line.Type != TextState.Header)
+				switch (line.Type)
 				{
-					continue;
+					case TextState.Hit:
+						lineBrush = hitBrush;
+						break;
+
+					case TextState.Header:
+						lineBrush = headerBrush;
+						break;
+
+					default:
+						continue;
 				}
 
 				int count = 1;
@@ -63,11 +77,11 @@ namespace FileSearch
 					count++;
 				}
 
-				Rect rect = new Rect(0, Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale, ActualWidth, Math.Ceiling(Math.Max(lineHeight * count, 1) / dpiScale) * dpiScale);
+				Rect rect = new Rect(RoundToWholePixels(1), Math.Floor((i * lineHeight + SystemParameters.VerticalScrollBarButtonHeight) / dpiScale) * dpiScale, ActualWidth, Math.Ceiling(Math.Max(lineHeight * count, 1) / dpiScale) * dpiScale);
 
 				if (rect.Bottom > lastHeight)
 				{
-					drawingContext.DrawRectangle(line.BackgroundBrush, null, rect);
+					drawingContext.DrawRectangle(lineBrush, null, rect);
 
 					lastHeight = rect.Bottom;
 				}
@@ -101,11 +115,11 @@ namespace FileSearch
 
 		#region Methods
 
-		private static SolidColorBrush BlendColors(SolidColorBrush color1, SolidColorBrush color2, double blendFactor)
+		private static SolidColorBrush Darken(SolidColorBrush color, double factor)
 		{
-			byte r = (byte)((color1.Color.R * blendFactor) + color2.Color.R * (1 - blendFactor));
-			byte g = (byte)((color1.Color.G * blendFactor) + color2.Color.G * (1 - blendFactor));
-			byte b = (byte)((color1.Color.B * blendFactor) + color2.Color.B * (1 - blendFactor));
+			byte r = (byte)(color.Color.R * factor);
+			byte g = (byte)(color.Color.G * factor);
+			byte b = (byte)(color.Color.B * factor);
 			return new SolidColorBrush(Color.FromRgb(r, g, b));
 		}
 

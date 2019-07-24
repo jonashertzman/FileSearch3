@@ -98,7 +98,7 @@ namespace FileSearch
 					case TextState.Header:
 						return AppSettings.HeaderForeground;
 					case TextState.Hit:
-						return AppSettings.HitForeground;
+						return AppSettings.NormalForeground;
 					case TextState.SurroundSpacing:
 						return AppSettings.HeaderForeground;
 
