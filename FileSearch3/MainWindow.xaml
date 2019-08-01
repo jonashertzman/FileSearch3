@@ -508,11 +508,27 @@
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{Binding ActiveSearchInstance.StatusText}" Margin="3" />
-			<TextBlock Grid.Column="1" Text="{Binding ActiveSearchInstance.FileCountStatus}" Margin="3" />
-			<ProgressBar Grid.Column="2" Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Width="100" Margin="3" />
-			<StackPanel Grid.Column="3" Width="20" />
+			<StackPanel Grid.Column="1" Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<TextBlock Text="{Binding ActiveSearchInstance.FileCountStatus}" Margin="3" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+					<TextBlock VerticalAlignment="Center" Margin="3">
+						<Hyperlink Name="ErrorCountHyperlink" Click="ErrorCountHyperlink_Click">
+								<TextBlock Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
+						</Hyperlink>
+					</TextBlock>
+
+				</StackPanel>
+				<ProgressBar Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Width="100" Margin="3" />
+				<StackPanel Width="20" />
+			</StackPanel>
 		</Grid>
 
 		<!--Used to measure the size of one character in the chosen font-->

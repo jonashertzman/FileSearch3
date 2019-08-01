@@ -206,6 +206,7 @@ namespace FileSearch
 			}
 
 			ActiveSearch.FileCountStatus = ActiveSearch.FilesSearched == 0 ? $"{filesFound} files found" : $"{ filesFound} files found in {ActiveSearch.FilesSearched} searched";
+			ActiveSearch.ErrorCountStatus = ActiveSearch.Errors.Count == 0 ? "" : $"{ActiveSearch.Errors.Count} Errors";
 		}
 
 		private void UpdatePreview()
@@ -670,6 +671,12 @@ namespace FileSearch
 					t.Text = d.SelectedPath;
 				}
 			}
+		}
+
+		private void ErrorCountHyperlink_Click(object sender, RoutedEventArgs e)
+		{
+			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this };
+			logWindow.ShowDialog();
 		}
 
 		#endregion

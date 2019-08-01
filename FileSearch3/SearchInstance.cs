@@ -15,7 +15,7 @@ namespace FileSearch
 
 		BackgroundSearch backgroundSearch;
 
-		internal delegate void SearchProgressUpdateDelegate(List<FileHit> SearchResults, String statusText, int percentageComplete, int filesSearched);
+		internal delegate void SearchProgressUpdateDelegate(List<FileHit> searchResults, List<string> searchErrors, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
 		#endregion
@@ -122,6 +122,13 @@ namespace FileSearch
 			set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 		}
 
+		ObservableCollection<string> errors = new ObservableCollection<string>();
+		public ObservableCollection<string> Errors
+		{
+			get { return errors; }
+			set { errors = value; OnPropertyChanged(nameof(Errors)); }
+		}
+
 		Dictionary<string, int> phraseSums = new Dictionary<string, int>();
 		[IgnoreDataMember]
 		public Dictionary<string, int> PhraseSums
@@ -144,6 +151,14 @@ namespace FileSearch
 		{
 			get { return fileCountStatus; }
 			set { fileCountStatus = value; OnPropertyChanged(nameof(FileCountStatus)); }
+		}
+
+		string errorCountStatus;
+		[IgnoreDataMember]
+		public string ErrorCountStatus
+		{
+			get { return errorCountStatus; }
+			set { errorCountStatus = value; OnPropertyChanged(nameof(ErrorCountStatus)); }
 		}
 
 		int progress;
@@ -204,9 +219,10 @@ namespace FileSearch
 			mainWindow = window;
 
 			FilesWithHits.Clear();
-			//LogedItems.Clear();
+			Errors.Clear();
 			StatusText = "";
 			FileCountStatus = "";
+			ErrorCountStatus = "";
 
 			backgroundSearch = new BackgroundSearch(this);
 		}
@@ -216,15 +232,20 @@ namespace FileSearch
 			backgroundSearch.CancelSaerch();
 		}
 
-		private void SearchProgressUpdate(List<FileHit> SearchResults, string statusText, int percentageComplete, int filesSearched)
+		private void SearchProgressUpdate(List<FileHit> searchResults, List<string> searchErrors, string statusText, int percentageComplete, int filesSearched)
 		{
 			StatusText = statusText;
 			Progress = percentageComplete;
 			FilesSearched = filesSearched;
 
-			for (int i = FilesWithHits.Count; i < SearchResults.Count; i++)
+			for (int i = FilesWithHits.Count; i < searchResults.Count; i++)
 			{
-				FilesWithHits.Add(SearchResults[i]);
+				FilesWithHits.Add(searchResults[i]);
+			}
+
+			for (int i = Errors.Count; i < searchErrors.Count; i++)
+			{
+				Errors.Add(searchErrors[i]);
 			}
 
 			if (mainWindow.ActiveSearch == this)

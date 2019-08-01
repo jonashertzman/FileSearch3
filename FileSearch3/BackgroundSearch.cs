@@ -28,7 +28,8 @@ namespace FileSearch
 
 		string currentRoot;
 
-		List<FileHit> SearchResults = new List<FileHit>();
+		List<FileHit> searchResults = new List<FileHit>();
+		List<string> searchErrors = new List<string>();
 
 		BackgroundWorker backgroundWorker = new BackgroundWorker();
 
@@ -93,10 +94,14 @@ namespace FileSearch
 
 		#endregion
 
+		#region Properties
+
 		public bool SearchInProgress
 		{
 			get { return backgroundWorker.IsBusy; }
 		}
+
+		#endregion
 
 		#region Methods
 
@@ -140,7 +145,7 @@ namespace FileSearch
 										{
 											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
 											{
-												SearchResults.Add(new FileHit(newPath, searchPhrases));
+												searchResults.Add(new FileHit(newPath, searchPhrases));
 											}
 										}
 									}
@@ -161,7 +166,7 @@ namespace FileSearch
 									{
 										if (searchPhrases.Count == 0)
 										{
-											SearchResults.Add(new FileHit(newPath, searchPhrases));
+											searchResults.Add(new FileHit(newPath, searchPhrases));
 											break;
 										}
 										UpdateStatus(newPath);
@@ -227,7 +232,7 @@ namespace FileSearch
 					status = TimeSpanToShortString(endTime.Subtract(startTime));
 				}
 
-				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { SearchResults, status, percentageComplete, searchedFilesCount });
+				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { searchResults, searchErrors, status, percentageComplete, searchedFilesCount });
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
 		}
@@ -285,13 +290,13 @@ namespace FileSearch
 
 				if (currentHit != null)
 				{
-					SearchResults.Add(currentHit);
+					searchResults.Add(currentHit);
 				}
 				searchedFilesCount++;
 			}
 			catch (Exception e)
 			{
-				//LogedItems.Add(e.Message);
+				searchErrors.Add(e.Message);
 			}
 		}
 

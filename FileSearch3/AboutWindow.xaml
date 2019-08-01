@@ -6,10 +6,10 @@
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Column="0" Margin="5">
-			<Label Grid.Row="0" Content="File Search 3 - Beta 1" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="1" Content="Author: Jonas Hertzman" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="2" Content="License: GNU General Public License v3" Style="{StaticResource  CommonTextLabel}" />
-			<Label Grid.Row="3" Style="{StaticResource  CommonTextLabel}">
+			<Label Grid.Row="0" Content="File Search 3 - Beta 2" Style="{StaticResource CommonTextLabel}" />
+			<Label Grid.Row="1" Content="Author: Jonas Hertzman" Style="{StaticResource CommonTextLabel}" />
+			<Label Grid.Row="2" Content="License: GNU General Public License v3" Style="{StaticResource CommonTextLabel}" />
+			<Label Grid.Row="3" Style="{StaticResource CommonTextLabel}">
 				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileSearch3">Source Code</Hyperlink>
 			</Label>
 
