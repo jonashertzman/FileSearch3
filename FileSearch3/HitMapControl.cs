@@ -37,7 +37,11 @@ namespace FileSearch
 		{
 			Debug.Print("DiffMap OnRender");
 
+			// Fill background
 			drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
+
+			if (Lines.Count == 0)
+				return;
 
 			Matrix m = PresentationSource.FromVisual(this).CompositionTarget.TransformToDevice;
 			dpiScale = 1 / m.M11;
@@ -115,7 +119,7 @@ namespace FileSearch
 
 		#region Methods
 
-		private static SolidColorBrush Darken(SolidColorBrush color, double factor)
+		private SolidColorBrush Darken(SolidColorBrush color, double factor)
 		{
 			byte r = (byte)(color.Color.R * factor);
 			byte g = (byte)(color.Color.G * factor);
