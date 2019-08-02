@@ -158,7 +158,12 @@ namespace FileSearch
 		public string ErrorCountStatus
 		{
 			get { return errorCountStatus; }
-			set { errorCountStatus = value; OnPropertyChanged(nameof(ErrorCountStatus)); }
+			set { errorCountStatus = value; OnPropertyChanged(nameof(ErrorCountStatus)); OnPropertyChanged(nameof(AnyErrors)); }
+		}
+
+		public bool AnyErrors
+		{
+			get { return Errors.Count > 0; }
 		}
 
 		int progress;

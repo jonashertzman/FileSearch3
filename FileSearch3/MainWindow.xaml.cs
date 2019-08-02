@@ -206,7 +206,7 @@ namespace FileSearch
 			}
 
 			ActiveSearch.FileCountStatus = ActiveSearch.FilesSearched == 0 ? $"{filesFound} files found" : $"{ filesFound} files found in {ActiveSearch.FilesSearched} searched";
-			ActiveSearch.ErrorCountStatus = ActiveSearch.Errors.Count == 0 ? "" : $"{ActiveSearch.Errors.Count} Errors";
+			ActiveSearch.ErrorCountStatus = $"{ActiveSearch.Errors.Count} Errors";
 		}
 
 		private void UpdatePreview()

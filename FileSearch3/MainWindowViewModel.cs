@@ -59,12 +59,7 @@ namespace FileSearch
 		public FileEncoding FileEncoding
 		{
 			get { return fileEncoding; }
-			set { fileEncoding = value; OnPropertyChanged(nameof(FileEncoding)); OnPropertyChanged(nameof(FileDescription)); }
-		}
-
-		public string FileDescription
-		{
-			get { return FileEncoding?.ToString(); }
+			set { fileEncoding = value; OnPropertyChanged(nameof(FileEncoding)); }
 		}
 
 		bool fileEdited = false;

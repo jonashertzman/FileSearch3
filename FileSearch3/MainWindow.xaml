@@ -516,15 +516,13 @@
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 					<TextBlock Text="{Binding ActiveSearchInstance.FileCountStatus}" Margin="3" />
 				</StackPanel>
-				<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-
 					<TextBlock VerticalAlignment="Center" Margin="3">
 						<Hyperlink Name="ErrorCountHyperlink" Click="ErrorCountHyperlink_Click">
 								<TextBlock Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
 						</Hyperlink>
 					</TextBlock>
-
 				</StackPanel>
 				<ProgressBar Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Width="100" Margin="3" />
 				<StackPanel Width="20" />
