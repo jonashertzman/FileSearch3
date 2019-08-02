@@ -524,7 +524,7 @@
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-				<ProgressBar Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Width="100" Margin="3" />
+				<ProgressBar Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Height="14" Width="100" Margin="3" />
 				<StackPanel Width="20" />
 			</StackPanel>
 		</Grid>
