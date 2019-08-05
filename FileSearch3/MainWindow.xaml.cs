@@ -659,16 +659,18 @@ namespace FileSearch
 		{
 			TextAttribute t = (sender as Button).DataContext as TextAttribute;
 
-			System.Windows.Forms.FolderBrowserDialog d = new System.Windows.Forms.FolderBrowserDialog();
-			if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = t?.Text };
+			browseFolderWindow.ShowDialog();
+
+			if (browseFolderWindow.DialogResult == true)
 			{
 				if (t == null)
 				{
-					ActiveSearch.SearchDirectories.Add(new TextAttribute(d.SelectedPath));
+					ActiveSearch.SearchDirectories.Add(new TextAttribute(browseFolderWindow.SelectedPath));
 				}
 				else
 				{
-					t.Text = d.SelectedPath;
+					t.Text = browseFolderWindow.SelectedPath;
 				}
 			}
 		}

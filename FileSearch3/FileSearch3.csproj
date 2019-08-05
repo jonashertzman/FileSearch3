@@ -68,6 +68,9 @@
       <DependentUpon>AboutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="BackgroundSearch.cs" />
+    <Compile Include="BrowseFolderWindow.xaml.cs">
+      <DependentUpon>BrowseFolderWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Commands.cs" />
     <Compile Include="Converters.cs" />
     <Compile Include="DefaultSettings.cs" />
@@ -98,8 +101,13 @@
     <Compile Include="TextSegment.cs" />
     <Compile Include="TextUtils.cs" />
     <Compile Include="Unicode.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="WinApi.cs" />
     <Page Include="AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BrowseFolderWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
