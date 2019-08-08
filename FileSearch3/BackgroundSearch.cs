@@ -145,7 +145,7 @@ namespace FileSearch
 										{
 											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
 											{
-												searchResults.Add(new FileHit(newPath, searchPhrases));
+												searchResults.Add(new FileHit(newPath, searchPhrases, findData, true));
 											}
 										}
 									}
@@ -166,12 +166,12 @@ namespace FileSearch
 									{
 										if (searchPhrases.Count == 0)
 										{
-											searchResults.Add(new FileHit(newPath, searchPhrases));
+											searchResults.Add(new FileHit(newPath, searchPhrases, findData));
 											break;
 										}
 										UpdateStatus(newPath);
 
-										SearchInFile(newPath);
+										SearchInFile(newPath, findData);
 										break;
 									}
 								}
@@ -237,7 +237,7 @@ namespace FileSearch
 			}
 		}
 
-		private void SearchInFile(string path)
+		private void SearchInFile(string path, WIN32_FIND_DATA findData)
 		{
 			try
 			{
@@ -253,7 +253,7 @@ namespace FileSearch
 						{
 							if (currentHit == null)
 							{
-								currentHit = new FileHit(path, searchPhrases);
+								currentHit = new FileHit(path, searchPhrases, findData);
 							}
 							Match caseSensitiveMatch = Regex.Match(allText.Substring(match.Index), searchPhrase.Text);
 							currentHit.AddPhraseHit(searchPhrase.Text, caseSensitiveMatch.Success && caseSensitiveMatch.Index == 0);
@@ -278,7 +278,7 @@ namespace FileSearch
 							}
 							if (currentHit == null)
 							{
-								currentHit = new FileHit(path, searchPhrases);
+								currentHit = new FileHit(path, searchPhrases, findData);
 							}
 							currentHit.AddPhraseHit(searchPhrase.Text, allText.IndexOf(searchPhrase.Text, i, StringComparison.Ordinal) == i);
 

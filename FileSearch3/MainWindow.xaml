@@ -30,7 +30,7 @@
 		<CommandBinding Command="local:Commands.DeleteSearch" Executed="CommandDeleteSearch_Executed" />
 		<CommandBinding Command="local:Commands.DuplicateSearch" Executed="CommandDuplicateSearch_Executed" />
 
-		<CommandBinding Command="local:Commands.Edit" Executed="CommandEdit_Executed" CanExecute="CommandEdit_CanExecute" />
+		<CommandBinding Command="local:Commands.Edit" CanExecute="CommandEdit_CanExecute" />
 
 		<CommandBinding Command="local:Commands.SaveFile" Executed="CommandSaveFile_Executed" CanExecute="CommandSaveFile_CanExecute" />
 		<CommandBinding Command="local:Commands.PreviousHit" Executed="CommandPreviousHit_Executed" CanExecute="CommandPreviousHit_CanExecute" />

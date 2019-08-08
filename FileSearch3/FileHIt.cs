@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.Serialization;
 
 namespace FileSearch
@@ -14,16 +14,17 @@ namespace FileSearch
 		{
 		}
 
-		public FileHit(string path, List<TextAttribute> searchPhrases)
+		public FileHit(string path, List<TextAttribute> searchPhrases, WIN32_FIND_DATA findData, bool isFolder = false)
 		{
 			this.Path = path;
+			IsFolder = isFolder;
 
-			FileInfo fileInfo = new FileInfo(path);
-			if (fileInfo.Exists)
+			if (!isFolder)
 			{
-				Size = fileInfo.Length;
+				Size = Combine(findData.nFileSizeHigh, findData.nFileSizeLow).ToString("N0");
 			}
-			Date = fileInfo.LastWriteTime.ToString("g");
+
+			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime)).ToString("g");
 
 			foreach (TextAttribute t in searchPhrases)
 			{
@@ -39,9 +40,11 @@ namespace FileSearch
 
 		public string Date { get; set; }
 
-		public long Size { get; set; }
+		public string Size { get; set; }
 
 		internal bool Selected { get; set; }
+
+		public bool IsFolder { get; set; }
 
 		public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
 
@@ -70,6 +73,11 @@ namespace FileSearch
 		#endregion
 
 		#region Methods
+
+		private ulong Combine(uint highValue, uint lowValue)
+		{
+			return (ulong)highValue << 32 | lowValue;
+		}
 
 		internal void AddPhraseHit(string phrase, bool caseSensieiveHit)
 		{

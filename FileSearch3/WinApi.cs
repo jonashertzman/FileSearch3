@@ -32,10 +32,10 @@ namespace FileSearch
 		public FILETIME ftCreationTime;
 		public FILETIME ftLastAccessTime;
 		public FILETIME ftLastWriteTime;
-		public int nFileSizeHigh;
-		public int nFileSizeLow;
-		public int dwReserved0;
-		public int dwReserved1;
+		public uint nFileSizeHigh;
+		public uint nFileSizeLow;
+		public uint dwReserved0;
+		public uint dwReserved1;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = WinApi.MAX_PATH)]
 		public string cFileName;
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = WinApi.MAX_ALTERNATE)]

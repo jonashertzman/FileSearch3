@@ -237,7 +237,10 @@ namespace FileSearch
 
 				if (Directory.Exists(currentFile.Path))
 				{
-					Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
+					if (previewFiles.Count > 1)
+					{
+						Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
+					}
 					Lines.Add(new Line() { Type = TextState.SurroundSpacing, Text = "[FOLDER]" });
 				}
 				else
@@ -945,13 +948,9 @@ namespace FileSearch
 			e.CanExecute = ViewModel.FileEdited;
 		}
 
-		private void CommandEdit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-
-		}
 		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 		{
-			e.CanExecute = dataGridFileList.SelectedItems.Count == 1 && !ActiveSearch.ShowOnlyHits && !ViewModel.FileEdited;
+			e.CanExecute = dataGridFileList.SelectedItems.Count == 1 && !ActiveSearch.ShowOnlyHits && !ViewModel.FileEdited && !((FileHit)dataGridFileList.SelectedItems[0]).IsFolder;
 		}
 
 		private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
