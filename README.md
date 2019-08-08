@@ -1,7 +1,7 @@
 File Search 3
 =============
 
-A file searching application with a rich user experience.
+A free open source file searching application with a rich user experience.
 
 Download latest version [here](https://jonashertzman.github.io/FileSearch3/download/FileSearch3.zip)
 
