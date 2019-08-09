@@ -269,14 +269,14 @@
 					</DataGrid.RowStyle>
 					<DataGrid.Columns>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
-						<DataGridTextColumn Binding="{Binding Size}" Header="Size">
+						<DataGridTextColumn Binding="{Binding Size, StringFormat={}{0:N0}}" Header="Size">
 							<DataGridTextColumn.ElementStyle>
 								<Style>
 									<Setter Property="TextBlock.TextAlignment" Value="Right" />
 								</Style>
 							</DataGridTextColumn.ElementStyle>
 						</DataGridTextColumn>
-						<DataGridTextColumn Binding="{Binding Date}" Header="Date" />
+						<DataGridTextColumn Binding="{Binding Date, StringFormat={}{0:g}}" Header="Date" />
 					</DataGrid.Columns>
 				</local:ExtendedDataGrid>
 

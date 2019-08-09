@@ -21,10 +21,10 @@ namespace FileSearch
 
 			if (!isFolder)
 			{
-				Size = Combine(findData.nFileSizeHigh, findData.nFileSizeLow).ToString("N0");
+				Size = (long)Combine(findData.nFileSizeHigh, findData.nFileSizeLow);
 			}
 
-			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime)).ToString("g");
+			Date = DateTime.FromFileTime((long)Combine(findData.ftLastWriteTime.dwHighDateTime, findData.ftLastWriteTime.dwLowDateTime));
 
 			foreach (TextAttribute t in searchPhrases)
 			{
@@ -38,9 +38,9 @@ namespace FileSearch
 
 		public string Path { get; set; }
 
-		public string Date { get; set; }
+		public DateTime Date { get; set; }
 
-		public string Size { get; set; }
+		public long Size { get; set; }
 
 		internal bool Selected { get; set; }
 
