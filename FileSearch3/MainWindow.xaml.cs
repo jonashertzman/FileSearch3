@@ -656,10 +656,12 @@ namespace FileSearch
 
 		private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			Process p = new Process();
-			p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
-			p.StartInfo.ErrorDialog = true;
-			p.Start();
+			using (Process p = new Process())
+			{
+				p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
+				p.StartInfo.ErrorDialog = true;
+				p.Start();
+			}
 		}
 
 		private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
