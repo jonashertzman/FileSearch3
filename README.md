@@ -16,7 +16,7 @@ Source code available at <https://github.com/jonashertzman/FileSearch3>
 - Editing files in the preview
 - High DPI support
 
-###Screen shots
+### Screen shots
 ![screen](docs/images/Screen1.png)
 *Normal preview.*
 
