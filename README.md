@@ -17,11 +17,11 @@ Source code available at <https://github.com/jonashertzman/FileSearch3>
 - High DPI support
 
 ### Screen shots
-![screen](docs/images/Screen1.png)
+![screen](docs/images/screen1.png)
 *Normal preview.*
 
-![screen](docs/images/Screen2.png)
+![screen](docs/images/screen2.png)
 *Condensed preview.*
 
-![screen](docs/images/Screen3.png)
+![screen](docs/images/screen3.png)
 *Full DPI support.*
