@@ -221,11 +221,6 @@ namespace FileSearch
 				drawingContext.Pop(); // Line Y offset
 			}
 
-			// Draw line number border
-			drawingContext.PushTransform(new TranslateTransform(.5, -.5));
-			drawingContext.DrawLine(new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1)), new Point(lineNumberMargin, 0), new Point(lineNumberMargin, this.ActualHeight + 1));
-			drawingContext.Pop();
-
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 2));
 		}
@@ -369,7 +364,7 @@ namespace FileSearch
 					EnsureCursorVisibility();
 				}
 			}
-			else if (e.Key == Key.Escape)
+			else if (e.Key == Key.Escape && Selection != null)
 			{
 				Selection = null;
 			}
