@@ -749,7 +749,7 @@ namespace FileSearch
 
 		private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			AboutWindow aboutWindow = new AboutWindow() { Owner = this };
+			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
 		}
 

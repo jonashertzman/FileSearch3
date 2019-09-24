@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -27,6 +29,30 @@ namespace FileSearch
 		#endregion
 
 		#region Properties
+
+		public string Title
+		{
+			get { return "File Search"; }
+		}
+
+		public string Version
+		{
+			get { return "3.0"; }
+		}
+
+		public string BuildNumber
+		{
+			get
+			{
+				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear}";
+			}
+		}
+
+		public string FullApplicationName
+		{
+			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+		}
 
 		SearchInstance activeSearchInstance;
 		public SearchInstance ActiveSearchInstance
