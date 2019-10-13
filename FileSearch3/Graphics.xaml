@@ -43,20 +43,20 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="FindAnyPhraseIcon">
-		<Viewbox>
-			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="10" Canvas.Top="10" Width="60" Height="60" Stroke="Black" StrokeThickness="4" />
-				<Rectangle Canvas.Left="10" Canvas.Top="90" Width="60" Height="60" Stroke="Black" StrokeThickness="4" />
-				<TextBlock FontFamily="Calibri" FontSize="90" FontWeight="Bold" Text="A" Canvas.Top="-20" Canvas.Left="90" Foreground="Gray" />
-				<TextBlock FontFamily="Calibri" FontSize="90" FontWeight="Bold" Text="B" Canvas.Top="60" Canvas.Left="90" Foreground="Gray" />
-				<Path StrokeThickness="8" Stroke="Red">
+		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
+			<Canvas Width="64" Height="64">
+				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="A" Canvas.Top="-6" Canvas.Left="32" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="B" Canvas.Top="25" Canvas.Left="32" Foreground="Gray" />
+				<Path StrokeThickness="3" Stroke="Red">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="20,40" IsClosed="False">
+								<PathFigure StartPoint="8,16" IsClosed="False">
 									<PathFigure.Segments>
-										<LineSegment Point="35,55" />
-										<LineSegment Point="60,25" />
+										<LineSegment Point="14,22" />
+										<LineSegment Point="24,10" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
@@ -68,34 +68,34 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="FindAllPhrasesIcon">
-		<Viewbox>
-			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="10" Canvas.Top="10" Width="60" Height="60" Stroke="Black" StrokeThickness="4" />
-				<Rectangle Canvas.Left="10" Canvas.Top="90" Width="60" Height="60" Stroke="Black" StrokeThickness="4" />
-				<TextBlock FontFamily="Calibri" FontSize="90" FontWeight="Bold" Text="A" Canvas.Top="-20" Canvas.Left="90" Foreground="Gray" />
-				<TextBlock FontFamily="Calibri" FontSize="90" FontWeight="Bold" Text="B" Canvas.Top="60" Canvas.Left="90" Foreground="Gray" />
-				<Path StrokeThickness="8" Stroke="Red">
+		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
+			<Canvas Width="64" Height="64">
+				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="A" Canvas.Top="-6" Canvas.Left="32" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="B" Canvas.Top="25" Canvas.Left="32" Foreground="Gray" />
+				<Path StrokeThickness="3" Stroke="Red">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="20,40" IsClosed="False">
+								<PathFigure StartPoint="8,16" IsClosed="False">
 									<PathFigure.Segments>
-										<LineSegment Point="35,55" />
-										<LineSegment Point="60,25" />
+										<LineSegment Point="14,22" />
+										<LineSegment Point="24,10" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Path StrokeThickness="8" Stroke="Red">
+				<Path StrokeThickness="3" Stroke="Red">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
-								<PathFigure StartPoint="20,120" IsClosed="False">
+								<PathFigure StartPoint="8,48" IsClosed="False">
 									<PathFigure.Segments>
-										<LineSegment Point="35,135" />
-										<LineSegment Point="60,105" />
+										<LineSegment Point="14,54" />
+										<LineSegment Point="24,42" />
 									</PathFigure.Segments>
 								</PathFigure>
 							</PathGeometry.Figures>
@@ -107,9 +107,9 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="CaseSemsitiveIcon">
-		<Viewbox>
-			<Canvas Width="16" Height="16">
-				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="16" Text="A" Canvas.Top="-4" Canvas.Left="0">
+		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
+			<Canvas Width="64" Height="64">
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="64" Text="A" Canvas.Top="-20" Canvas.Left="0">
 					<TextBlock.Foreground>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
 							<GradientStop Color="#FF4B66DE" Offset="0" />
@@ -117,7 +117,7 @@
 						</LinearGradientBrush>
 					</TextBlock.Foreground>
 				</TextBlock>
-				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="16" Text="a" Canvas.Top="-2" Canvas.Left="9">
+				<TextBlock FontFamily="Calibri" FontWeight="Bold" FontSize="64" Text="a" Canvas.Top="-2" Canvas.Left="33">
 					<TextBlock.Foreground>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
 							<GradientStop Color="#FFDE4B4B" Offset="0" />
@@ -130,9 +130,9 @@
 	</DataTemplate>
 
 	<DataTemplate x:Key="RegexIcon">
-		<Viewbox>
-			<Canvas Width="16" Height="16">
-				<TextBlock FontFamily="Tahoma" FontWeight="Normal" FontSize="9" Text="[a-z]" Canvas.Top="2" Canvas.Left="-1">
+		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
+			<Canvas Width="64" Height="64">
+				<TextBlock FontFamily="Calibri" FontWeight="Normal" FontSize="40" Text="[a-z]" Canvas.Top="4" Canvas.Left="-3">
 					<TextBlock.Foreground>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
 							<GradientStop Color="#FF8193E2" Offset="0" />
