@@ -47,8 +47,8 @@
 			<Canvas Width="64" Height="64">
 				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
 				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
-				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="A" Canvas.Top="-6" Canvas.Left="32" Foreground="Gray" />
-				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="B" Canvas.Top="25" Canvas.Left="32" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="38" Text="A" Canvas.Top="-7" Canvas.Left="35" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="38" Text="B" Canvas.Top="25" Canvas.Left="35" Foreground="Gray" />
 				<Path StrokeThickness="3" Stroke="Red">
 					<Path.Data>
 						<PathGeometry>
@@ -72,8 +72,8 @@
 			<Canvas Width="64" Height="64">
 				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
 				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
-				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="A" Canvas.Top="-6" Canvas.Left="32" Foreground="Gray" />
-				<TextBlock FontFamily="Calibri" FontSize="36" FontWeight="Bold" Text="B" Canvas.Top="25" Canvas.Left="32" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="38" Text="A" Canvas.Top="-7" Canvas.Left="35" Foreground="Gray" />
+				<TextBlock FontFamily="Calibri" FontSize="38" Text="B" Canvas.Top="25" Canvas.Left="35" Foreground="Gray" />
 				<Path StrokeThickness="3" Stroke="Red">
 					<Path.Data>
 						<PathGeometry>
@@ -132,7 +132,7 @@
 	<DataTemplate x:Key="RegexIcon">
 		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
 			<Canvas Width="64" Height="64">
-				<TextBlock FontFamily="Calibri" FontWeight="Normal" FontSize="40" Text="[a-z]" Canvas.Top="4" Canvas.Left="-3">
+				<TextBlock FontFamily="Calibri" FontWeight="Normal" FontSize="40" Text="[a-z]" Canvas.Top="3" Canvas.Left="-3">
 					<TextBlock.Foreground>
 						<LinearGradientBrush EndPoint="0.6,1" StartPoint="0.4,0">
 							<GradientStop Color="#FF8193E2" Offset="0" />
@@ -183,7 +183,7 @@
 	<DataTemplate x:Key="DuplicateSearchIcon">
 		<Viewbox>
 			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="20" Canvas.Top="10" Width="80" Height="110" Stroke="Blue">
+				<Rectangle Canvas.Left="20" Canvas.Top="10" Width="80" Height="110" Stroke="Black">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="0.8,1" StartPoint="0.2,0">
 							<GradientStop Color="White" Offset="0" />
@@ -192,7 +192,7 @@
 					</Rectangle.Fill>
 				</Rectangle>
 
-				<Rectangle Canvas.Left="60" Canvas.Top="40" Width="80" Height="110" Stroke="Blue">
+				<Rectangle Canvas.Left="60" Canvas.Top="40" Width="80" Height="110" Stroke="Black">
 					<Rectangle.Fill>
 						<LinearGradientBrush EndPoint="0.8,1" StartPoint="0.2,0">
 							<GradientStop Color="White" Offset="0" />
