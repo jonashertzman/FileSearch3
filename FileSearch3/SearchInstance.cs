@@ -15,7 +15,7 @@ namespace FileSearch
 
 		BackgroundSearch backgroundSearch;
 
-		internal delegate void SearchProgressUpdateDelegate(List<FileHit> searchResults, List<string> searchErrors, String statusText, int percentageComplete, int filesSearched);
+		internal delegate void SearchProgressUpdateDelegate(List<FileHit> searchResults, List<string> searchErrors, List<string> searchIgnores, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
 		#endregion
@@ -129,6 +129,13 @@ namespace FileSearch
 			set { errors = value; OnPropertyChanged(nameof(Errors)); }
 		}
 
+		ObservableCollection<string> filesIgnored = new ObservableCollection<string>();
+		public ObservableCollection<string> FilesIgnored
+		{
+			get { return filesIgnored; }
+			set { filesIgnored = value; OnPropertyChanged(nameof(FilesIgnored)); }
+		}
+
 		Dictionary<string, int> phraseSums = new Dictionary<string, int>();
 		[IgnoreDataMember]
 		public Dictionary<string, int> PhraseSums
@@ -199,7 +206,9 @@ namespace FileSearch
 			}
 		}
 
-		public int FilesSearched { get; set; }
+		public int SearchedFileCount { get; set; }
+
+		public int IgnoredFileCount { get; set; }
 
 		#endregion
 
@@ -225,6 +234,7 @@ namespace FileSearch
 
 			FilesWithHits.Clear();
 			Errors.Clear();
+			FilesIgnored.Clear();
 			StatusText = "";
 			FileCountStatus = "";
 			ErrorCountStatus = "";
@@ -234,14 +244,15 @@ namespace FileSearch
 
 		internal void CancelSearch()
 		{
-			backgroundSearch.CancelSaerch();
+			backgroundSearch.CancelSearch();
 		}
 
-		private void SearchProgressUpdate(List<FileHit> searchResults, List<string> searchErrors, string statusText, int percentageComplete, int filesSearched)
+		private void SearchProgressUpdate(List<FileHit> searchResults, List<string> searchErrors, List<string> searchIgnores, string statusText, int percentageComplete, int filesSearched)
 		{
 			StatusText = statusText;
 			Progress = percentageComplete;
-			FilesSearched = filesSearched;
+			SearchedFileCount = filesSearched;
+			IgnoredFileCount = searchIgnores.Count;
 
 			for (int i = FilesWithHits.Count; i < searchResults.Count; i++)
 			{
@@ -251,6 +262,11 @@ namespace FileSearch
 			for (int i = Errors.Count; i < searchErrors.Count; i++)
 			{
 				Errors.Add(searchErrors[i]);
+			}
+
+			for (int i = FilesIgnored.Count; i < searchIgnores.Count; i++)
+			{
+				FilesIgnored.Add(searchIgnores[i]);
 			}
 
 			if (mainWindow.ActiveSearch == this)

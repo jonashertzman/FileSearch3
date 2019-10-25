@@ -30,6 +30,7 @@ namespace FileSearch
 
 		List<FileHit> searchResults = new List<FileHit>();
 		List<string> searchErrors = new List<string>();
+		List<string> searchIgnores = new List<string>();
 
 		BackgroundWorker backgroundWorker = new BackgroundWorker();
 
@@ -110,7 +111,7 @@ namespace FileSearch
 			backgroundWorker.RunWorkerAsync();
 		}
 
-		public void CancelSaerch()
+		public void CancelSearch()
 		{
 			abortPosted = true;
 		}
@@ -176,6 +177,10 @@ namespace FileSearch
 									}
 								}
 							}
+							else
+							{
+								searchIgnores.Add(newPath);
+							}
 						}
 					}
 					while (WinApi.FindNextFile(findHandle, out findData) && !abortPosted);
@@ -232,7 +237,7 @@ namespace FileSearch
 					status = TimeSpanToShortString(endTime.Subtract(startTime));
 				}
 
-				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { searchResults, searchErrors, status, percentageComplete, searchedFilesCount });
+				searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { searchResults, searchErrors, searchIgnores, status, percentageComplete, searchedFilesCount });
 				lastStatusUpdateTime = DateTime.UtcNow;
 			}
 		}

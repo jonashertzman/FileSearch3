@@ -207,7 +207,17 @@ namespace FileSearch
 				i++;
 			}
 
-			ActiveSearch.FileCountStatus = ActiveSearch.FilesSearched == 0 ? $"{filesFound} files found" : $"{ filesFound} files found in {ActiveSearch.FilesSearched} searched";
+			string temp = $"{filesFound} files found";
+			if (ActiveSearch.SearchedFileCount > 0)
+			{
+				temp += $" in { ActiveSearch.SearchedFileCount} searched";
+			}
+			if (ActiveSearch.IgnoredFileCount > 0)
+			{
+				temp += $" ({ActiveSearch.IgnoredFileCount} ignored)";
+			}
+
+			ActiveSearch.FileCountStatus = temp;
 			ActiveSearch.ErrorCountStatus = $"{ActiveSearch.Errors.Count} Errors";
 		}
 
