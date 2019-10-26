@@ -140,15 +140,9 @@ namespace FileSearch
 							{
 								if (!DirectoryIsIgnored(uppercaseFileName))
 								{
-									if (searchPhrases.Count == 0)
+									if (searchPhrases.Count == 0 && FileIsMatch(uppercaseFileName))
 									{
-										foreach (TextAttribute s in searchFiles)
-										{
-											if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
-											{
-												searchResults.Add(new FileHit(newPath, searchPhrases, findData, true));
-											}
-										}
+										searchResults.Add(new FileHit(newPath, searchPhrases, findData, true));
 									}
 									UpdateStatus(newPath);
 									FindFiles(newPath);
@@ -159,27 +153,24 @@ namespace FileSearch
 						// File
 						else
 						{
-							if (!FileIsIgnored(uppercaseFileName))
+							if (FileIsMatch(uppercaseFileName))
 							{
-								foreach (TextAttribute s in searchFiles)
+								if (!FileIsIgnored(uppercaseFileName))
 								{
-									if (WildcardCompare(uppercaseFileName, s.UppercaseText, false))
+									if (searchPhrases.Count == 0)
 									{
-										if (searchPhrases.Count == 0)
-										{
-											searchResults.Add(new FileHit(newPath, searchPhrases, findData));
-											break;
-										}
-										UpdateStatus(newPath);
-
-										SearchInFile(newPath, findData);
+										searchResults.Add(new FileHit(newPath, searchPhrases, findData));
 										break;
 									}
+									UpdateStatus(newPath);
+
+									SearchInFile(newPath, findData);
+									break;
 								}
-							}
-							else
-							{
-								searchIgnores.Add(newPath);
+								else
+								{
+									searchIgnores.Add(newPath);
+								}
 							}
 						}
 					}
@@ -188,6 +179,18 @@ namespace FileSearch
 
 				WinApi.FindClose(findHandle);
 			}
+		}
+
+		private bool FileIsMatch(string fileName)
+		{
+			foreach (TextAttribute s in searchFiles)
+			{
+				if (WildcardCompare(fileName, s.UppercaseText, false))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private bool FileIsIgnored(string fileName)
