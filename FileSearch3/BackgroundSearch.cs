@@ -160,12 +160,10 @@ namespace FileSearch
 									if (searchPhrases.Count == 0)
 									{
 										searchResults.Add(new FileHit(newPath, searchPhrases, findData));
-										break;
 									}
 									UpdateStatus(newPath);
 
 									SearchInFile(newPath, findData);
-									break;
 								}
 								else
 								{
