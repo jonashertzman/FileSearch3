@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
@@ -59,6 +60,31 @@ namespace FileSearch
 				WindowsPrincipal wp = new WindowsPrincipal(wi);
 
 				return wp.IsInRole(WindowsBuiltInRole.Administrator);
+			}
+		}
+
+		#endregion
+
+		#region Methods
+
+		private void CleanIgnores()
+		{
+			MainWindowViewModel viewModel = DataContext as MainWindowViewModel;
+
+			for (int i = viewModel.IgnoredDirectories.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrWhiteSpace(viewModel.IgnoredDirectories[i].Text))
+				{
+					viewModel.IgnoredDirectories.RemoveAt(i);
+				}
+			}
+
+			for (int i = viewModel.IgnoredFiles.Count - 1; i >= 0; i--)
+			{
+				if (string.IsNullOrWhiteSpace(viewModel.IgnoredFiles[i].Text))
+				{
+					viewModel.IgnoredFiles.RemoveAt(i);
+				}
 			}
 		}
 
@@ -136,6 +162,7 @@ namespace FileSearch
 
 		private void ButtonOk_Click(object sender, RoutedEventArgs e)
 		{
+			CleanIgnores();
 			DialogResult = true;
 		}
 
