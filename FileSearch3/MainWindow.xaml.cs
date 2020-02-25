@@ -212,13 +212,10 @@ namespace FileSearch
 			{
 				temp += $" in { ActiveSearch.SearchedFileCount} searched";
 			}
-			if (ActiveSearch.IgnoredFileCount > 0)
-			{
-				temp += $" ({ActiveSearch.IgnoredFileCount} ignored)";
-			}
 
 			ActiveSearch.FileCountStatus = temp;
 			ActiveSearch.ErrorCountStatus = $"{ActiveSearch.Errors.Count} Errors";
+			ActiveSearch.IgnoredFilesCountStatus = $"{ActiveSearch.IgnoredFileCount} Ignored";
 		}
 
 		private void UpdatePreview()
@@ -696,7 +693,13 @@ namespace FileSearch
 
 		private void ErrorCountHyperlink_Click(object sender, RoutedEventArgs e)
 		{
-			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this };
+			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.Errors };
+			logWindow.ShowDialog();
+		}
+
+		private void IgnoredFilesCountHyperlink_Click(object sender, RoutedEventArgs e)
+		{
+			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
 			logWindow.ShowDialog();
 		}
 

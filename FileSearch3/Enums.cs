@@ -1,5 +1,6 @@
 ﻿namespace FileSearch
 {
+
 	public enum TextState
 	{
 		Miss,
@@ -16,4 +17,11 @@
 		Unix,
 		Mac
 	}
+
+	public enum LogWindowType
+	{
+		Errors,
+		IgnoredFiles
+	}
+
 }

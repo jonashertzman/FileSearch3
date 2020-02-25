@@ -507,12 +507,21 @@
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock Text="{Binding ActiveSearchInstance.StatusText}" Margin="3" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 					<TextBlock Text="{Binding ActiveSearchInstance.FileCountStatus}" Margin="3" />
+				</StackPanel>
+				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyIgnoredFiles, Converter={StaticResource BooleanToVisibilityConverter}}">
+					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<TextBlock VerticalAlignment="Center" Margin="3">
+						<Hyperlink Name="IgnoredFilesCountHyperlink" Click="IgnoredFilesCountHyperlink_Click">
+								<TextBlock Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
+						</Hyperlink>
+					</TextBlock>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />

@@ -168,9 +168,22 @@ namespace FileSearch
 			set { errorCountStatus = value; OnPropertyChanged(nameof(ErrorCountStatus)); OnPropertyChanged(nameof(AnyErrors)); }
 		}
 
+		string ignoredFilesCountStatus;
+		[IgnoreDataMember]
+		public string IgnoredFilesCountStatus
+		{
+			get { return ignoredFilesCountStatus; }
+			set { ignoredFilesCountStatus = value; OnPropertyChanged(nameof(IgnoredFilesCountStatus)); }
+		}
+
 		public bool AnyErrors
 		{
 			get { return Errors.Count > 0; }
+		}
+
+		public bool AnyIgnoredFiles
+		{
+			get { return FilesIgnored.Count > 0; }
 		}
 
 		int progress;

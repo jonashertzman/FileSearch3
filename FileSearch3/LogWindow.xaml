@@ -1,10 +1,11 @@
-﻿<Window x:Class="FileSearch.LogWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileSearch" mc:Ignorable="d" Title="Search Errors" Height="350" Width="600" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Padding="5" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+﻿<Window x:Class="FileSearch.LogWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileSearch" mc:Ignorable="d" Title="Search Errors" Height="350" Width="600" TextOptions.TextFormattingMode="Display" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" Padding="5" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" Loaded="Window_Loaded">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<ListBox Grid.Row="0" ItemsSource="{Binding Errors}" Margin="10,10,10,0" />
+		<ListBox x:Name="SearchErrorsList" Grid.Row="0" ItemsSource="{Binding Errors}" Margin="10,10,10,0" />
+		<ListBox x:Name="IgnoredFilesList" Grid.Row="0" ItemsSource="{Binding FilesIgnored}" Margin="10,10,10,0" />
 		<Grid Grid.Row="1" Margin="5">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
