@@ -385,15 +385,15 @@ namespace FileSearch
 
 		private string TimeSpanToShortString(TimeSpan timeSpan)
 		{
-			if (timeSpan.Hours > 0)
+			if (timeSpan.TotalHours >= 1)
 			{
-				return timeSpan.Hours + "h " + timeSpan.Minutes + "m";
+				return $"{(int)timeSpan.TotalHours}h {timeSpan.Minutes}m";
 			}
 			if (timeSpan.Minutes > 0)
 			{
-				return timeSpan.Minutes + "m " + timeSpan.Seconds + "s";
+				return $"{timeSpan.Minutes}m {timeSpan.Seconds}s";
 			}
-			return timeSpan.Seconds + "." + timeSpan.Milliseconds.ToString().PadLeft(3, '0') + "s";
+			return $"{timeSpan.Seconds}.{timeSpan.Milliseconds.ToString().PadLeft(3, '0')}s";
 		}
 
 		#endregion
