@@ -10,6 +10,7 @@
     <RootNamespace>FileSearch</RootNamespace>
     <AssemblyName>FileSearch3</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>8.0</LangVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -180,10 +181,17 @@
   <ItemGroup>
     <Resource Include="Resources\Icon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UpdateVersion\UpdateVersion.csproj">
+      <Project>{2ba58753-c4f5-40d8-acc5-f58ed951a4e9}</Project>
+      <Name>UpdateVersion</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release (
  "C:\Program Files\7-Zip\7z" a ..\..\..\docs\download\$(TargetName).zip "$(TargetPath)" ..\..\..\LICENSE
+ UpdateVersion
 )</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

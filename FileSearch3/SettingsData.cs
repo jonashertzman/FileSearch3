@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -6,6 +7,11 @@ namespace FileSearch
 {
 	public class SettingsData
 	{
+
+		public string Id { get; set; } = Guid.NewGuid().ToString();
+
+		public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
+
 		public ObservableCollection<TextAttribute> IgnoredDirectories { get; set; } = new ObservableCollection<TextAttribute>();
 
 		public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();

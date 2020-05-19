@@ -14,7 +14,7 @@ namespace FileSearch
 
 		#region Members
 
-		DispatcherTimer timer = new DispatcherTimer();
+		readonly DispatcherTimer timer = new DispatcherTimer();
 
 		#endregion
 
@@ -45,7 +45,7 @@ namespace FileSearch
 			get
 			{
 				DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
-				return $"{buildDate.ToString("yy")}{buildDate.DayOfYear.ToString("D3")}";
+				return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
 			}
 		}
 
@@ -53,6 +53,15 @@ namespace FileSearch
 		{
 			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
 		}
+
+		bool newBuildAvailable = false;
+		public bool NewBuildAvailable
+		{
+			get { return newBuildAvailable; }
+			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
+		}
+
+
 
 		SearchInstance activeSearchInstance;
 		public SearchInstance ActiveSearchInstance

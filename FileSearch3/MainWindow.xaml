@@ -117,7 +117,17 @@
 			</ItemsControl>
 
 			<Button x:Name="ButtonNewSearchInstance" Content="*" Command="local:Commands.NewTab" Grid.Column="2" Margin="0,4,0,0" MinWidth="26" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
-			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
+			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+
+				<StackPanel x:Name="UpdatePanel" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
+					<Label Margin="3" Padding="0" VerticalAlignment="Center">
+						<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="">New Version Available</Hyperlink>
+					</Label>
+					<!--<Button BorderThickness="0" Margin="3" Padding="0" Foreground="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="Transparent" VerticalAlignment="Center">
+						&#x274C;
+					</Button>-->
+				</StackPanel>
+			</Border>
 		</Grid>
 
 		<!--Main Toolbar-->

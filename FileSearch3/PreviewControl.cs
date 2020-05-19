@@ -50,7 +50,7 @@ namespace FileSearch
 
 		private Typeface typeface;
 
-		private DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
+		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
 
 		#endregion
 

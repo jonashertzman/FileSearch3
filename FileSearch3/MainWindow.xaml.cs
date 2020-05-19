@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,12 +27,13 @@ namespace FileSearch
 		#region Members
 
 		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
-		DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
+
+		readonly DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
 
 		int firstHit = -1;
 		int lastHit = -1;
 
-		int standardColumnCount = 0;
+		readonly int standardColumnCount = 0;
 
 		#endregion
 
@@ -570,6 +573,48 @@ namespace FileSearch
 			return true;
 		}
 
+		private void CheckForUpdate(bool forced = false)
+		{
+			if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
+			{
+				Task.Run(() =>
+				{
+					try
+					{
+						Debug.Print("Checking for new version...");
+
+						WebClient webClient = new WebClient();
+						string result = webClient.DownloadString("https://jonashertzman.github.io/FileSearch3/download/version.txt");
+
+						Debug.Print($"Latest version found: {result}");
+
+						return result;
+					}
+					catch (Exception exception)
+					{
+						Debug.Print($"Version check failed: {exception.Message}");
+					}
+
+					return null;
+
+				}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+
+				AppSettings.LastUpdateTime = DateTime.Now;
+			}
+		}
+
+		private void ProcessUpdate(Task<string> task)
+		{
+			if (task.Result != null)
+			{
+				try
+				{
+					ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+				}
+				catch (Exception) { }
+			}
+		}
+
 		#endregion
 
 		#region Events
@@ -581,9 +626,10 @@ namespace FileSearch
 
 		private void Window_Initialized(object sender, EventArgs e)
 		{
-			FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+			LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
 			LoadSettings();
+			CheckForUpdate();
 		}
 
 		private void Window_ContentRendered(object sender, EventArgs e)
@@ -663,12 +709,11 @@ namespace FileSearch
 
 		private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			using (Process p = new Process())
-			{
-				p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
-				p.StartInfo.ErrorDialog = true;
-				p.Start();
-			}
+			using Process p = new Process();
+
+			p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
+			p.StartInfo.ErrorDialog = true;
+			p.Start();
 		}
 
 		private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
@@ -701,6 +746,12 @@ namespace FileSearch
 		{
 			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
 			logWindow.ShowDialog();
+		}
+
+		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+		{
+			Process.Start(new ProcessStartInfo(AppSettings.HOMEPAGE));
+			e.Handled = true;
 		}
 
 		#endregion
@@ -762,6 +813,8 @@ namespace FileSearch
 
 		private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
+			CheckForUpdate(true);
+
 			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 			aboutWindow.ShowDialog();
 		}
@@ -942,15 +995,14 @@ namespace FileSearch
 			{
 				try
 				{
-					using (StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding))
+					using StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding);
+
+					if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
 					{
-						if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
+						sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
+						foreach (Line l in ViewModel.PreviewLines)
 						{
-							sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
-							foreach (Line l in ViewModel.PreviewLines)
-							{
-								sw.WriteLine(l.Text);
-							}
+							sw.WriteLine(l.Text);
 						}
 					}
 				}

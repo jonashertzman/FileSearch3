@@ -16,11 +16,25 @@ namespace FileSearch
 		private const string SETTINGS_DIRECTORY = "FileSearch3";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
+		public const string HOMEPAGE = @"https://github.com/jonashertzman/FileSearch3";
+
 		private static SettingsData Settings = new SettingsData();
 
 		#endregion
 
 		#region Properies
+
+		public static string Id
+		{
+			get { return Settings.Id; }
+		}
+
+		public static DateTime LastUpdateTime
+		{
+			get { return Settings.LastUpdateTime; }
+			set { Settings.LastUpdateTime = value; }
+		}
+
 
 		public static ObservableCollection<TextAttribute> IgnoredDirectories
 		{
@@ -183,16 +197,14 @@ namespace FileSearch
 
 			if (File.Exists(settingsPath))
 			{
-				using (var xmlReader = XmlReader.Create(settingsPath))
+				using var xmlReader = XmlReader.Create(settingsPath);
+				try
 				{
-					try
-					{
-						Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
-					}
+					Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
 				}
 			}
 
@@ -218,10 +230,9 @@ namespace FileSearch
 					Directory.CreateDirectory(settingsPath);
 				}
 
-				using (var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings))
-				{
-					xmlSerializer.WriteObject(xmlWriter, Settings);
-				}
+				using var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings);
+
+				xmlSerializer.WriteObject(xmlWriter, Settings);
 			}
 			catch (Exception e)
 			{
