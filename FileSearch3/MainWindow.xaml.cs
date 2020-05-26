@@ -289,54 +289,57 @@ namespace FileSearch
 
 					if (ActiveSearch.RegexSearch)
 					{
-						List<RegexHit> regexHits = new List<RegexHit>();
-						foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
+						if (ValidateHitsRegex())
 						{
-							Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
-							while (match.Success)
+							List<RegexHit> regexHits = new List<RegexHit>();
+							foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
 							{
-								regexHits.Add(new RegexHit(match.Index, match.Length));
-								match = match.NextMatch();
-							}
-						}
-
-						int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
-
-						MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
-
-						foreach (Match newLine in newLines)
-						{
-							Line previewLine = new Line();
-							previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
-							previewLine.CurrentFile = currentFile.Path;
-							previewLine.LineNumber = lineNumber++;
-							int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
-
-							bool[] hitCharacters = new bool[previewLine.Text.Length];
-
-							foreach (RegexHit regexHit in regexHits)
-							{
-								if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
+								Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
+								while (match.Success && match.Length > 0)
 								{
-									previewLine.Type = TextState.Hit;
-									int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
-									int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
-
-									for (int i = selectionStartIndex; i < selectionEndIndex; i++)
-									{
-										hitCharacters[i] = true;
-									}
+									regexHits.Add(new RegexHit(match.Index, match.Length));
+									match = match.NextMatch();
 								}
 							}
 
-							if (previewLine.Type == TextState.Hit)
+							int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
+
+							MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
+
+							foreach (Match newLine in newLines)
 							{
-								previewLine.AddHitSegments(hitCharacters);
+								Line previewLine = new Line();
+								previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
+								previewLine.CurrentFile = currentFile.Path;
+								previewLine.LineNumber = lineNumber++;
+								int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
+
+								bool[] hitCharacters = new bool[previewLine.Text.Length];
+
+								foreach (RegexHit regexHit in regexHits)
+								{
+									if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
+									{
+										previewLine.Type = TextState.Hit;
+										int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
+										int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
+
+										for (int i = selectionStartIndex; i < selectionEndIndex; i++)
+										{
+											hitCharacters[i] = true;
+										}
+									}
+								}
+
+								if (previewLine.Type == TextState.Hit)
+								{
+									previewLine.AddHitSegments(hitCharacters);
+								}
+
+								Lines.Add(previewLine);
+
+								lineSourceIndex += lineSourceLength;
 							}
-
-							Lines.Add(previewLine);
-
-							lineSourceIndex += lineSourceLength;
 						}
 					}
 					else
@@ -550,7 +553,7 @@ namespace FileSearch
 			}
 		}
 
-		private bool ValidateRegex()
+		private bool ValidateRegexPhrases()
 		{
 			if (ActiveSearch.RegexSearch)
 			{
@@ -564,9 +567,29 @@ namespace FileSearch
 						}
 						catch (ArgumentException)
 						{
-							MessageBox.Show(p.Text + "  is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+							MessageBox.Show($"{p.Text} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 							return false;
 						}
+					}
+				}
+			}
+			return true;
+		}
+
+		private bool ValidateHitsRegex()
+		{
+			if (ActiveSearch.RegexSearch)
+			{
+				foreach (string s in ActiveSearch.StoredSearchPhrases)
+				{
+					try
+					{
+						Regex.Match("", s);
+					}
+					catch (ArgumentException)
+					{
+						MessageBox.Show($"{s} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+						return false;
 					}
 				}
 			}
@@ -918,7 +941,7 @@ namespace FileSearch
 
 		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			if (!ValidateRegex())
+			if (!ValidateRegexPhrases())
 			{
 				return;
 			}
