@@ -16,6 +16,8 @@ namespace FileSearch
 		{
 			InitializeComponent();
 
+			Utils.HideMinimizeAndMaximizeButtons(this);
+
 			foreach (DriveInfo driveInfo in DriveInfo.GetDrives())
 			{
 				FolderTree.Items.Add(CreateTreeItem(driveInfo));

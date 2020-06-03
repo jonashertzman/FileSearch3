@@ -10,6 +10,8 @@ namespace FileSearch
 		public LogWindow()
 		{
 			InitializeComponent();
+
+			Utils.HideMinimizeAndMaximizeButtons(this);
 		}
 
 		#endregion
