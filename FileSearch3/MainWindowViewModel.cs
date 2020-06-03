@@ -153,46 +153,46 @@ namespace FileSearch
 			set { AppSettings.FileListHeight = value.Value; OnPropertyChanged(nameof(FileListHeight)); }
 		}
 
-		public SolidColorBrush NormalForeground
+		public Brush NormalForeground
 		{
 			get { return AppSettings.NormalForeground; }
-			set { AppSettings.NormalForeground = value; OnPropertyChangedRepaint(nameof(NormalForeground)); }
+			set { AppSettings.NormalForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(NormalForeground)); }
 		}
 
-		public SolidColorBrush NormalBackground
+		public Brush NormalBackground
 		{
 			get { return AppSettings.NormalBackground; }
-			set { AppSettings.NormalBackground = value; OnPropertyChangedRepaint(nameof(NormalBackground)); }
+			set { AppSettings.NormalBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(NormalBackground)); }
 		}
 
-		public SolidColorBrush HeaderForeground
+		public Brush HeaderForeground
 		{
 			get { return AppSettings.HeaderForeground; }
-			set { AppSettings.HeaderForeground = value; OnPropertyChangedRepaint(nameof(HeaderForeground)); }
+			set { AppSettings.HeaderForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HeaderForeground)); }
 		}
 
-		public SolidColorBrush HeaderBackground
+		public Brush HeaderBackground
 		{
 			get { return AppSettings.HeaderBackground; }
-			set { AppSettings.HeaderBackground = value; OnPropertyChangedRepaint(nameof(HeaderBackground)); }
+			set { AppSettings.HeaderBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HeaderBackground)); }
 		}
 
-		public SolidColorBrush HitForeground
+		public Brush HitForeground
 		{
 			get { return AppSettings.HitForeground; }
-			set { AppSettings.HitForeground = value; OnPropertyChangedRepaint(nameof(HitForeground)); }
+			set { AppSettings.HitForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HitForeground)); }
 		}
 
-		public SolidColorBrush HitBackground
+		public Brush HitBackground
 		{
 			get { return AppSettings.HitBackground; }
-			set { AppSettings.HitBackground = value; OnPropertyChangedRepaint(nameof(HitBackground)); }
+			set { AppSettings.HitBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(HitBackground)); }
 		}
 
-		public SolidColorBrush SelectionBackground
+		public Brush SelectionBackground
 		{
 			get { return AppSettings.SelectionBackground; }
-			set { AppSettings.SelectionBackground = value; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
+			set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
 		}
 
 		public FontFamily Font
