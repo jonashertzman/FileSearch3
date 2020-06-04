@@ -15,6 +15,7 @@
 								<CheckBox Name="AddShellExtensionsCheckBox" Content="Add Shell Extensions to Windows Explorer" Padding="2" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 								<Label Name="NotAdminLabel" Content="(run as administrator to enable this)" Margin="-5,0,0,0" Style="{StaticResource CommonTextLabel}" />
 							</StackPanel>
+							<CheckBox Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" HorizontalAlignment="Left" VerticalContentAlignment="Center" />
 						</StackPanel>
 					</Border>
 				</TabItem>

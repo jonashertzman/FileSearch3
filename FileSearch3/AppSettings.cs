@@ -35,6 +35,12 @@ namespace FileSearch
 			set { Settings.LastUpdateTime = value; }
 		}
 
+		public static bool CheckForUpdates
+		{
+			get { return Settings.CheckForUpdates; }
+			set { Settings.CheckForUpdates = value; }
+		}
+
 
 		public static ObservableCollection<TextAttribute> IgnoredDirectories
 		{

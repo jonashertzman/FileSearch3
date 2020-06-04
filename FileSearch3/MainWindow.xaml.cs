@@ -598,7 +598,7 @@ namespace FileSearch
 
 		private void CheckForUpdate(bool forced = false)
 		{
-			if (AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
+			if ((AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5)) || forced)
 			{
 				Task.Run(() =>
 				{
@@ -796,6 +796,7 @@ namespace FileSearch
 		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
 			// Store existing settings data in case the changes are canceled.
+			var oldCheckForUpdates = ViewModel.CheckForUpdates;
 			var oldFont = ViewModel.Font;
 			var oldFontSize = ViewModel.FontSize;
 			var oldTabSize = ViewModel.TabSize;
@@ -819,6 +820,7 @@ namespace FileSearch
 			else
 			{
 				// Options window was canceled, revert to old settings.
+				ViewModel.CheckForUpdates = oldCheckForUpdates;
 				ViewModel.Font = oldFont;
 				ViewModel.FontSize = oldFontSize;
 				ViewModel.TabSize = oldTabSize;

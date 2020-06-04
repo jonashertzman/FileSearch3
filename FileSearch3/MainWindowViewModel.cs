@@ -61,6 +61,12 @@ namespace FileSearch
 			set { newBuildAvailable = value; OnPropertyChanged(nameof(NewBuildAvailable)); }
 		}
 
+		public bool CheckForUpdates
+		{
+			get { return AppSettings.CheckForUpdates; }
+			set { AppSettings.CheckForUpdates = value; OnPropertyChanged(nameof(CheckForUpdates)); }
+		}
+
 
 
 		SearchInstance activeSearchInstance;

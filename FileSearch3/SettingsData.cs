@@ -11,11 +11,10 @@ namespace FileSearch
 		public string Id { get; set; } = Guid.NewGuid().ToString();
 
 		public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
+		public bool CheckForUpdates { get; set; } = true;
 
 		public ObservableCollection<TextAttribute> IgnoredDirectories { get; set; } = new ObservableCollection<TextAttribute>();
-
 		public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
-
 		public ObservableCollection<SearchInstance> SearchInstances { get; set; } = new ObservableCollection<SearchInstance>();
 
 		public Color NormalForeground { get; set; } = DefaultSettings.NormalForeground;
