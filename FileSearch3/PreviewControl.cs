@@ -52,6 +52,8 @@ namespace FileSearch
 
 		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
 
+		Stopwatch stopwatch = new Stopwatch();
+
 		#endregion
 
 		#region Constructor
@@ -76,11 +78,11 @@ namespace FileSearch
 
 		#region Properties
 
-		Selection selection = null;
+		Selection _selection = null;
 		private Selection Selection
 		{
-			get { return selection; }
-			set { selection = value; ResetCursorBlink(); }
+			get { return _selection; }
+			set { _selection = value; ResetCursorBlink(); }
 		}
 
 		#endregion
@@ -90,6 +92,10 @@ namespace FileSearch
 		protected override void OnRender(DrawingContext drawingContext)
 		{
 			Debug.Print("PreviewControl OnRender");
+
+#if DEBUG
+			MeasureRendeTime();
+#endif
 
 			// Fill background
 			drawingContext.DrawRectangle(AppSettings.NormalBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
@@ -223,7 +229,12 @@ namespace FileSearch
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 2));
+
+#if DEBUG
+			ReportRenderTime();
+#endif
 		}
+
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
 		{
@@ -1114,6 +1125,23 @@ namespace FileSearch
 			Selection = null;
 			InvalidateVisual();
 			return -1;
+		}
+
+		private void MeasureRendeTime()
+		{
+			stopwatch.Restart();
+		}
+
+		private void ReportRenderTime()
+		{
+			Dispatcher.BeginInvoke(
+				DispatcherPriority.Loaded,
+				new Action(() =>
+				{
+					stopwatch.Stop();
+					Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
+				})
+			);
 		}
 
 		#endregion
