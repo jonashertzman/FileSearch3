@@ -113,8 +113,7 @@ namespace FileSearch
 
 		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
 		{
-			FontDialog fd = new FontDialog();
-			fd.FontMustExist = true;
+			FontDialog fd = new FontDialog { FontMustExist = true };
 
 			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{

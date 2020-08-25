@@ -308,10 +308,13 @@ namespace FileSearch
 
 							foreach (Match newLine in newLines)
 							{
-								Line previewLine = new Line();
-								previewLine.Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex);
-								previewLine.CurrentFile = currentFile.Path;
-								previewLine.LineNumber = lineNumber++;
+								Line previewLine = new Line
+								{
+									Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex),
+									CurrentFile = currentFile.Path,
+									LineNumber = lineNumber++
+								};
+
 								int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
 
 								bool[] hitCharacters = new bool[previewLine.Text.Length];
@@ -983,10 +986,7 @@ namespace FileSearch
 
 		private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 		{
-			SearchInstance newInstance = new SearchInstance();
-
-			newInstance.CaseSensitive = ActiveSearch.CaseSensitive;
-			newInstance.RegexSearch = ActiveSearch.RegexSearch;
+			SearchInstance newInstance = new SearchInstance { CaseSensitive = ActiveSearch.CaseSensitive, RegexSearch = ActiveSearch.RegexSearch };
 
 			foreach (TextAttribute attribute in ActiveSearch.SearchPhrases)
 			{
