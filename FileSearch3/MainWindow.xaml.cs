@@ -47,7 +47,7 @@ namespace FileSearch
 
 			SearchPanel.Visibility = Visibility.Collapsed;
 
-			updatePrevirewTimer.Interval = new TimeSpan(0, 0, 0, 0, 50);
+			updatePrevirewTimer.Interval = new TimeSpan(10000);
 			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
 
 			standardColumnCount = dataGridFileList.Columns.Count;

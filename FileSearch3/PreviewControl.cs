@@ -26,23 +26,6 @@ namespace FileSearch
 		private int downLine;
 		private int downCharacter;
 
-		private Point? _mouseDownPosition = null;
-		private Point? MouseDownPosition
-		{
-			get
-			{
-				return _mouseDownPosition;
-			}
-			set
-			{
-				_mouseDownPosition = value;
-				if (value != null)
-				{
-					PointToCharacter(value.Value, out downLine, out downCharacter);
-				}
-			}
-		}
-
 		private double dpiScale = 0;
 
 		private int cursorLine = 0;
@@ -77,11 +60,28 @@ namespace FileSearch
 
 		#region Properties
 
-		Selection _selection = null;
+		private Selection _selection = null;
 		private Selection Selection
 		{
 			get { return _selection; }
 			set { _selection = value; ResetCursorBlink(); }
+		}
+
+		private Point? _mouseDownPosition = null;
+		private Point? MouseDownPosition
+		{
+			get
+			{
+				return _mouseDownPosition;
+			}
+			set
+			{
+				_mouseDownPosition = value;
+				if (value != null)
+				{
+					PointToCharacter(value.Value, out downLine, out downCharacter);
+				}
+			}
 		}
 
 		#endregion
@@ -233,7 +233,6 @@ namespace FileSearch
 			ReportRenderTime();
 #endif
 		}
-
 
 		protected override void OnTextInput(TextCompositionEventArgs e)
 		{
