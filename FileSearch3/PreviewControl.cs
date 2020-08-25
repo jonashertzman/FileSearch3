@@ -51,8 +51,7 @@ namespace FileSearch
 		private Typeface typeface;
 
 		private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
-
-		Stopwatch stopwatch = new Stopwatch();
+		private readonly Stopwatch stopwatch = new Stopwatch();
 
 		#endregion
 
