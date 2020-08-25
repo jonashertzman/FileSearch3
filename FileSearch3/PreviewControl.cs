@@ -27,7 +27,7 @@ namespace FileSearch
 		private int downCharacter;
 
 		private Point? _mouseDownPosition = null;
-		private Point? mouseDownPosition
+		private Point? MouseDownPosition
 		{
 			get
 			{
@@ -594,7 +594,7 @@ namespace FileSearch
 
 			if (e.ChangedButton == MouseButton.Left)
 			{
-				mouseDownPosition = e.GetPosition(this);
+				MouseDownPosition = e.GetPosition(this);
 			}
 
 			base.OnMouseDown(e);
@@ -606,14 +606,14 @@ namespace FileSearch
 
 			PointToCharacter(currentMousePosition, out cursorLine, out cursorCharacter);
 
-			if (e.ChangedButton == MouseButton.Left && mouseDownPosition != null && Lines.Count > 0)
+			if (e.ChangedButton == MouseButton.Left && MouseDownPosition != null && Lines.Count > 0)
 			{
 
-				if (currentMousePosition != mouseDownPosition || currentMousePosition.X < lineNumberMargin)
+				if (currentMousePosition != MouseDownPosition || currentMousePosition.X < lineNumberMargin)
 				{
 					PointToCharacter(currentMousePosition, out int upLine, out int upCharacter);
 
-					if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
+					if (MouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
 					{
 						downCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
 						upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
@@ -626,7 +626,7 @@ namespace FileSearch
 					Selection = null;
 				}
 
-				mouseDownPosition = null;
+				MouseDownPosition = null;
 				InvalidateVisual();
 			}
 
@@ -635,7 +635,7 @@ namespace FileSearch
 
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (Mouse.LeftButton == MouseButtonState.Pressed && mouseDownPosition != null && Lines.Count > 0)
+			if (Mouse.LeftButton == MouseButtonState.Pressed && MouseDownPosition != null && Lines.Count > 0)
 			{
 				Point currentMousePosition = e.GetPosition(this);
 
@@ -644,7 +644,7 @@ namespace FileSearch
 
 				int selectionStartCharacter = downCharacter;
 
-				if (mouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
+				if (MouseDownPosition.Value.X < lineNumberMargin || currentMousePosition.X < lineNumberMargin)
 				{
 					selectionStartCharacter = upLine < downLine ? Lines[downLine].Text.Length : 0;
 					upCharacter = upLine < downLine ? 0 : Lines[upLine].Text.Length;
@@ -664,7 +664,7 @@ namespace FileSearch
 
 			if (e.ChangedButton == MouseButton.Left)
 			{
-				mouseDownPosition = null;
+				MouseDownPosition = null;
 				PointToCharacter(e.GetPosition(this), out downLine, out downCharacter);
 
 				int left = 0;

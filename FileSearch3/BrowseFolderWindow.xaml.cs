@@ -38,8 +38,7 @@ namespace FileSearch
 
 		private TreeViewItem CreateTreeItem(object source)
 		{
-			TreeViewItem item = new TreeViewItem();
-			item.Tag = source;
+			TreeViewItem item = new TreeViewItem { Tag = source };
 			switch (source)
 			{
 				case DriveInfo drive:
@@ -88,18 +87,13 @@ namespace FileSearch
 
 		private string GetItemPath(TreeViewItem item)
 		{
-			switch (item.Tag)
+			return item.Tag switch
 			{
-				case DriveInfo driveInfo:
-					return driveInfo.ToString();
-
-				case DirectoryInfo directoryInfo:
-					return directoryInfo.FullName;
-
-				case FileInfo fileInfo:
-					return fileInfo.FullName;
-			}
-			return null;
+				DriveInfo driveInfo => driveInfo.ToString(),
+				DirectoryInfo directoryInfo => directoryInfo.FullName,
+				FileInfo fileInfo => fileInfo.FullName,
+				_ => null,
+			};
 		}
 
 		#endregion
