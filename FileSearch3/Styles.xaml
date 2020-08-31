@@ -11,13 +11,12 @@
 	<SolidColorBrush x:Key="DefaultedBorderBrush" Color="#777" />
 	<SolidColorBrush x:Key="PressedBorderBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />
 	<SolidColorBrush x:Key="HighLightBorderBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />
-	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />
+	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />
 
 	<!--Common Controls-->
 	<Style x:Key="TabButtonStyle" TargetType="{x:Type Button}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
-		<Setter Property="Background" Value="{StaticResource NormalBrush}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">
@@ -25,19 +24,7 @@
 						<ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
 					<ControlTemplate.Triggers>
-						<Trigger Property="IsMouseOver" Value="true">
-							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HighLightBorderBrush}" />
-						</Trigger>
-						<Trigger Property="IsPressed" Value="true">
-							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
-						</Trigger>
 
-						<DataTrigger Binding="{Binding Selected}" Value="True">
-							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}" />
-							<Setter Property="Margin" Value="0,2,0,0" />
-							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
-						</DataTrigger>
 						<DataTrigger Binding="{Binding Selected}" Value="False">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
@@ -45,6 +32,23 @@
 							<Setter TargetName="Border" Property="Padding" Value="0,0,0,0" />
 						</DataTrigger>
 
+						<Trigger Property="IsMouseOver" Value="true">
+							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HighLightBorderBrush}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource HighLightCellBrush}" />
+						</Trigger>
+
+						<Trigger Property="IsPressed" Value="true">
+							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+						</Trigger>
+
+						<DataTrigger Binding="{Binding Selected}" Value="True">
+							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}" />
+							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
+							<Setter Property="Margin" Value="0,2,0,0" />
+							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
+
+						</DataTrigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
@@ -114,10 +118,22 @@
 		</Style.Triggers>
 	</Style>
 
+	<Style x:Key="CommonButtonLabel" TargetType="TextBlock">
+		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="0" />
+	</Style>
+
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
+		<Setter Property="BorderThickness" Value="0" />
+
 		<Style.Triggers>
+			<Trigger Property="IsMouseOver" Value="true">
+				<Setter Property="Background" Value="{StaticResource HighLightBorderBrush}" />
+				<Setter Property="Background" Value="{StaticResource DefaultedBorderBrush}" />
+			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent"></Setter>
 			</Trigger>
@@ -126,7 +142,9 @@
 
 	<Style x:Key="ToolbarToggleButton" TargetType="ToggleButton" BasedOn="{StaticResource {x:Static ToolBar.ToggleButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
+		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
+		<Setter Property="BorderThickness" Value="0" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent"></Setter>
