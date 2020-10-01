@@ -11,10 +11,9 @@ namespace FileSearch
 
 		#region Members
 
-		internal MainWindow mainWindow;
-
 		BackgroundSearch backgroundSearch;
 
+		internal MainWindow mainWindow;
 		internal delegate void SearchProgressUpdateDelegate(List<FileHit> searchResults, List<string> searchErrors, List<string> searchIgnores, String statusText, int percentageComplete, int filesSearched);
 		internal SearchProgressUpdateDelegate searchProgressUpdateDelegate;
 
@@ -36,7 +35,6 @@ namespace FileSearch
 		public override string ToString()
 		{
 			return name;
-
 		}
 
 		#endregion

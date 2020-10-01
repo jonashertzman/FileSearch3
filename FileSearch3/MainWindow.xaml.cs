@@ -18,9 +18,6 @@ using System.Windows.Threading;
 
 namespace FileSearch
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
 
@@ -247,7 +244,7 @@ namespace FileSearch
 				string allText = "";
 				int lineNumber = 1;
 
-				if (Directory.Exists(currentFile.Path))
+				if (Directory.Exists(currentFile.Path)) // PERFORMANCE This will most likely have a big performance impact on network drives!
 				{
 					if (previewFiles.Count > 1)
 					{
