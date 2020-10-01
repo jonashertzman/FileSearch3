@@ -244,7 +244,7 @@ namespace FileSearch
 				string allText = "";
 				int lineNumber = 1;
 
-				if (Directory.Exists(currentFile.Path)) // PERFORMANCE This will most likely have a big performance impact on network drives!
+				if (Directory.Exists(currentFile.Path))
 				{
 					if (previewFiles.Count > 1)
 					{
@@ -393,10 +393,6 @@ namespace FileSearch
 			if (ActiveSearch.ShowOnlyHits)
 			{
 				RemoveMissLines(ref Lines);
-			}
-			else if (Lines.Count == 0)
-			{
-				Lines.Add(new Line() { Type = TextState.Miss, Text = "" });
 			}
 
 			int maxLineNumber = 1;

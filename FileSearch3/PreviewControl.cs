@@ -115,6 +115,10 @@ namespace FileSearch
 				lineNumberLength = Lines.Count.ToString().Length;
 			}
 
+			Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+			borderPen.Freeze();
+			GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
+
 			textMargin = RoundToWholePixels(4);
 			lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
 
@@ -138,10 +142,9 @@ namespace FileSearch
 					// Draw line number
 					if (line.LineNumber != null || EditMode)
 					{
-						SolidColorBrush lineNumberColor = SystemColors.ControlDarkBrush;
+						SolidColorBrush lineNumberColor = SystemColors.ControlDarkDarkBrush;
 						if (lineIndex == CurrentMatch && !Edited)
 						{
-							lineNumberColor = Brushes.White;
 							drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 						}
 						if (EditMode)
@@ -225,6 +228,13 @@ namespace FileSearch
 				}
 				drawingContext.Pop(); // Line Y offset
 			}
+
+			// Draw line number margin border
+			drawingContext.PushGuidelineSet(borderGuide);
+			{
+				drawingContext.DrawLine(borderPen, new Point(lineNumberMargin, -1), new Point(lineNumberMargin, this.ActualHeight));
+			}
+			drawingContext.Pop();
 
 			TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
 			MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 2));
@@ -671,7 +681,7 @@ namespace FileSearch
 		{
 			this.Focus();
 
-			if (e.ChangedButton == MouseButton.Left)
+			if (e.ChangedButton == MouseButton.Left && Lines.Count > 0)
 			{
 				MouseDownPosition = null;
 				PointToCharacter(e.GetPosition(this), out downLine, out downCharacter);
@@ -822,6 +832,22 @@ namespace FileSearch
 			cursorLine = 0;
 			cursorCharacter = 0;
 			Edited = false;
+
+			if (Lines.Count == 0)
+			{
+				Lines.Add(new Line() { Type = TextState.Miss, Text = "" });
+			}
+
+		}
+
+		private GuidelineSet CreateGuidelineSet(Pen pen)
+		{
+			GuidelineSet guidelineSet = new GuidelineSet();
+			guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
+			guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
+			guidelineSet.Freeze();
+
+			return guidelineSet;
 		}
 
 		private void DeleteSelection()

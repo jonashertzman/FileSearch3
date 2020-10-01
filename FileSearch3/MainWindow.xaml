@@ -300,138 +300,139 @@
 						</Grid.RowDefinitions>
 
 						<!--Preview Toolbar-->
-						<StackPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
-							<StackPanel.Background>
-								<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-									<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
-									<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
-								</LinearGradientBrush>
-							</StackPanel.Background>
+						<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,0,1">
+							<StackPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
+								<StackPanel.Background>
+									<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+										<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
+										<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+									</LinearGradientBrush>
+								</StackPanel.Background>
 
-							<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
-								<ToggleButton.Resources>
-									<DataTemplate x:Key="Unpressed">
-										<StackPanel Orientation="Horizontal">
-											<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
-											<StackPanel.ToolTip>
-												<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-													<StackPanel Orientation="Horizontal">
-														<TextBlock Text="Enable Editing" />
-													</StackPanel>
-												</ToolTip>
-											</StackPanel.ToolTip>
-										</StackPanel>
-									</DataTemplate>
-									<DataTemplate x:Key="Pressed">
-										<StackPanel Orientation="Horizontal">
-											<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
-											<StackPanel.ToolTip>
-												<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-													<StackPanel Orientation="Horizontal">
-														<TextBlock Text="Unlocked" />
-													</StackPanel>
-												</ToolTip>
-											</StackPanel.ToolTip>
-										</StackPanel>
-									</DataTemplate>
-								</ToggleButton.Resources>
-								<ToggleButton.Style>
-									<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
-										<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
-										<Style.Triggers>
-											<Trigger Property="IsChecked" Value="True">
-												<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
-											</Trigger>
-										</Style.Triggers>
-									</Style>
-								</ToggleButton.Style>
-							</ToggleButton>
+								<ToggleButton Command="local:Commands.Edit" IsChecked="{Binding EditMode}">
+									<ToggleButton.Resources>
+										<DataTemplate x:Key="Unpressed">
+											<StackPanel Orientation="Horizontal">
+												<ContentPresenter ContentTemplate="{StaticResource EditIcon}" Style="{StaticResource CommonButtonIcon}" />
+												<StackPanel.ToolTip>
+													<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Text="Enable Editing" />
+														</StackPanel>
+													</ToolTip>
+												</StackPanel.ToolTip>
+											</StackPanel>
+										</DataTemplate>
+										<DataTemplate x:Key="Pressed">
+											<StackPanel Orientation="Horizontal">
+												<ContentPresenter ContentTemplate="{StaticResource EditIcon2}" Style="{StaticResource CommonButtonIcon}" />
+												<StackPanel.ToolTip>
+													<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Text="Unlocked" />
+														</StackPanel>
+													</ToolTip>
+												</StackPanel.ToolTip>
+											</StackPanel>
+										</DataTemplate>
+									</ToggleButton.Resources>
+									<ToggleButton.Style>
+										<Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToolbarToggleButton}">
+											<Setter Property="ContentTemplate" Value="{StaticResource Unpressed}" />
+											<Style.Triggers>
+												<Trigger Property="IsChecked" Value="True">
+													<Setter Property="ContentTemplate" Value="{StaticResource Pressed}" />
+												</Trigger>
+											</Style.Triggers>
+										</Style>
+									</ToggleButton.Style>
+								</ToggleButton>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveFile">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Ctrl+S" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.SaveFile">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource SaveIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Ctrl+S" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstHit">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource FirstHitIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.FirstHit">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource FirstHitIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Ctrl+Left" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousHit">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource PreviousHitIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Left" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.PreviousHit">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource PreviousHitIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Left" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentHit">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource CurrentHitIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.CurrentHit">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource CurrentHitIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Ctrl+Space" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextHit">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource NextHitIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Right" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.NextHit">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource NextHitIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Right" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastHit">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource LastHitIcon}" Style="{StaticResource CommonButtonIcon}" />
-								</StackPanel>
-								<Button.ToolTip>
-									<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
-										<StackPanel Orientation="Horizontal">
-											<TextBlock Text="{Binding Path=Command.Text}" />
-											<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
-										</StackPanel>
-									</ToolTip>
-								</Button.ToolTip>
-							</Button>
+								<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.LastHit">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource LastHitIcon}" Style="{StaticResource CommonButtonIcon}" />
+									</StackPanel>
+									<Button.ToolTip>
+										<ToolTip DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}">
+											<StackPanel Orientation="Horizontal">
+												<TextBlock Text="{Binding Path=Command.Text}" />
+												<TextBlock Text="Ctrl+Right" Style="{StaticResource ShortcutTooltip}" />
+											</StackPanel>
+										</ToolTip>
+									</Button.ToolTip>
+								</Button>
 
-							<!--<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
+								<!--<ToggleButton x:Name="ToggleButtonShowWhiteSpaceCharacters" IsEnabled="{Binding FileVissible}" Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ShowWhiteSpaceCharacters}">
 								<StackPanel Orientation="Horizontal">
 									<ContentPresenter ContentTemplate="{StaticResource ShowSpecialCharactersIcon}" Style="{StaticResource CommonButtonIcon}" />
 								</StackPanel>
@@ -444,34 +445,35 @@
 								</ToggleButton.ToolTip>
 							</ToggleButton>-->
 
-							<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}" IsEnabled="{Binding Path=FileEdited, Converter={StaticResource InverseBooleanConverter}}">
-								<StackPanel Orientation="Horizontal">
-									<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
-									<TextBlock Text="Show Only Hits" Style="{StaticResource CommonButtonLabel}" />
+								<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}" IsEnabled="{Binding Path=FileEdited, Converter={StaticResource InverseBooleanConverter}}">
+									<StackPanel Orientation="Horizontal">
+										<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
+										<TextBlock Text="Show Only Hits" Style="{StaticResource CommonButtonLabel}" />
+									</StackPanel>
+								</ToggleButton>
+
+								<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
+									<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" Width="35" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
+										<ComboBoxItem Content="0" />
+										<ComboBoxItem Content="1" />
+										<ComboBoxItem Content="2" />
+										<ComboBoxItem Content="3" />
+										<ComboBoxItem Content="4" />
+										<ComboBoxItem Content="5" />
+										<ComboBoxItem Content="6" />
+										<ComboBoxItem Content="7" />
+										<ComboBoxItem Content="8" />
+										<ComboBoxItem Content="9" />
+									</ComboBox>
 								</StackPanel>
-							</ToggleButton>
 
-							<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
-								<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" Width="35" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
-									<ComboBoxItem Content="0" />
-									<ComboBoxItem Content="1" />
-									<ComboBoxItem Content="2" />
-									<ComboBoxItem Content="3" />
-									<ComboBoxItem Content="4" />
-									<ComboBoxItem Content="5" />
-									<ComboBoxItem Content="6" />
-									<ComboBoxItem Content="7" />
-									<ComboBoxItem Content="8" />
-									<ComboBoxItem Content="9" />
-								</ComboBox>
+								<StackPanel Name="CurrentFilePanel" Height="20" Orientation="Horizontal">
+									<Separator Margin="8,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+									<TextBlock Name="CurrentFile" Text="Current File" Margin="0,0" Foreground="{StaticResource  {x:Static SystemColors.ControlDarkDarkBrushKey} }" VerticalAlignment="Center" />
+								</StackPanel>
+
 							</StackPanel>
-
-							<StackPanel Name="CurrentFilePanel" Height="20" Orientation="Horizontal">
-								<Separator Margin="8,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-								<TextBlock Name="CurrentFile" Text="Current File" Margin="0,0" Foreground="{StaticResource  {x:Static SystemColors.ControlDarkDarkBrushKey} }" VerticalAlignment="Center" />
-							</StackPanel>
-
-						</StackPanel>
+						</Border>
 
 						<!--Preview Control-->
 						<Grid Grid.Row="1">
@@ -485,8 +487,8 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" />
-							<local:HitMapControl Grid.Column="1" Width="10" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,1,0" />
+							<local:HitMapControl Grid.Column="1" Width="12" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 							<ScrollBar Grid.Column="2" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll }" />
 							<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="HorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
 							<StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
