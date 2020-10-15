@@ -16,8 +16,6 @@ namespace FileSearch
 		private const string SETTINGS_DIRECTORY = "FileSearch3";
 		private const string SETTINGS_FILE_NAME = "Settings.xml";
 
-		public const string HOMEPAGE = @"https://github.com/jonashertzman/FileSearch3";
-
 		private static SettingsData Settings = new SettingsData();
 
 		#endregion

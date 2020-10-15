@@ -49,9 +49,14 @@ namespace FileSearch
 			}
 		}
 
+		public string ApplicationName
+		{
+			get { return $"{Title} {Version}"; }
+		}
+
 		public string FullApplicationName
 		{
-			get { return $"{Title} {Version}  (Build {BuildNumber})"; }
+			get { return $"{Title} {Version} (Build {BuildNumber})"; }
 		}
 
 		bool newBuildAvailable = false;

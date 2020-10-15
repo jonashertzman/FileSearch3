@@ -122,8 +122,8 @@
 			<Border Grid.Column="4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
 
 				<StackPanel x:Name="UpdatePanel" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
-					<Label Margin="3" Padding="0" VerticalAlignment="Center">
-						<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="">New Version Available</Hyperlink>
+					<Label Margin="3,3,5,3" Padding="0" VerticalAlignment="Center">
+						<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="https://github.com/jonashertzman/FileSearch3/blob/master/README.md">New Version Available</Hyperlink>
 					</Label>
 				</StackPanel>
 			</Border>
