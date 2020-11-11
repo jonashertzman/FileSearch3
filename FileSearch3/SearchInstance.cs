@@ -171,7 +171,7 @@ namespace FileSearch
 		public string IgnoredFilesCountStatus
 		{
 			get { return ignoredFilesCountStatus; }
-			set { ignoredFilesCountStatus = value; OnPropertyChanged(nameof(IgnoredFilesCountStatus)); }
+			set { ignoredFilesCountStatus = value; OnPropertyChanged(nameof(IgnoredFilesCountStatus)); OnPropertyChanged(nameof(AnyIgnoredFiles)); }
 		}
 
 		public bool AnyErrors
