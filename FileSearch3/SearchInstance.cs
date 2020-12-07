@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace FileSearch
 {
@@ -214,6 +215,21 @@ namespace FileSearch
 				}
 
 				return l;
+			}
+		}
+
+		public string PhraseColumnSetup
+		{
+			get
+			{
+				StringBuilder checksum = new StringBuilder();
+
+				foreach (string s in StoredSearchPhrases)
+				{
+					checksum.Append($"[(<{s}>)];"); 
+				}
+
+				return checksum.ToString();
 			}
 		}
 

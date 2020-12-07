@@ -31,6 +31,7 @@ namespace FileSearch
 		int lastHit = -1;
 
 		readonly int standardColumnCount = 0;
+		string currentColumnSetup = "";
 
 		#endregion
 
@@ -76,6 +77,7 @@ namespace FileSearch
 			this.Top = AppSettings.PositionTop;
 			this.Width = AppSettings.Width;
 			this.Height = AppSettings.Height;
+			this.WindowState = AppSettings.WindowState;
 
 			if (ViewModel.SearchInstances.Count == 0)
 			{
@@ -165,9 +167,27 @@ namespace FileSearch
 
 		internal void UpdateStats()
 		{
-			while (dataGridFileList.Columns.Count > standardColumnCount)
+			string newColumnSetup = ActiveSearch.PhraseColumnSetup;
+
+			if (newColumnSetup != currentColumnSetup)
 			{
-				dataGridFileList.Columns.RemoveAt(standardColumnCount);
+				while (dataGridFileList.Columns.Count > standardColumnCount)
+				{
+					dataGridFileList.Columns.RemoveAt(standardColumnCount);
+				}
+
+				int i = 0;
+				foreach (string s in ActiveSearch.StoredSearchPhrases)
+				{
+					dataGridFileList.Columns.Add(new DataGridTextColumn()
+					{
+						Header = $"{s}",
+						Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHitsList[{i}].CaseSensitiveCount") : new Binding($"PhraseHitsList[{i}].Count"),
+						CellStyle = (Style)FindResource("RightAlignedCell")
+					});
+					i++;
+				}
+				currentColumnSetup = newColumnSetup;
 			}
 
 			foreach (string s in ActiveSearch.StoredSearchPhrases)
@@ -195,16 +215,11 @@ namespace FileSearch
 				}
 			}
 
-			int i = 0;
+			int columnIndex = standardColumnCount;
 			foreach (string s in ActiveSearch.StoredSearchPhrases)
 			{
-				dataGridFileList.Columns.Add(new DataGridTextColumn()
-				{
-					Header = $"{s} ({ActiveSearch.PhraseSums[s]})",
-					Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHitsList[{i}].CaseSensitiveCount") : new Binding($"PhraseHitsList[{i}].Count"),
-					CellStyle = (Style)FindResource("RightAlignedCell")
-				});
-				i++;
+				dataGridFileList.Columns[columnIndex].Header = $"{s} ({ActiveSearch.PhraseSums[s]})";
+				columnIndex++;
 			}
 
 			string temp = $"{filesFound} files found";
