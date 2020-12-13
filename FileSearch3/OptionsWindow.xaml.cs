@@ -1,11 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace FileSearch
 {
