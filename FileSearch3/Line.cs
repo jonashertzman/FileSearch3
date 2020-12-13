@@ -152,10 +152,10 @@ namespace FileSearch
 				if (hitCharacters[start] == hitCharacters[i])
 					continue;
 
-				AddTextSegment(Text.Substring(start, i - start), hitCharacters[start] ? TextState.Hit : TextState.Miss);
+				AddTextSegment(Text[start..i], hitCharacters[start] ? TextState.Hit : TextState.Miss);
 				start = i;
 			}
-			AddTextSegment(Text.Substring(start, Text.Length - start), hitCharacters[start] ? TextState.Hit : TextState.Miss);
+			AddTextSegment(Text[start..], hitCharacters[start] ? TextState.Hit : TextState.Miss);
 		}
 
 		public void AddTextSegment(string text, TextState state)
