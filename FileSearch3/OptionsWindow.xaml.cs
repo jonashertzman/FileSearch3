@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -108,17 +107,6 @@ namespace FileSearch
 			using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath + "\\command"))
 			{
 				key.SetValue(null, shellexecutePath);
-			}
-		}
-
-		private void ButtonBrowseFont_Click(object sender, RoutedEventArgs e)
-		{
-			FontDialog fd = new FontDialog { FontMustExist = true };
-
-			if (fd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-			{
-				ComboBoxFont.Text = fd.Font.Name;
-				TextBoxFontSize.Text = ((int)(fd.Font.Size * 96.0 / 72.0)).ToString(CultureInfo.InvariantCulture);
 			}
 		}
 
