@@ -255,7 +255,7 @@ namespace FileSearch
 
 			foreach (FileHit currentFile in previewFiles)
 			{
-				string[] allLines = new string[0];
+				string[] allLines = Array.Empty<string>();
 				string allText = "";
 				int lineNumber = 1;
 
