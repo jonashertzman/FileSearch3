@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace FileSearch
 {
@@ -26,11 +22,7 @@ namespace FileSearch
 		{
 			string name = "";
 
-			if (Type == Encoding.UTF7)
-			{
-				name = "UTF-7";
-			}
-			else if (Type == Encoding.UTF8)
+			if (Type == Encoding.UTF8)
 			{
 				name = "UTF-8";
 			}
@@ -75,11 +67,7 @@ namespace FileSearch
 		{
 			get
 			{
-				if (Type == Encoding.UTF7)
-				{
-					return new UTF7Encoding();
-				}
-				else if (Type == Encoding.UTF8)
+				if (Type == Encoding.UTF8)
 				{
 					return new UTF8Encoding(Bom);
 				}
