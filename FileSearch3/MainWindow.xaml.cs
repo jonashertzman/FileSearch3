@@ -322,7 +322,7 @@ namespace FileSearch
 							{
 								Line previewLine = new Line
 								{
-									Text = allText.Substring(lineSourceIndex, newLine.Index - lineSourceIndex),
+									Text = allText[lineSourceIndex..newLine.Index],
 									CurrentFile = currentFile.Path,
 									LineNumber = lineNumber++
 								};

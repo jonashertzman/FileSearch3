@@ -263,7 +263,7 @@ namespace FileSearch
 							{
 								currentHit = new FileHit(path, searchPhrases, findData);
 							}
-							Match caseSensitiveMatch = Regex.Match(allText.Substring(match.Index), searchPhrase.Text);
+							Match caseSensitiveMatch = Regex.Match(allText[match.Index..], searchPhrase.Text);
 							currentHit.AddPhraseHit(searchPhrase.Text, caseSensitiveMatch.Success && caseSensitiveMatch.Index == 0);
 							match = match.NextMatch();
 						}
