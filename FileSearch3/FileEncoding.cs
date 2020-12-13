@@ -48,7 +48,7 @@ namespace FileSearch
 				name += " BOM";
 			}
 
-			name += $" ({Newline.ToString()})";
+			name += $" ({Newline})";
 
 			return name;
 		}
