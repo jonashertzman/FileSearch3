@@ -226,7 +226,7 @@ namespace FileSearch
 
 				foreach (string s in StoredSearchPhrases)
 				{
-					checksum.Append($"[(<{s}>)];"); 
+					checksum.Append($"[(<{s}>)];");
 				}
 
 				return checksum.ToString();
