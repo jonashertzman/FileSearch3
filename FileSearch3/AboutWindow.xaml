@@ -23,13 +23,13 @@
 					<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileSearch3/blob/master/README.md">New Version Available</Hyperlink>
 				</Label>
 			</StackPanel>
-			<Label Grid.Row="1" Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
-			<Label Grid.Row="2" Content="License:  GNU General Public License v3" Style="{StaticResource CondencedTextLabel}" Margin="5" />
+			<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
+			<Label Content="License:  GNU General Public License v3" Style="{StaticResource CondencedTextLabel}" Margin="5" />
 			<TextBlock Margin="5,0,5,5" Padding="2">
 				If you like to support my work on free open-source software,
 				<LineBreak />
 				feel free to
-				<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="">send feedback</Hyperlink>,
+				<Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink>,
 				have a look at the
 				<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileSearch3">source code</Hyperlink>,
 				<LineBreak />
@@ -46,4 +46,3 @@
 		</StackPanel>
 	</Grid>
 </Window>
-	

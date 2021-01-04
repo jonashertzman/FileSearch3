@@ -14,7 +14,7 @@ namespace FileSearch
 
 		private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
 		{
-			Process.Start(new ProcessStartInfo(e.Uri.ToString()));
+			Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
 			e.Handled = true;
 		}
 
@@ -24,7 +24,8 @@ namespace FileSearch
 
 			string mailto = Uri.EscapeUriString($"mailto:jonashertzmansoftware@gmail.com?Subject={viewModel.FullApplicationName}&Body=Hello");
 
-			Process.Start(new ProcessStartInfo(mailto));
+			Process.Start(new ProcessStartInfo(mailto) { UseShellExecute = true });
+
 			e.Handled = true;
 		}
 
