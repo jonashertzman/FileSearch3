@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSearch3", "FileSearch3\FileSearch3.csproj", "{80DF6CAD-04A7-4665-B2DF-A259CCE9EDFE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{80EB5892-7376-47E6-A035-179BFF524A65} = {80EB5892-7376-47E6-A035-179BFF524A65}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpdateVersion", "UpdateVersion\UpdateVersion.csproj", "{80EB5892-7376-47E6-A035-179BFF524A65}"
 EndProject
