@@ -2,9 +2,6 @@
 
 namespace FileSearch
 {
-	/// <summary>
-	/// Interaction logic for RenameTabWindow.xaml
-	/// </summary>
 	public partial class RenameTabWindow : Window
 	{
 
