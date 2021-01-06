@@ -1,5 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Windows;
@@ -9,16 +9,13 @@ using Microsoft.Win32;
 
 namespace FileSearch
 {
-	/// <summary>
-	/// Interaction logic for OptionsWindow.xaml
-	/// </summary>
 	public partial class OptionsWindow : Window
 	{
 
 		#region Members
 
 		readonly string regPath = @"Folder\shell\filesearch";
-		readonly string shellexecutePath = $"\"{System.Reflection.Assembly.GetExecutingAssembly().Location}\" \"%1\"";
+		readonly string shellexecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
 
 		Rectangle selectecRectangle;
 
