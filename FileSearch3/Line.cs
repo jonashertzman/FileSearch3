@@ -144,6 +144,9 @@ namespace FileSearch
 
 		internal void AddHitSegments(bool[] hitCharacters)
 		{
+			if (hitCharacters.Length == 0)
+				return;
+
 			TextSegments.Clear();
 
 			int start = 0;
