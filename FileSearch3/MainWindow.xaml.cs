@@ -560,7 +560,7 @@ namespace FileSearch
 			}
 			else
 			{
-				SearchBox.Background = new SolidColorBrush(Colors.Tomato);
+				SearchBox.Background = new SolidColorBrush(Colors.Pink);
 			}
 		}
 
