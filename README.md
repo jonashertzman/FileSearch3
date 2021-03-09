@@ -4,7 +4,7 @@ File Search 3
 A file searching application with a rich user interface. 
 
 ### Download
-Download latest version **[here](https://jonashertzman.github.io/FileSearch3/download/FileSearch3.zip)**
+Download latest version **[HERE](https://jonashertzman.github.io/FileSearch3/download/FileSearch3.zip)**
 
 ### Features
 - Tabbed interface with support for multiple ongoing searches
