@@ -747,6 +747,7 @@ namespace FileSearch
 
 			p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
 			p.StartInfo.ErrorDialog = true;
+			p.StartInfo.UseShellExecute = true;
 			p.Start();
 		}
 
