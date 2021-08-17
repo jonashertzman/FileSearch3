@@ -789,6 +789,20 @@ namespace FileSearch
 			e.Handled = true;
 		}
 
+		private void DataGridSearchPhrases_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+			{
+				if (Clipboard.ContainsText())
+				{
+					foreach (string line in ((string)Clipboard.GetData(DataFormats.Text)).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+					{
+						ViewModel.ActiveSearchInstance.SearchPhrases.Add(new TextAttribute(line));
+					}
+				}
+			}
+		}
+
 		#endregion
 
 		#region Commands
