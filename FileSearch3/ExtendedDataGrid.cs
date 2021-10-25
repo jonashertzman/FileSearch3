@@ -1,24 +1,23 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace FileSearch
+namespace FileSearch;
+
+class ExtendedDataGrid : DataGrid
 {
-	class ExtendedDataGrid : DataGrid
+
+	#region Overrides
+
+	protected override void OnKeyDown(KeyEventArgs e)
 	{
-
-		#region Overrides
-
-		protected override void OnKeyDown(KeyEventArgs e)
+		if (e.Key == Key.Left || e.Key == Key.Right)
 		{
-			if (e.Key == Key.Left || e.Key == Key.Right)
-			{
-				return;
-			}
-
-			base.OnKeyDown(e);
+			return;
 		}
 
-		#endregion
-
+		base.OnKeyDown(e);
 	}
+
+	#endregion
+
 }

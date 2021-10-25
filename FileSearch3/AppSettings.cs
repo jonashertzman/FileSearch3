@@ -1,266 +1,264 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Xml;
 
-namespace FileSearch
+namespace FileSearch;
+
+public static class AppSettings
 {
-	public static class AppSettings
+
+	#region Members
+
+	private const string SETTINGS_DIRECTORY = "FileSearch3";
+	private const string SETTINGS_FILE_NAME = "Settings.xml";
+
+	private static SettingsData Settings = new SettingsData();
+
+	#endregion
+
+	#region Properies
+
+	public static string Id
 	{
+		get { return Settings.Id; }
+	}
 
-		#region Members
+	public static DateTime LastUpdateTime
+	{
+		get { return Settings.LastUpdateTime; }
+		set { Settings.LastUpdateTime = value; }
+	}
 
-		private const string SETTINGS_DIRECTORY = "FileSearch3";
-		private const string SETTINGS_FILE_NAME = "Settings.xml";
+	public static bool CheckForUpdates
+	{
+		get { return Settings.CheckForUpdates; }
+		set { Settings.CheckForUpdates = value; }
+	}
 
-		private static SettingsData Settings = new SettingsData();
 
-		#endregion
+	public static ObservableCollection<TextAttribute> IgnoredDirectories
+	{
+		get { return Settings.IgnoredDirectories; }
+		set { Settings.IgnoredDirectories = value; }
+	}
 
-		#region Properies
+	public static ObservableCollection<TextAttribute> IgnoredFiles
+	{
+		get { return Settings.IgnoredFiles; }
+		set { Settings.IgnoredFiles = value; }
+	}
 
-		public static string Id
+	public static ObservableCollection<SearchInstance> SearchInstances
+	{
+		get { return Settings.SearchInstances; }
+		set { Settings.SearchInstances = value; }
+	}
+
+	public static double PositionLeft
+	{
+		get { return Settings.PositionLeft; }
+		set { Settings.PositionLeft = value; }
+	}
+
+	public static double PositionTop
+	{
+		get { return Settings.PositionTop; }
+		set { Settings.PositionTop = value; }
+	}
+
+	public static double Width
+	{
+		get { return Settings.Width; }
+		set { Settings.Width = value; }
+	}
+
+	public static double Height
+	{
+		get { return Settings.Height; }
+		set { Settings.Height = value; }
+	}
+
+	public static WindowState WindowState
+	{
+		get { return Settings.WindowState; }
+		set { Settings.WindowState = value; }
+	}
+
+	private static FontFamily font;
+	public static FontFamily Font
+	{
+		get { return font; }
+		set { font = value; Settings.Font = value.ToString(); }
+	}
+
+	public static int FontSize
+	{
+		get { return Settings.FontSize; }
+		set { Settings.FontSize = value; }
+	}
+
+	public static int TabSize
+	{
+		get { return Settings.TabSize; }
+		set { Settings.TabSize = value; }
+	}
+
+	public static bool ShowWhiteSpaceCharacters
+	{
+		get { return Settings.ShowWhiteSpaceCharacters; }
+		set { Settings.ShowWhiteSpaceCharacters = value; }
+	}
+
+
+
+	private static SolidColorBrush normalForeground;
+	public static SolidColorBrush NormalForeground
+	{
+		get { return normalForeground; }
+		set { normalForeground = value; Settings.NormalForeground = value.Color; }
+	}
+
+	private static SolidColorBrush normalBackground;
+	public static SolidColorBrush NormalBackground
+	{
+		get { return normalBackground; }
+		set { normalBackground = value; Settings.NormalBackground = value.Color; }
+	}
+
+	private static SolidColorBrush hitForeground;
+	public static SolidColorBrush HitForeground
+	{
+		get { return hitForeground; }
+		set { hitForeground = value; Settings.HitForeground = value.Color; }
+	}
+
+	private static SolidColorBrush hitBackground;
+	public static SolidColorBrush HitBackground
+	{
+		get { return hitBackground; }
+		set { hitBackground = value; Settings.HitBackground = value.Color; }
+	}
+
+	private static SolidColorBrush headerForeground;
+	public static SolidColorBrush HeaderForeground
+	{
+		get { return headerForeground; }
+		set { headerForeground = value; Settings.HeaderForeground = value.Color; }
+	}
+
+	private static SolidColorBrush headerBackground;
+	public static SolidColorBrush HeaderBackground
+	{
+		get { return headerBackground; }
+		set { headerBackground = value; Settings.HeaderBackground = value.Color; }
+	}
+
+	private static SolidColorBrush selectionBackground;
+	public static SolidColorBrush SelectionBackground
+	{
+		get { return selectionBackground; }
+		set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
+	}
+
+
+
+	public static double PhraseGridHeight
+	{
+		get { return Settings.PhraseGridHeight; }
+		set { Settings.PhraseGridHeight = value; }
+	}
+
+	public static double DirectoriesGridHeight
+	{
+		get { return Settings.DirectoriesGridHeight; }
+		set { Settings.DirectoriesGridHeight = value; }
+	}
+
+	public static double SearchAttributesWidth
+	{
+		get { return Settings.SearchAttributesWidth; }
+		set { Settings.SearchAttributesWidth = value; }
+	}
+
+	public static double FileListHeight
+	{
+		get { return Settings.FileListHeight; }
+		set { Settings.FileListHeight = value; }
+	}
+
+	#endregion
+
+	#region Methods
+
+	internal static void ReadSettingsFromDisk()
+	{
+		string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
+		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
+
+		if (File.Exists(settingsPath))
 		{
-			get { return Settings.Id; }
-		}
-
-		public static DateTime LastUpdateTime
-		{
-			get { return Settings.LastUpdateTime; }
-			set { Settings.LastUpdateTime = value; }
-		}
-
-		public static bool CheckForUpdates
-		{
-			get { return Settings.CheckForUpdates; }
-			set { Settings.CheckForUpdates = value; }
-		}
-
-
-		public static ObservableCollection<TextAttribute> IgnoredDirectories
-		{
-			get { return Settings.IgnoredDirectories; }
-			set { Settings.IgnoredDirectories = value; }
-		}
-
-		public static ObservableCollection<TextAttribute> IgnoredFiles
-		{
-			get { return Settings.IgnoredFiles; }
-			set { Settings.IgnoredFiles = value; }
-		}
-
-		public static ObservableCollection<SearchInstance> SearchInstances
-		{
-			get { return Settings.SearchInstances; }
-			set { Settings.SearchInstances = value; }
-		}
-
-		public static double PositionLeft
-		{
-			get { return Settings.PositionLeft; }
-			set { Settings.PositionLeft = value; }
-		}
-
-		public static double PositionTop
-		{
-			get { return Settings.PositionTop; }
-			set { Settings.PositionTop = value; }
-		}
-
-		public static double Width
-		{
-			get { return Settings.Width; }
-			set { Settings.Width = value; }
-		}
-
-		public static double Height
-		{
-			get { return Settings.Height; }
-			set { Settings.Height = value; }
-		}
-
-		public static WindowState WindowState
-		{
-			get { return Settings.WindowState; }
-			set { Settings.WindowState = value; }
-		}
-
-		private static FontFamily font;
-		public static FontFamily Font
-		{
-			get { return font; }
-			set { font = value; Settings.Font = value.ToString(); }
-		}
-
-		public static int FontSize
-		{
-			get { return Settings.FontSize; }
-			set { Settings.FontSize = value; }
-		}
-
-		public static int TabSize
-		{
-			get { return Settings.TabSize; }
-			set { Settings.TabSize = value; }
-		}
-
-		public static bool ShowWhiteSpaceCharacters
-		{
-			get { return Settings.ShowWhiteSpaceCharacters; }
-			set { Settings.ShowWhiteSpaceCharacters = value; }
-		}
-
-
-
-		private static SolidColorBrush normalForeground;
-		public static SolidColorBrush NormalForeground
-		{
-			get { return normalForeground; }
-			set { normalForeground = value; Settings.NormalForeground = value.Color; }
-		}
-
-		private static SolidColorBrush normalBackground;
-		public static SolidColorBrush NormalBackground
-		{
-			get { return normalBackground; }
-			set { normalBackground = value; Settings.NormalBackground = value.Color; }
-		}
-
-		private static SolidColorBrush hitForeground;
-		public static SolidColorBrush HitForeground
-		{
-			get { return hitForeground; }
-			set { hitForeground = value; Settings.HitForeground = value.Color; }
-		}
-
-		private static SolidColorBrush hitBackground;
-		public static SolidColorBrush HitBackground
-		{
-			get { return hitBackground; }
-			set { hitBackground = value; Settings.HitBackground = value.Color; }
-		}
-
-		private static SolidColorBrush headerForeground;
-		public static SolidColorBrush HeaderForeground
-		{
-			get { return headerForeground; }
-			set { headerForeground = value; Settings.HeaderForeground = value.Color; }
-		}
-
-		private static SolidColorBrush headerBackground;
-		public static SolidColorBrush HeaderBackground
-		{
-			get { return headerBackground; }
-			set { headerBackground = value; Settings.HeaderBackground = value.Color; }
-		}
-
-		private static SolidColorBrush selectionBackground;
-		public static SolidColorBrush SelectionBackground
-		{
-			get { return selectionBackground; }
-			set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
-		}
-
-
-
-		public static double PhraseGridHeight
-		{
-			get { return Settings.PhraseGridHeight; }
-			set { Settings.PhraseGridHeight = value; }
-		}
-
-		public static double DirectoriesGridHeight
-		{
-			get { return Settings.DirectoriesGridHeight; }
-			set { Settings.DirectoriesGridHeight = value; }
-		}
-
-		public static double SearchAttributesWidth
-		{
-			get { return Settings.SearchAttributesWidth; }
-			set { Settings.SearchAttributesWidth = value; }
-		}
-
-		public static double FileListHeight
-		{
-			get { return Settings.FileListHeight; }
-			set { Settings.FileListHeight = value; }
-		}
-
-		#endregion
-
-		#region Methods
-
-		internal static void ReadSettingsFromDisk()
-		{
-			string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
-			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
-
-			if (File.Exists(settingsPath))
-			{
-				using var xmlReader = XmlReader.Create(settingsPath);
-				try
-				{
-					Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
-				}
-				catch (Exception e)
-				{
-					MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
-				}
-			}
-
-			if (Settings == null)
-			{
-				Settings = new SettingsData();
-			}
-
-			UpdateCachedSettings();
-		}
-
-		internal static void WriteSettingsToDisk()
-		{
+			using var xmlReader = XmlReader.Create(settingsPath);
 			try
 			{
-				string settingsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY);
-
-				DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
-				var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
-
-				if (!Directory.Exists(settingsPath))
-				{
-					Directory.CreateDirectory(settingsPath);
-				}
-
-				using var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings);
-
-				xmlSerializer.WriteObject(xmlWriter, Settings);
+				Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message);
+				MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
-		private static void UpdateCachedSettings()
+		if (Settings == null)
 		{
-			Font = new FontFamily(Settings.Font);
-
-			NormalForeground = new SolidColorBrush(Settings.NormalForeground);
-			NormalBackground = new SolidColorBrush(Settings.NormalBackground);
-
-			HitForeground = new SolidColorBrush(Settings.HitForeground);
-			HitBackground = new SolidColorBrush(Settings.HitBackground);
-
-			HeaderForeground = new SolidColorBrush(Settings.HeaderForeground);
-			HeaderBackground = new SolidColorBrush(Settings.HeaderBackground);
-
-			SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+			Settings = new SettingsData();
 		}
 
-		#endregion
-
+		UpdateCachedSettings();
 	}
+
+	internal static void WriteSettingsToDisk()
+	{
+		try
+		{
+			string settingsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY);
+
+			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
+			var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
+
+			if (!Directory.Exists(settingsPath))
+			{
+				Directory.CreateDirectory(settingsPath);
+			}
+
+			using var xmlWriter = XmlWriter.Create(Path.Combine(settingsPath, SETTINGS_FILE_NAME), xmlWriterSettings);
+
+			xmlSerializer.WriteObject(xmlWriter, Settings);
+		}
+		catch (Exception e)
+		{
+			MessageBox.Show(e.Message);
+		}
+	}
+
+	private static void UpdateCachedSettings()
+	{
+		Font = new FontFamily(Settings.Font);
+
+		NormalForeground = new SolidColorBrush(Settings.NormalForeground);
+		NormalBackground = new SolidColorBrush(Settings.NormalBackground);
+
+		HitForeground = new SolidColorBrush(Settings.HitForeground);
+		HitBackground = new SolidColorBrush(Settings.HitBackground);
+
+		HeaderForeground = new SolidColorBrush(Settings.HeaderForeground);
+		HeaderBackground = new SolidColorBrush(Settings.HeaderBackground);
+
+		SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+	}
+
+	#endregion
+
 }

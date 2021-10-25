@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Diagnostics;
+
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -16,375 +17,333 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace FileSearch
+namespace FileSearch;
+
+public partial class MainWindow : Window
 {
-	public partial class MainWindow : Window
+
+	#region Members
+
+	MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+
+	readonly DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
+
+	int firstHit = -1;
+	int lastHit = -1;
+
+	readonly int standardColumnCount = 0;
+	string currentColumnSetup = "";
+
+	#endregion
+
+	#region Constructor
+
+	public MainWindow()
 	{
+		InitializeComponent();
 
-		#region Members
+		DataContext = ViewModel;
 
-		MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+		SearchPanel.Visibility = Visibility.Collapsed;
 
-		readonly DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
+		updatePrevirewTimer.Interval = new TimeSpan(10000);
+		updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
 
-		int firstHit = -1;
-		int lastHit = -1;
+		standardColumnCount = dataGridFileList.Columns.Count;
 
-		readonly int standardColumnCount = 0;
-		string currentColumnSetup = "";
+		UpdateStats();
+	}
 
-		#endregion
+	#endregion
 
-		#region Constructor
+	#region Properties
 
-		public MainWindow()
+	public SearchInstance ActiveSearch
+	{
+		get
 		{
-			InitializeComponent();
+			return ViewModel.ActiveSearchInstance;
+		}
+	}
 
-			DataContext = ViewModel;
+	#endregion
 
-			SearchPanel.Visibility = Visibility.Collapsed;
+	#region Methods
 
-			updatePrevirewTimer.Interval = new TimeSpan(10000);
-			updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
+	private void LoadSettings()
+	{
+		AppSettings.ReadSettingsFromDisk();
 
-			standardColumnCount = dataGridFileList.Columns.Count;
+		this.Left = AppSettings.PositionLeft;
+		this.Top = AppSettings.PositionTop;
+		this.Width = AppSettings.Width;
+		this.Height = AppSettings.Height;
+		this.WindowState = AppSettings.WindowState;
 
-			UpdateStats();
+		if (ViewModel.SearchInstances.Count == 0)
+		{
+			ViewModel.SearchInstances.Add(new SearchInstance() { Selected = true });
 		}
 
-		#endregion
-
-		#region Properties
-
-		public SearchInstance ActiveSearch
+		foreach (SearchInstance s in AppSettings.SearchInstances)
 		{
-			get
+			if (s.Selected)
 			{
-				return ViewModel.ActiveSearchInstance;
+				ViewModel.ActiveSearchInstance = s;
+				break;
 			}
 		}
 
-		#endregion
-
-		#region Methods
-
-		private void LoadSettings()
+		// Only for backwards compatibility against old settings file.
+		if (ViewModel.ActiveSearchInstance == null)
 		{
-			AppSettings.ReadSettingsFromDisk();
+			ViewModel.SearchInstances[0].Selected = true;
+			ViewModel.ActiveSearchInstance = ViewModel.SearchInstances[0];
+		}
+	}
 
-			this.Left = AppSettings.PositionLeft;
-			this.Top = AppSettings.PositionTop;
-			this.Width = AppSettings.Width;
-			this.Height = AppSettings.Height;
-			this.WindowState = AppSettings.WindowState;
+	private void SaveSettings()
+	{
+		CleanSearchAttributes();
 
-			if (ViewModel.SearchInstances.Count == 0)
+		AppSettings.PositionLeft = this.Left;
+		AppSettings.PositionTop = this.Top;
+		AppSettings.Width = this.Width;
+		AppSettings.Height = this.Height;
+		AppSettings.WindowState = this.WindowState;
+
+		AppSettings.WriteSettingsToDisk();
+	}
+
+	private void CleanSearchAttributes()
+	{
+		foreach (SearchInstance s in AppSettings.SearchInstances)
+		{
+			for (int i = s.SearchPhrases.Count - 1; i >= 0; i--)
 			{
-				ViewModel.SearchInstances.Add(new SearchInstance() { Selected = true });
-			}
-
-			foreach (SearchInstance s in AppSettings.SearchInstances)
-			{
-				if (s.Selected)
+				if (string.IsNullOrEmpty(s.SearchPhrases[i].Text))
 				{
-					ViewModel.ActiveSearchInstance = s;
-					break;
+					s.SearchPhrases.RemoveAt(i);
 				}
 			}
-
-			// Only for backwards compatibility against old settings file.
-			if (ViewModel.ActiveSearchInstance == null)
+			for (int i = s.SearchDirectories.Count - 1; i >= 0; i--)
 			{
-				ViewModel.SearchInstances[0].Selected = true;
-				ViewModel.ActiveSearchInstance = ViewModel.SearchInstances[0];
+				if (string.IsNullOrEmpty(s.SearchDirectories[i].Text))
+				{
+					s.SearchDirectories.RemoveAt(i);
+				}
 			}
-		}
-
-		private void SaveSettings()
-		{
-			CleanSearchAttributes();
-
-			AppSettings.PositionLeft = this.Left;
-			AppSettings.PositionTop = this.Top;
-			AppSettings.Width = this.Width;
-			AppSettings.Height = this.Height;
-			AppSettings.WindowState = this.WindowState;
-
-			AppSettings.WriteSettingsToDisk();
-		}
-
-		private void CleanSearchAttributes()
-		{
-			foreach (SearchInstance s in AppSettings.SearchInstances)
+			for (int i = s.SearchFiles.Count - 1; i >= 0; i--)
 			{
-				for (int i = s.SearchPhrases.Count - 1; i >= 0; i--)
+				if (string.IsNullOrEmpty(s.SearchFiles[i].Text))
 				{
-					if (string.IsNullOrEmpty(s.SearchPhrases[i].Text))
-					{
-						s.SearchPhrases.RemoveAt(i);
-					}
-				}
-				for (int i = s.SearchDirectories.Count - 1; i >= 0; i--)
-				{
-					if (string.IsNullOrEmpty(s.SearchDirectories[i].Text))
-					{
-						s.SearchDirectories.RemoveAt(i);
-					}
-				}
-				for (int i = s.SearchFiles.Count - 1; i >= 0; i--)
-				{
-					if (string.IsNullOrEmpty(s.SearchFiles[i].Text))
-					{
-						s.SearchFiles.RemoveAt(i);
-					}
+					s.SearchFiles.RemoveAt(i);
 				}
 			}
 		}
+	}
 
-		private void AddNewSearch(string searchDirectory = "")
+	private void AddNewSearch(string searchDirectory = "")
+	{
+		SearchInstance newInstance = new SearchInstance();
+		if (searchDirectory != "")
 		{
-			SearchInstance newInstance = new SearchInstance();
-			if (searchDirectory != "")
-			{
-				newInstance.SearchDirectories.Add(new TextAttribute(searchDirectory));
-			}
-			ViewModel.SearchInstances.Add(newInstance);
-			SetActiveTab(newInstance);
+			newInstance.SearchDirectories.Add(new TextAttribute(searchDirectory));
+		}
+		ViewModel.SearchInstances.Add(newInstance);
+		SetActiveTab(newInstance);
+	}
+
+	private void SetActiveTab(SearchInstance searchInstance)
+	{
+		ViewModel.ActiveSearchInstance = searchInstance;
+
+		foreach (SearchInstance s in AppSettings.SearchInstances)
+		{
+			s.Selected = s == searchInstance;
 		}
 
-		private void SetActiveTab(SearchInstance searchInstance)
-		{
-			ViewModel.ActiveSearchInstance = searchInstance;
+		UpdateStats();
+	}
 
-			foreach (SearchInstance s in AppSettings.SearchInstances)
+	internal void UpdateStats()
+	{
+		string newColumnSetup = ActiveSearch.PhraseColumnSetup;
+
+		if (newColumnSetup != currentColumnSetup)
+		{
+			while (dataGridFileList.Columns.Count > standardColumnCount)
 			{
-				s.Selected = s == searchInstance;
+				dataGridFileList.Columns.RemoveAt(standardColumnCount);
 			}
 
-			UpdateStats();
-		}
-
-		internal void UpdateStats()
-		{
-			string newColumnSetup = ActiveSearch.PhraseColumnSetup;
-
-			if (newColumnSetup != currentColumnSetup)
+			int i = 0;
+			foreach (string s in ActiveSearch.StoredSearchPhrases)
 			{
-				while (dataGridFileList.Columns.Count > standardColumnCount)
+				dataGridFileList.Columns.Add(new DataGridTextColumn()
 				{
-					dataGridFileList.Columns.RemoveAt(standardColumnCount);
-				}
+					Header = $"{s}",
+					Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHitsList[{i}].CaseSensitiveCount") : new Binding($"PhraseHitsList[{i}].Count"),
+					CellStyle = (Style)FindResource("RightAlignedCell")
+				});
+				i++;
+			}
+			currentColumnSetup = newColumnSetup;
+		}
 
-				int i = 0;
+		foreach (string s in ActiveSearch.StoredSearchPhrases)
+		{
+			ActiveSearch.PhraseSums[s] = 0;
+		}
+
+		int filesFound = 0;
+
+		foreach (FileHit f in ActiveSearch.FilesWithHits)
+		{
+			if (ActiveSearch.FindAllPhrases ? f.AllPrasesHit(ActiveSearch.CaseSensitive) : f.AnyPhraseHit(ActiveSearch.CaseSensitive))
+			{
+				filesFound++;
+				f.Visible = true;
+
 				foreach (string s in ActiveSearch.StoredSearchPhrases)
 				{
-					dataGridFileList.Columns.Add(new DataGridTextColumn()
-					{
-						Header = $"{s}",
-						Binding = ActiveSearch.CaseSensitive ? new Binding($"PhraseHitsList[{i}].CaseSensitiveCount") : new Binding($"PhraseHitsList[{i}].Count"),
-						CellStyle = (Style)FindResource("RightAlignedCell")
-					});
-					i++;
-				}
-				currentColumnSetup = newColumnSetup;
-			}
-
-			foreach (string s in ActiveSearch.StoredSearchPhrases)
-			{
-				ActiveSearch.PhraseSums[s] = 0;
-			}
-
-			int filesFound = 0;
-
-			foreach (FileHit f in ActiveSearch.FilesWithHits)
-			{
-				if (ActiveSearch.FindAllPhrases ? f.AllPrasesHit(ActiveSearch.CaseSensitive) : f.AnyPhraseHit(ActiveSearch.CaseSensitive))
-				{
-					filesFound++;
-					f.Visible = true;
-
-					foreach (string s in ActiveSearch.StoredSearchPhrases)
-					{
-						ActiveSearch.PhraseSums[s] += f.PhraseHits[s].GetCount(ActiveSearch.CaseSensitive);
-					}
-				}
-				else
-				{
-					f.Visible = false;
+					ActiveSearch.PhraseSums[s] += f.PhraseHits[s].GetCount(ActiveSearch.CaseSensitive);
 				}
 			}
-
-			int columnIndex = standardColumnCount;
-			foreach (string s in ActiveSearch.StoredSearchPhrases)
+			else
 			{
-				dataGridFileList.Columns[columnIndex].Header = $"{s} ({ActiveSearch.PhraseSums[s]})";
-				columnIndex++;
+				f.Visible = false;
 			}
-
-			string temp = $"{filesFound} files found";
-			if (ActiveSearch.SearchedFileCount > 0)
-			{
-				temp += $" in { ActiveSearch.SearchedFileCount} searched";
-			}
-
-			ActiveSearch.FileCountStatus = temp;
-			ActiveSearch.ErrorCountStatus = $"{ActiveSearch.Errors.Count} Errors";
-			ActiveSearch.IgnoredFilesCountStatus = $"{ActiveSearch.IgnoredFileCount} Ignored";
 		}
 
-		private void UpdatePreview()
+		int columnIndex = standardColumnCount;
+		foreach (string s in ActiveSearch.StoredSearchPhrases)
 		{
-			Debug.Print("UpdatePreview");
+			dataGridFileList.Columns[columnIndex].Header = $"{s} ({ActiveSearch.PhraseSums[s]})";
+			columnIndex++;
+		}
 
-			Mouse.OverrideCursor = Cursors.Wait;
+		string temp = $"{filesFound} files found";
+		if (ActiveSearch.SearchedFileCount > 0)
+		{
+			temp += $" in { ActiveSearch.SearchedFileCount} searched";
+		}
 
-			ObservableCollection<Line> Lines = new ObservableCollection<Line>();
-			List<FileHit> previewFiles = new List<FileHit>();
+		ActiveSearch.FileCountStatus = temp;
+		ActiveSearch.ErrorCountStatus = $"{ActiveSearch.Errors.Count} Errors";
+		ActiveSearch.IgnoredFilesCountStatus = $"{ActiveSearch.IgnoredFileCount} Ignored";
+	}
 
-			firstHit = -1;
-			lastHit = -1;
+	private void UpdatePreview()
+	{
+		Debug.Print("UpdatePreview");
 
-			foreach (FileHit f in dataGridFileList.Items)
+		Mouse.OverrideCursor = Cursors.Wait;
+
+		ObservableCollection<Line> Lines = new ObservableCollection<Line>();
+		List<FileHit> previewFiles = new List<FileHit>();
+
+		firstHit = -1;
+		lastHit = -1;
+
+		foreach (FileHit f in dataGridFileList.Items)
+		{
+			if (f.Selected && f.Visible)
 			{
-				if (f.Selected && f.Visible)
-				{
-					previewFiles.Add(f);
-				}
+				previewFiles.Add(f);
 			}
+		}
 
-			foreach (FileHit currentFile in previewFiles)
+		foreach (FileHit currentFile in previewFiles)
+		{
+			string[] allLines = Array.Empty<string>();
+			string allText = "";
+			int lineNumber = 1;
+
+			if (Directory.Exists(currentFile.Path))
 			{
-				string[] allLines = Array.Empty<string>();
-				string allText = "";
-				int lineNumber = 1;
-
-				if (Directory.Exists(currentFile.Path))
+				if (previewFiles.Count > 1)
 				{
+					Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
+				}
+				Lines.Add(new Line() { Type = TextState.SurroundSpacing, Text = "[FOLDER]" });
+			}
+			else
+			{
+				try
+				{
+					ViewModel.FileEncoding = Unicode.GetEncoding(currentFile.Path);
+					ViewModel.FileEdited = false;
+
 					if (previewFiles.Count > 1)
 					{
 						Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
 					}
-					Lines.Add(new Line() { Type = TextState.SurroundSpacing, Text = "[FOLDER]" });
-				}
-				else
-				{
-					try
-					{
-						ViewModel.FileEncoding = Unicode.GetEncoding(currentFile.Path);
-						ViewModel.FileEdited = false;
-
-						if (previewFiles.Count > 1)
-						{
-							Lines.Add(new Line() { Type = TextState.Header, Text = currentFile.Path });
-						}
-
-						if (ActiveSearch.RegexSearch)
-						{
-							allText = File.ReadAllText(currentFile.Path, ViewModel.FileEncoding.Type);
-							if (!(allText.EndsWith("\r\n") || allText.EndsWith("\r") || allText.EndsWith("\n")))
-							{
-								allText += ViewModel.FileEncoding.GetNewLineString;
-							}
-						}
-						else
-						{
-							allLines = File.ReadAllLines(currentFile.Path, ViewModel.FileEncoding.Type);
-						}
-
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show(e.Message, e.GetType().Name);
-						continue;
-					}
 
 					if (ActiveSearch.RegexSearch)
 					{
-						if (ValidateHitsRegex())
+						allText = File.ReadAllText(currentFile.Path, ViewModel.FileEncoding.Type);
+						if (!(allText.EndsWith("\r\n") || allText.EndsWith("\r") || allText.EndsWith("\n")))
 						{
-							List<RegexHit> regexHits = new List<RegexHit>();
-							foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
-							{
-								Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
-								while (match.Success && match.Length > 0)
-								{
-									regexHits.Add(new RegexHit(match.Index, match.Length));
-									match = match.NextMatch();
-								}
-							}
-
-							int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
-
-							MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
-
-							foreach (Match newLine in newLines)
-							{
-								Line previewLine = new Line
-								{
-									Text = allText[lineSourceIndex..newLine.Index],
-									CurrentFile = currentFile.Path,
-									LineNumber = lineNumber++
-								};
-
-								int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
-
-								bool[] hitCharacters = new bool[previewLine.Text.Length];
-
-								foreach (RegexHit regexHit in regexHits)
-								{
-									if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
-									{
-										previewLine.Type = TextState.Hit;
-										int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
-										int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
-
-										for (int i = selectionStartIndex; i < selectionEndIndex; i++)
-										{
-											hitCharacters[i] = true;
-										}
-									}
-								}
-
-								if (previewLine.Type == TextState.Hit)
-								{
-									previewLine.AddHitSegments(hitCharacters);
-								}
-
-								Lines.Add(previewLine);
-
-								lineSourceIndex += lineSourceLength;
-							}
+							allText += ViewModel.FileEncoding.GetNewLineString;
 						}
 					}
 					else
 					{
-						foreach (string line in allLines)
+						allLines = File.ReadAllLines(currentFile.Path, ViewModel.FileEncoding.Type);
+					}
+
+				}
+				catch (Exception e)
+				{
+					MessageBox.Show(e.Message, e.GetType().Name);
+					continue;
+				}
+
+				if (ActiveSearch.RegexSearch)
+				{
+					if (ValidateHitsRegex())
+					{
+						List<RegexHit> regexHits = new List<RegexHit>();
+						foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
 						{
-							Line previewLine = new Line();
-							bool[] hitCharacters = new bool[line.Length];
-							previewLine.Text = line;
-							previewLine.CurrentFile = currentFile.Path;
-							previewLine.LineNumber = lineNumber++;
-
-							foreach (string phrase in ActiveSearch.StoredSearchPhrases)
+							Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
+							while (match.Success && match.Length > 0)
 							{
-								int hitIndex = 0;
-								while (true)
-								{
-									hitIndex = line.IndexOf(phrase, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
-									if (hitIndex == -1)
-									{
-										break;
-									}
+								regexHits.Add(new RegexHit(match.Index, match.Length));
+								match = match.NextMatch();
+							}
+						}
 
-									for (int i = hitIndex; i < hitIndex + phrase.Length; i++)
+						int lineSourceIndex = 0; // Start index for the current line including all new line characters in the source file.
+
+						MatchCollection newLines = Regex.Matches(allText, "(\r\n|\r|\n)");
+
+						foreach (Match newLine in newLines)
+						{
+							Line previewLine = new Line
+							{
+								Text = allText[lineSourceIndex..newLine.Index],
+								CurrentFile = currentFile.Path,
+								LineNumber = lineNumber++
+							};
+
+							int lineSourceLength = previewLine.Text.Length + newLine.Length; // Length of current line including all new line characters.
+
+							bool[] hitCharacters = new bool[previewLine.Text.Length];
+
+							foreach (RegexHit regexHit in regexHits)
+							{
+								if (regexHit.Start < lineSourceIndex + lineSourceLength && lineSourceIndex <= regexHit.Start + regexHit.Length)
+								{
+									previewLine.Type = TextState.Hit;
+									int selectionStartIndex = Math.Max(regexHit.Start - lineSourceIndex, 0);
+									int selectionEndIndex = Math.Min(regexHit.Start - lineSourceIndex + regexHit.Length, previewLine.Text.Length);
+
+									for (int i = selectionStartIndex; i < selectionEndIndex; i++)
 									{
 										hitCharacters[i] = true;
 									}
-
-									hitIndex += phrase.Length;
-									previewLine.Type = TextState.Hit;
 								}
 							}
 
@@ -394,773 +353,814 @@ namespace FileSearch
 							}
 
 							Lines.Add(previewLine);
+
+							lineSourceIndex += lineSourceLength;
 						}
-					}
-				}
-				if (previewFiles.Count > 1)
-				{
-					Lines.Add(new Line() { Type = TextState.Filler, Text = "" });
-				}
-			}
-
-			CurrentFilePanel.Visibility = previewFiles.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
-
-			if (ActiveSearch.ShowOnlyHits)
-			{
-				RemoveMissLines(ref Lines);
-			}
-
-			int maxLineNumber = 1;
-			for (int i = 0; i < Lines.Count; i++)
-			{
-				if (Lines[i].LineNumber > maxLineNumber)
-					maxLineNumber = (int)Lines[i].LineNumber;
-
-				if (Lines[i].Type == TextState.Hit)
-				{
-					lastHit = i;
-					if (firstHit == -1)
-					{
-						firstHit = lastHit;
-					}
-				}
-			}
-
-			ViewModel.EditMode = false;
-			ViewModel.PreviewLines = Lines;
-
-			Preview.Init(maxLineNumber.ToString().Length);
-
-			MoveToFirstHit();
-
-			Mouse.OverrideCursor = null;
-		}
-
-		private void RemoveMissLines(ref ObservableCollection<Line> Lines)
-		{
-
-			if (ActiveSearch.SurroundingLines > 0)
-			{
-				for (int i = 0; i < Lines.Count; i++)
-				{
-					if (Lines[i].Type == TextState.Hit)
-					{
-						for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
-						{
-							if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
-							{
-								Lines[i - j].Type = TextState.Surround;
-							}
-							else
-							{
-								break;
-							}
-						}
-
-						for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
-						{
-							if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
-							{
-								Lines[i + j].Type = TextState.Surround;
-							}
-							else
-							{
-								break;
-							}
-						}
-					}
-				}
-			}
-
-			bool spaceInserted = false;
-
-			for (int i = Lines.Count - 1; i >= 0; i--)
-			{
-				if (Lines[i].Type == TextState.Miss)
-				{
-					if (!spaceInserted && ActiveSearch.SurroundingLines > 0 && ActiveSearch.StoredSearchPhrases.Count > 0)
-					{
-						Lines[i].Type = TextState.SurroundSpacing;
-						Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
-						Lines[i].LineNumber = null;
-						spaceInserted = true;
 					}
 				}
 				else
 				{
-					spaceInserted = false;
+					foreach (string line in allLines)
+					{
+						Line previewLine = new Line();
+						bool[] hitCharacters = new bool[line.Length];
+						previewLine.Text = line;
+						previewLine.CurrentFile = currentFile.Path;
+						previewLine.LineNumber = lineNumber++;
+
+						foreach (string phrase in ActiveSearch.StoredSearchPhrases)
+						{
+							int hitIndex = 0;
+							while (true)
+							{
+								hitIndex = line.IndexOf(phrase, hitIndex, ActiveSearch.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase);
+								if (hitIndex == -1)
+								{
+									break;
+								}
+
+								for (int i = hitIndex; i < hitIndex + phrase.Length; i++)
+								{
+									hitCharacters[i] = true;
+								}
+
+								hitIndex += phrase.Length;
+								previewLine.Type = TextState.Hit;
+							}
+						}
+
+						if (previewLine.Type == TextState.Hit)
+						{
+							previewLine.AddHitSegments(hitCharacters);
+						}
+
+						Lines.Add(previewLine);
+					}
 				}
 			}
-
-			// Removing items from a collection is slow, much faster to create a new collection and add all wanted items. 
-			ObservableCollection<Line> newLines = new ObservableCollection<Line>();
-			foreach (Line l in Lines)
+			if (previewFiles.Count > 1)
 			{
-				if (l.Type != TextState.Miss)
+				Lines.Add(new Line() { Type = TextState.Filler, Text = "" });
+			}
+		}
+
+		CurrentFilePanel.Visibility = previewFiles.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
+
+		if (ActiveSearch.ShowOnlyHits)
+		{
+			RemoveMissLines(ref Lines);
+		}
+
+		int maxLineNumber = 1;
+		for (int i = 0; i < Lines.Count; i++)
+		{
+			if (Lines[i].LineNumber > maxLineNumber)
+				maxLineNumber = (int)Lines[i].LineNumber;
+
+			if (Lines[i].Type == TextState.Hit)
+			{
+				lastHit = i;
+				if (firstHit == -1)
 				{
-					newLines.Add(l);
+					firstHit = lastHit;
 				}
 			}
-
-			Lines = newLines;
 		}
 
-		private void MoveToFirstHit()
-		{
-			ViewModel.CurrentHit = -1;
-			MoveToNextHit();
-		}
+		ViewModel.EditMode = false;
+		ViewModel.PreviewLines = Lines;
 
-		private void MoveToLastHit()
-		{
-			ViewModel.CurrentHit = ViewModel.PreviewLines.Count;
-			MoveToPrevoiusHit();
-		}
+		Preview.Init(maxLineNumber.ToString().Length);
 
-		private void MoveToPrevoiusHit()
+		MoveToFirstHit();
+
+		Mouse.OverrideCursor = null;
+	}
+
+	private void RemoveMissLines(ref ObservableCollection<Line> Lines)
+	{
+
+		if (ActiveSearch.SurroundingLines > 0)
 		{
-			for (int i = ViewModel.CurrentHit - 1; i >= 0; i--)
+			for (int i = 0; i < Lines.Count; i++)
 			{
-				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
+				if (Lines[i].Type == TextState.Hit)
 				{
-					CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
-					ViewModel.CurrentHit = i;
-					CenterOnLine(i);
-					return;
+					for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+					{
+						if (i - j >= 0 && Lines[i - j].Type == TextState.Miss)
+						{
+							Lines[i - j].Type = TextState.Surround;
+						}
+						else
+						{
+							break;
+						}
+					}
+
+					for (int j = 1; j <= ActiveSearch.SurroundingLines; j++)
+					{
+						if (i + j < Lines.Count && Lines[i + j].Type == TextState.Miss)
+						{
+							Lines[i + j].Type = TextState.Surround;
+						}
+						else
+						{
+							break;
+						}
+					}
 				}
 			}
 		}
 
-		private void MoveToNextHit()
+		bool spaceInserted = false;
+
+		for (int i = Lines.Count - 1; i >= 0; i--)
 		{
-			for (int i = ViewModel.CurrentHit + 1; i < ViewModel.PreviewLines.Count; i++)
+			if (Lines[i].Type == TextState.Miss)
 			{
-				if (ViewModel.PreviewLines[i].Type == TextState.Hit)
+				if (!spaceInserted && ActiveSearch.SurroundingLines > 0 && ActiveSearch.StoredSearchPhrases.Count > 0)
 				{
-					CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
-					ViewModel.CurrentHit = i;
-					CenterOnLine(i);
-					return;
+					Lines[i].Type = TextState.SurroundSpacing;
+					Lines[i].Text = "- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -";
+					Lines[i].LineNumber = null;
+					spaceInserted = true;
 				}
-			}
-		}
-
-		private void CenterOnLine(int i)
-		{
-			int visibleLines = Preview.VisibleLines <= 0 ? (int)(Preview.ActualHeight / OneCharacter.ActualHeight) : Preview.VisibleLines;
-			VerticalScrollbar.Value = i - (visibleLines / 2) + 1;
-		}
-
-		private void ProcessSearchResult(int result)
-		{
-			if (result != -1)
-			{
-				SearchBox.Background = new SolidColorBrush(Colors.White);
-				CenterOnLine(result);
 			}
 			else
 			{
-				SearchBox.Background = new SolidColorBrush(Colors.Pink);
+				spaceInserted = false;
 			}
 		}
 
-		private bool ValidateRegexPhrases()
+		// Removing items from a collection is slow, much faster to create a new collection and add all wanted items. 
+		ObservableCollection<Line> newLines = new ObservableCollection<Line>();
+		foreach (Line l in Lines)
 		{
-			if (ActiveSearch.RegexSearch)
+			if (l.Type != TextState.Miss)
 			{
-				foreach (TextAttribute p in ActiveSearch.SearchPhrases)
-				{
-					if (p.Used)
-					{
-						try
-						{
-							Regex.Match("", p.Text);
-						}
-						catch (ArgumentException)
-						{
-							MessageBox.Show($"{p.Text} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-							return false;
-						}
-					}
-				}
+				newLines.Add(l);
 			}
-			return true;
 		}
 
-		private bool ValidateHitsRegex()
+		Lines = newLines;
+	}
+
+	private void MoveToFirstHit()
+	{
+		ViewModel.CurrentHit = -1;
+		MoveToNextHit();
+	}
+
+	private void MoveToLastHit()
+	{
+		ViewModel.CurrentHit = ViewModel.PreviewLines.Count;
+		MoveToPrevoiusHit();
+	}
+
+	private void MoveToPrevoiusHit()
+	{
+		for (int i = ViewModel.CurrentHit - 1; i >= 0; i--)
 		{
-			if (ActiveSearch.RegexSearch)
+			if (ViewModel.PreviewLines[i].Type == TextState.Hit)
 			{
-				foreach (string s in ActiveSearch.StoredSearchPhrases)
+				CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
+				ViewModel.CurrentHit = i;
+				CenterOnLine(i);
+				return;
+			}
+		}
+	}
+
+	private void MoveToNextHit()
+	{
+		for (int i = ViewModel.CurrentHit + 1; i < ViewModel.PreviewLines.Count; i++)
+		{
+			if (ViewModel.PreviewLines[i].Type == TextState.Hit)
+			{
+				CurrentFile.Text = ViewModel.PreviewLines[i].CurrentFile;
+				ViewModel.CurrentHit = i;
+				CenterOnLine(i);
+				return;
+			}
+		}
+	}
+
+	private void CenterOnLine(int i)
+	{
+		int visibleLines = Preview.VisibleLines <= 0 ? (int)(Preview.ActualHeight / OneCharacter.ActualHeight) : Preview.VisibleLines;
+		VerticalScrollbar.Value = i - (visibleLines / 2) + 1;
+	}
+
+	private void ProcessSearchResult(int result)
+	{
+		if (result != -1)
+		{
+			SearchBox.Background = new SolidColorBrush(Colors.White);
+			CenterOnLine(result);
+		}
+		else
+		{
+			SearchBox.Background = new SolidColorBrush(Colors.Pink);
+		}
+	}
+
+	private bool ValidateRegexPhrases()
+	{
+		if (ActiveSearch.RegexSearch)
+		{
+			foreach (TextAttribute p in ActiveSearch.SearchPhrases)
+			{
+				if (p.Used)
 				{
 					try
 					{
-						Regex.Match("", s);
+						Regex.Match("", p.Text);
 					}
 					catch (ArgumentException)
 					{
-						MessageBox.Show($"{s} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+						MessageBox.Show($"{p.Text} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 						return false;
 					}
 				}
 			}
-			return true;
 		}
+		return true;
+	}
 
-		private void CheckForUpdate(bool forced = false)
+	private bool ValidateHitsRegex()
+	{
+		if (ActiveSearch.RegexSearch)
 		{
-			if ((AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5)) || forced)
-			{
-				Task.Run(() =>
-				{
-					try
-					{
-						Debug.Print("Checking for new version...");
-
-						WebClient webClient = new WebClient();
-						string result = webClient.DownloadString("https://jonashertzman.github.io/FileSearch3/download/version.txt");
-
-						Debug.Print($"Latest version found: {result}");
-
-						return result;
-					}
-					catch (Exception exception)
-					{
-						Debug.Print($"Version check failed: {exception.Message}");
-					}
-
-					return null;
-
-				}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
-
-				AppSettings.LastUpdateTime = DateTime.Now;
-			}
-		}
-
-		private void ProcessUpdate(Task<string> task)
-		{
-			if (task.Result != null)
+			foreach (string s in ActiveSearch.StoredSearchPhrases)
 			{
 				try
 				{
-					ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+					Regex.Match("", s);
 				}
-				catch (Exception) { }
-			}
-		}
-
-		#endregion
-
-		#region Events
-
-		private void Window_Closed(object sender, EventArgs e)
-		{
-			SaveSettings();
-		}
-
-		private void Window_Initialized(object sender, EventArgs e)
-		{
-			LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
-
-			LoadSettings();
-			CheckForUpdate();
-		}
-
-		private void Window_ContentRendered(object sender, EventArgs e)
-		{
-			if (Environment.GetCommandLineArgs().Length > 1)
-			{
-				AddNewSearch(Environment.GetCommandLineArgs()[1]);
-			}
-		}
-
-		private void TabButton_Click(object sender, RoutedEventArgs e)
-		{
-			SetActiveTab((SearchInstance)((Button)sender).Tag);
-		}
-
-		private void TabButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-		{
-			SetActiveTab((SearchInstance)((Button)sender).Tag);
-		}
-
-		private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			//Debug.Print($"Added {e.AddedItems.Count}");
-			//Debug.Print($"Removed {e.RemovedItems.Count}");
-			//Debug.Print($"SelectedItems {dataGridFileList.SelectedItems.Count}");
-			//Debug.Print($"Items {dataGridFileList.Items.Count}");
-
-			foreach (FileHit f in e.AddedItems)
-			{
-				f.Selected = true;
-			}
-			foreach (FileHit f in e.RemovedItems)
-			{
-				f.Selected = false;
-			}
-
-			updatePrevirewTimer.Start();
-		}
-
-		private void ToggleButton_Checked(object sender, RoutedEventArgs e)
-		{
-			UpdateStats();
-			UpdatePreview();
-		}
-
-		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			UpdatePreview();
-		}
-
-		private void UpdatePrevirewTimer_Tick(object sender, EventArgs e)
-		{
-			updatePrevirewTimer.Stop();
-			UpdatePreview();
-		}
-
-		private void DataGridFileList_Sorting(object sender, DataGridSortingEventArgs e)
-		{
-			updatePrevirewTimer.Start();
-		}
-
-		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
-		}
-
-		private void MatchCase_Checked(object sender, RoutedEventArgs e)
-		{
-			ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
-		}
-
-		private void Preview_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
-		{
-			int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
-			VerticalScrollbar.Value -= lines;
-		}
-
-		private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			using Process p = new Process();
-
-			p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
-			p.StartInfo.ErrorDialog = true;
-			p.StartInfo.UseShellExecute = true;
-			p.Start();
-		}
-
-		private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
-		{
-			TextAttribute t = (sender as Button).DataContext as TextAttribute;
-
-			BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = t?.Text };
-			browseFolderWindow.ShowDialog();
-
-			if (browseFolderWindow.DialogResult == true)
-			{
-				if (t == null)
+				catch (ArgumentException)
 				{
-					ActiveSearch.SearchDirectories.Add(new TextAttribute(browseFolderWindow.SelectedPath));
-				}
-				else
-				{
-					t.Text = browseFolderWindow.SelectedPath;
+					MessageBox.Show($"{s} is not a valid regular expression", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+					return false;
 				}
 			}
 		}
+		return true;
+	}
 
-		private void ErrorCountHyperlink_Click(object sender, RoutedEventArgs e)
+	private void CheckForUpdate(bool forced = false)
+	{
+		if ((AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5)) || forced)
 		{
-			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.Errors };
-			logWindow.ShowDialog();
-		}
-
-		private void IgnoredFilesCountHyperlink_Click(object sender, RoutedEventArgs e)
-		{
-			LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
-			logWindow.ShowDialog();
-		}
-
-		private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
-		{
-			Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
-			e.Handled = true;
-		}
-
-		private void DataGridSearchPhrases_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-			{
-				if (Clipboard.ContainsText())
-				{
-					foreach (string line in ((string)Clipboard.GetData(DataFormats.Text)).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
-					{
-						ViewModel.ActiveSearchInstance.SearchPhrases.Add(new TextAttribute(line));
-					}
-				}
-			}
-		}
-
-		#endregion
-
-		#region Commands
-
-		#region Menues
-
-		private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			this.Close();
-		}
-
-		private void CommandNewTab_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			AddNewSearch();
-		}
-
-		private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			// Store existing settings data in case the changes are canceled.
-			var oldCheckForUpdates = ViewModel.CheckForUpdates;
-			var oldFont = ViewModel.Font;
-			var oldFontSize = ViewModel.FontSize;
-			var oldTabSize = ViewModel.TabSize;
-			var oldNormalForeground = ViewModel.NormalForeground;
-			var oldNormalBackground = ViewModel.NormalBackground;
-			var oldHitForeground = ViewModel.HitForeground;
-			var oldHitBackground = ViewModel.HitBackground;
-			var oldHeaderForeground = ViewModel.HeaderForeground;
-			var oldHeaderBackground = ViewModel.HeaderBackground;
-			var oldSelectionBackground = ViewModel.SelectionBackground;
-			var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
-			var oldIgnoredDirectories = new ObservableCollection<TextAttribute>(ViewModel.IgnoredDirectories);
-
-			OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
-			optionsWindow.ShowDialog();
-
-			if (optionsWindow.DialogResult == true)
-			{
-				SaveSettings();
-			}
-			else
-			{
-				// Options window was canceled, revert to old settings.
-				ViewModel.CheckForUpdates = oldCheckForUpdates;
-				ViewModel.Font = oldFont;
-				ViewModel.FontSize = oldFontSize;
-				ViewModel.TabSize = oldTabSize;
-				ViewModel.NormalForeground = oldNormalForeground;
-				ViewModel.NormalBackground = oldNormalBackground;
-				ViewModel.HitForeground = oldHitForeground;
-				ViewModel.HitBackground = oldHitBackground;
-				ViewModel.HeaderForeground = oldHeaderForeground;
-				ViewModel.HeaderBackground = oldHeaderBackground;
-				ViewModel.SelectionBackground = oldSelectionBackground;
-				ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
-				ViewModel.IgnoredDirectories = new ObservableCollection<TextAttribute>(oldIgnoredDirectories);
-			}
-		}
-
-		private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			CheckForUpdate(true);
-
-			AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
-			aboutWindow.ShowDialog();
-		}
-
-		private void CommandRenameTab_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			RenameTabWindow renameTabWindow = new RenameTabWindow() { TabName = ActiveSearch.Name };
-			renameTabWindow.ShowDialog();
-
-			if (renameTabWindow.DialogResult == true)
-			{
-				ActiveSearch.Name = renameTabWindow.TabName;
-				ActiveSearch.Renamed = true;
-			}
-		}
-
-		private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			string args = $"/Select, {((FileHit)dataGridFileList.SelectedItem).Path}";
-			ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
-			Process.Start(pfi);
-		}
-
-		private void CommandOpenContainingFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
-		}
-
-		private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			Clipboard.SetText(Path.GetFullPath(((FileHit)dataGridFileList.SelectedItem).Path));
-		}
-
-		private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
-		}
-
-		private void CommandCopyResultsToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			StringBuilder s = new StringBuilder();
-
-			foreach (FileHit r in dataGridFileList.Items)
-			{
-				if (r.Visible)
-				{
-					s.Append(r.Path + "\r\n");
-				}
-			}
-
-			if (s.ToString() != "")
-			{
-				Clipboard.SetText(s.ToString());
-			}
-		}
-
-		private void CommandCopyResultsToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = dataGridFileList.Items.Count > 0;
-		}
-
-		private void CommandCopyResultsAsCsv_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			StringBuilder s = new StringBuilder();
-
-			s.Append("File,Size,Date");
-			foreach (string phrase in ActiveSearch.StoredSearchPhrases)
-			{
-				s.Append($",\"{phrase.Replace("\"", "\"\"")}\"");
-			}
-			s.Append("\r\n");
-
-			foreach (FileHit r in dataGridFileList.Items)
-			{
-				if (r.Visible)
-				{
-					s.Append($"\"{r.Path}\",\"{r.Size}\",\"{r.Date}\"");
-					foreach (KeyValuePair<string, PhraseHit> kvp in r.PhraseHits)
-					{
-						s.Append($",{kvp.Value.Count}");
-					}
-
-					s.Append("\r\n");
-				}
-			}
-
-			if (s.ToString() != "")
-			{
-				Clipboard.SetText(s.ToString());
-			}
-		}
-
-		private void CommandCopyResultsAsCsv_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = dataGridFileList.Items.Count > 0;
-		}
-
-		#endregion
-
-		#region Main Toolbar
-
-		private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			if (!ValidateRegexPhrases())
-			{
-				return;
-			}
-
-			dataGridFileList.Focus();
-
-			CleanSearchAttributes();
-
-			ActiveSearch.PhraseSums.Clear();
-
-			foreach (TextAttribute t in ActiveSearch.SearchPhrases)
-			{
-				ActiveSearch.PhraseSums.Add(t.Text, 0);
-			}
-
-			ActiveSearch.StartSearch(this);
-		}
-
-		private void CommandStopSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			ActiveSearch.CancelSearch();
-		}
-
-		private void CommandDeleteSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			int removedIndex = ViewModel.SearchInstances.IndexOf(ActiveSearch);
-			ViewModel.SearchInstances.RemoveAt(removedIndex);
-			if (ViewModel.SearchInstances.Count > 0)
-			{
-				SetActiveTab(ViewModel.SearchInstances[Math.Max(0, removedIndex - 1)]);
-			}
-			else
-			{
-				AddNewSearch();
-			}
-		}
-
-		private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			SearchInstance newInstance = new SearchInstance { CaseSensitive = ActiveSearch.CaseSensitive, RegexSearch = ActiveSearch.RegexSearch };
-
-			foreach (TextAttribute attribute in ActiveSearch.SearchPhrases)
-			{
-				newInstance.SearchPhrases.Add(new TextAttribute(attribute.Text, attribute.Used));
-			}
-
-			foreach (TextAttribute attribute in ActiveSearch.SearchDirectories)
-			{
-				newInstance.SearchDirectories.Add(new TextAttribute(attribute.Text, attribute.Used));
-			}
-
-			foreach (TextAttribute attribute in ActiveSearch.SearchFiles)
-			{
-				newInstance.SearchFiles.Add(new TextAttribute(attribute.Text, attribute.Used));
-			}
-
-			ViewModel.SearchInstances.Add(newInstance);
-
-			SetActiveTab(newInstance);
-		}
-
-		#endregion
-
-		#region Preview Toolbar
-
-		private void CommandSaveFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			string filePath = ((FileHit)dataGridFileList.SelectedItem).Path;
-
-			if (File.Exists(filePath) && ViewModel.FileEdited)
+			Task.Run(() =>
 			{
 				try
 				{
-					using StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding);
+					Debug.Print("Checking for new version...");
 
-					if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
-					{
-						sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
-						foreach (Line l in ViewModel.PreviewLines)
-						{
-							sw.WriteLine(l.Text);
-						}
-					}
+					WebClient webClient = new WebClient();
+					string result = webClient.DownloadString("https://jonashertzman.github.io/FileSearch3/download/version.txt");
+
+					Debug.Print($"Latest version found: {result}");
+
+					return result;
 				}
 				catch (Exception exception)
 				{
-					MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
+					Debug.Print($"Version check failed: {exception.Message}");
+				}
+
+				return null;
+
+			}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
+
+			AppSettings.LastUpdateTime = DateTime.Now;
+		}
+	}
+
+	private void ProcessUpdate(Task<string> task)
+	{
+		if (task.Result != null)
+		{
+			try
+			{
+				ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+			}
+			catch (Exception) { }
+		}
+	}
+
+	#endregion
+
+	#region Events
+
+	private void Window_Closed(object sender, EventArgs e)
+	{
+		SaveSettings();
+	}
+
+	private void Window_Initialized(object sender, EventArgs e)
+	{
+		LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
+		LoadSettings();
+		CheckForUpdate();
+	}
+
+	private void Window_ContentRendered(object sender, EventArgs e)
+	{
+		if (Environment.GetCommandLineArgs().Length > 1)
+		{
+			AddNewSearch(Environment.GetCommandLineArgs()[1]);
+		}
+	}
+
+	private void TabButton_Click(object sender, RoutedEventArgs e)
+	{
+		SetActiveTab((SearchInstance)((Button)sender).Tag);
+	}
+
+	private void TabButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+	{
+		SetActiveTab((SearchInstance)((Button)sender).Tag);
+	}
+
+	private void DataGridFileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		//Debug.Print($"Added {e.AddedItems.Count}");
+		//Debug.Print($"Removed {e.RemovedItems.Count}");
+		//Debug.Print($"SelectedItems {dataGridFileList.SelectedItems.Count}");
+		//Debug.Print($"Items {dataGridFileList.Items.Count}");
+
+		foreach (FileHit f in e.AddedItems)
+		{
+			f.Selected = true;
+		}
+		foreach (FileHit f in e.RemovedItems)
+		{
+			f.Selected = false;
+		}
+
+		updatePrevirewTimer.Start();
+	}
+
+	private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+	{
+		UpdateStats();
+		UpdatePreview();
+	}
+
+	private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		UpdatePreview();
+	}
+
+	private void UpdatePrevirewTimer_Tick(object sender, EventArgs e)
+	{
+		updatePrevirewTimer.Stop();
+		UpdatePreview();
+	}
+
+	private void DataGridFileList_Sorting(object sender, DataGridSortingEventArgs e)
+	{
+		updatePrevirewTimer.Start();
+	}
+
+	private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+	{
+		ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
+	}
+
+	private void MatchCase_Checked(object sender, RoutedEventArgs e)
+	{
+		ProcessSearchResult(Preview.Search(SearchBox.Text, MatchCase.IsChecked == true));
+	}
+
+	private void Preview_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+	{
+		int lines = SystemParameters.WheelScrollLines * e.Delta / 120;
+		VerticalScrollbar.Value -= lines;
+	}
+
+	private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		using Process p = new Process();
+
+		p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
+		p.StartInfo.ErrorDialog = true;
+		p.StartInfo.UseShellExecute = true;
+		p.Start();
+	}
+
+	private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
+	{
+		TextAttribute t = (sender as Button).DataContext as TextAttribute;
+
+		BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = t?.Text };
+		browseFolderWindow.ShowDialog();
+
+		if (browseFolderWindow.DialogResult == true)
+		{
+			if (t == null)
+			{
+				ActiveSearch.SearchDirectories.Add(new TextAttribute(browseFolderWindow.SelectedPath));
+			}
+			else
+			{
+				t.Text = browseFolderWindow.SelectedPath;
+			}
+		}
+	}
+
+	private void ErrorCountHyperlink_Click(object sender, RoutedEventArgs e)
+	{
+		LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.Errors };
+		logWindow.ShowDialog();
+	}
+
+	private void IgnoredFilesCountHyperlink_Click(object sender, RoutedEventArgs e)
+	{
+		LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
+		logWindow.ShowDialog();
+	}
+
+	private void Hyperlink_OpenHomepage(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+	{
+		Process.Start(new ProcessStartInfo(e.Uri.ToString()) { UseShellExecute = true });
+		e.Handled = true;
+	}
+
+	private void DataGridSearchPhrases_KeyDown(object sender, KeyEventArgs e)
+	{
+		if (e.Key == Key.V && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+		{
+			if (Clipboard.ContainsText())
+			{
+				foreach (string line in ((string)Clipboard.GetData(DataFormats.Text)).Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None))
+				{
+					ViewModel.ActiveSearchInstance.SearchPhrases.Add(new TextAttribute(line));
 				}
 			}
+		}
+	}
 
-			UpdatePreview();
-		}
-		private void CommandSaveFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	#endregion
+
+	#region Commands
+
+	#region Menues
+
+	private void CommandExit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		this.Close();
+	}
+
+	private void CommandNewTab_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		AddNewSearch();
+	}
+
+	private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		// Store existing settings data in case the changes are canceled.
+		var oldCheckForUpdates = ViewModel.CheckForUpdates;
+		var oldFont = ViewModel.Font;
+		var oldFontSize = ViewModel.FontSize;
+		var oldTabSize = ViewModel.TabSize;
+		var oldNormalForeground = ViewModel.NormalForeground;
+		var oldNormalBackground = ViewModel.NormalBackground;
+		var oldHitForeground = ViewModel.HitForeground;
+		var oldHitBackground = ViewModel.HitBackground;
+		var oldHeaderForeground = ViewModel.HeaderForeground;
+		var oldHeaderBackground = ViewModel.HeaderBackground;
+		var oldSelectionBackground = ViewModel.SelectionBackground;
+		var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
+		var oldIgnoredDirectories = new ObservableCollection<TextAttribute>(ViewModel.IgnoredDirectories);
+
+		OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
+		optionsWindow.ShowDialog();
+
+		if (optionsWindow.DialogResult == true)
 		{
-			e.CanExecute = ViewModel.FileEdited;
+			SaveSettings();
+		}
+		else
+		{
+			// Options window was canceled, revert to old settings.
+			ViewModel.CheckForUpdates = oldCheckForUpdates;
+			ViewModel.Font = oldFont;
+			ViewModel.FontSize = oldFontSize;
+			ViewModel.TabSize = oldTabSize;
+			ViewModel.NormalForeground = oldNormalForeground;
+			ViewModel.NormalBackground = oldNormalBackground;
+			ViewModel.HitForeground = oldHitForeground;
+			ViewModel.HitBackground = oldHitBackground;
+			ViewModel.HeaderForeground = oldHeaderForeground;
+			ViewModel.HeaderBackground = oldHeaderBackground;
+			ViewModel.SelectionBackground = oldSelectionBackground;
+			ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
+			ViewModel.IgnoredDirectories = new ObservableCollection<TextAttribute>(oldIgnoredDirectories);
+		}
+	}
+
+	private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		CheckForUpdate(true);
+
+		AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
+		aboutWindow.ShowDialog();
+	}
+
+	private void CommandRenameTab_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		RenameTabWindow renameTabWindow = new RenameTabWindow() { TabName = ActiveSearch.Name };
+		renameTabWindow.ShowDialog();
+
+		if (renameTabWindow.DialogResult == true)
+		{
+			ActiveSearch.Name = renameTabWindow.TabName;
+			ActiveSearch.Renamed = true;
+		}
+	}
+
+	private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		string args = $"/Select, {((FileHit)dataGridFileList.SelectedItem).Path}";
+		ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+		Process.Start(pfi);
+	}
+
+	private void CommandOpenContainingFolder_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
+	}
+
+	private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		Clipboard.SetText(Path.GetFullPath(((FileHit)dataGridFileList.SelectedItem).Path));
+	}
+
+	private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = dataGridFileList.SelectedItems.Count == 1;
+	}
+
+	private void CommandCopyResultsToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		StringBuilder s = new StringBuilder();
+
+		foreach (FileHit r in dataGridFileList.Items)
+		{
+			if (r.Visible)
+			{
+				s.Append(r.Path + "\r\n");
+			}
 		}
 
-		private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		if (s.ToString() != "")
 		{
-			e.CanExecute = dataGridFileList.SelectedItems.Count == 1 && !ActiveSearch.ShowOnlyHits && !ViewModel.FileEdited && !((FileHit)dataGridFileList.SelectedItems[0]).IsFolder;
+			Clipboard.SetText(s.ToString());
+		}
+	}
+
+	private void CommandCopyResultsToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = dataGridFileList.Items.Count > 0;
+	}
+
+	private void CommandCopyResultsAsCsv_Executed(object sender, ExecutedRoutedEventArgs e)
+	{
+		StringBuilder s = new StringBuilder();
+
+		s.Append("File,Size,Date");
+		foreach (string phrase in ActiveSearch.StoredSearchPhrases)
+		{
+			s.Append($",\"{phrase.Replace("\"", "\"\"")}\"");
+		}
+		s.Append("\r\n");
+
+		foreach (FileHit r in dataGridFileList.Items)
+		{
+			if (r.Visible)
+			{
+				s.Append($"\"{r.Path}\",\"{r.Size}\",\"{r.Date}\"");
+				foreach (KeyValuePair<string, PhraseHit> kvp in r.PhraseHits)
+				{
+					s.Append($",{kvp.Value.Count}");
+				}
+
+				s.Append("\r\n");
+			}
 		}
 
-		private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		if (s.ToString() != "")
 		{
-			MoveToFirstHit();
+			Clipboard.SetText(s.ToString());
 		}
-		private void CommandFirstHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	}
+
+	private void CommandCopyResultsAsCsv_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = dataGridFileList.Items.Count > 0;
+	}
+
+	#endregion
+
+	#region Main Toolbar
+
+	private void CommandStartSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		if (!ValidateRegexPhrases())
 		{
-			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
+			return;
 		}
 
-		private void CommandPreviousHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		dataGridFileList.Focus();
+
+		CleanSearchAttributes();
+
+		ActiveSearch.PhraseSums.Clear();
+
+		foreach (TextAttribute t in ActiveSearch.SearchPhrases)
 		{
-			MoveToPrevoiusHit();
-		}
-		private void CommandPreviousHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
+			ActiveSearch.PhraseSums.Add(t.Text, 0);
 		}
 
-		private void CommandCurrentHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		ActiveSearch.StartSearch(this);
+	}
+
+	private void CommandStopSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		ActiveSearch.CancelSearch();
+	}
+
+	private void CommandDeleteSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		int removedIndex = ViewModel.SearchInstances.IndexOf(ActiveSearch);
+		ViewModel.SearchInstances.RemoveAt(removedIndex);
+		if (ViewModel.SearchInstances.Count > 0)
 		{
-			CenterOnLine(ViewModel.CurrentHit);
+			SetActiveTab(ViewModel.SearchInstances[Math.Max(0, removedIndex - 1)]);
 		}
-		private void CommandCurrentHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+		else
 		{
-			e.CanExecute = ViewModel.CurrentHit != -1 && !ViewModel.FileEdited;
+			AddNewSearch();
+		}
+	}
+
+	private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		SearchInstance newInstance = new SearchInstance { CaseSensitive = ActiveSearch.CaseSensitive, RegexSearch = ActiveSearch.RegexSearch };
+
+		foreach (TextAttribute attribute in ActiveSearch.SearchPhrases)
+		{
+			newInstance.SearchPhrases.Add(new TextAttribute(attribute.Text, attribute.Used));
 		}
 
-		private void CommandNextHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		foreach (TextAttribute attribute in ActiveSearch.SearchDirectories)
 		{
-			MoveToNextHit();
-		}
-		private void CommandNextHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
+			newInstance.SearchDirectories.Add(new TextAttribute(attribute.Text, attribute.Used));
 		}
 
-		private void CommandLastHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		foreach (TextAttribute attribute in ActiveSearch.SearchFiles)
 		{
-			MoveToLastHit();
-		}
-		private void CommandLastHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
+			newInstance.SearchFiles.Add(new TextAttribute(attribute.Text, attribute.Used));
 		}
 
-		#endregion
+		ViewModel.SearchInstances.Add(newInstance);
 
-		#region Find Toolbar
+		SetActiveTab(newInstance);
+	}
 
-		private void CommandFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	#endregion
+
+	#region Preview Toolbar
+
+	private void CommandSaveFile_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		string filePath = ((FileHit)dataGridFileList.SelectedItem).Path;
+
+		if (File.Exists(filePath) && ViewModel.FileEdited)
+		{
+			try
+			{
+				using StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding);
+
+				if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
+				{
+					sw.NewLine = ViewModel.FileEncoding.GetNewLineString;
+					foreach (Line l in ViewModel.PreviewLines)
+					{
+						sw.WriteLine(l.Text);
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				MessageBox.Show(exception.Message, "Error Saving File", MessageBoxButton.OK, MessageBoxImage.Error);
+			}
+		}
+
+		UpdatePreview();
+	}
+	private void CommandSaveFile_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = ViewModel.FileEdited;
+	}
+
+	private void CommandEdit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = dataGridFileList.SelectedItems.Count == 1 && !ActiveSearch.ShowOnlyHits && !ViewModel.FileEdited && !((FileHit)dataGridFileList.SelectedItems[0]).IsFolder;
+	}
+
+	private void CommandFirstHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		MoveToFirstHit();
+	}
+	private void CommandFirstHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
+	}
+
+	private void CommandPreviousHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		MoveToPrevoiusHit();
+	}
+	private void CommandPreviousHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = firstHit != -1 && ViewModel.CurrentHit > firstHit && !ViewModel.FileEdited;
+	}
+
+	private void CommandCurrentHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		CenterOnLine(ViewModel.CurrentHit);
+	}
+	private void CommandCurrentHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = ViewModel.CurrentHit != -1 && !ViewModel.FileEdited;
+	}
+
+	private void CommandNextHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		MoveToNextHit();
+	}
+	private void CommandNextHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
+	}
+
+	private void CommandLastHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		MoveToLastHit();
+	}
+	private void CommandLastHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = lastHit != -1 && ViewModel.CurrentHit < lastHit && !ViewModel.FileEdited;
+	}
+
+	#endregion
+
+	#region Find Toolbar
+
+	private void CommandFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		SearchPanel.Visibility = Visibility.Visible;
+		SearchBox.Focus();
+	}
+
+	private void CommandFindNext_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		if (SearchPanel.Visibility != Visibility.Visible)
 		{
 			SearchPanel.Visibility = Visibility.Visible;
 			SearchBox.Focus();
 		}
-
-		private void CommandFindNext_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+		else
 		{
-			if (SearchPanel.Visibility != Visibility.Visible)
-			{
-				SearchPanel.Visibility = Visibility.Visible;
-				SearchBox.Focus();
-			}
-			else
-			{
-				ProcessSearchResult(Preview.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
-			}
+			ProcessSearchResult(Preview.SearchNext(SearchBox.Text, MatchCase.IsChecked == true));
 		}
-		private void CommandFindNext_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = (SearchBox.Text != "" && Preview.Lines.Count > 0) || SearchPanel.Visibility != Visibility.Visible;
-		}
-
-		private void CommandFindPrevious_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			ProcessSearchResult(Preview.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true));
-		}
-		private void CommandFindPrevious_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = SearchBox.Text != "" && Preview.Lines.Count > 0;
-		}
-
-		private void CommandCloseFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
-		{
-			SearchPanel.Visibility = Visibility.Collapsed;
-		}
-
-		#endregion
-
-		#endregion
-
 	}
+	private void CommandFindNext_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = (SearchBox.Text != "" && Preview.Lines.Count > 0) || SearchPanel.Visibility != Visibility.Visible;
+	}
+
+	private void CommandFindPrevious_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		ProcessSearchResult(Preview.SearchPrevious(SearchBox.Text, MatchCase.IsChecked == true));
+	}
+	private void CommandFindPrevious_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = SearchBox.Text != "" && Preview.Lines.Count > 0;
+	}
+
+	private void CommandCloseFind_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	{
+		SearchPanel.Visibility = Visibility.Collapsed;
+	}
+
+	#endregion
+
+	#endregion
+
 }

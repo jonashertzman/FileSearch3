@@ -1,8 +1,7 @@
 ﻿using System.Windows;
 
-namespace FileSearch
+namespace FileSearch;
+
+public partial class App : Application
 {
-	public partial class App : Application
-	{
-	}
 }
