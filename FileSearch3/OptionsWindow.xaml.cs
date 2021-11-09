@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32;
 using System.IO;
-using System.Linq;
 using System.Security.Principal;
 using System.Windows;
 using System.Windows.Media;
