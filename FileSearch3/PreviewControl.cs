@@ -427,7 +427,7 @@ public class PreviewControl : Control
 					DeleteSelection();
 				}
 
-				string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n" }, StringSplitOptions.None);
+				string[] pastedRows = Clipboard.GetText().Split(new string[] { "\r\n", "\n" }, StringSplitOptions.None);
 
 				string leftOfCursor = Lines[cursorLine].Text[..cursorCharacter];
 				string rightOfCursor = Lines[cursorLine].Text[cursorCharacter..];
