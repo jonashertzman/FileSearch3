@@ -1,4 +1,20 @@
-﻿<Window x:Class="FileSearch.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:FileSearch" mc:Ignorable="d" Title="{Binding Title, FallbackValue='File Search'}" TextOptions.TextFormattingMode="Display" Closed="Window_Closed" Initialized="Window_Initialized" UseLayoutRounding="True" ResizeMode="CanResizeWithGrip" ContentRendered="Window_ContentRendered" Height="448" Width="953">
+﻿<Window
+	x:Class="FileSearch.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:FileSearch"
+	Title="{Binding Title, FallbackValue='File Search'}"
+	Width="953"
+	Height="448"
+	TextOptions.TextFormattingMode="Display"
+	Closed="Window_Closed"
+	Initialized="Window_Initialized"
+	UseLayoutRounding="True"
+	ResizeMode="CanResizeWithGrip"
+	ContentRendered="Window_ContentRendered"
+	mc:Ignorable="d">
 
 	<Window.Resources>
 
@@ -58,10 +74,10 @@
 
 			<DataTemplate x:Key="SearchInstanceTabTemplate">
 				<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
-					<StackPanel Margin="2,0" Orientation="Vertical" MinWidth="20">
-						<TextBlock Text="{Binding Name}" HorizontalAlignment="Center" Margin="0,0,0,1" />
+					<StackPanel MinWidth="20" Margin="2,0" Orientation="Vertical">
+						<TextBlock Margin="0,0,0,1" HorizontalAlignment="Center" Text="{Binding Name}" />
 						<StackPanel Height="2">
-							<ProgressBar Height="2" Value="{Binding Progress}" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" />
+							<ProgressBar Height="2" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}" />
 						</StackPanel>
 					</StackPanel>
 				</Button>
@@ -77,8 +93,8 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--Menu Bar-->
-		<Grid Grid.Row="0" x:Name="GridMenu">
+		<!--  Menu Bar  -->
+		<Grid x:Name="GridMenu" Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
@@ -87,9 +103,9 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
-			<!--Menu-->
-			<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource  {x:Static SystemColors.ScrollBarBrushKey} }">
-				<Menu Grid.Row="0" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" Margin="2,0" VerticalAlignment="Center">
+			<!--  Menu  -->
+			<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+				<Menu Grid.Row="0" Margin="2,0" VerticalAlignment="Center" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
 					<MenuItem Header="File">
 						<MenuItem Header="Exit" Command="local:Commands.Exit" />
 						<MenuItem Header="New Tab" Command="local:Commands.NewTab" />
@@ -108,8 +124,8 @@
 				</Menu>
 			</Border>
 
-			<!--Instance Tabs-->
-			<ItemsControl x:Name="Tab" ItemsSource="{Binding SearchInstances}" Grid.Column="1" Grid.Row="0" ItemTemplate="{StaticResource SearchInstanceTabTemplate}" IsTabStop="False">
+			<!--  Instance Tabs  -->
+			<ItemsControl x:Name="Tab" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource SearchInstanceTabTemplate}" IsTabStop="False">
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />
@@ -117,11 +133,11 @@
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
 
-			<Button x:Name="ButtonNewSearchInstance" Content="*" Command="local:Commands.NewTab" Grid.Column="2" Margin="0,4,0,0" MinWidth="26" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
+			<Button x:Name="ButtonNewSearchInstance" Grid.Column="2" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
 			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
 			<Border Grid.Column="4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
 
-				<StackPanel x:Name="UpdatePanel" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}" HorizontalAlignment="Right">
+				<StackPanel x:Name="UpdatePanel" HorizontalAlignment="Right" Orientation="Horizontal" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Label Margin="3,3,5,3" Padding="0" VerticalAlignment="Center">
 						<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="https://github.com/jonashertzman/FileSearch3/blob/master/README.md">New Version Available</Hyperlink>
 					</Label>
@@ -129,12 +145,12 @@
 			</Border>
 		</Grid>
 
-		<!--Main Toolbar-->
-		<WrapPanel DockPanel.Dock="Top" x:Name="ToolbarMain" Grid.Row="1" Orientation="Horizontal">
+		<!--  Main Toolbar  -->
+		<WrapPanel x:Name="ToolbarMain" Grid.Row="1" DockPanel.Dock="Top" Orientation="Horizontal">
 			<WrapPanel.Background>
-				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-					<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
-					<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+				<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+					<GradientStop Offset="0" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
+					<GradientStop Offset="1" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
 				</LinearGradientBrush>
 			</WrapPanel.Background>
 
@@ -216,7 +232,7 @@
 				<ColumnDefinition Width="4*" />
 			</Grid.ColumnDefinitions>
 
-			<!--Search Attributes-->
+			<!--  Search Attributes  -->
 			<Grid x:Name="GridSearchAttributes">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="{Binding PhraseGridHeight, Mode=TwoWay}" />
@@ -228,14 +244,14 @@
 				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" KeyDown="DataGridSearchPhrases_KeyDown">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" Header="" />
-						<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Phrase" Width="*" />
+						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Phrase" />
 					</DataGrid.Columns>
 				</DataGrid>
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 				<DataGrid x:Name="DataGridSearchDirectories" Grid.Row="2" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" Header="" />
-						<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Search Directories" Width="*" />
+						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Search Directories" />
 						<DataGridTemplateColumn CellStyle="{StaticResource DataGridCellAttributes}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
@@ -249,7 +265,7 @@
 				<DataGrid x:Name="DataGridSearcFiles" Grid.Row="4" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchFiles, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" Header="" />
-						<DataGridTextColumn Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files to Search" Width="*" />
+						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Files to Search" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</Grid>
@@ -261,8 +277,8 @@
 					<RowDefinition />
 				</Grid.RowDefinitions>
 
-				<!--File List-->
-				<local:ExtendedDataGrid CellStyle="{StaticResource FileListCell}" x:Name="dataGridFileList" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<!--  File List  -->
+				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.RowStyle>
 						<Style TargetType="DataGridRow">
 							<EventSetter Event="MouseDoubleClick" Handler="DataGridFileList_RowDoubleClick" />
@@ -291,7 +307,7 @@
 
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 
-				<!--Preview Pane-->
+				<!--  Preview Pane  -->
 				<Border Grid.Row="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1">
 					<Grid>
 						<Grid.RowDefinitions>
@@ -299,13 +315,13 @@
 							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<!--Preview Toolbar-->
+						<!--  Preview Toolbar  -->
 						<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,0,1">
 							<StackPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
 								<StackPanel.Background>
-									<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-										<GradientStop Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" Offset="0" />
-										<GradientStop Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" Offset="1" />
+									<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+										<GradientStop Offset="0" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
+										<GradientStop Offset="1" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
 									</LinearGradientBrush>
 								</StackPanel.Background>
 
@@ -452,8 +468,8 @@
 									</StackPanel>
 								</ToggleButton>
 
-								<StackPanel Orientation="Horizontal" Margin="2" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
-									<ComboBox SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" Width="35" VerticalAlignment="Center" SelectionChanged="ComboBox_SelectionChanged">
+								<StackPanel Margin="2" Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.ShowOnlyHits, Converter={StaticResource BooleanToVisibilityConverter}}">
+									<ComboBox Width="35" VerticalAlignment="Center" SelectedIndex="{Binding ActiveSearchInstance.SurroundingLines}" SelectionChanged="ComboBox_SelectionChanged">
 										<ComboBoxItem Content="0" />
 										<ComboBoxItem Content="1" />
 										<ComboBoxItem Content="2" />
@@ -469,13 +485,13 @@
 
 								<StackPanel Name="CurrentFilePanel" Height="20" Orientation="Horizontal">
 									<Separator Margin="8,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-									<TextBlock Name="CurrentFile" Text="Current File" Margin="0,0" Foreground="{StaticResource  {x:Static SystemColors.ControlDarkDarkBrushKey} }" VerticalAlignment="Center" />
+									<TextBlock Name="CurrentFile" Margin="0,0" VerticalAlignment="Center" Text="Current File" Foreground="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
 								</StackPanel>
 
 							</StackPanel>
 						</Border>
 
-						<!--Preview Control-->
+						<!--  Preview Control  -->
 						<Grid Grid.Row="1">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
@@ -489,8 +505,8 @@
 
 							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,1,0" />
 							<local:HitMapControl Grid.Column="1" Width="12" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
-							<ScrollBar Grid.Column="2" Name="VerticalScrollbar" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll }" />
-							<ScrollBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="HorizontalScrollbar" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
+							<ScrollBar Name="VerticalScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll}" />
+							<ScrollBar x:Name="HorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
 							<StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}" />
 						</Grid>
 
@@ -499,18 +515,18 @@
 			</Grid>
 		</Grid>
 
-		<!--Search panel-->
-		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey} }" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<!--  Search panel  -->
+		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<StackPanel Orientation="Horizontal">
-				<Button Content="Close" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
-				<TextBox Name="SearchBox" Margin="5,2" Padding="2" Width="300" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-				<Button Content="Next" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
-				<Button Content="Previous" Margin="5,1" Padding="2" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-				<CheckBox Name="MatchCase" Content="Match Case" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+				<Button Margin="5,1" Padding="2" Content="Close" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
+				<TextBox Name="SearchBox" Width="300" Margin="5,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+				<Button Margin="5,1" Padding="2" Content="Next" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
+				<Button Margin="5,1" Padding="2" Content="Previous" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
+				<CheckBox Name="MatchCase" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
 			</StackPanel>
 		</Border>
 
-		<!--Status Bar-->
+		<!--  Status Bar  -->
 		<Grid x:Name="GridStatusbar" Grid.Row="4" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
@@ -520,34 +536,34 @@
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Text="{Binding ActiveSearchInstance.StatusText}" Margin="3" />
+			<TextBlock Margin="3" Text="{Binding ActiveSearchInstance.StatusText}" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-					<TextBlock Text="{Binding ActiveSearchInstance.FileCountStatus}" Margin="3" />
+					<TextBlock Margin="3" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyIgnoredFiles, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-					<TextBlock VerticalAlignment="Center" Margin="3">
+					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="IgnoredFilesCountHyperlink" Click="IgnoredFilesCountHyperlink_Click">
-								<TextBlock Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
+							<TextBlock Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-					<TextBlock VerticalAlignment="Center" Margin="3">
+					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="ErrorCountHyperlink" Click="ErrorCountHyperlink_Click">
-								<TextBlock Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
+							<TextBlock Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-				<ProgressBar Value="{Binding ActiveSearchInstance.Progress}" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Height="14" Width="100" Margin="3" />
+				<ProgressBar Width="100" Height="14" Margin="3" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding ActiveSearchInstance.Progress}" />
 				<StackPanel Width="20" />
 			</StackPanel>
 		</Grid>
 
-		<!--Used to measure the size of one character in the chosen font-->
-		<TextBlock x:Name="OneCharacter" Grid.Row="2" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+		<!--  Used to measure the size of one character in the chosen font  -->
+		<TextBlock x:Name="OneCharacter" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Text="M" Visibility="Hidden" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" />
 	</Grid>
 </Window>
