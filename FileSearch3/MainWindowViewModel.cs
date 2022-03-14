@@ -207,13 +207,34 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public FontFamily Font
 	{
 		get { return AppSettings.Font; }
-		set { AppSettings.Font = value; OnPropertyChangedRepaint(nameof(Font)); }
+		set
+		{
+			AppSettings.Font = value;
+			Zoom = 0;
+			OnPropertyChangedRepaint(nameof(Font));
+		}
 	}
 
 	public int FontSize
 	{
 		get { return AppSettings.FontSize; }
-		set { AppSettings.FontSize = value; OnPropertyChangedRepaint(nameof(FontSize)); }
+		set
+		{
+			AppSettings.FontSize = value;
+			Zoom = 0;
+			OnPropertyChangedRepaint(nameof(FontSize));
+		}
+	}
+
+	public int Zoom
+	{
+		get { return AppSettings.Zoom; }
+		set { AppSettings.Zoom = Math.Max(value, 1 - FontSize); OnPropertyChanged(nameof(Zoom)); OnPropertyChanged(nameof(ZoomedFontSize)); }
+	}
+
+	public int ZoomedFontSize
+	{
+		get { return Math.Max(FontSize + Zoom, 1); }
 	}
 
 	public int TabSize

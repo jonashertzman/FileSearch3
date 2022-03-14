@@ -60,6 +60,10 @@
 		<CommandBinding Command="local:Commands.FindPrevious" Executed="CommandFindPrevious_Executed" CanExecute="CommandFindPrevious_CanExecute" />
 		<CommandBinding Command="local:Commands.CloseFind" Executed="CommandCloseFind_Executed" />
 
+		<CommandBinding Command="local:Commands.ZoomIn" Executed="CommandZoomIn_Executed" />
+		<CommandBinding Command="local:Commands.ZoomOut" Executed="CommandZoomOut_Executed" />
+		<CommandBinding Command="local:Commands.ResetZoom" Executed="CommandResetZoom_Executed" />
+
 		<CommandBinding Command="local:Commands.OpenContainingFolder" Executed="CommandOpenContainingFolder_Executed" CanExecute="CommandOpenContainingFolder_CanExecute" />
 		<CommandBinding Command="local:Commands.CopyPathToClipboard" Executed="CommandCopyPathToClipboard_Executed" CanExecute="CommandCopyPathToClipboard_CanExecute" />
 		<CommandBinding Command="local:Commands.CopyResultsToClipboard" Executed="CommandCopyResultsToClipboard_Executed" CanExecute="CommandCopyResultsToClipboard_CanExecute" />
@@ -114,6 +118,11 @@
 						<MenuItem Header="Find" Command="local:Commands.Find" />
 						<MenuItem Header="Find Next" Command="local:Commands.FindNext" />
 						<MenuItem Header="Find Previous" Command="local:Commands.FindPrevious" />
+					</MenuItem>
+					<MenuItem Header="View">
+						<MenuItem Header="Zoom In" Command="local:Commands.ZoomIn" />
+						<MenuItem Header="Zoom Out" Command="local:Commands.ZoomOut" />
+						<MenuItem Header="Reset Zoom" Command="local:Commands.ResetZoom" />
 					</MenuItem>
 					<MenuItem Header="Tools">
 						<MenuItem Header="Options" Command="local:Commands.Options" />
@@ -503,7 +512,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding FontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,1,0" />
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,1,0" />
 							<local:HitMapControl Grid.Column="1" Width="12" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 							<ScrollBar Name="VerticalScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerialcalScroll}" />
 							<ScrollBar x:Name="HorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
