@@ -3,7 +3,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
-using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -223,7 +223,7 @@ public partial class MainWindow : Window
 		string temp = $"{filesFound} files found";
 		if (ActiveSearch.SearchedFileCount > 0)
 		{
-			temp += $" in { ActiveSearch.SearchedFileCount} searched";
+			temp += $" in {ActiveSearch.SearchedFileCount} searched";
 		}
 
 		ActiveSearch.FileCountStatus = temp;
@@ -605,45 +605,26 @@ public partial class MainWindow : Window
 		return true;
 	}
 
-	private void CheckForUpdate(bool forced = false)
+	private async void CheckForNewVersion(bool forced = false)
 	{
-		if ((AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5)) || forced)
-		{
-			Task.Run(() =>
-			{
-				try
-				{
-					Debug.Print("Checking for new version...");
-
-					WebClient webClient = new WebClient();
-					string result = webClient.DownloadString("https://jonashertzman.github.io/FileSearch3/download/version.txt");
-
-					Debug.Print($"Latest version found: {result}");
-
-					return result;
-				}
-				catch (Exception exception)
-				{
-					Debug.Print($"Version check failed: {exception.Message}");
-				}
-
-				return null;
-
-			}).ContinueWith(ProcessUpdate, TaskScheduler.FromCurrentSynchronizationContext());
-
-			AppSettings.LastUpdateTime = DateTime.Now;
-		}
-	}
-
-	private void ProcessUpdate(Task<string> task)
-	{
-		if (task.Result != null)
+		if (AppSettings.CheckForUpdates && AppSettings.LastUpdateTime < DateTime.Now.AddDays(-5) || forced)
 		{
 			try
 			{
-				ViewModel.NewBuildAvailable = int.Parse(task.Result) > int.Parse(ViewModel.BuildNumber);
+				Debug.Print("Checking for new version...");
+
+				HttpClient httpClient = new();
+				string result = await httpClient.GetStringAsync("https://jonashertzman.github.io/FileSearch3/download/version.txt");
+
+				Debug.Print($"Latest version found: {result}");
+				ViewModel.NewBuildAvailable = int.Parse(result) > int.Parse(ViewModel.BuildNumber);
 			}
-			catch (Exception) { }
+			catch (Exception exception)
+			{
+				Debug.Print($"Version check failed: {exception.Message}");
+			}
+
+			AppSettings.LastUpdateTime = DateTime.Now;
 		}
 	}
 
@@ -661,7 +642,7 @@ public partial class MainWindow : Window
 		LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
 		LoadSettings();
-		CheckForUpdate();
+		CheckForNewVersion();
 	}
 
 	private void Window_ContentRendered(object sender, EventArgs e)
@@ -871,7 +852,7 @@ public partial class MainWindow : Window
 
 	private void CommandAbout_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 	{
-		CheckForUpdate(true);
+		CheckForNewVersion(true);
 
 		AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
 		aboutWindow.ShowDialog();
