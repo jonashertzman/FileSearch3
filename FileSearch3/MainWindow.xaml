@@ -527,11 +527,11 @@
 		<!--  Search panel  -->
 		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<StackPanel Orientation="Horizontal">
-				<Button Margin="5,1" Padding="2" Content="Close" Background="Transparent" BorderThickness="0" Command="local:Commands.CloseFind" />
-				<TextBox Name="SearchBox" Width="300" Margin="5,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
-				<Button Margin="5,1" Padding="2" Content="Next" Background="Transparent" BorderThickness="0" Command="local:Commands.FindNext" />
-				<Button Margin="5,1" Padding="2" Content="Previous" Background="Transparent" BorderThickness="0" Command="local:Commands.FindPrevious" />
-				<CheckBox Name="MatchCase" Margin="5,1" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
+				<Button Content="Close" Style="{StaticResource FlatButton}" Command="local:Commands.CloseFind" />
+				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+				<Button Content="Next" Style="{StaticResource FlatButton}" Command="local:Commands.FindNext" />
+				<Button Content="Previous" Style="{StaticResource FlatButton}" Command="local:Commands.FindPrevious" />
+				<CheckBox Name="MatchCase" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
 			</StackPanel>
 		</Border>
 
