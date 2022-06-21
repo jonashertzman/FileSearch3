@@ -545,7 +545,7 @@
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Margin="3" Text="{Binding ActiveSearchInstance.StatusText}" />
+			<TextBlock Margin="6,3,3,3" Text="{Binding ActiveSearchInstance.StatusText}" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
