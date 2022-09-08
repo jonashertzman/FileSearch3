@@ -250,7 +250,7 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition />
 				</Grid.RowDefinitions>
-				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" KeyDown="DataGridSearchPhrases_KeyDown">
+				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" PreviewKeyDown="DataGridSearchPhrases_PreviewKeyDown">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource CheckBoxColumn}" Header="" />
 						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" CellStyle="{StaticResource DataGridCellAttributes}" Header="Phrase" />
