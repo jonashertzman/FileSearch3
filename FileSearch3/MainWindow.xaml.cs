@@ -116,6 +116,7 @@ public partial class MainWindow : Window
 	{
 		foreach (SearchInstance s in AppSettings.SearchInstances)
 		{
+			s.SearchPhrases = new ObservableCollection<TextAttribute>(s.SearchPhrases.DistinctBy(x => x.Text));
 			for (int i = s.SearchPhrases.Count - 1; i >= 0; i--)
 			{
 				if (string.IsNullOrEmpty(s.SearchPhrases[i].Text))
@@ -123,6 +124,8 @@ public partial class MainWindow : Window
 					s.SearchPhrases.RemoveAt(i);
 				}
 			}
+
+			s.SearchDirectories = new ObservableCollection<TextAttribute>(s.SearchDirectories.DistinctBy(x => x.Text));
 			for (int i = s.SearchDirectories.Count - 1; i >= 0; i--)
 			{
 				if (string.IsNullOrEmpty(s.SearchDirectories[i].Text))
@@ -130,6 +133,8 @@ public partial class MainWindow : Window
 					s.SearchDirectories.RemoveAt(i);
 				}
 			}
+
+			s.SearchFiles = new ObservableCollection<TextAttribute>(s.SearchFiles.DistinctBy(x => x.Text));
 			for (int i = s.SearchFiles.Count - 1; i >= 0; i--)
 			{
 				if (string.IsNullOrEmpty(s.SearchFiles[i].Text))
@@ -790,6 +795,7 @@ public partial class MainWindow : Window
 			}
 			e.Handled = true;
 		}
+		e.Handled = false;
 	}
 
 	#endregion
