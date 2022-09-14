@@ -125,7 +125,7 @@ public partial class MainWindow : Window
 				}
 			}
 
-			s.SearchDirectories = new ObservableCollection<TextAttribute>(s.SearchDirectories.DistinctBy(x => x.Text));
+			s.SearchDirectories = new ObservableCollection<TextAttribute>(s.SearchDirectories.DistinctBy(x => x.UppercaseText));
 			for (int i = s.SearchDirectories.Count - 1; i >= 0; i--)
 			{
 				if (string.IsNullOrEmpty(s.SearchDirectories[i].Text))
@@ -134,7 +134,7 @@ public partial class MainWindow : Window
 				}
 			}
 
-			s.SearchFiles = new ObservableCollection<TextAttribute>(s.SearchFiles.DistinctBy(x => x.Text));
+			s.SearchFiles = new ObservableCollection<TextAttribute>(s.SearchFiles.DistinctBy(x => x.UppercaseText));
 			for (int i = s.SearchFiles.Count - 1; i >= 0; i--)
 			{
 				if (string.IsNullOrEmpty(s.SearchFiles[i].Text))
