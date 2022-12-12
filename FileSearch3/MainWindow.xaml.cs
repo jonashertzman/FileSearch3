@@ -1,6 +1,4 @@
-﻿global using System.Diagnostics;
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
