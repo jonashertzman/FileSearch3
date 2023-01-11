@@ -5,8 +5,8 @@
 
 	<DataTemplate x:Key="ApplicationIcon">
 		<Viewbox>
-			<Canvas Width="160" Height="160">
-				<Rectangle Canvas.Left="60" Canvas.Top="20" Width="100" Height="140">
+			<Canvas Width="16" Height="16" UseLayoutRounding="False">
+				<Rectangle Canvas.Left="6" Canvas.Top="2" Width="10" Height="14">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFC0E5F1" />
@@ -14,7 +14,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="60" Canvas.Top="90" Width="100" Height="20">
+				<Rectangle Canvas.Left="6" Canvas.Top="9" Width="10" Height="2">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFFF5A77" />
@@ -22,7 +22,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="100" Height="140">
+				<Rectangle Canvas.Left="0" Canvas.Top="0" Width="10" Height="14">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFECECEC" />
@@ -30,7 +30,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Rectangle Canvas.Left="0" Canvas.Top="60" Width="100" Height="20">
+				<Rectangle Canvas.Left="0" Canvas.Top="6" Width="10" Height="2">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FFFF5A77" />
@@ -38,7 +38,7 @@
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
-				<Path StrokeThickness="23">
+				<Path StrokeThickness="2.3">
 					<Path.Stroke>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
 							<GradientStop Offset="0" Color="#FF707070" />
@@ -47,8 +47,8 @@
 					</Path.Stroke>
 					<Path.Data>
 						<GeometryGroup FillRule="Nonzero">
-							<EllipseGeometry Center="65,65" RadiusX="40" RadiusY="40" />
-							<LineGeometry StartPoint="90,90" EndPoint="145,145" />
+							<EllipseGeometry Center="6.5,6.5" RadiusX="4" RadiusY="4" />
+							<LineGeometry StartPoint="9,9" EndPoint="14.5,14.5" />
 						</GeometryGroup>
 					</Path.Data>
 				</Path>

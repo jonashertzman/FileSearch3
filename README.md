@@ -15,11 +15,11 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileSearch3/dow
 - High DPI support
 
 ### Screen shots
-![screen](docs/images/screen1.png)
+![screen](docs/images/screen1.png)  
 *Normal preview.*
 
-![screen](docs/images/screen2.png)
+![screen](docs/images/screen2.png)  
 *Condensed preview.*
 
-![screen](docs/images/screen3.png)
+![screen](docs/images/screen3.png)  
 *Full DPI support.*
