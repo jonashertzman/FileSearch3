@@ -8,6 +8,7 @@
 	Title="{Binding Title, FallbackValue='File Search'}"
 	Width="953"
 	Height="448"
+	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"
 	Closed="Window_Closed"
 	Initialized="Window_Initialized"

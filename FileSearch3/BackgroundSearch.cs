@@ -9,28 +9,23 @@ class BackgroundSearch
 
 	#region Members
 
-	SearchInstance searchInstance;
+	readonly SearchInstance searchInstance;
 
 	DateTime lastStatusUpdateTime = DateTime.UtcNow;
 	DateTime startTime = new DateTime();
 	DateTime endTime = new DateTime();
-
-	List<TextAttribute> searchPhrases = new List<TextAttribute>();
-	List<TextAttribute> searchDirectories = new List<TextAttribute>();
-	List<TextAttribute> searchFiles = new List<TextAttribute>();
-
-	List<string> uppercaseIgnoreDirectories = new List<string>();
-	List<string> uppercaseIgnoreFiles = new List<string>();
-
-	bool regexSearch;
+	readonly List<TextAttribute> searchPhrases = new List<TextAttribute>();
+	readonly List<TextAttribute> searchDirectories = new List<TextAttribute>();
+	readonly List<TextAttribute> searchFiles = new List<TextAttribute>();
+	readonly List<string> uppercaseIgnoreDirectories = new List<string>();
+	readonly List<string> uppercaseIgnoreFiles = new List<string>();
+	readonly bool regexSearch;
 
 	string currentRoot;
-
-	List<FileHit> searchResults = new List<FileHit>();
-	List<string> searchErrors = new List<string>();
-	List<string> searchIgnores = new List<string>();
-
-	BackgroundWorker backgroundWorker = new BackgroundWorker();
+	readonly List<FileHit> searchResults = new List<FileHit>();
+	readonly List<string> searchErrors = new List<string>();
+	readonly List<string> searchIgnores = new List<string>();
+	readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
 
 	bool abortPosted = false;
 
