@@ -21,7 +21,7 @@ public partial class MainWindow : Window
 
 	MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
-	readonly DispatcherTimer updatePrevirewTimer = new DispatcherTimer();
+	readonly DispatcherTimer updatePreviewTimer = new DispatcherTimer();
 
 	int firstHit = -1;
 	int lastHit = -1;
@@ -41,8 +41,8 @@ public partial class MainWindow : Window
 
 		SearchPanel.Visibility = Visibility.Collapsed;
 
-		updatePrevirewTimer.Interval = new TimeSpan(10000);
-		updatePrevirewTimer.Tick += UpdatePrevirewTimer_Tick;
+		updatePreviewTimer.Interval = new TimeSpan(10000);
+		updatePreviewTimer.Tick += UpdatePreviewTimer_Tick;
 
 		standardColumnCount = dataGridFileList.Columns.Count;
 
@@ -200,7 +200,7 @@ public partial class MainWindow : Window
 
 		foreach (FileHit f in ActiveSearch.FilesWithHits)
 		{
-			if (ActiveSearch.FindAllPhrases ? f.AllPrasesHit(ActiveSearch.CaseSensitive) : f.AnyPhraseHit(ActiveSearch.CaseSensitive))
+			if (ActiveSearch.FindAllPhrases ? f.AllPhrasesHit(ActiveSearch.CaseSensitive) : f.AnyPhraseHit(ActiveSearch.CaseSensitive))
 			{
 				filesFound++;
 				f.Visible = true;
@@ -515,10 +515,10 @@ public partial class MainWindow : Window
 	private void MoveToLastHit()
 	{
 		ViewModel.CurrentHit = ViewModel.PreviewLines.Count;
-		MoveToPrevoiusHit();
+		MoveToPreviousHit();
 	}
 
-	private void MoveToPrevoiusHit()
+	private void MoveToPreviousHit()
 	{
 		for (int i = ViewModel.CurrentHit - 1; i >= 0; i--)
 		{
@@ -682,7 +682,7 @@ public partial class MainWindow : Window
 			f.Selected = false;
 		}
 
-		updatePrevirewTimer.Start();
+		updatePreviewTimer.Start();
 	}
 
 	private void ToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -696,15 +696,15 @@ public partial class MainWindow : Window
 		UpdatePreview();
 	}
 
-	private void UpdatePrevirewTimer_Tick(object sender, EventArgs e)
+	private void UpdatePreviewTimer_Tick(object sender, EventArgs e)
 	{
-		updatePrevirewTimer.Stop();
+		updatePreviewTimer.Stop();
 		UpdatePreview();
 	}
 
 	private void DataGridFileList_Sorting(object sender, DataGridSortingEventArgs e)
 	{
-		updatePrevirewTimer.Start();
+		updatePreviewTimer.Start();
 	}
 
 	private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -812,7 +812,7 @@ public partial class MainWindow : Window
 		AddNewSearch();
 	}
 
-	private void CommnadOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+	private void CommandOptions_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 	{
 		// Store existing settings data in case the changes are canceled.
 		var oldCheckForUpdates = ViewModel.CheckForUpdates;
@@ -1091,7 +1091,7 @@ public partial class MainWindow : Window
 
 	private void CommandPreviousHit_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 	{
-		MoveToPrevoiusHit();
+		MoveToPreviousHit();
 	}
 	private void CommandPreviousHit_CanExecute(object sender, System.Windows.Input.CanExecuteRoutedEventArgs e)
 	{

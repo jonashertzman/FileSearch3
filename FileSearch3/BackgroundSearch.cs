@@ -19,7 +19,7 @@ class BackgroundSearch
 	List<TextAttribute> searchDirectories = new List<TextAttribute>();
 	List<TextAttribute> searchFiles = new List<TextAttribute>();
 
-	List<string> uppercaseIgnoreDirecrories = new List<string>();
+	List<string> uppercaseIgnoreDirectories = new List<string>();
 	List<string> uppercaseIgnoreFiles = new List<string>();
 
 	bool regexSearch;
@@ -84,7 +84,7 @@ class BackgroundSearch
 
 		foreach (TextAttribute attribute in AppSettings.IgnoredDirectories)
 		{
-			uppercaseIgnoreDirecrories.Add(attribute.UppercaseText);
+			uppercaseIgnoreDirectories.Add(attribute.UppercaseText);
 		}
 
 		Search();
@@ -205,7 +205,7 @@ class BackgroundSearch
 
 	private bool DirectoryIsIgnored(string directory)
 	{
-		foreach (string s in uppercaseIgnoreDirecrories)
+		foreach (string s in uppercaseIgnoreDirectories)
 		{
 			if (WildcardCompare(directory, s, false))
 			{

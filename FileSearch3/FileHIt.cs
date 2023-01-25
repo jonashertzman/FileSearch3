@@ -77,10 +77,10 @@ public class FileHit : INotifyPropertyChanged
 		return (ulong)highValue << 32 | lowValue;
 	}
 
-	internal void AddPhraseHit(string phrase, bool caseSensieiveHit)
+	internal void AddPhraseHit(string phrase, bool caseSensitiveHit)
 	{
 		PhraseHits[phrase].Count++;
-		if (caseSensieiveHit)
+		if (caseSensitiveHit)
 		{
 			PhraseHits[phrase].CaseSensitiveCount++;
 		}
@@ -114,7 +114,7 @@ public class FileHit : INotifyPropertyChanged
 		return false;
 	}
 
-	internal bool AllPrasesHit(bool caseSensitive)
+	internal bool AllPhrasesHit(bool caseSensitive)
 	{
 		if (PhraseHits.Count == 0)
 			return true;

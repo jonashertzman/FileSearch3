@@ -38,7 +38,7 @@
 
 		<CommandBinding Command="local:Commands.Exit" Executed="CommandExit_Executed" />
 		<CommandBinding Command="local:Commands.NewTab" Executed="CommandNewTab_Executed" />
-		<CommandBinding Command="local:Commands.Options" Executed="CommnadOptions_Executed" />
+		<CommandBinding Command="local:Commands.Options" Executed="CommandOptions_Executed" />
 		<CommandBinding Command="local:Commands.About" Executed="CommandAbout_Executed" />
 
 		<CommandBinding Command="local:Commands.StartSearch" Executed="CommandStartSearch_Executed" />
