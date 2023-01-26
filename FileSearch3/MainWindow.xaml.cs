@@ -889,7 +889,7 @@ public partial class MainWindow : Window
 
 	private void CommandCopyPathToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		Clipboard.SetText(Path.GetFullPath(((FileHit)dataGridFileList.SelectedItem).Path));
+		WinApi.CopyTextToClipboard(Path.GetFullPath(((FileHit)dataGridFileList.SelectedItem).Path));
 	}
 
 	private void CommandCopyPathToClipboard_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -911,7 +911,7 @@ public partial class MainWindow : Window
 
 		if (s.ToString() != "")
 		{
-			Clipboard.SetText(s.ToString());
+			WinApi.CopyTextToClipboard(s.ToString());
 		}
 	}
 
@@ -947,7 +947,7 @@ public partial class MainWindow : Window
 
 		if (s.ToString() != "")
 		{
-			Clipboard.SetText(s.ToString());
+			WinApi.CopyTextToClipboard(s.ToString());
 		}
 	}
 
