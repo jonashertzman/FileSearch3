@@ -17,7 +17,7 @@ public class PreviewControl : Control
 	private double characterWidth;
 	private double lineNumberMargin;
 	private double textMargin;
-	private double maxTextwidth = 0;
+	private double maxTextWidth = 0;
 	private int lineNumberLength;
 	private bool cursorBlink = true;
 
@@ -186,7 +186,7 @@ public class PreviewControl : Control
 
 								drawingContext.Pop();
 							}
-							maxTextwidth = Math.Max(maxTextwidth, nextPosition);
+							maxTextWidth = Math.Max(maxTextWidth, nextPosition);
 						}
 
 						// Draw cursor
@@ -235,7 +235,7 @@ public class PreviewControl : Control
 		drawingContext.Pop();
 
 		TextAreaWidth = (int)(ActualWidth - lineNumberMargin - (textMargin * 2));
-		MaxHorizontalScroll = (int)(maxTextwidth - TextAreaWidth + (textMargin * 2));
+		MaxHorizontalScroll = (int)(maxTextWidth - TextAreaWidth + (textMargin * 2));
 
 #if DEBUG
 		ReportRenderTime();
@@ -826,7 +826,7 @@ public class PreviewControl : Control
 		HorizontalOffset = 0;
 		TextAreaWidth = 0;
 		MaxHorizontalScroll = 0;
-		maxTextwidth = 0;
+		maxTextWidth = 0;
 		cursorLine = 0;
 		cursorCharacter = 0;
 		Edited = false;
@@ -929,7 +929,7 @@ public class PreviewControl : Control
 			lineIndex++;
 		} while (lineIndex <= Selection.BottomLine);
 
-		Clipboard.SetText(sb.ToString());
+		WinApi.CopyTextToClipboard(sb.ToString());
 	}
 
 	private void SetCursorPosition(int line, int character, bool select)
