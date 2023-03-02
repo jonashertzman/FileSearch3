@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
 
 namespace FileSearch;
 
@@ -79,20 +81,44 @@ public class WinApi
 	[DllImport("user32.dll")]
 	private static extern bool SetClipboardData(uint uFormat, IntPtr data);
 
+	[DllImport("user32.dll")]
+	static extern IntPtr GetOpenClipboardWindow();
+
+	[DllImport("user32.dll")]
+	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
+
 
 	public static bool CopyTextToClipboard(string text)
 	{
 		if (!OpenClipboard(IntPtr.Zero))
 		{
+			MessageBox.Show($"OpenClipboard failed {getOpenClipboardWindowText()}");
 			return false;
 		}
 
 		var global = Marshal.StringToHGlobalUni(text);
 
-		SetClipboardData(CF_UNICODETEXT, global);
-		CloseClipboard();
+		if (!SetClipboardData(CF_UNICODETEXT, global))
+		{
+			MessageBox.Show($"SetClipboardData failed {getOpenClipboardWindowText()}");
+			return false;
+		}
+
+		if (!CloseClipboard())
+		{
+			MessageBox.Show($"CloseClipboard failed {getOpenClipboardWindowText()}");
+			return false;
+		}
 
 		return true;
+	}
+
+	private static string getOpenClipboardWindowText()
+	{
+		IntPtr hwnd = GetOpenClipboardWindow();
+		StringBuilder sb = new StringBuilder(501);
+		GetWindowText(hwnd.ToInt32(), sb, 500);
+		return sb.ToString();
 	}
 
 }
