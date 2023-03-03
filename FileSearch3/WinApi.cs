@@ -84,15 +84,40 @@ public class WinApi
 	[DllImport("user32.dll")]
 	static extern IntPtr GetOpenClipboardWindow();
 
+	[DllImport("User32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool IsClipboardFormatAvailable(uint format);
+
+	[DllImport("user32.dll")]
+	private static extern IntPtr GetClipboardData(uint uFormat);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern IntPtr GlobalLock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static extern bool GlobalUnlock(IntPtr hMem);
+
+	[DllImport("Kernel32.dll", SetLastError = true)]
+	private static extern int GlobalSize(IntPtr hMem);
+
 	[DllImport("user32.dll")]
 	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
 
+	[DllImport("user32.dll")]
+	static extern bool EmptyClipboard();
 
 	public static bool CopyTextToClipboard(string text)
 	{
 		if (!OpenClipboard(IntPtr.Zero))
 		{
-			MessageBox.Show($"OpenClipboard failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"OpenClipboard failed ({getOpenClipboardWindowText()})");
+			return false;
+		}
+
+		if (!EmptyClipboard())
+		{
+			MessageBox.Show($"EmptyClipboard failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
@@ -100,13 +125,13 @@ public class WinApi
 
 		if (!SetClipboardData(CF_UNICODETEXT, global))
 		{
-			MessageBox.Show($"SetClipboardData failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"SetClipboardData failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
 		if (!CloseClipboard())
 		{
-			MessageBox.Show($"CloseClipboard failed {getOpenClipboardWindowText()}");
+			MessageBox.Show($"CloseClipboard failed ({getOpenClipboardWindowText()})");
 			return false;
 		}
 
