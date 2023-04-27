@@ -1,4 +1,4 @@
-File Search 3
+File Search 3.0
 =============
 
 A file searching application with a rich user interface. 
