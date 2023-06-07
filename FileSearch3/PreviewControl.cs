@@ -91,7 +91,7 @@ public class PreviewControl : Control
 		Debug.Print("PreviewControl OnRender");
 
 #if DEBUG
-		MeasureRendeTime();
+		MeasureRenderTime();
 #endif
 
 		// Fill background
@@ -121,7 +121,7 @@ public class PreviewControl : Control
 		lineNumberMargin = (characterWidth * lineNumberLength) + (2 * textMargin);
 
 		VisibleLines = (int)(ActualHeight / characterHeight + 1);
-		MaxVerialcalScroll = Lines.Count - VisibleLines + 1;
+		MaxVerticalScroll = Lines.Count - VisibleLines + 1;
 
 		drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
@@ -743,21 +743,21 @@ public class PreviewControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxHorizontalScrollPropery = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(PreviewControl));
+	public static readonly DependencyProperty MaxHorizontalScrollProperty = DependencyProperty.Register("MaxHorizontalScroll", typeof(int), typeof(PreviewControl));
 
 	public int MaxHorizontalScroll
 	{
-		get { return (int)GetValue(MaxHorizontalScrollPropery); }
-		set { SetValue(MaxHorizontalScrollPropery, value); }
+		get { return (int)GetValue(MaxHorizontalScrollProperty); }
+		set { SetValue(MaxHorizontalScrollProperty, value); }
 	}
 
 
-	public static readonly DependencyProperty TextAreaWidthPropery = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(PreviewControl));
+	public static readonly DependencyProperty TextAreaWidthProperty = DependencyProperty.Register("TextAreaWidth", typeof(int), typeof(PreviewControl));
 
 	public int TextAreaWidth
 	{
-		get { return (int)GetValue(TextAreaWidthPropery); }
-		set { SetValue(TextAreaWidthPropery, value); }
+		get { return (int)GetValue(TextAreaWidthProperty); }
+		set { SetValue(TextAreaWidthProperty, value); }
 	}
 
 
@@ -779,12 +779,12 @@ public class PreviewControl : Control
 	}
 
 
-	public static readonly DependencyProperty MaxVerialcalScrollProperty = DependencyProperty.Register("MaxVerialcalScroll", typeof(int), typeof(PreviewControl));
+	public static readonly DependencyProperty MaxVerticalScrollProperty = DependencyProperty.Register("MaxVerticalScroll", typeof(int), typeof(PreviewControl));
 
-	public int MaxVerialcalScroll
+	public int MaxVerticalScroll
 	{
-		get { return (int)GetValue(MaxVerialcalScrollProperty); }
-		set { SetValue(MaxVerialcalScrollProperty, value); }
+		get { return (int)GetValue(MaxVerticalScrollProperty); }
+		set { SetValue(MaxVerticalScrollProperty, value); }
 	}
 
 
@@ -1156,7 +1156,7 @@ public class PreviewControl : Control
 		return -1;
 	}
 
-	private void MeasureRendeTime()
+	private void MeasureRenderTime()
 	{
 		stopwatch.Restart();
 	}
@@ -1165,7 +1165,8 @@ public class PreviewControl : Control
 	{
 		Dispatcher.BeginInvoke(
 			DispatcherPriority.Loaded,
-			new Action(() => {
+			new Action(() =>
+			{
 				stopwatch.Stop();
 				Debug.Print($"Took {stopwatch.ElapsedMilliseconds} ms");
 			})
