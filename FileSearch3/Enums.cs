@@ -22,3 +22,9 @@ public enum LogWindowType
 	Errors,
 	IgnoredFiles
 }
+
+public enum Themes
+{
+	Light,
+	Dark,
+}
