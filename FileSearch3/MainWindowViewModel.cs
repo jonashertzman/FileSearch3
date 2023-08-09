@@ -162,6 +162,20 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.FileListHeight = value.Value; OnPropertyChanged(nameof(FileListHeight)); }
 	}
 
+
+	public Themes Theme
+	{
+		get { return AppSettings.Theme; }
+		set { AppSettings.Theme = value; OnPropertyChangedRepaint(null); } // Refresh all properties when changing theme
+	}
+
+
+	public bool LightTheme
+	{
+		get { return Theme == Themes.Light; }
+	}
+
+
 	public Brush NormalForeground
 	{
 		get { return AppSettings.NormalForeground; }

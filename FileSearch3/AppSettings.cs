@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -112,6 +113,36 @@ public static class AppSettings
 		set { Settings.TabSize = value; }
 	}
 
+	public static Themes Theme
+	{
+		get { return Settings.Theme; }
+		set
+		{
+			Settings.Theme = value;
+
+			UpdateCachedSettings();
+			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
+			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
+			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
+			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
+		}
+	}
+
+	public static ColorTheme CurrentTheme
+	{
+		get
+		{
+			return Theme switch
+			{
+				Themes.Light => Settings.LightTheme,
+				Themes.Dark => Settings.DarkTheme,
+				_ => throw new NotImplementedException(),
+			};
+		}
+	}
+
 	public static bool ShowWhiteSpaceCharacters
 	{
 		get { return Settings.ShowWhiteSpaceCharacters; }
@@ -119,54 +150,327 @@ public static class AppSettings
 	}
 
 
-
+	// Editor colors
 	private static SolidColorBrush normalForeground;
 	public static SolidColorBrush NormalForeground
 	{
 		get { return normalForeground; }
-		set { normalForeground = value; Settings.NormalForeground = value.Color; }
+		set
+		{
+			normalForeground = value;
+			CurrentTheme.NormalForeground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush normalBackground;
 	public static SolidColorBrush NormalBackground
 	{
 		get { return normalBackground; }
-		set { normalBackground = value; Settings.NormalBackground = value.Color; }
+		set
+		{
+			normalBackground = value;
+			CurrentTheme.NormalBackground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush hitForeground;
 	public static SolidColorBrush HitForeground
 	{
 		get { return hitForeground; }
-		set { hitForeground = value; Settings.HitForeground = value.Color; }
+		set
+		{
+			hitForeground = value;
+			CurrentTheme.HitForeground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush hitBackground;
 	public static SolidColorBrush HitBackground
 	{
 		get { return hitBackground; }
-		set { hitBackground = value; Settings.HitBackground = value.Color; }
+		set
+		{
+			hitBackground = value;
+			CurrentTheme.HitBackground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush headerForeground;
 	public static SolidColorBrush HeaderForeground
 	{
 		get { return headerForeground; }
-		set { headerForeground = value; Settings.HeaderForeground = value.Color; }
+		set
+		{
+			headerForeground = value;
+			CurrentTheme.HeaderForeground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush headerBackground;
 	public static SolidColorBrush HeaderBackground
 	{
 		get { return headerBackground; }
-		set { headerBackground = value; Settings.HeaderBackground = value.Color; }
+		set
+		{
+			headerBackground = value;
+			CurrentTheme.HeaderBackground = value.Color.ToString();
+		}
 	}
 
 	private static SolidColorBrush selectionBackground;
 	public static SolidColorBrush SelectionBackground
 	{
 		get { return selectionBackground; }
-		set { selectionBackground = value; Settings.SelectionBackground = value.Color; }
+		set
+		{
+			selectionBackground = value;
+			CurrentTheme.SelectionBackground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush lineNumberColor;
+	public static SolidColorBrush LineNumberColor
+	{
+		get { return lineNumberColor; }
+		set
+		{
+			lineNumberColor = value;
+			lineNumberColor.Freeze();
+			CurrentTheme.LineNumberColor = value.Color.ToString();
+		}
+	}
+
+
+	// UI colors
+	private static SolidColorBrush windowForeground = DefaultSettings.LightTheme.NormalText.ToBrush();
+	public static SolidColorBrush WindowForeground
+	{
+		get { return windowForeground; }
+		set
+		{
+			windowForeground = value;
+			windowForeground.Freeze();
+			CurrentTheme.NormalText = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WindowForeground));
+			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
+		}
+	}
+	public static Color WindowForegroundColor
+	{
+		get
+		{
+			return WindowForeground.Color;
+		}
+	}
+
+	private static SolidColorBrush disabledForeground = DefaultSettings.LightTheme.DisabledText.ToBrush();
+	public static SolidColorBrush DisabledForeground
+	{
+		get { return disabledForeground; }
+		set
+		{
+			disabledForeground = value;
+			disabledForeground.Freeze();
+			CurrentTheme.DisabledText = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DisabledForeground));
+			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
+		}
+	}
+	public static Color DisabledForegroundColor
+	{
+		get
+		{
+			return DisabledForeground.Color;
+		}
+	}
+
+	private static SolidColorBrush windowBackground = DefaultSettings.LightTheme.WindowBackground.ToBrush();
+	public static SolidColorBrush WindowBackground
+	{
+		get { return windowBackground; }
+		set
+		{
+			windowBackground = value;
+			windowBackground.Freeze();
+			CurrentTheme.WindowBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(WindowBackground));
+			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
+		}
+	}
+	public static Color WindowBackgroundColor
+	{
+		get
+		{
+			return windowBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush dialogBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
+	public static SolidColorBrush DialogBackground
+	{
+		get { return dialogBackground; }
+		set
+		{
+			dialogBackground = value;
+			dialogBackground.Freeze();
+			CurrentTheme.DialogBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DialogBackground));
+			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
+		}
+	}
+	public static Color DialogBackgroundColor
+	{
+		get
+		{
+			return dialogBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush controlLightBackground = DefaultSettings.LightTheme.ControlLightBackground.ToBrush();
+	public static SolidColorBrush ControlLightBackground
+	{
+		get { return controlLightBackground; }
+		set
+		{
+			controlLightBackground = value;
+			controlLightBackground.Freeze();
+			CurrentTheme.ControlLightBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlLightBackground));
+			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
+		}
+	}
+	public static Color ControlLightBackgroundColor
+	{
+		get
+		{
+			return controlLightBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
+	public static SolidColorBrush ControlDarkBackground
+	{
+		get { return controlDarkBackground; }
+		set
+		{
+			controlDarkBackground = value;
+			controlDarkBackground.Freeze();
+			CurrentTheme.ControlDarkBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(ControlDarkBackground));
+			NotifyStaticPropertyChanged(nameof(ControlDarkBackgroundColor));
+		}
+	}
+	public static Color ControlDarkBackgroundColor
+	{
+		get
+		{
+			return controlDarkBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.BorderLight.ToBrush();
+	public static SolidColorBrush BorderForeground
+	{
+		get { return borderForeground; }
+		set
+		{
+			borderForeground = value;
+			borderForeground.Freeze();
+			CurrentTheme.BorderLight = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BorderForeground));
+			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
+		}
+	}
+	public static Color BorderForegroundColor
+	{
+		get
+		{
+			return borderForeground.Color;
+		}
+	}
+
+	private static SolidColorBrush borderDarkForeground = DefaultSettings.LightTheme.BorderDark.ToBrush();
+	public static SolidColorBrush BorderDarkForeground
+	{
+		get { return borderDarkForeground; }
+		set
+		{
+			borderDarkForeground = value;
+			borderDarkForeground.Freeze();
+			CurrentTheme.BorderDark = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(BorderDarkForeground));
+			NotifyStaticPropertyChanged(nameof(BorderDarkForegroundColor));
+		}
+	}
+	public static Color BorderDarkForegroundColor
+	{
+		get
+		{
+			return borderDarkForeground.Color;
+		}
+	}
+
+	private static SolidColorBrush highlightBackground = DefaultSettings.LightTheme.HighlightBackground.ToBrush();
+	public static SolidColorBrush HighlightBackground
+	{
+		get { return highlightBackground; }
+		set
+		{
+			highlightBackground = value;
+			highlightBackground.Freeze();
+			CurrentTheme.HighlightBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(HighlightBackground));
+			NotifyStaticPropertyChanged(nameof(HighlightBackgroundColor));
+		}
+	}
+	public static Color HighlightBackgroundColor
+	{
+		get
+		{
+			return highlightBackground.Color;
+		}
+	}
+
+	private static SolidColorBrush highlightBorder = DefaultSettings.LightTheme.HighlightBorder.ToBrush();
+	public static SolidColorBrush HighlightBorder
+	{
+		get { return highlightBorder; }
+		set
+		{
+			highlightBorder = value;
+			highlightBorder.Freeze();
+			CurrentTheme.HighlightBorder = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(HighlightBorder));
+			NotifyStaticPropertyChanged(nameof(HighlightBorderColor));
+		}
+	}
+	public static Color HighlightBorderColor
+	{
+		get
+		{
+			return highlightBorder.Color;
+		}
+	}
+
+	private static SolidColorBrush attentionBackground = DefaultSettings.LightTheme.AttentionBackground.ToBrush();
+	public static SolidColorBrush AttentionBackground
+	{
+		get { return attentionBackground; }
+		set
+		{
+			attentionBackground = value;
+			attentionBackground.Freeze();
+			CurrentTheme.AttentionBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(AttentionBackground));
+			NotifyStaticPropertyChanged(nameof(AttentionBackgroundColor));
+		}
+	}
+	public static Color AttentionBackgroundColor
+	{
+		get
+		{
+			return attentionBackground.Color;
+		}
 	}
 
 
@@ -253,16 +557,48 @@ public static class AppSettings
 	{
 		Font = new FontFamily(Settings.Font);
 
-		NormalForeground = new SolidColorBrush(Settings.NormalForeground);
-		NormalBackground = new SolidColorBrush(Settings.NormalBackground);
+		// Editor colors
 
-		HitForeground = new SolidColorBrush(Settings.HitForeground);
-		HitBackground = new SolidColorBrush(Settings.HitBackground);
+		NormalForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalForeground));
+		NormalBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalBackground));
 
-		HeaderForeground = new SolidColorBrush(Settings.HeaderForeground);
-		HeaderBackground = new SolidColorBrush(Settings.HeaderBackground);
+		HitForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HitForeground));
+		HitBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HitBackground));
 
-		SelectionBackground = new SolidColorBrush(Settings.SelectionBackground);
+		HeaderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HeaderForeground));
+		HeaderBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HeaderBackground));
+
+		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
+		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
+
+		// UI colors
+		WindowForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalText));
+		DisabledForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DisabledText));
+
+		WindowBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.WindowBackground));
+		DialogBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.DialogBackground));
+
+		ControlLightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlLightBackground));
+		ControlDarkBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.ControlDarkBackground));
+
+		BorderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderLight));
+		BorderDarkForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.BorderDark));
+
+		HighlightBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBackground));
+		HighlightBorder = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HighlightBorder));
+
+		AttentionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.AttentionBackground));
+	}
+
+	#endregion
+
+	#region NotifyStaticPropertyChanged
+
+	public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
+
+	private static void NotifyStaticPropertyChanged(string propertyName)
+	{
+		StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(propertyName));
 	}
 
 	#endregion

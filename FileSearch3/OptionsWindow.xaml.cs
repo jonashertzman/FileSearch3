@@ -126,16 +126,71 @@ public partial class OptionsWindow : Window
 
 	private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
 	{
-		NormalForeground.Fill = new SolidColorBrush(DefaultSettings.NormalForeground);
-		NormalBackground.Fill = new SolidColorBrush(DefaultSettings.NormalBackground);
+		var Default = AppSettings.Theme switch
+		{
+			Themes.Light => DefaultSettings.LightTheme,
+			Themes.Dark => DefaultSettings.DarkTheme,
+			_ => throw new NotImplementedException(),
+		};
 
-		HitForeground.Fill = new SolidColorBrush(DefaultSettings.HitForeground);
-		HitBackground.Fill = new SolidColorBrush(DefaultSettings.HitBackground);
+		//// Folder diff colors
+		//FolderFullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchForeground));
+		//FolderFullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchBackground));
 
-		HeaderForeground.Fill = new SolidColorBrush(DefaultSettings.HeaderForeground);
-		HeaderBackground.Fill = new SolidColorBrush(DefaultSettings.HeaderBackground);
+		//FolderPartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchForeground));
+		//FolderPartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchBackground));
 
-		SelectionBackground.Fill = new SolidColorBrush(DefaultSettings.SelectionBackground);
+		//FolderDeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedForeground));
+		//FolderDeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedBackground));
+
+		//FolderNewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewForeground));
+		//FolderNewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewBackground));
+
+		//FolderIgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredForeground));
+		//FolderIgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredBackground));
+
+		//// File diff colors
+		//FullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchForeground));
+		//FullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchBackground));
+
+		//PartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchForeground));
+		//PartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchBackground));
+
+		//DeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedForeground));
+		//DeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedBackground));
+
+		//NewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewForeground));
+		//NewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewBackground));
+
+		//IgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredForeground));
+		//IgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredBackground));
+
+		//MovedFromBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedFromBackground));
+		//MovedToBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedToBackground));
+
+		//LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
+		//CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
+		//Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
+
+		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
+
+		// UI colors
+		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NormalText));
+		DisabledForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DisabledText));
+
+		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
+		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
+
+		ControlLightBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlLightBackground));
+		ControlDarkBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.ControlDarkBackground));
+
+		BorderForegroundx.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderLight));
+		BorderDarkForegroundx.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.BorderDark));
+
+		HighlightBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBackground));
+		HighlightBorder.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HighlightBorder));
+
+		AttentionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString((Default.AttentionBackground)));
 	}
 
 	private void ButtonResetFont_Click(object sender, RoutedEventArgs e)

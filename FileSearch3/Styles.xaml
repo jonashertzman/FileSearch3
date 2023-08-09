@@ -58,6 +58,10 @@
 		</Setter>
 	</Style>
 
+	<Style TargetType="Rectangle">
+		<Setter Property="Stroke" Value="Black" />
+	</Style>
+
 	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}">
 		<Setter Property="CanUserReorderColumns" Value="False" />
 		<Setter Property="CanUserResizeColumns" Value="False" />

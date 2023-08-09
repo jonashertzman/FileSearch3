@@ -1,22 +1,84 @@
-﻿using System.Windows.Media;
-
-namespace FileSearch;
+﻿namespace FileSearch;
 
 public static class DefaultSettings
 {
-	internal static Color NormalForeground { get; } = Colors.Black;
-	internal static Color NormalBackground { get; } = Colors.White;
-
-	internal static Color HitForeground { get; } = Color.FromRgb(255, 255, 150);
-	internal static Color HitBackground { get; } = Color.FromRgb(255, 160, 160);
-
-	internal static Color HeaderForeground { get; } = Color.FromRgb(130, 130, 130);
-	internal static Color HeaderBackground { get; } = Color.FromRgb(210, 210, 210);
-
-	internal static Color SelectionBackground { get; } = Color.FromArgb(50, 0, 150, 210);
 
 	internal static string Font { get; } = "Courier New";
 	internal static int FontSize { get; } = 11;
 	internal static int TabSize { get; } = 2;
+
+	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
+	{
+
+		// Editor colors
+		NormalForeground = "#FFD8D8D8",
+		NormalBackground = "#1B1B1B",
+
+		HitForeground = "#FF9698FF",
+		HitBackground = "#FF2B293A",
+
+		HeaderForeground = "#FFFF8387",
+		HeaderBackground = "#FF5C2626",
+
+		LineNumberColor = "#FF797979",
+		CurrentDiffColor = "#FF252525",
+		SnakeColor = "#FF383838",
+		SelectionBackground = "#320096D2",
+
+		// UI colors
+		NormalText = "#FFD8D8D8",
+		DisabledText = "#FF888888",
+
+		WindowBackground = "#FF0B0B0B",
+		DialogBackground = "#FF171717",
+
+		ControlLightBackground = "#FF262626",
+		ControlDarkBackground = "#FF3F3F3F",
+
+		BorderLight = "#FF323232",
+		BorderDark = "#FF595959",
+
+		HighlightBackground = "#FF112E3C",
+		HighlightBorder = "#2F7999",
+
+		AttentionBackground = "#FF5C2626",
+	};
+
+	internal static ColorTheme LightTheme { get; } = new ColorTheme()
+	{
+
+		// Editor colors
+		NormalForeground = "#FF000000",
+		NormalBackground = "#FFFFFFFF",
+
+		HitForeground = "#FF000000",
+		HitBackground = "#FFDCDCFF",
+
+		HeaderForeground = "#FFC80000",
+		HeaderBackground = "#FFFFDCDC",
+
+		LineNumberColor = "#FF585858",
+		CurrentDiffColor = "#FFB7B7B7",
+		SnakeColor = "#FFD2D2D2",
+		SelectionBackground = "#320096D2",
+
+		// UI colors
+		NormalText = "#FF000000",
+		DisabledText = "#FF888888",
+
+		WindowBackground = "#FFFFFFFF",
+		DialogBackground = "#FFEBEBEB",
+
+		ControlLightBackground = "#FFFFFFFF",
+		ControlDarkBackground = "#FFD9D9D9",
+
+		BorderLight = "#FFCFCFCF",
+		BorderDark = "#FFAAAAAA",
+
+		HighlightBackground = "#FFDCECFC",
+		HighlightBorder = "#FF7EB4EA",
+
+		AttentionBackground = "#FFFF9F9D",
+	};
 
 }

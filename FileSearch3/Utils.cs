@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
+using System.Windows.Media;
 
 namespace FileSearch;
 
@@ -28,6 +29,18 @@ public static class Utils
 
 			WinApi.SetWindowLong(hwnd, WinApi.GWL_STYLE, style & ~WinApi.WS_MAXIMIZEBOX & ~WinApi.WS_MINIMIZEBOX);
 		};
+	}
+
+	public static SolidColorBrush ToBrush(this string colorString)
+	{
+		try
+		{
+			return new BrushConverter().ConvertFrom(colorString) as SolidColorBrush;
+		}
+		catch (Exception)
+		{
+			return null;
+		}
 	}
 
 }
