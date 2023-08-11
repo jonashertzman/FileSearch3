@@ -6,7 +6,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileSearch"
 	Title="Options"
-	Width="635" Height="686" Padding="5"
+	Width="635"
+	Height="686"
+	Padding="5"
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
@@ -26,13 +28,36 @@
 
 				<TabItem Header="General">
 					<Border Padding="5">
-						<StackPanel>
-							<StackPanel Name="ShellExtensionPanel" Orientation="Horizontal" IsEnabled="False">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="1*" />
+								<ColumnDefinition Width="1*" />
+								<ColumnDefinition Width="1*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+
+							<Label Grid.Row="0" Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
+							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
+							<TextBox x:Name="TextBoxFontSize" Grid.Row="0" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+							<Button x:Name="ButtonResetFont" Grid.Row="0" Grid.Column="4" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
+
+							<Label Grid.Row="1" Content="Tab Size" Style="{StaticResource CommonTextLabel}" />
+							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
+
+							<StackPanel Name="ShellExtensionPanel" Grid.Row="2" Grid.ColumnSpan="5" Orientation="Horizontal" IsEnabled="False">
 								<CheckBox Name="AddShellExtensionsCheckBox" Padding="2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Add Shell Extensions to Windows Explorer" Style="{StaticResource CommonCheckBox}" />
 								<Label Name="NotAdminLabel" Margin="-5,0,0,0" Content="(run as administrator to enable this)" Style="{StaticResource CommonTextLabel}" />
 							</StackPanel>
-							<CheckBox HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
-						</StackPanel>
+
+							<CheckBox Grid.Row="3" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+						</Grid>
 					</Border>
 				</TabItem>
 
@@ -88,14 +113,7 @@
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
-							<Label Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
-							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
-							<TextBox x:Name="TextBoxFontSize" Grid.Column="4" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 
-							<Button x:Name="ButtonResetFont" Grid.Column="6" Content="Default" Style="{StaticResource CommonButton}" Click="ButtonResetFont_Click" />
-
-							<Label Grid.Row="1" Content="Tab Size" Style="{StaticResource CommonTextLabel}" />
-							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 
 							<Label Grid.Row="2" Grid.Column="0" Content="Color" Style="{StaticResource CommonTextLabel}" />
 							<Label Grid.Row="2" Grid.Column="1" Content="Foreground" Style="{StaticResource CommonTextLabel}" />
