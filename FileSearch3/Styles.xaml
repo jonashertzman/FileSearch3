@@ -85,6 +85,13 @@
 		<Setter Property="Margin" Value="5" />
 	</Style>
 
+	<Style TargetType="Label">
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="Padding" Value="2" />
+		<Setter Property="Margin" Value="5" />
+		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
+	</Style>
+
 	<Style x:Key="CondencedTextLabel" TargetType="Label">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
