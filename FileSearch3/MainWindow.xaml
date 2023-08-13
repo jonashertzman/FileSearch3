@@ -15,6 +15,7 @@
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
 	ContentRendered="Window_ContentRendered"
+	Background="{StaticResource Theme.Dialog}"
 	mc:Ignorable="d">
 
 	<Window.Resources>
@@ -110,7 +111,7 @@
 			</Grid.ColumnDefinitions>
 
 			<!--  Menu  -->
-			<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+			<Border BorderThickness="0,0,0,1">
 				<Menu Grid.Row="0" Margin="2,0" VerticalAlignment="Center" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}">
 					<MenuItem Header="File">
 						<MenuItem Header="Exit" Command="local:Commands.Exit" />
@@ -145,8 +146,8 @@
 			</ItemsControl>
 
 			<Button x:Name="ButtonNewSearchInstance" Grid.Column="2" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
-			<Border Grid.Column="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-			<Border Grid.Column="4" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}">
+			<Border Grid.Column="3" BorderThickness="0,0,0,1" />
+			<Border Grid.Column="4" BorderThickness="0,0,0,1">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="auto" />
@@ -317,7 +318,7 @@
 				</Grid.RowDefinitions>
 
 				<!--  File List  -->
-				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1" Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.RowStyle>
 						<Style TargetType="DataGridRow">
 							<EventSetter Event="MouseDoubleClick" Handler="DataGridFileList_RowDoubleClick" />
@@ -347,7 +348,7 @@
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 
 				<!--  Preview Pane  -->
-				<Border Grid.Row="2" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="1,1,0,1">
+				<Border Grid.Row="2" BorderThickness="1,1,0,1">
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
@@ -355,7 +356,7 @@
 						</Grid.RowDefinitions>
 
 						<!--  Preview Toolbar  -->
-						<Border BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,0,1">
+						<Border BorderThickness="0,0,0,1">
 							<StackPanel x:Name="ToolbarPreview" Grid.Row="0" Orientation="Horizontal">
 								<StackPanel.Background>
 									<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -542,7 +543,7 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" BorderThickness="0,0,1,0" />
+							<local:PreviewControl x:Name="Preview" Grid.Row="0" FontFamily="{Binding Font}" FontSize="{Binding ZoomedFontSize}" Lines="{Binding PreviewLines, Mode=TwoWay}" VerticalOffset="{Binding ElementName=VerticalScrollbar, Path=Value, Mode=TwoWay}" HorizontalOffset="{Binding Value, ElementName=HorizontalScrollbar, Mode=TwoWay}" CurrentMatch="{Binding Path=CurrentHit}" Edited="{Binding FileEdited, Mode=TwoWay}" EditMode="{Binding EditMode}" UpdateTrigger="{Binding UpdateTrigger}" MouseWheel="Preview_MouseWheel" FocusVisualStyle="{x:Null}" BorderThickness="0,0,1,0" />
 							<local:HitMapControl Grid.Column="1" Width="12" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 							<ScrollBar Name="VerticalScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerticalScroll}" />
 							<ScrollBar x:Name="HorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
@@ -555,7 +556,7 @@
 		</Grid>
 
 		<!--  Search panel  -->
-		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" BorderBrush="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
 			<StackPanel Orientation="Horizontal">
 				<Button Content="Close" Style="{StaticResource FlatButton}" Command="local:Commands.CloseFind" />
 				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
