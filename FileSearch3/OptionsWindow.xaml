@@ -31,6 +31,33 @@
 						<Grid>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="auto" />
+							</Grid.RowDefinitions>
+
+							<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Content="Theme" />
+							<ComboBox x:Name="ComboBoxTheme" Grid.Row="0" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Text="{Binding Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonComboBox}" />
+
+							<StackPanel Name="ShellExtensionPanel" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal" IsEnabled="False">
+								<CheckBox Name="AddShellExtensionsCheckBox" Padding="2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Add Shell Extensions to Windows Explorer" Style="{StaticResource CommonCheckBox}" />
+								<Label Name="NotAdminLabel" Margin="-5,0,0,0" Content="(run as administrator to enable this)" Style="{StaticResource CommonTextLabel}" />
+							</StackPanel>
+
+							<CheckBox Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+						</Grid>
+					</Border>
+				</TabItem>
+				<TabItem Header="Preview">
+					<Border Padding="5">
+
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="1*" />
 								<ColumnDefinition Width="1*" />
 								<ColumnDefinition Width="1*" />
@@ -39,10 +66,7 @@
 							<Grid.RowDefinitions>
 								<RowDefinition Height="auto" />
 								<RowDefinition Height="auto" />
-								<RowDefinition Height="auto" />
-								<RowDefinition Height="auto" />
 							</Grid.RowDefinitions>
-
 							<Label Grid.Row="0" Grid.Column="0" Content="Font" Style="{StaticResource CommonTextLabel}" />
 							<ComboBox x:Name="ComboBoxFont" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding Font, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEditable="True" Style="{StaticResource CommonComboBox}" />
 							<TextBox x:Name="TextBoxFontSize" Grid.Row="0" Grid.Column="3" Text="{Binding FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
@@ -51,17 +75,11 @@
 							<Label Grid.Row="1" Content="Tab Size" Style="{StaticResource CommonTextLabel}" />
 							<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding TabSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonTextBox}" />
 
-							<StackPanel Name="ShellExtensionPanel" Grid.Row="2" Grid.ColumnSpan="5" Orientation="Horizontal" IsEnabled="False">
-								<CheckBox Name="AddShellExtensionsCheckBox" Padding="2" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Add Shell Extensions to Windows Explorer" Style="{StaticResource CommonCheckBox}" />
-								<Label Name="NotAdminLabel" Margin="-5,0,0,0" Content="(run as administrator to enable this)" Style="{StaticResource CommonTextLabel}" />
-							</StackPanel>
-
-							<CheckBox Grid.Row="3" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
 						</Grid>
 					</Border>
 				</TabItem>
 
-				<TabItem Header="Preview">
+				<TabItem Header="Colors">
 					<Border Padding="5">
 						<Grid>
 							<Grid.ColumnDefinitions>
