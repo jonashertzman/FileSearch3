@@ -15,7 +15,7 @@
 	UseLayoutRounding="True"
 	ResizeMode="CanResizeWithGrip"
 	ContentRendered="Window_ContentRendered"
-	Background="{StaticResource Theme.Dialog}"
+	Background="{StaticResource Theme.Window}"
 	mc:Ignorable="d">
 
 	<Window.Resources>
