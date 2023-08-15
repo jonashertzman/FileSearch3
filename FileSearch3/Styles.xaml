@@ -4,11 +4,11 @@
 	xmlns:local="clr-namespace:FileSearch">
 
 	<!--  Normal Brushes  -->
-	<SolidColorBrush x:Key="NormalBrush" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
-	<SolidColorBrush x:Key="DarkBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />
-	<SolidColorBrush x:Key="PressedBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />
-	<SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
-	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />
+	<!--<SolidColorBrush x:Key="NormalBrush" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />-->
+	<!--<SolidColorBrush x:Key="DarkBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />-->
+	<!--<SolidColorBrush x:Key="PressedBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />-->
+	<!--<SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />-->
+	<!--<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />-->
 
 	<!--  Border Brushes  -->
 	<SolidColorBrush x:Key="NormalBorderBrush" Color="{StaticResource {x:Static SystemColors.ScrollBarColorKey}}" />
@@ -23,14 +23,14 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">
-					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}" Background="{StaticResource NormalBrush}">
+					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource NormalBorderBrush}" Background="{StaticResource Theme.ControlLight}">
 						<ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
 					<ControlTemplate.Triggers>
 
 						<DataTrigger Binding="{Binding Selected}" Value="False">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource NormalBrush}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.ControlLight}" />
 							<Setter Property="Margin" Value="0,4,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,0,0,0" />
 						</DataTrigger>
@@ -46,7 +46,7 @@
 
 						<DataTrigger Binding="{Binding Selected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource SelectedBrush}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
 							<Setter Property="Margin" Value="0,2,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
@@ -177,7 +177,7 @@
 	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Foreground" Value="Black" />
@@ -187,7 +187,7 @@
 				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
 			</Trigger>
@@ -216,7 +216,7 @@
 	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
 				<Setter Property="Foreground" Value="Black" />
@@ -226,7 +226,7 @@
 				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
 			</Trigger>
@@ -242,8 +242,8 @@
 		<Style.Triggers>
 			<Trigger Property="IsSelected" Value="True">
 				<Setter Property="IsTabStop" Value="True" />
-				<Setter Property="Background" Value="{StaticResource HighLightCellBrush}" />
-				<Setter Property="BorderBrush" Value="{StaticResource HighLightCellBrush}" />
+				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBackground}" />
 			</Trigger>
 		</Style.Triggers>
 	</Style>
