@@ -4,11 +4,11 @@
 	xmlns:local="clr-namespace:FileSearch">
 
 	<!--  Normal Brushes  -->
-	<!--<SolidColorBrush x:Key="NormalBrush" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="DarkBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="PressedBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />-->
+	<!--<SolidColorBrush x:Key="NormalBrush" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
+	<SolidColorBrush x:Key="DarkBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />
+	<SolidColorBrush x:Key="PressedBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />
+	<SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
+	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />-->
 
 	<!--  Border Brushes  -->
 	<SolidColorBrush x:Key="NormalBorderBrush" Color="{StaticResource {x:Static SystemColors.ScrollBarColorKey}}" />
@@ -37,7 +37,7 @@
 
 						<Trigger Property="IsMouseOver" Value="true">
 							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource HighLightBorderBrush}" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource HighLightCellBrush}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 						</Trigger>
 
 						<Trigger Property="IsPressed" Value="true">

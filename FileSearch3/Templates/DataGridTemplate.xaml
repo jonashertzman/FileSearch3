@@ -5,9 +5,6 @@
 	xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 
 
-	<!--<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFCBE8F6" />-->
-
-
 	<LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="0,1">
 		<GradientStop Offset="0" Color="{Binding Path=(local:AppSettings.WindowBackgroundColor), FallbackValue=White}" />
 		<GradientStop Offset="1" Color="{Binding Path=(local:AppSettings.DialogBackgroundColor), FallbackValue=#FFF0F0F0}" />
