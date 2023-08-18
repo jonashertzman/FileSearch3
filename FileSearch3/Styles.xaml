@@ -58,8 +58,6 @@
 		</Setter>
 	</Style>
 
-
-
 	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}">
 		<Setter Property="CanUserReorderColumns" Value="False" />
 		<Setter Property="CanUserResizeColumns" Value="False" />
@@ -69,12 +67,9 @@
 		<Setter Property="BorderThickness" Value="0,1,1,1" />
 		<Setter Property="CanUserResizeRows" Value="False" />
 		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<!--
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
-		
-		-->
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Theme.BorderLight}" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
