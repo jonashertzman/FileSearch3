@@ -318,7 +318,7 @@
 				</Grid.RowDefinitions>
 
 				<!--  File List  -->
-				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" Background="{StaticResource Theme.Window}" BorderBrush="{StaticResource Theme.BorderLight}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.RowStyle>
 						<Style TargetType="DataGridRow">
 							<EventSetter Event="MouseDoubleClick" Handler="DataGridFileList_RowDoubleClick" />
