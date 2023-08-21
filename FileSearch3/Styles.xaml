@@ -199,12 +199,12 @@
 
 	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
 		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.ScrollBarBrushKey}}" />
-		<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
 		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource {x:Static SystemColors.MenuBrushKey}}" />
+		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Theme.BorderLight}" />
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>
 
@@ -217,8 +217,8 @@
 				<Setter Property="Foreground" Value="Black" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.Window}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
