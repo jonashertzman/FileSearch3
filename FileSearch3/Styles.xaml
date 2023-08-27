@@ -102,8 +102,14 @@
 	</Style>
 
 	<Style TargetType="Border">
-		<Setter Property="BorderBrush" Value="{Binding Path=(local:AppSettings.BorderForeground), FallbackValue=#FFD6D6D6}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 	</Style>
+
+	<Style TargetType="GridSplitter">
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
+	</Style>
+
 
 	<Style x:Key="CommonButton" TargetType="Button">
 		<Setter Property="Padding" Value="3" />
@@ -118,13 +124,8 @@
 		<Setter Property="Padding" Value="2" />
 	</Style>
 
-	<Style x:Key="CommonCheckBox" TargetType="CheckBox">
+	<Style x:Key="CommonCheckBox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
 		<Setter Property="Margin" Value="5" />
-		<Style.Triggers>
-			<Trigger Property="IsEnabled" Value="False">
-				<Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.ControlDarkDarkBrushKey}}" />
-			</Trigger>
-		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="CommonButtonIcon" TargetType="ContentPresenter">
@@ -169,13 +170,15 @@
 	</Style>
 
 	<!--  Data Grids  -->
-	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
+	<!--<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="Black" />
+				-->
+	<!--<Setter Property="Foreground" Value="Black" />-->
+	<!--
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="False">
 				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
@@ -187,15 +190,15 @@
 				<Setter Property="BorderThickness" Value="1" />
 			</Trigger>
 		</Style.Triggers>
-	</Style>
+	</Style>-->
 
-	<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
+	<!--<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="True">
 				<Setter Property="IsEditing" Value="True" />
 			</Trigger>
 		</Style.Triggers>
-	</Style>
+	</Style>-->
 
 	<Style x:Key="EditableDataGrid" TargetType="DataGrid">
 		<Setter Property="AutoGenerateColumns" Value="False" />
@@ -229,8 +232,8 @@
 	</Style>
 
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}">
-		<Setter Property="Foreground" Value="Black" />
-		<Setter Property="BorderBrush" Value="White" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 		<Setter Property="BorderThickness" Value="4" />
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
