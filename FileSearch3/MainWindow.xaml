@@ -547,7 +547,7 @@
 							<local:HitMapControl Grid.Column="1" Width="12" Lines="{Binding PreviewLines, Mode=TwoWay}" UpdateTrigger="{Binding UpdateTrigger}" IsTabStop="False" Focusable="False" />
 							<ScrollBar Name="VerticalScrollbar" Grid.Column="2" SmallChange="1" LargeChange="{Binding Path=VisibleLines, ElementName=Preview}" ViewportSize="{Binding ElementName=Preview, Path=VisibleLines, Mode=TwoWay}" Maximum="{Binding ElementName=Preview, Path=MaxVerticalScroll}" />
 							<ScrollBar x:Name="HorizontalScrollbar" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Maximum="{Binding ElementName=Preview, Path=MaxHorizontalScroll}" ViewportSize="{Binding ElementName=Preview, Path=TextAreaWidth}" SmallChange="10" LargeChange="{Binding ElementName=Preview, Path=TextAreaWidth}" />
-							<StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Background="{StaticResource Theme.ControlLight}" />
+							<StackPanel Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" Background="{StaticResource Theme.Dialog}" />
 						</Grid>
 
 					</Grid>
