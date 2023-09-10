@@ -81,7 +81,7 @@
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
-		<Setter Property="Foreground" Value="{Binding WindowForeground, FallbackValue=Black}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 	</Style>
 
 	<Style x:Key="CondencedTextLabel" TargetType="Label">
@@ -139,16 +139,17 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="CommonButtonLabel" TargetType="TextBlock">
+	<!--<Style x:Key="CommonButtonLabel" TargetType="TextBlock">
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Padding" Value="0" />
-	</Style>
+	</Style>-->
 
 	<Style x:Key="ToolbarButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
 		<Setter Property="Margin" Value="2" />
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
@@ -162,6 +163,7 @@
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Focusable" Value="False" />
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Style.Triggers>
 			<Trigger Property="IsEnabled" Value="False">
 				<Setter Property="Background" Value="Transparent" />
