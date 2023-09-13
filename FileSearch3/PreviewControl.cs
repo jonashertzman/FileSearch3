@@ -113,7 +113,7 @@ public class PreviewControl : Control
 			lineNumberLength = Lines.Count.ToString().Length;
 		}
 
-		Pen borderPen = new Pen(SystemColors.ScrollBarBrush, RoundToWholePixels(1));
+		Pen borderPen = new Pen(AppSettings.BorderForeground, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
@@ -123,7 +123,7 @@ public class PreviewControl : Control
 		VisibleLines = (int)(ActualHeight / characterHeight + 1);
 		MaxVerticalScroll = Lines.Count - VisibleLines + 1;
 
-		drawingContext.DrawRectangle(SystemColors.ControlBrush, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
+		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, lineNumberMargin, this.ActualHeight));
 
 		for (int i = 0; i < VisibleLines; i++)
 		{
@@ -140,10 +140,10 @@ public class PreviewControl : Control
 				// Draw line number
 				if (line.LineNumber != null || EditMode)
 				{
-					SolidColorBrush lineNumberColor = SystemColors.ControlDarkDarkBrush;
+					SolidColorBrush lineNumberColor = AppSettings.LineNumberColor;
 					if (lineIndex == CurrentMatch && !Edited)
 					{
-						drawingContext.DrawRectangle(SystemColors.ScrollBarBrush, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						drawingContext.DrawRectangle(AppSettings.ControlDarkBackground, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 					}
 					if (EditMode)
 					{
