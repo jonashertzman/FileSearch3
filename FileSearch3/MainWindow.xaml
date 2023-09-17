@@ -197,14 +197,14 @@
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StartSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StartSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Start Search" />
+					<TextBlock Text="Start Search" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</Button>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.StopSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource StopSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Stop Search" />
+					<TextBlock Text="Stop Search" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</Button>
 
@@ -213,13 +213,13 @@
 					<DataTemplate x:Key="Unpressed">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource FindAnyPhraseIcon}" Style="{StaticResource CommonButtonIcon}" />
-							<TextBlock Text="Find All Phrases" />
+							<TextBlock Text="Find All Phrases" Style="{StaticResource CommonButtonLabel}" />
 						</StackPanel>
 					</DataTemplate>
 					<DataTemplate x:Key="Pressed">
 						<StackPanel Orientation="Horizontal">
 							<ContentPresenter ContentTemplate="{StaticResource FindAllPhrasesIcon}" Style="{StaticResource CommonButtonIcon}" />
-							<TextBlock Text="Find All Phrases" />
+							<TextBlock Text="Find All Phrases" Style="{StaticResource CommonButtonLabel}" />
 						</StackPanel>
 					</DataTemplate>
 				</ToggleButton.Resources>
@@ -238,28 +238,28 @@
 			<ToggleButton Style="{StaticResource ToolbarToggleButton}" Unchecked="ToggleButton_Checked" Checked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.CaseSensitive}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource CaseSemsitiveIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Case Sensitive" />
+					<TextBlock Text="Case Sensitive" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</ToggleButton>
 
 			<ToggleButton Style="{StaticResource ToolbarToggleButton}" IsChecked="{Binding ActiveSearchInstance.RegexSearch}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource RegexIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Regex Search" />
+					<TextBlock Text="Regex Search" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</ToggleButton>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DeleteSearch" IsEnabled="{Binding Path=ActiveSearchInstance.SearchInProgress, Converter={StaticResource InverseBooleanConverter}}">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DeleteSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Delete Search" />
+					<TextBlock Text="Delete Search" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</Button>
 
 			<Button Style="{StaticResource ToolbarButton}" Command="local:Commands.DuplicateSearch">
 				<StackPanel Orientation="Horizontal">
 					<ContentPresenter ContentTemplate="{StaticResource DuplicateSearchIcon}" Style="{StaticResource CommonButtonIcon}" />
-					<TextBlock Text="Duplicate Search" />
+					<TextBlock Text="Duplicate Search" Style="{StaticResource CommonButtonLabel}" />
 				</StackPanel>
 			</Button>
 
@@ -505,7 +505,7 @@
 								<ToggleButton Style="{StaticResource ToolbarToggleButton}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Checked" IsChecked="{Binding ActiveSearchInstance.ShowOnlyHits}" IsEnabled="{Binding Path=FileEdited, Converter={StaticResource InverseBooleanConverter}}">
 									<StackPanel Orientation="Horizontal">
 										<ContentPresenter ContentTemplate="{StaticResource ShowOnlyHitsIcon}" Style="{StaticResource CommonButtonIcon}" />
-										<TextBlock Text="Show Only Hits" />
+										<TextBlock Text="Show Only Hits" Style="{StaticResource CommonButtonLabel}" />
 									</StackPanel>
 								</ToggleButton>
 
