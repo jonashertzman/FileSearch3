@@ -992,7 +992,9 @@ public partial class MainWindow : Window
 			return;
 		}
 
-		dataGridFileList.Focus();
+		DataGridSearchPhrases.CommitEdit();
+		DataGridSearchDirectories.CommitEdit();
+		DataGridSearcFiles.CommitEdit();
 
 		CleanSearchAttributes();
 
