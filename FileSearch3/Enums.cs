@@ -14,7 +14,8 @@ public enum NewlineMode
 {
 	Windows,
 	Unix,
-	Mac
+	Mac,
+	Mixed,
 }
 
 public enum LogWindowType
