@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FileSearch;
 
@@ -11,13 +12,27 @@ static class Unicode
 		Encoding encoding = Encoding.Default;
 		bool bom = false;
 		NewlineMode newlineMode = NewlineMode.Windows;
+		bool endOfFileNewline = false;
 
 		var bytes = new byte[10000];
 		int bytesRead = 0;
 
+		// Check if the file ends with a newline character
 		using (var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read))
 		{
 			bytesRead = fileStream.Read(bytes, 0, bytes.Length);
+
+			if (bytesRead > 0)
+			{
+				byte[] lastByte = new byte[1];
+				fileStream.Seek(-1, SeekOrigin.End);
+				fileStream.Read(lastByte, 0, 1);
+
+				if (lastByte[0] == '\n' || lastByte[0] == '\r')
+				{
+					endOfFileNewline = true;
+				}
+			}
 		}
 
 		// Check if the file has a BOM
@@ -61,29 +76,31 @@ static class Unicode
 			}
 		}
 
-
 		// Check what newline characters are used
-		for (int i = 0; i < bytesRead; i++)
+		MatchCollection allNewLines = Regex.Matches(File.ReadAllText(path, encoding), "(\r\n|\r|\n)");
+
+		HashSet<string> distinctNewLines = new();
+
+		foreach (Match match in allNewLines)
 		{
-			if (bytes[i] == '\n')
-			{
-				newlineMode = NewlineMode.Unix;
-				break;
-			}
-			else if (bytes[i] == '\r')
-			{
-				int newLineBytes = encoding == Encoding.Unicode || encoding == Encoding.BigEndianUnicode ? 2 : 1;
-				if (i < bytesRead - newLineBytes && bytes[i + newLineBytes] == '\n')
-				{
-					newlineMode = NewlineMode.Windows;
-					break;
-				}
-				newlineMode = NewlineMode.Mac;
-				break;
-			}
+			distinctNewLines.Add(match.Value);
 		}
 
-		return new FileEncoding(encoding, bom, newlineMode);
+		if (distinctNewLines.Count > 1)
+		{
+			newlineMode = NewlineMode.Mixed;
+		}
+		else if (distinctNewLines.Count == 1)
+		{
+			newlineMode = distinctNewLines.ToArray()[0] switch
+			{
+				"\n" => NewlineMode.Unix,
+				"\r" => NewlineMode.Mac,
+				_ => NewlineMode.Windows,
+			};
+		}
+
+		return new FileEncoding(encoding, bom, newlineMode, endOfFileNewline);
 	}
 
 	public static bool ValidUtf8(byte[] bytes, int length)
