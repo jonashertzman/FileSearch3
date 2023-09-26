@@ -20,6 +20,7 @@
 	<Style x:Key="TabButtonStyle" TargetType="{x:Type Button}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
+		<Setter Property="Margin" Value="0,4,0,0" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">

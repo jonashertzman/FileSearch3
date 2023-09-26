@@ -77,21 +77,6 @@
 	</Window.CommandBindings>
 
 	<Grid>
-		<Grid.Resources>
-
-			<DataTemplate x:Key="SearchInstanceTabTemplate">
-				<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
-					<StackPanel MinWidth="20" Margin="2,0" Orientation="Vertical">
-						<TextBlock Margin="0,0,0,1" HorizontalAlignment="Center" Text="{Binding Name}" />
-						<StackPanel Height="2">
-							<ProgressBar Height="2" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}" />
-						</StackPanel>
-					</StackPanel>
-				</Button>
-			</DataTemplate>
-
-		</Grid.Resources>
-
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
@@ -137,7 +122,19 @@
 			</Border>
 
 			<!--  Instance Tabs  -->
-			<ItemsControl x:Name="Tab" Grid.Row="0" Grid.Column="1" ItemsSource="{Binding SearchInstances}" ItemTemplate="{StaticResource SearchInstanceTabTemplate}" IsTabStop="False">
+			<ItemsControl x:Name="Tab" Grid.Row="0" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=4}" ItemsSource="{Binding SearchInstances}" IsTabStop="False">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
+							<StackPanel MinWidth="20" Margin="2,0" Orientation="Vertical">
+								<TextBlock Margin="0,0,0,1" HorizontalAlignment="Center" Text="{Binding Name}" />
+								<StackPanel Height="2">
+									<ProgressBar Height="2" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}" />
+								</StackPanel>
+							</StackPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>
 						<StackPanel Orientation="Horizontal" />
@@ -153,8 +150,8 @@
 						<ColumnDefinition Width="auto" />
 						<ColumnDefinition Width="auto" />
 					</Grid.ColumnDefinitions>
-					<StackPanel x:Name="UpdatePanel" Grid.Column="0" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-						<Label Margin="3,3,5,3" Padding="0" VerticalAlignment="Center">
+					<StackPanel x:Name="UpdatePanel" Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+						<Label Margin="3,3,5,3" Padding="0">
 							<Hyperlink RequestNavigate="Hyperlink_OpenHomepage" NavigateUri="https://github.com/jonashertzman/FileSearch3/blob/master/README.md">New Version Available</Hyperlink>
 						</Label>
 					</StackPanel>
