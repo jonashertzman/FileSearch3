@@ -3,20 +3,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="clr-namespace:FileSearch">
 
-	<!--  Normal Brushes  -->
-	<!--<SolidColorBrush x:Key="NormalBrush" Color="{StaticResource {x:Static SystemColors.ControlColorKey}}" />
-	<SolidColorBrush x:Key="DarkBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />
-	<SolidColorBrush x:Key="PressedBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />
-	<SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource {x:Static SystemColors.WindowColorKey}}" />
-	<SolidColorBrush x:Key="HighLightCellBrush" Color="#FFBEE6FD" />-->
-
-	<!--  Border Brushes  -->
-	<!--<SolidColorBrush x:Key="NormalBorderBrush" Color="{StaticResource {x:Static SystemColors.ScrollBarColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="DefaultedBorderBrush" Color="#777" />-->
-	<!--<SolidColorBrush x:Key="PressedBorderBrush" Color="{StaticResource {x:Static SystemColors.HotTrackColorKey}}" />-->
-	<!--<SolidColorBrush x:Key="HighLightBorderBrush" Color="{StaticResource {x:Static SystemColors.HighlightColorKey}}" />-->
-
-	<!--  Common Controls  -->
 	<Style x:Key="TabButtonStyle" TargetType="{x:Type Button}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
@@ -24,14 +10,14 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">
-					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource Theme.BorderDark}" Background="{StaticResource Theme.ControlLight}">
+					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource Theme.BorderDark}" Background="{StaticResource Theme.Dialog}">
 						<ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
 					<ControlTemplate.Triggers>
 
 						<DataTrigger Binding="{Binding Selected}" Value="False">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,1" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.ControlLight}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.Dialog}" />
 							<Setter Property="Margin" Value="0,4,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,0,0,0" />
 						</DataTrigger>
@@ -47,7 +33,7 @@
 
 						<DataTrigger Binding="{Binding Selected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
-							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
+							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.Window}" />
 							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Theme.BorderDark}" />
 							<Setter Property="Margin" Value="0,2,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
