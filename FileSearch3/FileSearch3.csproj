@@ -20,6 +20,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Using Include="System.Diagnostics" />
 	</ItemGroup>
 

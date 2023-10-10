@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileSearch"
+	xmlns:icons="http://materialdesigninxaml.net/winfx/xaml/themes"
 	Title="{Binding Title, FallbackValue='File Search'}"
 	Width="953"
 	Height="448"
@@ -315,7 +316,14 @@
 				</Grid.RowDefinitions>
 
 				<!--  File List  -->
-				<local:ExtendedDataGrid x:Name="dataGridFileList" CellStyle="{StaticResource FileListCell}" Background="{StaticResource Theme.Window}" BorderBrush="{StaticResource Theme.BorderLight}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid x:Name="dataGridFileList" d:ItemsSource="{d:SampleData ItemCount=4}" CellStyle="{StaticResource FileListCell}" Background="{StaticResource Theme.Window}" BorderBrush="{StaticResource Theme.BorderLight}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+					<DataGrid.Resources>
+						<Style x:Key="FileListCell2" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource FileListCell}">
+							<EventSetter Event="MouseUp" Handler="DataGridCell_MouseUp" />
+							<EventSetter Event="PreviewMouseDoubleClick" Handler="DataGridCell_PreviewMouseDoubleClick" />
+							<EventSetter Event="PreviewMouseDown" Handler="DataGridCell_PreviewMouseDown" />
+						</Style>
+					</DataGrid.Resources>
 					<DataGrid.RowStyle>
 						<Style TargetType="DataGridRow">
 							<Setter Property="Background" Value="{StaticResource Theme.Window}" />
@@ -331,6 +339,20 @@
 						</Style>
 					</DataGrid.RowStyle>
 					<DataGrid.Columns>
+						<DataGridTemplateColumn SortMemberPath="Flag" CanUserSort="True" CanUserResize="False" CellStyle="{StaticResource FileListCell2}">
+							<DataGridTemplateColumn.Header>
+								<StackPanel>
+									<icons:PackIcon Kind="DotsVertical" />
+								</StackPanel>
+							</DataGridTemplateColumn.Header>
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<icons:PackIcon d:Kind="CheckCircle" d:Foreground="Green" Kind="{Binding FlagKind}" Foreground="{Binding FlagBrush}" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
 						<DataGridTextColumn Binding="{Binding Path}" Header="File" />
 						<DataGridTextColumn Binding="{Binding Size, StringFormat={}{0:N0}}" Header="Size">
 							<DataGridTextColumn.ElementStyle>
@@ -342,7 +364,6 @@
 						<DataGridTextColumn Binding="{Binding Date, StringFormat={}{0:g}}" Header="Date" />
 					</DataGrid.Columns>
 				</local:ExtendedDataGrid>
-
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 
 				<!--  Preview Pane  -->

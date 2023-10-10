@@ -1,10 +1,22 @@
 ﻿using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Windows.Media;
 
 namespace FileSearch;
 
 public class FileHit : INotifyPropertyChanged
 {
+
+	#region Members
+
+	readonly (string kind, SolidColorBrush foreground)[] flags = new[] {
+		("None", Brushes.Transparent),
+		("CheckCircle", Brushes.Green),
+		("CancelCircle", Brushes.Red),
+		("AlertCircle", Brushes.Blue),
+	};
+
+	#endregion
 
 	#region Constructors
 
@@ -66,6 +78,37 @@ public class FileHit : INotifyPropertyChanged
 	{
 		get { return visible; }
 		set { visible = value; OnPropertyChanged(nameof(Visible)); }
+	}
+
+	int flag = 0;
+	public int Flag
+	{
+		get { return flag; }
+		set
+		{
+			flag = value >= flags.Length ? 0 : value;
+			OnPropertyChanged(nameof(Flag));
+			OnPropertyChanged(nameof(FlagKind));
+			OnPropertyChanged(nameof(FlagBrush));
+		}
+	}
+
+	[IgnoreDataMember]
+	public string FlagKind
+	{
+		get
+		{
+			return flags[Flag].kind;
+		}
+	}
+
+	[IgnoreDataMember]
+	public SolidColorBrush FlagBrush
+	{
+		get
+		{
+			return flags[Flag].foreground;
+		}
 	}
 
 	#endregion
