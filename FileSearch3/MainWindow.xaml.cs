@@ -742,6 +742,24 @@ public partial class MainWindow : Window
 		p.Start();
 	}
 
+	private void DataGridCell_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+	{
+		e.Handled = true;
+	}
+
+	private void DataGridCell_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+	{
+		e.Handled = true;
+	}
+
+	private void DataGridCell_MouseUp(object sender, MouseButtonEventArgs e)
+	{
+		FileHit x = ((DataGridCell)sender).DataContext as FileHit;
+
+		x.Flag++;
+		e.Handled = true;
+	}
+
 	private void BrowseDirectoryButton_Click(object sender, RoutedEventArgs e)
 	{
 		TextAttribute t = (sender as Button).DataContext as TextAttribute;
