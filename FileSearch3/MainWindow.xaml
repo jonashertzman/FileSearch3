@@ -279,14 +279,14 @@
 					<RowDefinition Height="Auto" />
 					<RowDefinition />
 				</Grid.RowDefinitions>
-				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" KeyDown="DataGridSearchPhrases_KeyDown">
+				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" KeyDown="DataGridSearchPhrases_KeyDown">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
 						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Phrase" />
 					</DataGrid.Columns>
 				</DataGrid>
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
-				<DataGrid x:Name="DataGridSearchDirectories" Grid.Row="2" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+				<DataGrid x:Name="DataGridSearchDirectories" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
 						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Search Directories" />
@@ -300,7 +300,7 @@
 					</DataGrid.Columns>
 				</DataGrid>
 				<GridSplitter Grid.Row="3" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
-				<DataGrid x:Name="DataGridSearcFiles" Grid.Row="4" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchFiles, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
+				<DataGrid x:Name="DataGridSearcFiles" Grid.Row="4" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchFiles, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
 						<DataGridTextColumn Width="*" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Files to Search" />
@@ -578,7 +578,7 @@
 		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Background="{StaticResource Theme.Dialog}">
 			<StackPanel Orientation="Horizontal">
 				<Button Content="Close" Style="{StaticResource FlatButton}" Command="local:Commands.CloseFind" />
-				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" />
+				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" d:Text="Search Text" />
 				<Button Content="Next" Style="{StaticResource FlatButton}" Command="local:Commands.FindNext" />
 				<Button Content="Previous" Style="{StaticResource FlatButton}" Command="local:Commands.FindPrevious" />
 				<CheckBox Name="MatchCase" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />

@@ -260,13 +260,13 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Margin="5" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredDirectories}">
+							<DataGrid Grid.Row="0" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredDirectories}">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" />
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}">
+							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}">
 								<DataGrid.Columns>
 									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" />
 								</DataGrid.Columns>
