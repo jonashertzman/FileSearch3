@@ -543,7 +543,7 @@
 								</StackPanel>
 
 								<StackPanel Name="CurrentFilePanel" Height="20" Orientation="Horizontal">
-									<Separator Margin="8,0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+									<Separator Margin="8,0" />
 									<TextBlock Name="CurrentFile" Margin="0,0" VerticalAlignment="Center" Text="Current File" Foreground="{StaticResource Theme.DissabledText}" />
 								</StackPanel>
 
@@ -598,11 +598,11 @@
 			<TextBlock Margin="6,3,3,3" Text="{Binding ActiveSearchInstance.StatusText}" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 					<TextBlock Margin="3" d:Text="3 files found in 1234 searched" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyIgnoredFiles, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="IgnoredFilesCountHyperlink" Click="IgnoredFilesCountHyperlink_Click">
 							<TextBlock d:Text="24 Ignored" Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
@@ -610,7 +610,7 @@
 					</TextBlock>
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
-					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+					<Separator />
 					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="ErrorCountHyperlink" Click="ErrorCountHyperlink_Click">
 							<TextBlock d:Text="5 Errors" Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
