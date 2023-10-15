@@ -348,7 +348,7 @@
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal">
-										<icons:PackIcon d:Kind="CheckCircle" d:Foreground="Green" Kind="{Binding FlagKind}" Foreground="{Binding FlagBrush}" />
+										<icons:PackIcon d:Kind="CheckCircleOutline" d:Foreground="Green" Kind="{Binding FlagKind}" Foreground="{Binding FlagBrush}" />
 									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
