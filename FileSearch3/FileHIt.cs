@@ -11,9 +11,9 @@ public class FileHit : INotifyPropertyChanged
 
 	readonly (string kind, SolidColorBrush foreground)[] flags = new[] {
 		("None", Brushes.Transparent),
-		("CheckCircle", Brushes.Green),
-		("CancelCircle", Brushes.Red),
-		("AlertCircle", Brushes.Blue),
+		("CheckCircleOutline", Brushes.Green),
+		("CancelCircleOutline", Brushes.Red),
+		("AlertCircleOutline", Brushes.Blue),
 	};
 
 	#endregion
