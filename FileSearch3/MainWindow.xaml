@@ -551,7 +551,7 @@
 						</Border>
 
 						<!--  Preview Control  -->
-						<Grid Grid.Row="1">
+						<Grid Grid.Row="1" d:Background="White">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="auto" />
@@ -578,7 +578,7 @@
 		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Background="{StaticResource Theme.Dialog}">
 			<StackPanel Orientation="Horizontal">
 				<Button Content="Close" Style="{StaticResource FlatButton}" Command="local:Commands.CloseFind" />
-				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" TextChanged="SearchBox_TextChanged" d:Text="Search Text" />
+				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" d:Text="Search Text" TextChanged="SearchBox_TextChanged" />
 				<Button Content="Next" Style="{StaticResource FlatButton}" Command="local:Commands.FindNext" />
 				<Button Content="Previous" Style="{StaticResource FlatButton}" Command="local:Commands.FindPrevious" />
 				<CheckBox Name="MatchCase" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />
@@ -599,13 +599,13 @@
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-					<TextBlock Margin="3" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
+					<TextBlock Margin="3" d:Text="3 files found in 1234 searched" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyIgnoredFiles, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="IgnoredFilesCountHyperlink" Click="IgnoredFilesCountHyperlink_Click">
-							<TextBlock Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
+							<TextBlock d:Text="24 Ignored" Text="{Binding ActiveSearchInstance.IgnoredFilesCountStatus}" />
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
@@ -613,11 +613,11 @@
 					<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 					<TextBlock Margin="3" VerticalAlignment="Center">
 						<Hyperlink Name="ErrorCountHyperlink" Click="ErrorCountHyperlink_Click">
-							<TextBlock Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
+							<TextBlock d:Text="5 Errors" Text="{Binding ActiveSearchInstance.ErrorCountStatus}" />
 						</Hyperlink>
 					</TextBlock>
 				</StackPanel>
-				<ProgressBar Width="100" Height="14" Margin="3" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding ActiveSearchInstance.Progress}" />
+				<ProgressBar Width="100" Height="14" Margin="3" d:Visibility="Visible" Visibility="{Binding ActiveSearchInstance.SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding ActiveSearchInstance.Progress}" />
 				<StackPanel Width="20" />
 			</StackPanel>
 		</Grid>
