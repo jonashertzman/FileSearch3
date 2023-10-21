@@ -206,12 +206,12 @@
 							<Popup Name="ColorChooser" Placement="MousePoint" StaysOpen="False" AllowsTransparency="True">
 								<Grid RenderOptions.ClearTypeHint="Enabled">
 									<!--  Workaround to not fuckup the cleartype rendering  -->
-									<Border Margin="10" Padding="5" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
 										<Border.Effect>
 											<DropShadowEffect BlurRadius="10" ShadowDepth="0" Opacity=".3" />
 										</Border.Effect>
 									</Border>
-									<Border Margin="10" Padding="5" BorderThickness="1" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+									<Border Margin="10" Padding="5" PreviewKeyDown="Border_PreviewKeyDown" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
 										<Grid Width="150">
 											<Grid.ColumnDefinitions>
 												<ColumnDefinition Width="auto" />
