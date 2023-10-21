@@ -2,6 +2,8 @@
 using System.IO;
 using System.Security.Principal;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -13,9 +15,9 @@ public partial class OptionsWindow : Window
 	#region Members
 
 	readonly string regPath = @"Folder\shell\filesearch";
-	readonly string shellexecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
+	readonly string shellExecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
 
-	Rectangle selectecRectangle;
+	Rectangle selectedRectangle;
 
 	#endregion
 
@@ -37,7 +39,7 @@ public partial class OptionsWindow : Window
 			ShellExtensionPanel.IsEnabled = true;
 			NotAdminLabel.Visibility = Visibility.Collapsed;
 
-			AddShellExtensionsCheckBox.IsChecked = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellexecutePath;
+			AddShellExtensionsCheckBox.IsChecked = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellExecutePath;
 
 			AddShellExtensionsCheckBox.Checked += AddShellExtensionsCheckBox_Checked;
 			AddShellExtensionsCheckBox.Unchecked += AddShellExtensionsCheckBox_Unchecked;
@@ -101,18 +103,18 @@ public partial class OptionsWindow : Window
 		}
 		using (RegistryKey key = Registry.ClassesRoot.CreateSubKey(regPath + "\\command"))
 		{
-			key.SetValue(null, shellexecutePath);
+			key.SetValue(null, shellExecutePath);
 		}
 	}
 
 	private void Rectangle_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 	{
-		selectecRectangle = e.Source as Rectangle;
+		selectedRectangle = e.Source as Rectangle;
 
-		LabelA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
-		SliderA.Visibility = selectecRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+		LabelA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
+		SliderA.Visibility = selectedRectangle == SelectionBackground ? Visibility.Visible : Visibility.Collapsed;
 
-		Color currentColor = Color.FromArgb((byte)(selectecRectangle == SelectionBackground ? ((SolidColorBrush)selectecRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectecRectangle.Fill).Color.R, ((SolidColorBrush)selectecRectangle.Fill).Color.G, ((SolidColorBrush)selectecRectangle.Fill).Color.B);
+		Color currentColor = Color.FromArgb((byte)(selectedRectangle == SelectionBackground ? ((SolidColorBrush)selectedRectangle.Fill).Color.A : 255), ((SolidColorBrush)selectedRectangle.Fill).Color.R, ((SolidColorBrush)selectedRectangle.Fill).Color.G, ((SolidColorBrush)selectedRectangle.Fill).Color.B);
 
 		SliderR.Value = currentColor.R;
 		SliderG.Value = currentColor.G;
@@ -122,6 +124,7 @@ public partial class OptionsWindow : Window
 		ColorHex.Text = currentColor.ToString();
 
 		ColorChooser.IsOpen = true;
+		SliderR.Focus();
 	}
 
 	private void ButtonResetColors_Click(object sender, RoutedEventArgs e)
@@ -133,44 +136,15 @@ public partial class OptionsWindow : Window
 			_ => throw new NotImplementedException(),
 		};
 
-		//// Folder diff colors
-		//FolderFullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchForeground));
-		//FolderFullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderFullMatchBackground));
+		// Hit colors
+		NormalForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NormalForeground));
+		NormalBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NormalBackground));
 
-		//FolderPartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchForeground));
-		//FolderPartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderPartialMatchBackground));
+		HitForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HitForeground));
+		HitBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HitBackground));
 
-		//FolderDeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedForeground));
-		//FolderDeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderDeletedBackground));
-
-		//FolderNewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewForeground));
-		//FolderNewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderNewBackground));
-
-		//FolderIgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredForeground));
-		//FolderIgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FolderIgnoredBackground));
-
-		//// File diff colors
-		//FullMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchForeground));
-		//FullMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.FullMatchBackground));
-
-		//PartialMatchForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchForeground));
-		//PartialMatchBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.PartialMatchBackground));
-
-		//DeletedForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedForeground));
-		//DeletedBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DeletedBackground));
-
-		//NewForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewForeground));
-		//NewBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NewBackground));
-
-		//IgnoredForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredForeground));
-		//IgnoredBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.IgnoredBackground));
-
-		//MovedFromBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedFromBackground));
-		//MovedToBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.MovedToBackground));
-
-		//LineNumber.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberColor));
-		//CurrentDiff.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentDiffColor));
-		//Snake.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SnakeColor));
+		HeaderForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HeaderForeground));
+		HeaderBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HeaderBackground));
 
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
 
@@ -207,16 +181,69 @@ public partial class OptionsWindow : Window
 
 	private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
-		byte alpha = (byte)(selectecRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+		byte alpha = (byte)(selectedRectangle == SelectionBackground ? (byte)SliderA.Value : 255);
+
+		if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift)
+		{
+			SliderR.Value = e.NewValue;
+			SliderG.Value = e.NewValue;
+			SliderB.Value = e.NewValue;
+		}
 
 		Color newColor = Color.FromArgb(alpha, (byte)SliderR.Value, (byte)SliderG.Value, (byte)SliderB.Value);
 		ColorHex.Text = newColor.ToString();
-		selectecRectangle.Fill = new SolidColorBrush(newColor);
+		selectedRectangle.Fill = new SolidColorBrush(newColor);
 
 		SliderR.Background = new LinearGradientBrush(Color.FromArgb(alpha, 0, newColor.G, newColor.B), Color.FromArgb(alpha, 255, newColor.G, newColor.B), 0);
 		SliderG.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, 0, newColor.B), Color.FromArgb(alpha, newColor.R, 255, newColor.B), 0);
 		SliderB.Background = new LinearGradientBrush(Color.FromArgb(alpha, newColor.R, newColor.G, 0), Color.FromArgb(alpha, newColor.R, newColor.G, 255), 0);
 		SliderA.Background = new LinearGradientBrush(Color.FromArgb(0, newColor.R, newColor.G, newColor.B), Color.FromArgb(255, newColor.R, newColor.G, newColor.B), 0);
+	}
+
+	private void Border_PreviewKeyDown(object sender, KeyEventArgs e)
+	{
+		bool controlPressed = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+
+		if (e.Key == Key.C && controlPressed)
+		{
+			WinApi.CopyTextToClipboard(ColorHex.Text);
+
+			e.Handled = true;
+			return;
+		}
+		else if (e.Key == Key.V && controlPressed)
+		{
+			string colorString = Clipboard.GetText();
+
+			SolidColorBrush newBrush = colorString.ToBrush();
+			if (newBrush != null)
+			{
+				SliderR.Value = newBrush.Color.R;
+				SliderG.Value = newBrush.Color.G;
+				SliderB.Value = newBrush.Color.B;
+				SliderA.Value = newBrush.Color.A;
+
+				e.Handled = true;
+				return;
+			}
+		}
+		e.Handled = false;
+	}
+
+	private void ColorHex_TextChanged(object sender, TextChangedEventArgs e)
+	{
+		if (selectedRectangle != null)
+		{
+			if (ColorHex.Text.ToBrush() != null)
+			{
+				ColorHex.Error = false;
+				selectedRectangle.Fill = ColorHex.Text.ToBrush();
+			}
+			else
+			{
+				ColorHex.Error = true;
+			}
+		}
 	}
 
 	#endregion
