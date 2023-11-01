@@ -15,7 +15,7 @@ public partial class OptionsWindow : Window
 	#region Members
 
 	readonly string regPath = @"Folder\shell\filesearch";
-	readonly string shellExecutePath = $"\"{new FileInfo(Process.GetCurrentProcess().MainModule.FileName)}\" \"%1\"";
+	readonly string shellExecutePath = $"\"{new FileInfo(Environment.ProcessPath)}\" \"%1\"";
 
 	Rectangle selectedRectangle;
 
@@ -36,7 +36,7 @@ public partial class OptionsWindow : Window
 
 		if (IsAdministrator)
 		{
-			ShellExtensionPanel.IsEnabled = true;
+			AddShellExtensionsCheckBox.IsEnabled = true;
 			NotAdminLabel.Visibility = Visibility.Collapsed;
 
 			AddShellExtensionsCheckBox.IsChecked = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellExecutePath;
