@@ -37,6 +37,7 @@ public partial class OptionsWindow : Window
 		if (IsAdministrator)
 		{
 			AddShellExtensionsCheckBox.IsEnabled = true;
+			AddShellExtensionsCheckBox.Foreground = AppSettings.NormalForeground;
 			NotAdminLabel.Visibility = Visibility.Collapsed;
 
 			AddShellExtensionsCheckBox.IsChecked = Registry.ClassesRoot.CreateSubKey(regPath + "\\command").GetValue("")?.ToString() == shellExecutePath;
