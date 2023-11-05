@@ -262,15 +262,33 @@
 								<ColumnDefinition />
 							</Grid.ColumnDefinitions>
 
-							<DataGrid Grid.Row="0" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredDirectories}">
+							<DataGrid Grid.Row="0" Margin="5" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding IgnoredDirectories}" CanUserReorderColumns="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeaderWidth="0" GridLinesVisibility="Horizontal">
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Directories" CanUserResize="False" />
+									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Directories" CanUserResize="False">
+										<DataGridTextColumn.EditingElementStyle>
+											<Style TargetType="TextBox">
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+												<Setter Property="BorderThickness" Value="0" />
+												<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+											</Style>
+										</DataGridTextColumn.EditingElementStyle>
+									</DataGridTextColumn>
 								</DataGrid.Columns>
 							</DataGrid>
 
-							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource EditableDataGrid}" ItemsSource="{Binding IgnoredFiles}">
+							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" d:ItemsSource="{d:SampleData}" ItemsSource="{Binding IgnoredFiles}" CanUserReorderColumns="False" AutoGenerateColumns="False" SelectionMode="Single" RowHeaderWidth="0" GridLinesVisibility="Horizontal">
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="*" Binding="{Binding Text}" CellStyle="{StaticResource EditableDataGridCell}" Header="Ignore Files" CanUserResize="False" />
+									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Files" CanUserResize="False">
+										<DataGridTextColumn.EditingElementStyle>
+											<Style TargetType="TextBox">
+												<Setter Property="HorizontalAlignment" Value="Stretch" />
+												<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+												<Setter Property="BorderThickness" Value="0" />
+												<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+											</Style>
+										</DataGridTextColumn.EditingElementStyle>
+									</DataGridTextColumn>
 								</DataGrid.Columns>
 							</DataGrid>
 
