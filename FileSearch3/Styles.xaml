@@ -55,7 +55,6 @@
 		<Setter Property="AutoGenerateColumns" Value="False" />
 		<Setter Property="SelectionMode" Value="Single" />
 		<Setter Property="RowHeaderWidth" Value="0" />
-		<Setter Property="BorderThickness" Value="0,1,1,1" />
 		<Setter Property="CanUserResizeRows" Value="False" />
 		<Setter Property="GridLinesVisibility" Value="Horizontal" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
