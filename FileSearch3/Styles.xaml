@@ -46,7 +46,7 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}">
+	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
 		<Setter Property="CanUserReorderColumns" Value="False" />
 		<Setter Property="CanUserResizeColumns" Value="False" />
 		<Setter Property="AutoGenerateColumns" Value="False" />
@@ -200,7 +200,7 @@
 		<Setter Property="SelectionMode" Value="Single" />
 	</Style>-->
 
-	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}">
+	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
