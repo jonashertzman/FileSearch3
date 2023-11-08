@@ -46,6 +46,9 @@
 		</Setter>
 	</Style>
 
+	<!--  Why is this needed for a sublasses data grid???  -->
+	<Style x:Key="EmptyDataGridStyle" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />
+
 	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
 		<Setter Property="CanUserReorderColumns" Value="False" />
 		<Setter Property="CanUserResizeColumns" Value="False" />
@@ -220,7 +223,7 @@
 		</Style.Triggers>
 	</Style>
 
-	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}">
+	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.Window}" />
 		<Setter Property="BorderThickness" Value="4" />

@@ -343,7 +343,7 @@
 				</Grid.RowDefinitions>
 
 				<!--  File List  -->
-				<local:ExtendedDataGrid x:Name="dataGridFileList" d:ItemsSource="{d:SampleData ItemCount=4}" CellStyle="{StaticResource FileListCell}" Background="{StaticResource Theme.Window}" BorderBrush="{StaticResource Theme.BorderLight}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
+				<local:ExtendedDataGrid x:Name="dataGridFileList" d:ItemsSource="{d:SampleData ItemCount=4}" Style="{StaticResource EmptyDataGridStyle}" CellStyle="{StaticResource FileListCell}" Background="{StaticResource Theme.Window}" BorderBrush="{StaticResource Theme.BorderLight}" ItemsSource="{Binding ActiveSearchInstance.FilesWithHits}" ContextMenu="{StaticResource ContextMenuFileItem}" VirtualizingPanel.IsVirtualizing="True" BorderThickness="1,1,0,1" SelectionMode="Extended" SelectionUnit="FullRow" AutoGenerateColumns="False" GridLinesVisibility="None" IsReadOnly="True" HeadersVisibility="Column" SelectionChanged="DataGridFileList_SelectionChanged" Sorting="DataGridFileList_Sorting" CanUserReorderColumns="False">
 					<DataGrid.Resources>
 						<Style x:Key="FileListCell2" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource FileListCell}">
 							<EventSetter Event="MouseUp" Handler="DataGridCell_MouseUp" />
