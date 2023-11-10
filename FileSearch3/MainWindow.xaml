@@ -622,11 +622,11 @@
 				<ColumnDefinition Width="auto" />
 				<ColumnDefinition Width="auto" />
 			</Grid.ColumnDefinitions>
-			<TextBlock Margin="6,3,3,3" Text="{Binding ActiveSearchInstance.StatusText}" />
+			<TextBlock Margin="6,3,3,3" d:Text="Status text" Style="{StaticResource StyledTextBlock}" Text="{Binding ActiveSearchInstance.StatusText}" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Separator />
-					<TextBlock Margin="3" d:Text="3 files found in 1234 searched" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
+					<TextBlock Margin="3" d:Text="3 files found in 1234 searched" Style="{StaticResource StyledTextBlock}" Text="{Binding ActiveSearchInstance.FileCountStatus}" />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal" Visibility="{Binding ActiveSearchInstance.AnyIgnoredFiles, Converter={StaticResource BooleanToVisibilityConverter}}">
 					<Separator />
