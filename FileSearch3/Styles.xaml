@@ -71,6 +71,11 @@
 		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
 	</Style>
 
+	<Style TargetType="ProgressBar">
+		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+	</Style>
+
 	<Style TargetType="Label">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
