@@ -57,9 +57,6 @@
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
 		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
-		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Theme.BorderLight}" />
 	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
@@ -213,7 +210,7 @@
 
 	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Style.Triggers>
-			<Trigger Property="DataGridCell.IsSelected" Value="True">
+			<!--<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 				<Setter Property="BorderThickness" Value="1" />
@@ -227,12 +224,12 @@
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="#CCDAFF" />
 				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>
+			</Trigger>-->
 		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
-		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+		<!--<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.Window}" />
 		<Setter Property="BorderThickness" Value="4" />
 		<Setter Property="IsTabStop" Value="False" />
@@ -244,7 +241,7 @@
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
 				<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBackground}" />
 			</Trigger>
-		</Style.Triggers>
+		</Style.Triggers>-->
 	</Style>
 
 	<Style x:Key="RightAlignedCell" TargetType="DataGridCell" BasedOn="{StaticResource FileListCell}">
