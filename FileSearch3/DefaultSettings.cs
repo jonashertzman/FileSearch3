@@ -29,6 +29,8 @@ public static class DefaultSettings
 		NormalText = "#FFD8D8D8",
 		DisabledText = "#FF888888",
 
+		DisabledBackground = "#444444",
+
 		WindowBackground = "#FF0B0B0B",
 		DialogBackground = "#FF171717",
 
@@ -65,6 +67,8 @@ public static class DefaultSettings
 		// UI colors
 		NormalText = "#FF000000",
 		DisabledText = "#FF888888",
+
+		DisabledBackground = "#AAAAAA",
 
 		WindowBackground = "#FFFFFFFF",
 		DialogBackground = "#FFEBEBEB",
