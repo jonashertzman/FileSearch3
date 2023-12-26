@@ -237,6 +237,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.DisabledForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledForeground)); }
 	}
 
+	public Brush DisabledBackground
+	{
+		get { return AppSettings.DisabledBackground; }
+		set { AppSettings.DisabledBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledForeground)); }
+	}
+
 	public Brush WindowBackground
 	{
 		get { return AppSettings.WindowBackground; }

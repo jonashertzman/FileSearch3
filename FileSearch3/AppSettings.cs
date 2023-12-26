@@ -261,10 +261,7 @@ public static class AppSettings
 	}
 	public static Color WindowForegroundColor
 	{
-		get
-		{
-			return WindowForeground.Color;
-		}
+		get { return WindowForeground.Color; }
 	}
 
 	private static SolidColorBrush disabledForeground = DefaultSettings.LightTheme.DisabledText.ToBrush();
@@ -282,10 +279,25 @@ public static class AppSettings
 	}
 	public static Color DisabledForegroundColor
 	{
-		get
+		get { return DisabledForeground.Color; }
+	}
+
+	private static SolidColorBrush disabledBackground = DefaultSettings.LightTheme.DisabledBackground.ToBrush();
+	public static SolidColorBrush DisabledBackground
+	{
+		get { return disabledBackground; }
+		set
 		{
-			return DisabledForeground.Color;
+			disabledBackground = value;
+			disabledBackground.Freeze();
+			CurrentTheme.DisabledBackground = value.Color.ToString();
+			NotifyStaticPropertyChanged(nameof(DisabledBackground));
+			NotifyStaticPropertyChanged(nameof(DisabledBackgroundColor));
 		}
+	}
+	public static Color DisabledBackgroundColor
+	{
+		get { return DisabledBackground.Color; }
 	}
 
 	private static SolidColorBrush windowBackground = DefaultSettings.LightTheme.WindowBackground.ToBrush();
@@ -303,10 +315,7 @@ public static class AppSettings
 	}
 	public static Color WindowBackgroundColor
 	{
-		get
-		{
-			return windowBackground.Color;
-		}
+		get { return windowBackground.Color; }
 	}
 
 	private static SolidColorBrush dialogBackground = DefaultSettings.LightTheme.DialogBackground.ToBrush();
@@ -324,10 +333,7 @@ public static class AppSettings
 	}
 	public static Color DialogBackgroundColor
 	{
-		get
-		{
-			return dialogBackground.Color;
-		}
+		get { return dialogBackground.Color; }
 	}
 
 	private static SolidColorBrush controlLightBackground = DefaultSettings.LightTheme.ControlLightBackground.ToBrush();
@@ -345,10 +351,7 @@ public static class AppSettings
 	}
 	public static Color ControlLightBackgroundColor
 	{
-		get
-		{
-			return controlLightBackground.Color;
-		}
+		get { return controlLightBackground.Color; }
 	}
 
 	private static SolidColorBrush controlDarkBackground = DefaultSettings.LightTheme.ControlDarkBackground.ToBrush();
@@ -366,10 +369,7 @@ public static class AppSettings
 	}
 	public static Color ControlDarkBackgroundColor
 	{
-		get
-		{
-			return controlDarkBackground.Color;
-		}
+		get { return controlDarkBackground.Color; }
 	}
 
 	private static SolidColorBrush borderForeground = DefaultSettings.LightTheme.BorderLight.ToBrush();
@@ -387,10 +387,7 @@ public static class AppSettings
 	}
 	public static Color BorderForegroundColor
 	{
-		get
-		{
-			return borderForeground.Color;
-		}
+		get { return borderForeground.Color; }
 	}
 
 	private static SolidColorBrush borderDarkForeground = DefaultSettings.LightTheme.BorderDark.ToBrush();
@@ -408,10 +405,7 @@ public static class AppSettings
 	}
 	public static Color BorderDarkForegroundColor
 	{
-		get
-		{
-			return borderDarkForeground.Color;
-		}
+		get { return borderDarkForeground.Color; }
 	}
 
 	private static SolidColorBrush highlightBackground = DefaultSettings.LightTheme.HighlightBackground.ToBrush();
@@ -429,10 +423,7 @@ public static class AppSettings
 	}
 	public static Color HighlightBackgroundColor
 	{
-		get
-		{
-			return highlightBackground.Color;
-		}
+		get { return highlightBackground.Color; }
 	}
 
 	private static SolidColorBrush highlightBorder = DefaultSettings.LightTheme.HighlightBorder.ToBrush();
@@ -450,10 +441,7 @@ public static class AppSettings
 	}
 	public static Color HighlightBorderColor
 	{
-		get
-		{
-			return highlightBorder.Color;
-		}
+		get { return highlightBorder.Color; }
 	}
 
 	private static SolidColorBrush attentionBackground = DefaultSettings.LightTheme.AttentionBackground.ToBrush();
@@ -471,10 +459,7 @@ public static class AppSettings
 	}
 	public static Color AttentionBackgroundColor
 	{
-		get
-		{
-			return attentionBackground.Color;
-		}
+		get { return attentionBackground.Color; }
 	}
 
 
