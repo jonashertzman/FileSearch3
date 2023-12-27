@@ -91,49 +91,49 @@ public class SearchInstance : INotifyPropertyChanged
 		set { surroundingLines = value; OnPropertyChanged(nameof(SurroundingLines)); }
 	}
 
-	ObservableCollection<TextAttribute> searchPhrases = new ObservableCollection<TextAttribute>();
+	ObservableCollection<TextAttribute> searchPhrases = [];
 	public ObservableCollection<TextAttribute> SearchPhrases
 	{
 		get { return searchPhrases; }
 		set { searchPhrases = value; OnPropertyChanged(nameof(SearchPhrases)); }
 	}
 
-	ObservableCollection<TextAttribute> searchDirectories = new ObservableCollection<TextAttribute>();
+	ObservableCollection<TextAttribute> searchDirectories = [];
 	public ObservableCollection<TextAttribute> SearchDirectories
 	{
 		get { return searchDirectories; }
 		set { searchDirectories = value; OnPropertyChanged(nameof(SearchDirectories)); }
 	}
 
-	ObservableCollection<TextAttribute> searchFiles = new ObservableCollection<TextAttribute>();
+	ObservableCollection<TextAttribute> searchFiles = [];
 	public ObservableCollection<TextAttribute> SearchFiles
 	{
 		get { return searchFiles; }
 		set { searchFiles = value; OnPropertyChanged(nameof(SearchFiles)); }
 	}
 
-	ObservableCollection<FileHit> filesWithHits = new ObservableCollection<FileHit>();
+	ObservableCollection<FileHit> filesWithHits = [];
 	public ObservableCollection<FileHit> FilesWithHits
 	{
 		get { return filesWithHits; }
 		set { filesWithHits = value; OnPropertyChanged(nameof(FilesWithHits)); }
 	}
 
-	ObservableCollection<string> errors = new ObservableCollection<string>();
+	ObservableCollection<string> errors = [];
 	public ObservableCollection<string> Errors
 	{
 		get { return errors; }
 		set { errors = value; OnPropertyChanged(nameof(Errors)); }
 	}
 
-	ObservableCollection<string> filesIgnored = new ObservableCollection<string>();
+	ObservableCollection<string> filesIgnored = [];
 	public ObservableCollection<string> FilesIgnored
 	{
 		get { return filesIgnored; }
 		set { filesIgnored = value; OnPropertyChanged(nameof(FilesIgnored)); }
 	}
 
-	Dictionary<string, int> phraseSums = new Dictionary<string, int>();
+	Dictionary<string, int> phraseSums = [];
 	[IgnoreDataMember]
 	public Dictionary<string, int> PhraseSums
 	{
@@ -202,7 +202,7 @@ public class SearchInstance : INotifyPropertyChanged
 	{
 		get
 		{
-			List<string> l = new List<string>();
+			List<string> l = [];
 
 			if (FilesWithHits.Count > 0)
 			{

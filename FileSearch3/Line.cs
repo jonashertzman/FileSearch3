@@ -38,7 +38,7 @@ public class Line
 		}
 	}
 
-	public ObservableCollection<TextSegment> TextSegments { get; set; } = new ObservableCollection<TextSegment>();
+	public ObservableCollection<TextSegment> TextSegments { get; set; } = [];
 
 	public bool IsWhitespaceLine { get; set; }
 
@@ -46,12 +46,7 @@ public class Line
 	{
 		get
 		{
-			List<char> list = new List<char>();
-
-			foreach (char c in text.ToCharArray())
-			{
-				list.Add(c);
-			}
+			List<char> list = [.. text.ToCharArray()];
 			return list;
 		}
 	}

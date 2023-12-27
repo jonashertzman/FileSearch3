@@ -14,17 +14,17 @@ class BackgroundSearch
 	DateTime lastStatusUpdateTime = DateTime.UtcNow;
 	DateTime startTime = new DateTime();
 	DateTime endTime = new DateTime();
-	readonly List<TextAttribute> searchPhrases = new List<TextAttribute>();
-	readonly List<TextAttribute> searchDirectories = new List<TextAttribute>();
-	readonly List<TextAttribute> searchFiles = new List<TextAttribute>();
-	readonly List<string> uppercaseIgnoreDirectories = new List<string>();
-	readonly List<string> uppercaseIgnoreFiles = new List<string>();
+	readonly List<TextAttribute> searchPhrases = [];
+	readonly List<TextAttribute> searchDirectories = [];
+	readonly List<TextAttribute> searchFiles = [];
+	readonly List<string> uppercaseIgnoreDirectories = [];
+	readonly List<string> uppercaseIgnoreFiles = [];
 	readonly bool regexSearch;
 
 	string currentRoot;
-	readonly List<FileHit> searchResults = new List<FileHit>();
-	readonly List<string> searchErrors = new List<string>();
-	readonly List<string> searchIgnores = new List<string>();
+	readonly List<FileHit> searchResults = [];
+	readonly List<string> searchErrors = [];
+	readonly List<string> searchIgnores = [];
 	readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
 
 	bool abortPosted = false;
@@ -233,7 +233,7 @@ class BackgroundSearch
 				status = TimeSpanToShortString(endTime.Subtract(startTime));
 			}
 
-			searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, new Object[] { searchResults, searchErrors, searchIgnores, status, percentageComplete, searchedFilesCount });
+			searchInstance.mainWindow.Dispatcher.BeginInvoke(searchInstance.searchProgressUpdateDelegate, [searchResults, searchErrors, searchIgnores, status, percentageComplete, searchedFilesCount]);
 			lastStatusUpdateTime = DateTime.UtcNow;
 		}
 	}
@@ -401,7 +401,11 @@ class BackgroundSearch
 
 		foreach (TextAttribute s in searchDirectories)
 		{
-			currentRoot = s.Text + (s.Text.EndsWith("\\") ? "" : "\\");
+			currentRoot = s.Text;
+			if (!currentRoot.EndsWith('\\'))
+			{
+				currentRoot += "\\";
+			}
 			FindFiles(currentRoot);
 		}
 

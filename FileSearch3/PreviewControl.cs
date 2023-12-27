@@ -840,7 +840,7 @@ public class PreviewControl : Control
 
 	private bool IsWordCharacter(char v)
 	{
-		char[] wordCharacters = new char[] { '_', '-' }; // Maybe expose these as a user setting?
+		char[] wordCharacters = ['_', '-']; // Maybe expose these as a user setting?
 
 		return char.IsLetterOrDigit(v) || wordCharacters.Contains(v);
 	}
