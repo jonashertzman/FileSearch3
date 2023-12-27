@@ -240,8 +240,8 @@ public partial class MainWindow : Window
 
 		Mouse.OverrideCursor = Cursors.Wait;
 
-		ObservableCollection<Line> Lines = new ObservableCollection<Line>();
-		List<FileHit> previewFiles = new List<FileHit>();
+		ObservableCollection<Line> Lines = [];
+		List<FileHit> previewFiles = [];
 
 		firstHit = -1;
 		lastHit = -1;
@@ -256,7 +256,7 @@ public partial class MainWindow : Window
 
 		foreach (FileHit currentFile in previewFiles)
 		{
-			string[] allLines = Array.Empty<string>();
+			string[] allLines = [];
 			string allText = "";
 			int lineNumber = 1;
 
@@ -283,7 +283,7 @@ public partial class MainWindow : Window
 					if (ActiveSearch.RegexSearch)
 					{
 						allText = File.ReadAllText(currentFile.Path, ViewModel.FileEncoding.Type);
-						if (!(allText.EndsWith("\r\n") || allText.EndsWith("\r") || allText.EndsWith("\n")))
+						if (!(allText.EndsWith("\r\n") || allText.EndsWith('\r') || allText.EndsWith('\n')))
 						{
 							allText += ViewModel.FileEncoding.GetNewLineString;
 						}
@@ -304,7 +304,7 @@ public partial class MainWindow : Window
 				{
 					if (ValidateHitsRegex())
 					{
-						List<RegexHit> regexHits = new List<RegexHit>();
+						List<RegexHit> regexHits = [];
 						foreach (string searchPhrase in ActiveSearch.StoredSearchPhrases)
 						{
 							Match match = Regex.Match(allText, searchPhrase, ActiveSearch.CaseSensitive ? RegexOptions.Multiline : RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -494,7 +494,7 @@ public partial class MainWindow : Window
 		}
 
 		// Removing items from a collection is slow, much faster to create a new collection and add all wanted items. 
-		ObservableCollection<Line> newLines = new ObservableCollection<Line>();
+		ObservableCollection<Line> newLines = [];
 		foreach (Line l in Lines)
 		{
 			if (l.Type != TextState.Miss)

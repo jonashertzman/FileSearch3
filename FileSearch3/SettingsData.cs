@@ -11,9 +11,9 @@ public class SettingsData
 	public DateTime LastUpdateTime { get; set; } = DateTime.MinValue;
 	public bool CheckForUpdates { get; set; } = true;
 
-	public ObservableCollection<TextAttribute> IgnoredDirectories { get; set; } = new ObservableCollection<TextAttribute>();
-	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = new ObservableCollection<TextAttribute>();
-	public ObservableCollection<SearchInstance> SearchInstances { get; set; } = new ObservableCollection<SearchInstance>();
+	public ObservableCollection<TextAttribute> IgnoredDirectories { get; set; } = [];
+	public ObservableCollection<TextAttribute> IgnoredFiles { get; set; } = [];
+	public ObservableCollection<SearchInstance> SearchInstances { get; set; } = [];
 
 	public string Font { get; set; } = DefaultSettings.Font;
 	public int FontSize { get; set; } = DefaultSettings.FontSize;

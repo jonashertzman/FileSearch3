@@ -85,7 +85,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.SearchInstances = value; OnPropertyChanged(nameof(SearchInstances)); }
 	}
 
-	ObservableCollection<Line> previewLines = new ObservableCollection<Line>();
+	ObservableCollection<Line> previewLines = [];
 	public ObservableCollection<Line> PreviewLines
 	{
 		get { return previewLines; }

@@ -56,14 +56,14 @@ public class FileHit : INotifyPropertyChanged
 
 	public bool IsFolder { get; set; }
 
-	public Dictionary<string, PhraseHit> PhraseHits { get; set; } = new Dictionary<string, PhraseHit>();
+	public Dictionary<string, PhraseHit> PhraseHits { get; set; } = [];
 
 	[IgnoreDataMember]
 	public List<PhraseHit> PhraseHitsList
 	{
 		get
 		{
-			List<PhraseHit> l = new List<PhraseHit>();
+			List<PhraseHit> l = [];
 			foreach (KeyValuePair<string, PhraseHit> kvp in PhraseHits)
 			{
 				l.Add(kvp.Value);
