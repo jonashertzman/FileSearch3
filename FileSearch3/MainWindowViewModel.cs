@@ -42,7 +42,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		get
 		{
-			DateTime buildDate = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).LastWriteTime;
+			DateTime buildDate = new FileInfo(Environment.ProcessPath).LastWriteTime;
 			return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
 		}
 	}
@@ -240,7 +240,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 	public Brush DisabledBackground
 	{
 		get { return AppSettings.DisabledBackground; }
-		set { AppSettings.DisabledBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledForeground)); }
+		set { AppSettings.DisabledBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(DisabledBackground)); }
 	}
 
 	public Brush WindowBackground
