@@ -153,6 +153,8 @@ public partial class OptionsWindow : Window
 		WindowForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.NormalText));
 		DisabledForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DisabledText));
 
+		DisabledBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DisabledBackground));
+
 		WindowBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.WindowBackground));
 		DialogBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.DialogBackground));
 
