@@ -8,7 +8,7 @@
 	Title="About"
 	ResizeMode="NoResize"
 	TextOptions.TextFormattingMode="Display"
-	Background="{StaticResource {x:Static SystemColors.WindowBrushKey}}"
+	Background="{StaticResource Theme.Dialog}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	SizeToContent="WidthAndHeight"
@@ -41,24 +41,24 @@
 			<Label Content="Author:  Jonas Hertzman" Style="{StaticResource CondencedTextLabel}" />
 			<Label Margin="5" Content="License:  GNU General Public License v3" Style="{StaticResource CondencedTextLabel}" />
 			<StackPanel Margin="7,2,7,7">
-				<TextBlock>If you like to support my work on free open-source software,</TextBlock>
+				<TextBlock Style="{StaticResource StyledTextBlock}">If you like to support my work on free open-source software,</TextBlock>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="feel free to " />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text="feel free to " />
 					<TextBlock><Hyperlink RequestNavigate="Feedback_RequestNavigate" NavigateUri="x">send feedback</Hyperlink></TextBlock>
-					<TextBlock Text=", have a look at the " />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text=", have a look at the " />
 					<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/jonashertzman/FileSearch3">source code</Hyperlink></TextBlock>
-					<TextBlock Text=", " />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text=", " />
 				</StackPanel>
 				<StackPanel Orientation="Horizontal">
-					<TextBlock Text="support me on " />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text="support me on " />
 					<TextBlock><Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.patreon.com/jonashertzman">Patreon</Hyperlink></TextBlock>
-					<TextBlock Text=" or " />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text=" or " />
 					<TextBlock>	<Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://ko-fi.com/jonashertzman">buy me a coffee</Hyperlink></TextBlock>
-					<TextBlock Text="." />
+					<TextBlock Style="{StaticResource StyledTextBlock}" Text="." />
 				</StackPanel>
 			</StackPanel>
 		</StackPanel>
-		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}">
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Background="{StaticResource Theme.Window}">
 			<StackPanel Margin="10">
 				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
 			</StackPanel>
