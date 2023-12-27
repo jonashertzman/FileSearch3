@@ -8,3 +8,6 @@ dotnet_diagnostic.IDE0090.severity = none
 
 # IDE0066: Convert switch statement to expression
 dotnet_diagnostic.IDE0066.severity = none
+
+# Default severity for analyzer diagnostics with category 'Interoperability'
+dotnet_analyzer_diagnostic.category-Interoperability.severity = none
