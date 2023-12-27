@@ -65,7 +65,7 @@
 	</Style>
 
 	<Style x:Key="StyledTextBlock" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=Black}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 	</Style>
 
 	<Style TargetType="ProgressBar">
@@ -80,19 +80,28 @@
 		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 	</Style>
 
-	<Style x:Key="CondencedTextLabel" TargetType="Label">
+	<Style x:Key="CondencedTextLabel" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5,0" />
 	</Style>
 
-	<Style x:Key="CommonTextBox" TargetType="TextBox">
+	<Style x:Key="CommonTextBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Padding" Value="2" />
 		<Setter Property="Margin" Value="5" />
+		<Setter Property="FocusVisualStyle" Value="{DynamicResource MyFocusVisual}" />
 	</Style>
 
-	<Style x:Key="CommonComboBox" TargetType="ComboBox">
+	<Style TargetType="local:ErrorTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+		<Style.Triggers>
+			<Trigger Property="Error" Value="True">
+				<Setter Property="Background" Value="{StaticResource Theme.AttentionBackground}" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style x:Key="CommonComboBox" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
 		<Setter Property="Margin" Value="5" />
 	</Style>
@@ -113,10 +122,12 @@
 		<Setter Property="MinWidth" Value="80" />
 	</Style>
 
-	<Style x:Key="FlatButton" TargetType="Button" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+	<Style x:Key="FlatButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="Margin" Value="4,2" />
 		<Setter Property="Padding" Value="2" />
+		<Setter Property="MinWidth" Value="1" />
 	</Style>
 
 	<Style x:Key="CommonCheckBox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">

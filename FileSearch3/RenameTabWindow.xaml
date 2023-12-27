@@ -10,7 +10,7 @@
 	TextOptions.TextFormattingMode="Display"
 	UseLayoutRounding="True"
 	ResizeMode="NoResize"
-	Background="{StaticResource {x:Static SystemColors.ControlBrushKey}}"
+	Background="{StaticResource Theme.Dialog}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	Loaded="Window_Loaded"
