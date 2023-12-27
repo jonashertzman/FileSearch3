@@ -44,7 +44,7 @@
 							<Label Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Content="Theme" />
 							<ComboBox x:Name="ComboBoxTheme" Grid.Row="0" Grid.Column="1" MinWidth="100" HorizontalAlignment="Left" Text="{Binding Theme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CommonComboBox}" />
 
-							<CheckBox Name="AddShellExtensionsCheckBox" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Style="{StaticResource CommonCheckBox}" Foreground="{StaticResource Theme.DissabledText}" IsEnabled="False">
+							<CheckBox Name="AddShellExtensionsCheckBox" Grid.Row="1" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Style="{StaticResource CommonCheckBox}" IsEnabled="False">
 								<StackPanel Orientation="Horizontal">
 									<TextBlock Text="Add Shell Extensions to Windows Explorer" />
 									<TextBlock Name="NotAdminLabel" Text=" (run as administrator to enable this)" />
@@ -52,6 +52,7 @@
 							</CheckBox>
 
 							<CheckBox Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
+							<CheckBox Content="ffsdfsdfs" IsChecked="True" IsEnabled="False" />
 						</Grid>
 					</Border>
 				</TabItem>
