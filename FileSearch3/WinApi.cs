@@ -54,7 +54,7 @@ public class WinApi
 	private const uint CF_UNICODETEXT = 13;
 
 
-	[DllImport("kernel32", CharSet = CharSet.Auto)]
+	[DllImport("kernel32", CharSet = CharSet.Unicode)]
 	public static extern IntPtr FindFirstFile(string lpFileName, out WIN32_FIND_DATA lpFindFileData);
 
 	[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
@@ -101,7 +101,7 @@ public class WinApi
 	[DllImport("Kernel32.dll", SetLastError = true)]
 	private static extern int GlobalSize(IntPtr hMem);
 
-	[DllImport("user32.dll")]
+	[DllImport("user32.dll", CharSet = CharSet.Unicode)]
 	static extern int GetWindowText(int hwnd, StringBuilder text, int count);
 
 	[DllImport("user32.dll")]
