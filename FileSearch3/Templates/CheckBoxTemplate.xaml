@@ -25,13 +25,11 @@
 	</Style>
 
 
-	<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="{Binding Path=(local:AppSettings.DisabledForegroundColor), FallbackValue=#7EB4EA}" />
-
 	<Style TargetType="{x:Type CheckBox}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
 		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
-		<Setter Property="Foreground" Value="{Binding Path=(local:AppSettings.WindowForeground), FallbackValue=#FF000000}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Template">
 			<Setter.Value>
@@ -62,6 +60,7 @@
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter TargetName="checkBoxBorder" Property="Background" Value="{StaticResource Theme.DissabledBackground}" />
+							<Setter Property="Foreground" Value="{StaticResource Theme.DissabledText}" />
 							<Setter TargetName="optionMark" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 							<Setter TargetName="indeterminateMark" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 						</Trigger>
