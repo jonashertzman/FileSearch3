@@ -128,6 +128,7 @@ public static class AppSettings
 			NotifyStaticPropertyChanged(nameof(WindowForegroundColor));
 			NotifyStaticPropertyChanged(nameof(WindowBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(DisabledForegroundColor));
+			NotifyStaticPropertyChanged(nameof(DisabledBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(DialogBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(ControlLightBackgroundColor));
 			NotifyStaticPropertyChanged(nameof(BorderForegroundColor));
