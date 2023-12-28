@@ -115,7 +115,6 @@
 		<Setter Property="Background" Value="{StaticResource Theme.Dialog}" />
 	</Style>
 
-
 	<Style x:Key="CommonButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
 		<Setter Property="Padding" Value="3" />
 		<Setter Property="Margin" Value="5" />
@@ -175,6 +174,12 @@
 				<Setter Property="Background" Value="Transparent" />
 			</Trigger>
 		</Style.Triggers>
+	</Style>
+
+	<Style TargetType="ListBox">
+		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 	</Style>
 
 	<!--  Data Grids  -->
