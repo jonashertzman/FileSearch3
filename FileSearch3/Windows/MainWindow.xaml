@@ -604,7 +604,7 @@
 		<Border Name="SearchPanel" Grid.Row="3" Grid.ColumnSpan="3" BorderThickness="0,0,0,1" Background="{StaticResource Theme.Dialog}">
 			<StackPanel Orientation="Horizontal">
 				<Button Content="Close" Style="{StaticResource FlatButton}" Command="local:Commands.CloseFind" />
-				<TextBox Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" d:Text="Search Text" TextChanged="SearchBox_TextChanged" />
+				<local:ErrorTextBox x:Name="SearchBox" Width="300" Margin="6,2" Padding="2" VerticalAlignment="Center" d:Text="Search Text" TextChanged="SearchBox_TextChanged" />
 				<Button Content="Next" Style="{StaticResource FlatButton}" Command="local:Commands.FindNext" />
 				<Button Content="Previous" Style="{StaticResource FlatButton}" Command="local:Commands.FindPrevious" />
 				<CheckBox Name="MatchCase" Margin="6,2" Padding="2" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Match Case" Checked="MatchCase_Checked" Unchecked="MatchCase_Checked" />

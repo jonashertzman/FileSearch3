@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Markup;
-using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace FileSearch;
@@ -556,12 +555,12 @@ public partial class MainWindow : Window
 	{
 		if (result != -1)
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.White);
+			SearchBox.Error = false;
 			CenterOnLine(result);
 		}
 		else
 		{
-			SearchBox.Background = new SolidColorBrush(Colors.Pink);
+			SearchBox.Error = true;
 		}
 	}
 
