@@ -5,8 +5,6 @@
 	xmlns:local="clr-namespace:FileSearch">
 
 
-	<SolidColorBrush x:Key="Menu.Static.Separator" Color="#FFD7D7D7" />
-	<SolidColorBrush x:Key="Menu.Disabled.Foreground" Color="#FF707070" />
 	<SolidColorBrush x:Key="MenuItem.Selected.Background" Color="#3D26A0DA" />
 	<SolidColorBrush x:Key="MenuItem.Selected.Border" Color="#FF26A0DA" />
 	<SolidColorBrush x:Key="MenuItem.Highlight.Disabled.Background" Color="#0A000000" />
@@ -98,8 +96,8 @@
 				<Setter TargetName="templateRoot" Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Menu.Disabled.Foreground}" />
-				<Setter TargetName="GlyphPanel" Property="Fill" Value="{StaticResource Menu.Disabled.Foreground}" />
+				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Theme.DissabledText}" />
+				<Setter TargetName="GlyphPanel" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -128,7 +126,7 @@
 								<Canvas Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top">
 									<Rectangle x:Name="OpaqueRect" Width="{Binding ActualWidth, ElementName=SubMenuBorder}" Height="{Binding ActualHeight, ElementName=SubMenuBorder}" Fill="{Binding Background, ElementName=SubMenuBorder}" />
 								</Canvas>
-								<Rectangle Width="1" Margin="29,2,0,2" HorizontalAlignment="Left" Fill="{StaticResource Menu.Static.Separator}" />
+								<Rectangle Width="1" Margin="29,2,0,2" HorizontalAlignment="Left" Fill="{StaticResource Theme.BorderLight}" />
 								<ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Cycle" Grid.IsSharedSizeScope="true" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" KeyboardNavigation.TabNavigation="Cycle" />
 							</Grid>
 						</ScrollViewer>
@@ -152,8 +150,8 @@
 				<Setter TargetName="templateRoot" Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Menu.Disabled.Foreground}" />
-				<Setter TargetName="GlyphPanel" Property="Fill" Value="{StaticResource Menu.Disabled.Foreground}" />
+				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Theme.DissabledText}" />
+				<Setter TargetName="GlyphPanel" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 			</Trigger>
 			<Trigger SourceName="SubMenuScrollViewer" Property="ScrollViewer.CanContentScroll" Value="false">
 				<Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" />
@@ -193,8 +191,8 @@
 				<Setter TargetName="templateRoot" Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Menu.Disabled.Foreground}" />
-				<Setter TargetName="Glyph" Property="Fill" Value="{StaticResource Menu.Disabled.Foreground}" />
+				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Theme.DissabledText}" />
+				<Setter TargetName="Glyph" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 			</Trigger>
 			<MultiTrigger>
 				<MultiTrigger.Conditions>
@@ -255,9 +253,9 @@
 				<Setter TargetName="templateRoot" Property="BorderBrush" Value="{StaticResource Theme.HighlightBorder}" />
 			</Trigger>
 			<Trigger Property="IsEnabled" Value="False">
-				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Menu.Disabled.Foreground}" />
-				<Setter TargetName="Glyph" Property="Fill" Value="{StaticResource Menu.Disabled.Foreground}" />
-				<Setter TargetName="RightArrow" Property="Fill" Value="{StaticResource Menu.Disabled.Foreground}" />
+				<Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{StaticResource Theme.DissabledText}" />
+				<Setter TargetName="Glyph" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
+				<Setter TargetName="RightArrow" Property="Fill" Value="{StaticResource Theme.DissabledText}" />
 			</Trigger>
 			<Trigger SourceName="SubMenuScrollViewer" Property="ScrollViewer.CanContentScroll" Value="false">
 				<Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" />
