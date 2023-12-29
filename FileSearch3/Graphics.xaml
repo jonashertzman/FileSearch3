@@ -62,8 +62,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF006E00" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -90,7 +90,7 @@
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
 							<GradientStop Offset="0" Color="#FFDE4B4B" />
-							<GradientStop Offset="1" Color="#FF850000" />
+							<GradientStop Offset="1" Color="#FFAA0000" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
@@ -191,8 +191,8 @@
 				<TextBlock Canvas.Left="-3" Canvas.Top="3" FontFamily="Calibri" FontWeight="Normal" FontSize="40" Text="[a-z]">
 					<TextBlock.Foreground>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF8193E2" />
-							<GradientStop Offset="1" Color="#FF220F97" />
+							<GradientStop Offset="0" Color="#FF97B2FF" />
+							<GradientStop Offset="1" Color="#FF434A71" />
 						</LinearGradientBrush>
 					</TextBlock.Foreground>
 				</TextBlock>
@@ -206,8 +206,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF646464" />
-							<GradientStop Offset="1" Color="Black" />
+							<GradientStop Offset="0" Color="#777" />
+							<GradientStop Offset="1" Color="#444" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -371,8 +371,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF004900" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -398,8 +398,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF004900" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -425,8 +425,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF004900" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -453,8 +453,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF004900" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -485,8 +485,8 @@
 				<Path StrokeThickness="0">
 					<Path.Fill>
 						<LinearGradientBrush StartPoint="0.4,0" EndPoint="0.6,1">
-							<GradientStop Offset="0" Color="#FF0AC30A" />
-							<GradientStop Offset="1" Color="#FF004900" />
+							<GradientStop Offset="0" Color="#FF00B400" />
+							<GradientStop Offset="1" Color="#FF006900" />
 						</LinearGradientBrush>
 					</Path.Fill>
 					<Path.Data>
@@ -552,16 +552,16 @@
 				<Rectangle Canvas.Left="10" Canvas.Top="30" Width="140" Height="40">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-							<GradientStop Offset="0" Color="#FFFF99AA" />
-							<GradientStop Offset="1" Color="Red" />
+							<GradientStop Offset="0" Color="#FFDE4B4B" />
+							<GradientStop Offset="1" Color="#FFAA0000" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
 				<Rectangle Canvas.Left="10" Canvas.Top="90" Width="140" Height="40">
 					<Rectangle.Fill>
 						<LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-							<GradientStop Offset="0" Color="#FFFF99AA" />
-							<GradientStop Offset="1" Color="Red" />
+							<GradientStop Offset="0" Color="#FFDE4B4B" />
+							<GradientStop Offset="1" Color="#FFAA0000" />
 						</LinearGradientBrush>
 					</Rectangle.Fill>
 				</Rectangle>
