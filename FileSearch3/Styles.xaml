@@ -8,10 +8,11 @@
 		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Margin" Value="0,4,0,0" />
 		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">
-					<Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource Theme.BorderDark}" Background="{StaticResource Theme.Dialog}">
+					<Border x:Name="Border" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
 						<ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
 					<ControlTemplate.Triggers>
@@ -35,7 +36,7 @@
 						<DataTrigger Binding="{Binding Selected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.Window}" />
-							<Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+
 							<Setter Property="Margin" Value="0,2,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
 
