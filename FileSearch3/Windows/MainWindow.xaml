@@ -373,7 +373,7 @@
 							</DataGridTemplateColumn.Header>
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<StackPanel Orientation="Horizontal">
+									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 										<icons:PackIcon d:Kind="CheckCircleOutline" d:Foreground="Green" Kind="{Binding FlagKind}" Foreground="{Binding FlagBrush}" />
 									</StackPanel>
 								</DataTemplate>
