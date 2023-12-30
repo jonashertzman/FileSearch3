@@ -101,11 +101,11 @@
 	<DataTemplate x:Key="FindAnyPhraseIcon">
 		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
 			<Canvas Width="64" Height="64">
-				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
-				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="#555" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="#555" StrokeThickness="2" />
 				<TextBlock Canvas.Left="35" Canvas.Top="-7" FontFamily="Calibri" FontSize="38" Text="A" Foreground="Gray" />
 				<TextBlock Canvas.Left="35" Canvas.Top="25" FontFamily="Calibri" FontSize="38" Text="B" Foreground="Gray" />
-				<Path StrokeThickness="3" Stroke="Red">
+				<Path StrokeThickness="3" Stroke="#FFDE4B4B">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
@@ -126,11 +126,11 @@
 	<DataTemplate x:Key="FindAllPhrasesIcon">
 		<Viewbox TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="Grayscale">
 			<Canvas Width="64" Height="64">
-				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
-				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="Black" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="4" Width="24" Height="24" Stroke="#555" StrokeThickness="2" />
+				<Rectangle Canvas.Left="4" Canvas.Top="36" Width="24" Height="24" Stroke="#555" StrokeThickness="2" />
 				<TextBlock Canvas.Left="35" Canvas.Top="-7" FontFamily="Calibri" FontSize="38" Text="A" Foreground="Gray" />
 				<TextBlock Canvas.Left="35" Canvas.Top="25" FontFamily="Calibri" FontSize="38" Text="B" Foreground="Gray" />
-				<Path StrokeThickness="3" Stroke="Red">
+				<Path StrokeThickness="3" Stroke="#FFDE4B4B">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
@@ -144,7 +144,7 @@
 						</PathGeometry>
 					</Path.Data>
 				</Path>
-				<Path StrokeThickness="3" Stroke="Red">
+				<Path StrokeThickness="3" Stroke="#FFDE4B4B">
 					<Path.Data>
 						<PathGeometry>
 							<PathGeometry.Figures>
