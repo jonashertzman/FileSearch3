@@ -143,7 +143,7 @@
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
 
-			<Button x:Name="ButtonNewSearchInstance" Grid.Column="2" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource Theme.Dialog}" />
+			<Button x:Name="ButtonNewSearchInstance" Grid.Column="2" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource Theme.Dialog}" BorderBrush="{StaticResource Theme.BorderLight}" />
 			<Border Grid.Column="3" BorderThickness="0,0,0,1" />
 			<Border Grid.Column="4" BorderThickness="0,0,0,1">
 				<Grid>
