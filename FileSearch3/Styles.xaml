@@ -13,7 +13,7 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type Button}">
 					<Border x:Name="Border" BorderThickness="1" Background="{StaticResource Theme.Dialog}">
-						<ContentPresenter x:Name="asdf" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
+						<ContentPresenter x:Name="ContentLabel" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
 					</Border>
 					<ControlTemplate.Triggers>
 
@@ -36,12 +36,11 @@
 						<DataTrigger Binding="{Binding Selected}" Value="True">
 							<Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
 							<Setter TargetName="Border" Property="Background" Value="{StaticResource Theme.Window}" />
-
 							<Setter Property="Margin" Value="0,2,0,0" />
 							<Setter TargetName="Border" Property="Padding" Value="0,3,0,1" />
-							<Setter TargetName="asdf" Property="Margin" Value="2,2,2,3" />
-
+							<Setter TargetName="ContentLabel" Property="Margin" Value="2,2,2,3" />
 						</DataTrigger>
+
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
