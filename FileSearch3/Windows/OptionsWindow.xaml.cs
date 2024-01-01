@@ -34,6 +34,11 @@ public partial class OptionsWindow : Window
 			ComboBoxFont.Items.Add(family.Source);
 		}
 
+		foreach (string name in Enum.GetNames(typeof(Themes)))
+		{
+			ComboBoxTheme.Items.Add(new ComboBoxItem { Content = name });
+		}
+
 		if (IsAdministrator)
 		{
 			AddShellExtensionsCheckBox.IsEnabled = true;
