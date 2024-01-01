@@ -7,6 +7,8 @@ public class ColorTheme
 
 	#region Properties
 
+	public required string Name { get; set; }
+
 	// Editor colors
 	public required string NormalForeground { get; set; }
 	public required string NormalBackground { get; set; }
@@ -19,7 +21,6 @@ public class ColorTheme
 
 	public required string LineNumberColor { get; set; }
 	public required string CurrentDiffColor { get; set; }
-	public required string SnakeColor { get; set; }
 	public required string SelectionBackground { get; set; }
 
 	// UI colors
@@ -40,6 +41,15 @@ public class ColorTheme
 	public required string HighlightBorder { get; set; }
 
 	public required string AttentionBackground { get; set; }
+
+	#endregion
+
+	#region Overrides 
+
+	public override string ToString()
+	{
+		return Name;
+	}
 
 	#endregion
 

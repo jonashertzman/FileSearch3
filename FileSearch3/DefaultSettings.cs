@@ -9,6 +9,7 @@ public static class DefaultSettings
 
 	internal static ColorTheme DarkTheme { get; } = new ColorTheme()
 	{
+		Name = "Dark",
 
 		// Editor colors
 		NormalForeground = "#FFD8D8D8",
@@ -22,7 +23,6 @@ public static class DefaultSettings
 
 		LineNumberColor = "#FF797979",
 		CurrentDiffColor = "#FF252525",
-		SnakeColor = "#FF383838",
 		SelectionBackground = "#320096D2",
 
 		// UI colors
@@ -48,6 +48,7 @@ public static class DefaultSettings
 
 	internal static ColorTheme LightTheme { get; } = new ColorTheme()
 	{
+		Name = "Light",
 
 		// Editor colors
 		NormalForeground = "#FF000000",
@@ -61,7 +62,6 @@ public static class DefaultSettings
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
-		SnakeColor = "#FFD2D2D2",
 		SelectionBackground = "#320096D2",
 
 		// UI colors
