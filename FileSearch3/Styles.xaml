@@ -47,7 +47,7 @@
 		</Setter>
 	</Style>
 
-	<!--  Why is this needed for a sublasses data grid???  -->
+	<!--  Why is this needed for a sublassed data grid???  -->
 	<Style x:Key="EmptyDataGridStyle" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />
 
 	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
