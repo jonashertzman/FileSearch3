@@ -493,7 +493,22 @@ public static class AppSettings
 
 	#region Methods
 
-	internal static void ReadSettingsFromDisk()
+	internal static void LoadSettings()
+	{
+		SettingsData storedSettings = ReadSettingsFromDisk();
+
+		foreach (var x in storedSettings.GetType().GetProperties())
+		{
+			if (x.GetValue(storedSettings) != null)
+			{
+				x.SetValue(Settings, x.GetValue(storedSettings));
+			}
+		}
+
+		UpdateCachedSettings();
+	}
+
+	private static SettingsData ReadSettingsFromDisk()
 	{
 		string settingsPath = Path.Combine(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), SETTINGS_DIRECTORY), SETTINGS_FILE_NAME);
 		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
@@ -503,20 +518,15 @@ public static class AppSettings
 			using var xmlReader = XmlReader.Create(settingsPath);
 			try
 			{
-				Settings = (SettingsData)xmlSerializer.ReadObject(xmlReader);
+				return (SettingsData)xmlSerializer.ReadObject(xmlReader);
 			}
 			catch (Exception e)
 			{
-				MessageBox.Show(e.Message, "Error Parsing XML", MessageBoxButton.OK, MessageBoxImage.Error);
+				MessageBox.Show(e.Message, "Error Parsing Settings File", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
 
-		if (Settings == null)
-		{
-			Settings = new SettingsData();
-		}
-
-		UpdateCachedSettings();
+		return null;
 	}
 
 	internal static void WriteSettingsToDisk()
