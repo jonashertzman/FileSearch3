@@ -846,15 +846,11 @@ public partial class MainWindow : Window
 		var oldFont = ViewModel.Font;
 		var oldFontSize = ViewModel.FontSize;
 		var oldTabSize = ViewModel.TabSize;
-		var oldNormalForeground = ViewModel.NormalForeground;
-		var oldNormalBackground = ViewModel.NormalBackground;
-		var oldHitForeground = ViewModel.HitForeground;
-		var oldHitBackground = ViewModel.HitBackground;
-		var oldHeaderForeground = ViewModel.HeaderForeground;
-		var oldHeaderBackground = ViewModel.HeaderBackground;
-		var oldSelectionBackground = ViewModel.SelectionBackground;
 		var oldIgnoredFiles = new ObservableCollection<TextAttribute>(ViewModel.IgnoredFiles);
 		var oldIgnoredDirectories = new ObservableCollection<TextAttribute>(ViewModel.IgnoredDirectories);
+		var oldDarkTheme = AppSettings.DarkTheme.Clone();
+		var oldLightTheme = AppSettings.LightTheme.Clone();
+		var oldTheme = ViewModel.Theme;
 
 		OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
 		optionsWindow.ShowDialog();
@@ -870,15 +866,11 @@ public partial class MainWindow : Window
 			ViewModel.Font = oldFont;
 			ViewModel.FontSize = oldFontSize;
 			ViewModel.TabSize = oldTabSize;
-			ViewModel.NormalForeground = oldNormalForeground;
-			ViewModel.NormalBackground = oldNormalBackground;
-			ViewModel.HitForeground = oldHitForeground;
-			ViewModel.HitBackground = oldHitBackground;
-			ViewModel.HeaderForeground = oldHeaderForeground;
-			ViewModel.HeaderBackground = oldHeaderBackground;
-			ViewModel.SelectionBackground = oldSelectionBackground;
 			ViewModel.IgnoredFiles = new ObservableCollection<TextAttribute>(oldIgnoredFiles);
 			ViewModel.IgnoredDirectories = new ObservableCollection<TextAttribute>(oldIgnoredDirectories);
+			AppSettings.DarkTheme = oldDarkTheme;
+			AppSettings.LightTheme = oldLightTheme;
+			ViewModel.Theme = oldTheme;
 		}
 	}
 

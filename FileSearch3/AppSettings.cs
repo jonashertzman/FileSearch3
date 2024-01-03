@@ -135,6 +135,18 @@ public static class AppSettings
 		}
 	}
 
+	public static ColorTheme DarkTheme
+	{
+		get { return Settings.DarkTheme; }
+		set { Settings.DarkTheme = value; }
+	}
+
+	public static ColorTheme LightTheme
+	{
+		get { return Settings.LightTheme; }
+		set { Settings.LightTheme = value; }
+	}
+
 	public static ColorTheme CurrentTheme
 	{
 		get
