@@ -28,7 +28,7 @@ public class SettingsData
 
 	public double PositionLeft { get; set; }
 	public double PositionTop { get; set; }
-	public double Width { get; set; } = 750;
+	public double Width { get; set; } = 850;
 	public double Height { get; set; } = 500;
 	public WindowState WindowState { get; set; }
 
