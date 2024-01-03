@@ -497,15 +497,30 @@ public static class AppSettings
 	{
 		SettingsData storedSettings = ReadSettingsFromDisk();
 
-		foreach (var x in storedSettings.GetType().GetProperties())
+		if (storedSettings != null)
 		{
-			if (x.GetValue(storedSettings) != null)
-			{
-				x.SetValue(Settings, x.GetValue(storedSettings));
-			}
+			MergeSettings(Settings, storedSettings);
 		}
 
 		UpdateCachedSettings();
+	}
+
+	private static void MergeSettings(object source, object addition)
+	{
+		foreach (var property in addition.GetType().GetProperties())
+		{
+			if (property.PropertyType.Name == nameof(ColorTheme))
+			{
+				MergeSettings(property.GetValue(source), property.GetValue(addition));
+			}
+			else
+			{
+				if (property.GetValue(addition) != null)
+				{
+					property.SetValue(source, property.GetValue(addition));
+				}
+			}
+		}
 	}
 
 	private static SettingsData ReadSettingsFromDisk()
