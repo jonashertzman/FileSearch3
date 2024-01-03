@@ -16,7 +16,7 @@ public static class AppSettings
 	private const string SETTINGS_DIRECTORY = "FileSearch3";
 	private const string SETTINGS_FILE_NAME = "Settings.xml";
 
-	private static SettingsData Settings = new SettingsData();
+	private static readonly SettingsData Settings = new SettingsData();
 
 	#endregion
 
