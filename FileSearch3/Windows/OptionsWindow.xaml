@@ -52,7 +52,6 @@
 							</CheckBox>
 
 							<CheckBox Grid.Row="2" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Automatically Check for Updates" IsChecked="{Binding CheckForUpdates}" Style="{StaticResource CommonCheckBox}" />
-							<CheckBox Grid.Column="2" Content="ffsdfsdfs" IsChecked="True" IsEnabled="False" Style="{StaticResource CommonCheckBox}" />
 						</Grid>
 					</Border>
 				</TabItem>
