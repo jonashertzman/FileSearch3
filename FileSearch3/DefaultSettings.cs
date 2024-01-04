@@ -15,11 +15,11 @@ public static class DefaultSettings
 		NormalForeground = "#FFD8D8D8",
 		NormalBackground = "#1B1B1B",
 
-		HitForeground = "#FF9698FF",
-		HitBackground = "#FF2B293A",
+		HitForeground = "#FFFFB900",
+		HitBackground = "#FF6F0012",
 
-		HeaderForeground = "#FFFF8387",
-		HeaderBackground = "#FF5C2626",
+		HeaderForeground = "#FF6D6D6D",
+		HeaderBackground = "#FF2C2C2C",
 
 		LineNumberColor = "#FF797979",
 		CurrentDiffColor = "#FF252525",
