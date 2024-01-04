@@ -38,7 +38,7 @@ public static class DefaultSettings
 		ControlDarkBackground = "#FF3F3F3F",
 
 		BorderLight = "#FF323232",
-		BorderDark = "#FF595959",
+		BorderDark = "##FF636363",
 
 		HighlightBackground = "#FF112E3C",
 		HighlightBorder = "#FF2F7999",

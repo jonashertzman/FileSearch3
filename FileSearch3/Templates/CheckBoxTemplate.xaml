@@ -28,7 +28,7 @@
 	<Style TargetType="{x:Type CheckBox}">
 		<Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
 		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderDark}" />
 		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="Template">
