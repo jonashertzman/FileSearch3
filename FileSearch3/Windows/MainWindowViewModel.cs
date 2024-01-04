@@ -218,10 +218,16 @@ public class MainWindowViewModel : INotifyPropertyChanged
 		set { AppSettings.SelectionBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(SelectionBackground)); }
 	}
 
-	public Brush LineNumberColor
+	public Brush LineNumberForeground
 	{
-		get { return AppSettings.LineNumberColor; }
-		set { AppSettings.LineNumberColor = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberColor)); }
+		get { return AppSettings.LineNumberForeground; }
+		set { AppSettings.LineNumberForeground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(LineNumberForeground)); }
+	}
+
+	public Brush CurrentHitBackground
+	{
+		get { return AppSettings.CurrentHitBackground; }
+		set { AppSettings.CurrentHitBackground = value as SolidColorBrush; OnPropertyChangedRepaint(nameof(CurrentHitBackground)); }
 	}
 
 	// UI colors

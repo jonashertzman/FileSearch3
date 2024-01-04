@@ -19,8 +19,9 @@ public class ColorTheme
 	public required string HeaderForeground { get; set; }
 	public required string HeaderBackground { get; set; }
 
-	public required string LineNumberColor { get; set; }
-	public required string CurrentDiffColor { get; set; }
+	public required string LineNumberForeground { get; set; }
+	public required string CurrentHitBackground { get; set; }
+
 	public required string SelectionBackground { get; set; }
 
 	// UI colors

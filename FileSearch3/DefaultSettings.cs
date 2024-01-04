@@ -21,8 +21,9 @@ public static class DefaultSettings
 		HeaderForeground = "#FF6D6D6D",
 		HeaderBackground = "#FF2C2C2C",
 
-		LineNumberColor = "#FF797979",
-		CurrentDiffColor = "#FF252525",
+		LineNumberForeground = "#FF797979",
+		CurrentHitBackground = "#FF252525",
+
 		SelectionBackground = "#320096D2",
 
 		// UI colors
@@ -60,8 +61,9 @@ public static class DefaultSettings
 		HeaderForeground = "#FF6A6A6A",
 		HeaderBackground = "#FFC2C2C2",
 
-		LineNumberColor = "#FF585858",
-		CurrentDiffColor = "#FFB7B7B7",
+		LineNumberForeground = "#FF585858",
+		CurrentHitBackground = "#FFB7B7B7",
+
 		SelectionBackground = "#320096D2",
 
 		// UI colors
