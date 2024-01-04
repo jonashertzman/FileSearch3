@@ -597,7 +597,6 @@ public static class AppSettings
 		Font = new FontFamily(Settings.Font);
 
 		// Editor colors
-
 		NormalForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalForeground));
 		NormalBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.NormalBackground));
 
