@@ -246,14 +246,26 @@ public static class AppSettings
 	}
 
 	private static SolidColorBrush lineNumberColor;
-	public static SolidColorBrush LineNumberColor
+	public static SolidColorBrush LineNumberForeground
 	{
 		get { return lineNumberColor; }
 		set
 		{
 			lineNumberColor = value;
 			lineNumberColor.Freeze();
-			CurrentTheme.LineNumberColor = value.Color.ToString();
+			CurrentTheme.LineNumberForeground = value.Color.ToString();
+		}
+	}
+
+	private static SolidColorBrush currentHitBackground;
+	public static SolidColorBrush CurrentHitBackground
+	{
+		get { return currentHitBackground; }
+		set
+		{
+			currentHitBackground = value;
+			currentHitBackground.Freeze();
+			CurrentTheme.CurrentHitBackground = value.Color.ToString();
 		}
 	}
 
@@ -595,7 +607,9 @@ public static class AppSettings
 		HeaderForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HeaderForeground));
 		HeaderBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.HeaderBackground));
 
-		LineNumberColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberColor));
+		LineNumberForeground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.LineNumberForeground));
+		CurrentHitBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.CurrentHitBackground));
+
 		SelectionBackground = new SolidColorBrush((Color)ColorConverter.ConvertFromString(CurrentTheme.SelectionBackground));
 
 		// UI colors

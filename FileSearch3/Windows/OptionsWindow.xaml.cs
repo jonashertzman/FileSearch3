@@ -152,6 +152,9 @@ public partial class OptionsWindow : Window
 		HeaderForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HeaderForeground));
 		HeaderBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.HeaderBackground));
 
+		LineNumberForeground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.LineNumberForeground));
+		CurrentHitBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.CurrentHitBackground));
+
 		SelectionBackground.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(Default.SelectionBackground));
 
 		// UI colors

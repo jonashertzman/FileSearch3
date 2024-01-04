@@ -140,10 +140,10 @@ public class PreviewControl : Control
 				// Draw line number
 				if (line.LineNumber != null || EditMode)
 				{
-					SolidColorBrush lineNumberColor = AppSettings.LineNumberColor;
+					SolidColorBrush lineNumberColor = AppSettings.LineNumberForeground;
 					if (lineIndex == CurrentMatch && !Edited)
 					{
-						drawingContext.DrawRectangle(AppSettings.ControlDarkBackground, null, new Rect(0, 0, lineNumberMargin, characterHeight));
+						drawingContext.DrawRectangle(AppSettings.CurrentHitBackground, null, new Rect(0, 0, lineNumberMargin, characterHeight));
 					}
 					if (EditMode)
 					{

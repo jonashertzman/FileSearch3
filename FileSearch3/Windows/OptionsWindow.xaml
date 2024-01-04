@@ -153,16 +153,11 @@
 									<Rectangle x:Name="HeaderForeground" Grid.Row="4" Grid.Column="1" Margin="5" Fill="{Binding HeaderForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 									<Rectangle x:Name="HeaderBackground" Grid.Row="4" Grid.Column="2" Margin="5" Fill="{Binding HeaderBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
-
-
-
 									<Label Grid.Row="5" Content="Line Numbers" />
-									<Rectangle x:Name="LineNumberForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding HeaderForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
+									<Rectangle x:Name="LineNumberForeground" Grid.Row="5" Grid.Column="1" Margin="5" Fill="{Binding LineNumberForeground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 									<Label Grid.Row="6" Content="Current Hit" />
-									<Rectangle x:Name="CurrentHitBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding HeaderBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
-
-
+									<Rectangle x:Name="CurrentHitBackground" Grid.Row="6" Grid.Column="2" Margin="5" Fill="{Binding CurrentHitBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
 
 									<Label Grid.Row="7" Content="Selection" />
 									<Rectangle x:Name="SelectionBackground" Grid.Row="7" Grid.Column="2" Margin="5" Fill="{Binding SelectionBackground, Mode=TwoWay}" Stroke="{StaticResource {x:Static SystemColors.ActiveBorderBrushKey}}" MouseLeftButtonUp="Rectangle_MouseUp" />
