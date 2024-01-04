@@ -135,7 +135,9 @@
 		<Setter Property="VerticalAlignment" Value="Center" />
 	</Style>
 
-	<Style x:Key="FlatCheckbox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" />
+	<Style x:Key="FlatCheckbox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+		<Setter Property="VerticalAlignment" Value="Center" />
+	</Style>
 
 	<Style x:Key="CommonButtonIcon" TargetType="ContentPresenter">
 		<Setter Property="MaxHeight" Value="16" />
