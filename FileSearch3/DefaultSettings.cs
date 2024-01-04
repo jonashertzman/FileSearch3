@@ -54,11 +54,11 @@ public static class DefaultSettings
 		NormalForeground = "#FF000000",
 		NormalBackground = "#FFFFFFFF",
 
-		HitForeground = "#FF000000",
-		HitBackground = "#FFDCDCFF",
+		HitForeground = "#FFFFF300",
+		HitBackground = "#FFFF8689",
 
-		HeaderForeground = "#FFC80000",
-		HeaderBackground = "#FFFFDCDC",
+		HeaderForeground = "#FF6A6A6A",
+		HeaderBackground = "#FFC2C2C2",
 
 		LineNumberColor = "#FF585858",
 		CurrentDiffColor = "#FFB7B7B7",
