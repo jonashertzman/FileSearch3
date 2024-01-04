@@ -34,7 +34,7 @@ public static class DefaultSettings
 		WindowBackground = "#FF0B0B0B",
 		DialogBackground = "#FF171717",
 
-		ControlLightBackground = "##FF1B1B1B",
+		ControlLightBackground = "#FF1B1B1B",
 		ControlDarkBackground = "#FF3F3F3F",
 
 		BorderLight = "#FF323232",
