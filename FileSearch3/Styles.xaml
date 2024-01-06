@@ -251,19 +251,8 @@
 	</Style>
 
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
-		<!--<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.Window}" />
-		<Setter Property="BorderThickness" Value="4" />
-		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
-		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
-		<Style.Triggers>
-			<Trigger Property="IsSelected" Value="True">
-				<Setter Property="IsTabStop" Value="True" />
-				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
-				<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBackground}" />
-			</Trigger>
-		</Style.Triggers>-->
+		<Setter Property="IsTabStop" Value="False" />
 	</Style>
 
 	<Style x:Key="RightAlignedCell" TargetType="DataGridCell" BasedOn="{StaticResource FileListCell}">

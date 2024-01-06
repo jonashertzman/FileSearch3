@@ -754,8 +754,14 @@ public partial class MainWindow : Window
 	private void DataGridCell_MouseUp(object sender, MouseButtonEventArgs e)
 	{
 		FileHit x = ((DataGridCell)sender).DataContext as FileHit;
-
-		x.Flag++;
+		if (e.ChangedButton == MouseButton.Right)
+		{
+			x.Flag = 0;
+		}
+		else
+		{
+			x.Flag++;
+		}
 		e.Handled = true;
 	}
 
