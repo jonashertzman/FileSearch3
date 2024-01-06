@@ -137,6 +137,7 @@
 
 	<Style x:Key="FlatCheckbox" TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
 		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="Margin" Value="0" />
 	</Style>
 
 	<Style x:Key="CommonButtonIcon" TargetType="ContentPresenter">
@@ -253,6 +254,7 @@
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Padding" Value="3,2" />
 	</Style>
 
 	<Style x:Key="RightAlignedCell" TargetType="DataGridCell" BasedOn="{StaticResource FileListCell}">
