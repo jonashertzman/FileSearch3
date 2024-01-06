@@ -269,7 +269,7 @@
 
 							<DataGrid Grid.Row="0" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding IgnoredDirectories}">
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Directories" CanUserResize="False">
+									<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" Binding="{Binding Text}" Header="Ignore Directories" CanUserResize="False">
 										<DataGridTextColumn.EditingElementStyle>
 											<Style TargetType="TextBox">
 												<Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -284,7 +284,7 @@
 
 							<DataGrid Grid.Row="0" Grid.Column="1" Margin="5" d:ItemsSource="{d:SampleData}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding IgnoredFiles}">
 								<DataGrid.Columns>
-									<DataGridTextColumn Width="*" Binding="{Binding Text}" Header="Ignore Files" CanUserResize="False">
+									<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" Binding="{Binding Text}" Header="Ignore Files" CanUserResize="False">
 										<DataGridTextColumn.EditingElementStyle>
 											<Style TargetType="TextBox">
 												<Setter Property="HorizontalAlignment" Value="Stretch" />
