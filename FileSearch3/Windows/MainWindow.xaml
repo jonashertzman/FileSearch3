@@ -365,12 +365,7 @@
 						</Style>
 					</DataGrid.RowStyle>
 					<DataGrid.Columns>
-						<DataGridTemplateColumn SortMemberPath="Flag" CanUserSort="True" CanUserResize="False" CellStyle="{StaticResource FileListCell2}">
-							<DataGridTemplateColumn.Header>
-								<StackPanel>
-									<icons:PackIcon Kind="DotsVertical" />
-								</StackPanel>
-							</DataGridTemplateColumn.Header>
+						<DataGridTemplateColumn Width="23" SortMemberPath="Flag" CanUserSort="True" CanUserResize="False" CellStyle="{StaticResource FileListCell2}">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
 									<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
