@@ -7,7 +7,7 @@
 	xmlns:local="clr-namespace:FileSearch"
 	Title="Options"
 	Width="635"
-	Height="686"
+	Height="500"
 	Padding="5"
 	d:DataContext="{d:DesignInstance Type=local:MainWindowViewModel}"
 	TextOptions.TextFormattingMode="Display"

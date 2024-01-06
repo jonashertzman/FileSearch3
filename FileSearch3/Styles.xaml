@@ -181,7 +181,7 @@
 	<!--  Data Grids  -->
 	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">		
 		<Setter Property="BorderThickness" Value="2" />
-		<Setter Property="Padding" Value="4,3" />
+		<Setter Property="Padding" Value="5,3" />
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
