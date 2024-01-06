@@ -179,9 +179,7 @@
 	</Style>
 
 	<!--  Data Grids  -->
-	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
-		<!--<Setter Property="Background" Value="Red" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.ControlLight}" />-->
+	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">		
 		<Setter Property="BorderThickness" Value="2" />
 		<Setter Property="Padding" Value="4,3" />
 		<Style.Triggers>
@@ -201,6 +199,13 @@
 
 	<Style x:Key="CheckboxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
 		<Setter Property="Padding" Value="3" />
+	</Style>
+
+	<Style x:Key="DataCellTextbox" TargetType="TextBox">
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
 	</Style>
 
 	<!--  Why is this needed for a sublassed data grid???  -->

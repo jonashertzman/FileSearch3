@@ -282,32 +282,14 @@
 				<DataGrid x:Name="DataGridSearchPhrases" Grid.Row="0" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchPhrases, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled" KeyDown="DataGridSearchPhrases_KeyDown">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn ElementStyle="{StaticResource FlatCheckbox}" CellStyle="{StaticResource CheckboxColumn}" Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
-						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Phrase">
-							<DataGridTextColumn.EditingElementStyle>
-								<Style TargetType="TextBox">
-									<Setter Property="HorizontalAlignment" Value="Stretch" />
-									<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
-									<Setter Property="BorderThickness" Value="0" />
-									<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
-								</Style>
-							</DataGridTextColumn.EditingElementStyle>
-						</DataGridTextColumn>
+						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" EditingElementStyle="{StaticResource DataCellTextbox}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Phrase" />
 					</DataGrid.Columns>
 				</DataGrid>
 				<GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Focusable="False" />
 				<DataGrid x:Name="DataGridSearchDirectories" Grid.Row="2" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchDirectories, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn ElementStyle="{StaticResource FlatCheckbox}" CellStyle="{StaticResource CheckboxColumn}" Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
-						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Search Directories">
-							<DataGridTextColumn.EditingElementStyle>
-								<Style TargetType="TextBox">
-									<Setter Property="HorizontalAlignment" Value="Stretch" />
-									<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
-									<Setter Property="BorderThickness" Value="0" />
-									<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
-								</Style>
-							</DataGridTextColumn.EditingElementStyle>
-						</DataGridTextColumn>
+						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" EditingElementStyle="{StaticResource DataCellTextbox}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Search Directories" />
 						<DataGridTemplateColumn>
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
@@ -321,16 +303,7 @@
 				<DataGrid x:Name="DataGridSearcFiles" Grid.Row="4" d:ItemsSource="{d:SampleData ItemCount=2}" Style="{StaticResource SearchAttributeGrid}" ItemsSource="{Binding ActiveSearchInstance.SearchFiles, Mode=TwoWay}" HorizontalScrollBarVisibility="Disabled">
 					<DataGrid.Columns>
 						<DataGridCheckBoxColumn ElementStyle="{StaticResource FlatCheckbox}" CellStyle="{StaticResource CheckboxColumn}" Binding="{Binding Used, UpdateSourceTrigger=PropertyChanged}" Header="" />
-						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Files to Search">
-							<DataGridTextColumn.EditingElementStyle>
-								<Style TargetType="TextBox">
-									<Setter Property="HorizontalAlignment" Value="Stretch" />
-									<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
-									<Setter Property="BorderThickness" Value="0" />
-									<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
-								</Style>
-							</DataGridTextColumn.EditingElementStyle>
-						</DataGridTextColumn>
+						<DataGridTextColumn Width="*" CellStyle="{StaticResource DataGridCellAttributes}" EditingElementStyle="{StaticResource DataCellTextbox}" Binding="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Header="Files to Search" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</Grid>
