@@ -47,18 +47,7 @@
 		</Setter>
 	</Style>
 
-	<!--  Why is this needed for a sublassed data grid???  -->
-	<Style x:Key="EmptyDataGridStyle" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />
 
-	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
-		<Setter Property="CanUserReorderColumns" Value="False" />
-		<Setter Property="CanUserResizeColumns" Value="False" />
-		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="SelectionMode" Value="Single" />
-		<Setter Property="RowHeaderWidth" Value="0" />
-		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-	</Style>
 
 	<Style x:Key="ShortcutTooltip" TargetType="TextBlock">
 		<Setter Property="Margin" Value="20,0,0,0" />
@@ -190,71 +179,46 @@
 	</Style>
 
 	<!--  Data Grids  -->
-	<!--<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}">
+	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
+		<!--<Setter Property="Background" Value="Red" />
+		<Setter Property="BorderBrush" Value="{StaticResource Theme.ControlLight}" />-->
+		<Setter Property="BorderThickness" Value="2" />
+		<Setter Property="Padding" Value="4,3" />
 		<Style.Triggers>
 			<Trigger Property="DataGridCell.IsSelected" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-				-->
-	<!--<Setter Property="Foreground" Value="Black" />-->
-	<!--
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.HighlightBackground}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
-				<Setter Property="BorderBrush" Value="{StaticResource {x:Static SystemColors.WindowBrushKey}}" />
+				<Setter Property="Background" Value="{StaticResource Theme.ControlLight}" />
+				<Setter Property="BorderBrush" Value="{StaticResource Theme.ControlLight}" />
 			</Trigger>
 			<Trigger Property="DataGridCell.IsFocused" Value="True">
 				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
 			</Trigger>
 		</Style.Triggers>
-	</Style>-->
+	</Style>
 
-	<!--<Style x:Key="CheckBoxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
-		<Style.Triggers>
-			<Trigger Property="IsMouseOver" Value="True">
-				<Setter Property="IsEditing" Value="True" />
-			</Trigger>
-		</Style.Triggers>
-	</Style>-->
+	<Style x:Key="CheckboxColumn" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource DataGridCellAttributes}">
+		<Setter Property="Padding" Value="3" />
+	</Style>
 
-	<!--<Style x:Key="EditableDataGrid" TargetType="DataGrid">
+	<!--  Why is this needed for a sublassed data grid???  -->
+	<Style x:Key="EmptyDataGridStyle" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />
+
+	<Style x:Key="SearchAttributeGrid" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+		<Setter Property="CanUserReorderColumns" Value="False" />
+		<Setter Property="CanUserResizeColumns" Value="False" />
 		<Setter Property="AutoGenerateColumns" Value="False" />
-		<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
-		<Setter Property="Background" Value="{StaticResource Theme.Window}" />
+		<Setter Property="SelectionMode" Value="Single" />
 		<Setter Property="RowHeaderWidth" Value="0" />
 		<Setter Property="CanUserResizeRows" Value="False" />
-		<Setter Property="GridLinesVisibility" Value="Horizontal" />
-		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource Theme.BorderLight}" />
-		<Setter Property="SelectionMode" Value="Single" />
-	</Style>-->
-
-	<Style x:Key="EditableDataGridCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
-		<Style.Triggers>
-			<!--<Trigger Property="DataGridCell.IsSelected" Value="True">
-				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
-				<Setter Property="BorderBrush" Value="{StaticResource Theme.BorderLight}" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="Foreground" Value="{StaticResource Theme.NormalText}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="False">
-				<Setter Property="Background" Value="{StaticResource Theme.Window}" />
-				<Setter Property="BorderBrush" Value="{StaticResource Theme.Window}" />
-			</Trigger>
-			<Trigger Property="DataGridCell.IsFocused" Value="True">
-				<Setter Property="Background" Value="{StaticResource Theme.HighlightBackground}" />
-				<Setter Property="BorderBrush" Value="#CCDAFF" />
-				<Setter Property="BorderThickness" Value="1" />
-			</Trigger>-->
-		</Style.Triggers>
 	</Style>
 
 	<Style x:Key="FileListCell" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="Padding" Value="3,2" />
+		<Setter Property="Padding" Value="5,3" />
 	</Style>
 
 	<Style x:Key="RightAlignedCell" TargetType="DataGridCell" BasedOn="{StaticResource FileListCell}">
