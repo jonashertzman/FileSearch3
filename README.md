@@ -24,3 +24,6 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileSearch3/dow
 
 ![screen](docs/images/screen3.png)  
 *Full DPI support.*
+
+![screen](docs/images/screen4.png)  
+*Dark mode.*
