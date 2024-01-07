@@ -1,4 +1,4 @@
-File Search 3.0
+File Search 3.1
 =============
 
 A file searching application with a rich user interface. 
@@ -13,6 +13,7 @@ Download latest version **[HERE](https://jonashertzman.github.io/FileSearch3/dow
 - Regex search
 - Editing files in the preview
 - High DPI support
+- Dark mode
 
 ### Screen shots
 ![screen](docs/images/screen1.png)  

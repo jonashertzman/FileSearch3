@@ -35,7 +35,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public string Version
 	{
-		get { return "3.0"; }
+		get { return "3.1"; }
 	}
 
 	public string BuildNumber
