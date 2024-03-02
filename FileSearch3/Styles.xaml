@@ -179,7 +179,7 @@
 	</Style>
 
 	<!--  Data Grids  -->
-	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">		
+	<Style x:Key="DataGridCellAttributes" TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
 		<Setter Property="BorderThickness" Value="2" />
 		<Setter Property="Padding" Value="5,3" />
 		<Style.Triggers>
