@@ -416,6 +416,11 @@ class BackgroundSearch
 	{
 		searchInstance.SearchInProgress = false;
 		UpdateStatus(null, true);
+
+		if (e.Error != null)
+		{
+			Log.LogUnhandledException(e.Error, "BackgroundWorkerException");
+		}
 	}
 
 	#endregion
