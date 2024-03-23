@@ -1197,4 +1197,16 @@ public partial class MainWindow : Window
 
 	#endregion
 
+	private async void Button_Click(object sender, RoutedEventArgs e)
+	{
+		//File.ReadAllBytes("sadsaddsa");
+
+		await Task.Run(() =>
+		{
+			int x = 1;
+			File.ReadAllBytes("sadsaddsa");
+
+		});
+	}
+
 }
