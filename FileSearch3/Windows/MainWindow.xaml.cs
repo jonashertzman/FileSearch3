@@ -1199,14 +1199,42 @@ public partial class MainWindow : Window
 
 	private async void Button_Click(object sender, RoutedEventArgs e)
 	{
-		//File.ReadAllBytes("sadsaddsa");
-
-		await Task.Run(() =>
-		{
-			int x = 1;
-			File.ReadAllBytes("sadsaddsa");
-
-		});
+		File.ReadAllBytes("sadsaddsa");
 	}
 
+	private async void Button_Click2(object sender, RoutedEventArgs e)
+	{
+		await Task.Run(async () =>
+		 {
+			 await Task.Delay(3000);
+			 int x = 1;
+			 File.ReadAllBytes("sadsaddsa");
+
+		 });
+	}
+
+	private void Button_Click3(object sender, RoutedEventArgs e)
+	{
+		Task.Run(() => DoStuff(2)).ContinueWith(StuffDone, TaskScheduler.FromCurrentSynchronizationContext());
+
+	}
+
+	int DoStuff(int i)
+	{
+		File.ReadAllBytes("sadsaddsa");
+
+		return i * 2;
+	}
+
+	void StuffDone(Task<int> task)
+	{
+		if (task.Status == TaskStatus.Faulted)
+		{
+			Log.LogUnhandledException(task.Exception.InnerException, "TaskException");
+		}
+		else
+		{
+			Debug.WriteLine(task.Result);
+		}
+	}
 }
