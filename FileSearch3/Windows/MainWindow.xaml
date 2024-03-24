@@ -261,18 +261,6 @@
 				</StackPanel>
 			</Button>
 
-			<Button Click="Button_Click">
-				Crash
-			</Button>
-
-			<Button Click="Button_Click2">
-				Crash Task
-			</Button>
-
-			<Button Click="Button_Click3">
-				Crash Task Continue
-			</Button>
-
 		</WrapPanel>
 
 		<Grid x:Name="MainGrid" Grid.Row="2" Background="{StaticResource Theme.Dialog}">
