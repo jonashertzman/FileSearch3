@@ -395,6 +395,8 @@ class BackgroundSearch
 
 	void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 	{
+		File.ReadAllBytes("sadsaddsa");
+
 		startTime = DateTime.UtcNow;
 
 		searchInstance.SearchInProgress = true;
