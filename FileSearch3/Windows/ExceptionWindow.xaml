@@ -1,0 +1,32 @@
+﻿<Window
+	x:Class="FileSearch.ExceptionWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:FileSearch"
+	Title="ExceptionWindow"
+	MinWidth="400"
+	ResizeMode="NoResize"
+	TextOptions.TextFormattingMode="Display"
+	Background="{StaticResource Theme.Dialog}"
+	WindowStartupLocation="CenterOwner"
+	ShowInTaskbar="False"
+	SizeToContent="WidthAndHeight"
+	mc:Ignorable="d">
+
+	<StackPanel>
+		<StackPanel Orientation="Vertical" Background="{StaticResource Theme.Window}">
+			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
+			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
+			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
+		</StackPanel>
+		<Border BorderThickness="0,1,0,0">
+			<StackPanel Margin="10" Orientation="Horizontal">
+				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" Click="Button_Click" />
+				<Button HorizontalAlignment="Right" Content="Report" Style="{StaticResource CommonButton}" />
+			</StackPanel>
+		</Border>
+	</StackPanel>
+
+</Window>

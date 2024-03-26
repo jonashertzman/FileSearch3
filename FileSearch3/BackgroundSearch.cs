@@ -395,6 +395,10 @@ class BackgroundSearch
 
 	void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 	{
+		File.ReadAllBytes("sdsdsddsdsd");
+
+
+
 		startTime = DateTime.UtcNow;
 
 		searchInstance.SearchInProgress = true;
@@ -419,7 +423,7 @@ class BackgroundSearch
 
 		if (e.Error != null)
 		{
-			Log.LogUnhandledException(e.Error, "BackgroundWorkerException");
+			Log.LogUnhandledException(e.Error, "BackgroundWorkerException", null);
 		}
 	}
 

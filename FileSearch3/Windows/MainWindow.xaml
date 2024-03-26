@@ -261,6 +261,8 @@
 				</StackPanel>
 			</Button>
 
+			<Button Click="Button_Click" >crash</Button>
+
 		</WrapPanel>
 
 		<Grid x:Name="MainGrid" Grid.Row="2" Background="{StaticResource Theme.Dialog}">
