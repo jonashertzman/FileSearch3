@@ -829,6 +829,8 @@ public partial class MainWindow : Window
 		ViewModel.Theme = Themes.Dark;
 	}
 
+
+
 	#endregion
 
 	#region Commands
@@ -1197,4 +1199,8 @@ public partial class MainWindow : Window
 
 	#endregion
 
+	private void Button_Click(object sender, RoutedEventArgs e)
+	{
+		File.ReadAllBytes("sdsdsd");
+	}
 }
