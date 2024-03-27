@@ -18,15 +18,13 @@ internal static class Log
 		ExceptionWindow exceptionWindow = new ExceptionWindow()
 		{
 			Owner = mainWindow,
-			ErrorType = source,
-			ErrorMessage = exception.Message,
-			CallStack = exception.StackTrace
+			ExceptionType = exception.GetType().Name,
+			ExceptionMessage = exception.Message,
+			Source = source,
+			StackTrace = exception.StackTrace
 		};
 
 		exceptionWindow.ShowDialog();
-
-
-		//	MessageBox.Show($"{source}\n{exception.Message}", "Unhandled Exception");
 	}
 
 }
