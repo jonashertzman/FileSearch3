@@ -90,7 +90,7 @@
 			</TreeView.Resources>
 		</TreeView>
 
-		<Grid Grid.Row="2" Margin="5">
+		<Grid Grid.Row="2" Margin="10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />

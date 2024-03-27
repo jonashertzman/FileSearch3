@@ -6,14 +6,15 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileSearch"
 	Title="Unhandled Exception"
-	MinWidth="450"
-	MinHeight="260"
+	Width="800"
+	Height="450"
+	d:Width="500"
+	d:Height="260"
 	d:DataContext="{d:DesignInstance Type=local:ExceptionWindow}"
 	TextOptions.TextFormattingMode="Display"
 	Background="{StaticResource Theme.Dialog}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
-	SizeToContent="WidthAndHeight"
 	ResizeMode="CanResizeWithGrip"
 	mc:Ignorable="d">
 
@@ -25,16 +26,25 @@
 
 		<Border Background="{StaticResource Theme.Window}">
 			<Grid Margin="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 					<RowDefinition Height="*" />
 				</Grid.RowDefinitions>
-				<Label Grid.Row="0" d:Content="Error Type" Content="{Binding ErrorType}" />
-				<Label Grid.Row="1" d:Content="Error Message" Content="{Binding ErrorMessage}" />
-				<Label Grid.Row="2" Content="Stack Trace" />
-				<TextBox Grid.Row="3" VerticalAlignment="Stretch" Text="{Binding CallStack}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Style="{StaticResource CommonTextBox}" />
+				<Label Grid.Row="0" Grid.Column="0" Content="Exception:" />
+				<TextBox Grid.Row="0" Grid.Column="1" d:Text="Exception Type" IsReadOnly="True" Text="{Binding ExceptionType}" Style="{StaticResource BorderlessTextBox}" />
+				<Label Grid.Row="1" Content="Message:" />
+				<TextBox Grid.Row="1" Grid.Column="1" d:Text="Exception Message" IsReadOnly="True" Text="{Binding ExceptionMessage}" Style="{StaticResource BorderlessTextBox}" />
+				<Label Grid.Row="2" Content="Source:" />
+				<TextBox Grid.Row="2" Grid.Column="1" d:Text="Source" IsReadOnly="True" Text="{Binding Source}" Style="{StaticResource BorderlessTextBox}" />
+				<Label Grid.Row="3" Content="Stack Trace:" />
+				<TextBox Grid.Row="4" Grid.ColumnSpan="2" VerticalAlignment="Stretch" Text="{Binding StackTrace}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{StaticResource CommonTextBox}" />
 			</Grid>
 		</Border>
 		<Border Grid.Row="1" BorderThickness="0,1,0,0">
