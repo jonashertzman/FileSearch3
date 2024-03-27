@@ -423,7 +423,7 @@ class BackgroundSearch
 
 		if (e.Error != null)
 		{
-			Log.LogUnhandledException(e.Error, "BackgroundWorkerException", null);
+			Log.LogUnhandledException(e.Error, "BackgroundWorkerException");
 		}
 	}
 
