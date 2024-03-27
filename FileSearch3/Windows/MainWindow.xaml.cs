@@ -46,6 +46,7 @@ public partial class MainWindow : Window
 		standardColumnCount = dataGridFileList.Columns.Count;
 
 		UpdateStats();
+		Log.mainWindow = this;
 	}
 
 	#endregion
@@ -1201,6 +1202,7 @@ public partial class MainWindow : Window
 
 	private void Button_Click(object sender, RoutedEventArgs e)
 	{
-		File.ReadAllBytes("sdsdsd");
+		File.ReadAllBytes("asdsa");
+		//Log.LogUnhandledException(new Exception(), "asdsfdfdgf");
 	}
 }

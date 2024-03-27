@@ -5,28 +5,44 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="clr-namespace:FileSearch"
-	Title="ExceptionWindow"
-	MinWidth="400"
-	ResizeMode="NoResize"
+	Title="Unhandled Exception"
+	MinWidth="450"
+	MinHeight="260"
+	d:DataContext="{d:DesignInstance Type=local:ExceptionWindow}"
 	TextOptions.TextFormattingMode="Display"
 	Background="{StaticResource Theme.Dialog}"
 	WindowStartupLocation="CenterOwner"
 	ShowInTaskbar="False"
 	SizeToContent="WidthAndHeight"
+	ResizeMode="CanResizeWithGrip"
 	mc:Ignorable="d">
 
-	<StackPanel>
-		<StackPanel Orientation="Vertical" Background="{StaticResource Theme.Window}">
-			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
-			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
-			<Label>Text dfh gdhgkdghdkjh gdg khdfgdkgkd kf g</Label>
-		</StackPanel>
-		<Border BorderThickness="0,1,0,0">
-			<StackPanel Margin="10" Orientation="Horizontal">
-				<Button HorizontalAlignment="Right" Content="Close" Style="{StaticResource CommonButton}" Click="Button_Click" />
-				<Button HorizontalAlignment="Right" Content="Report" Style="{StaticResource CommonButton}" />
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Border Background="{StaticResource Theme.Window}">
+			<Grid Margin="10">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Label Grid.Row="0" d:Content="Error Type" Content="{Binding ErrorType}" />
+				<Label Grid.Row="1" d:Content="Error Message" Content="{Binding ErrorMessage}" />
+				<Label Grid.Row="2" Content="Stack Trace" />
+				<TextBox Grid.Row="3" VerticalAlignment="Stretch" Text="{Binding CallStack}" IsReadOnly="True" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" Style="{StaticResource CommonTextBox}" />
+			</Grid>
+		</Border>
+		<Border Grid.Row="1" BorderThickness="0,1,0,0">
+			<StackPanel Margin="10" HorizontalAlignment="Right" Orientation="Horizontal">
+				<Button Content="Close" Style="{StaticResource CommonButton}" Click="Button_Click" />
+				<Button Content="Report" Style="{StaticResource CommonButton}" />
 			</StackPanel>
 		</Border>
-	</StackPanel>
+	</Grid>
 
 </Window>

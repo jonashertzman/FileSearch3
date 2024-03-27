@@ -25,7 +25,7 @@
 		</Grid.RowDefinitions>
 		<ListBox x:Name="SearchErrorsList" Grid.Row="0" Margin="5" ItemsSource="{Binding Errors}" />
 		<ListBox x:Name="IgnoredFilesList" Grid.Row="0" Margin="5" d:ItemsSource="{d:SampleData ItemCount=5}" ItemsSource="{Binding FilesIgnored}" />
-		<StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
+		<StackPanel Grid.Row="1" Margin="5" HorizontalAlignment="Right" Orientation="Horizontal">
 			<Button x:Name="ButtonClose" Grid.Column="1" Content="Close" Style="{StaticResource CommonButton}" IsDefault="True" IsCancel="True" />
 		</StackPanel>
 	</Grid>
