@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel;
+using System.Net.Http;
+using System.Text.Json;
 using System.Windows;
 
 namespace FileSearch;
@@ -50,9 +52,21 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 	#region Events
 
-	private void Button_Click(object sender, RoutedEventArgs e)
+	private void CloseButton_Click(object sender, RoutedEventArgs e)
 	{
 		this.Close();
+	}
+
+	private async void ReportButton_Click(object sender, RoutedEventArgs e)
+	{
+		HttpClient httpClient = new();
+
+		var jsonString = new StringContent(JsonSerializer.Serialize(new CrashReport()));
+
+		var response = await httpClient.PostAsync("https://localhost:7133/api/CrashReport", jsonString);
+
+		//this.Close();
+
 	}
 
 	#endregion
@@ -68,4 +82,10 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 	#endregion
 
+}
+
+class CrashReport
+{
+	public int x = 123;
+	public string y = "dfdsfds";
 }
