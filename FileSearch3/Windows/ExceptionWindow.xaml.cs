@@ -90,7 +90,7 @@ class CrashReport
 {
 	public string ApplicationName { get; set; } = "FileDiff";
 
-	public string ClientId { get; set; } = "Q-Ken";
+	public string ClientId { get; set; } = "123456";
 
 	public int Version { get; set; } = 0;
 }
