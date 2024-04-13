@@ -82,6 +82,16 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 	}
 
+	private void OpenLogFileButton_Click(object sender, RoutedEventArgs e)
+	{
+		using Process p = new Process();
+
+		p.StartInfo.FileName = AppSettings.LogPath;
+		p.StartInfo.ErrorDialog = true;
+		p.StartInfo.UseShellExecute = true;
+		p.Start();
+	}
+
 	#endregion
 
 	#region INotifyPropertyChanged
@@ -94,24 +104,5 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	}
 
 	#endregion
-
-}
-
-public class CrashReportRequest
-{
-
-	public string ApplicationName { get; set; }
-
-	public string BuildNumber { get; set; }
-
-	public string ClientId { get; set; }
-
-	public string ExceptionType { get; set; }
-
-	public string ExceptionMessage { get; set; }
-
-	public string Source { get; set; }
-
-	public string StackTrace { get; set; }
 
 }
