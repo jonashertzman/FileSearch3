@@ -397,8 +397,6 @@ class BackgroundSearch
 	{
 		File.ReadAllBytes("sdsdsddsdsd");
 
-
-
 		startTime = DateTime.UtcNow;
 
 		searchInstance.SearchInProgress = true;
@@ -423,7 +421,7 @@ class BackgroundSearch
 
 		if (e.Error != null)
 		{
-			//		Log.LogUnhandledException(e.Error, "BackgroundWorkerException");
+			Log.LogUnhandledException(e.Error, "BackgroundWorkerException");
 		}
 	}
 
