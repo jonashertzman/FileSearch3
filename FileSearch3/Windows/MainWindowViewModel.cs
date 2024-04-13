@@ -40,11 +40,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	public string BuildNumber
 	{
-		get
-		{
-			DateTime buildDate = new FileInfo(Environment.ProcessPath).LastWriteTime;
-			return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
-		}
+		get { return AppSettings.BuildNumber; }
 	}
 
 	public string ApplicationName

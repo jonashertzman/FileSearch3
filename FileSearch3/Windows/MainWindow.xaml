@@ -261,7 +261,7 @@
 				</StackPanel>
 			</Button>
 
-			<Button Click="Button_Click" >crash</Button>
+			<Button Click="Button_Click">crash</Button>
 
 		</WrapPanel>
 

@@ -28,6 +28,15 @@ public static class AppSettings
 		get { return Settings.Id; }
 	}
 
+	public static string BuildNumber
+	{
+		get
+		{
+			DateTime buildDate = new FileInfo(Environment.ProcessPath).LastWriteTime;
+			return $"{buildDate:yy}{buildDate.DayOfYear:D3}";
+		}
+	}
+
 	public static DateTime LastUpdateTime
 	{
 		get { return Settings.LastUpdateTime; }

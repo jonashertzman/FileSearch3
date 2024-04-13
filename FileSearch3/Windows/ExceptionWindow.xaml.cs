@@ -62,10 +62,19 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	{
 		HttpClient httpClient = new();
 
-		string json = JsonSerializer.Serialize(new CrashReport());
+		CrashReport cr = new()
+		{
+			ApplicationName = "FileDiff",
+			ClientId = AppSettings.Id,
+			BuildNumber = AppSettings.BuildNumber,
+			StackTrace = this.StackTrace
+
+		};
+
+		string json = JsonSerializer.Serialize(cr);
 		var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-		var response = httpClient.PostAsync("https://localhost:7133/api/CrashReport", content).Result;
+		var response = await httpClient.PostAsync("https://localhost:7133/api/CrashReport", content);
 
 		//this.Close();
 
@@ -90,7 +99,9 @@ class CrashReport
 {
 	public string ApplicationName { get; set; } = "FileDiff";
 
-	public string ClientId { get; set; } = "123456";
+	public string ClientId { get; set; } = "";
 
-	public int Version { get; set; } = 0;
+	public string BuildNumber { get; set; }
+
+	public string StackTrace { get; set; }
 }
