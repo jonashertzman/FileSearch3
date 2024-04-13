@@ -62,13 +62,15 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 	{
 		HttpClient httpClient = new();
 
-		CrashReport cr = new()
+		CrashReportRequest cr = new()
 		{
 			ApplicationName = "FileDiff",
-			ClientId = AppSettings.Id,
 			BuildNumber = AppSettings.BuildNumber,
+			ClientId = AppSettings.Id,
+			ExceptionType = this.ExceptionType,
+			ExceptionMessage = this.ExceptionMessage,
+			Source = this.Source,
 			StackTrace = this.StackTrace
-
 		};
 
 		string json = JsonSerializer.Serialize(cr);
@@ -95,13 +97,21 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 }
 
-class CrashReport
+public class CrashReportRequest
 {
-	public string ApplicationName { get; set; } = "FileDiff";
 
-	public string ClientId { get; set; } = "";
+	public string ApplicationName { get; set; }
 
 	public string BuildNumber { get; set; }
 
+	public string ClientId { get; set; }
+
+	public string ExceptionType { get; set; }
+
+	public string ExceptionMessage { get; set; }
+
+	public string Source { get; set; }
+
 	public string StackTrace { get; set; }
+
 }
