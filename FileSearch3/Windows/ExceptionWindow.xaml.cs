@@ -60,36 +60,49 @@ public partial class ExceptionWindow : Window, INotifyPropertyChanged
 
 	private async void ReportButton_Click(object sender, RoutedEventArgs e)
 	{
-		HttpClient httpClient = new();
-
-		CrashReportRequest cr = new()
+		try
 		{
-			ApplicationName = "FileSearch",
-			BuildNumber = AppSettings.BuildNumber,
-			ClientId = AppSettings.Id,
-			ExceptionType = this.ExceptionType,
-			ExceptionMessage = this.ExceptionMessage,
-			Source = this.Source,
-			StackTrace = this.StackTrace
-		};
+			HttpClient httpClient = new();
 
-		string json = JsonSerializer.Serialize(cr);
-		var content = new StringContent(json, Encoding.UTF8, "application/json");
+			CrashReportRequest cr = new()
+			{
+				ApplicationName = "FileSearch",
+				BuildNumber = AppSettings.BuildNumber,
+				ClientId = AppSettings.Id,
+				ExceptionType = this.ExceptionType,
+				ExceptionMessage = this.ExceptionMessage,
+				Source = this.Source,
+				StackTrace = this.StackTrace
+			};
 
-		var response = await httpClient.PostAsync("https://localhost:7133/api/CrashReport", content);
+			string json = JsonSerializer.Serialize(cr);
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+			var response = await httpClient.PostAsync("https://localhost:7133/api/CrashReport", content);
+		}
+		catch (Exception ex)
+		{
+			Debug.Print($"Crash report failed: {ex.Message}");
+		}
 
 		//this.Close();
-
 	}
 
 	private void OpenLogFileButton_Click(object sender, RoutedEventArgs e)
 	{
-		using Process p = new Process();
+		try
+		{
+			using Process p = new Process();
 
-		p.StartInfo.FileName = AppSettings.LogPath;
-		p.StartInfo.ErrorDialog = true;
-		p.StartInfo.UseShellExecute = true;
-		p.Start();
+			p.StartInfo.FileName = AppSettings.LogPath;
+			p.StartInfo.ErrorDialog = true;
+			p.StartInfo.UseShellExecute = true;
+			p.Start();
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine($"Cannot open log file. {ex.Message}");
+		}
 	}
 
 	#endregion
