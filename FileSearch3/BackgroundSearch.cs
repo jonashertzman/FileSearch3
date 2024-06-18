@@ -140,6 +140,10 @@ class BackgroundSearch
 								UpdateStatus(newPath);
 								FindFiles(newPath);
 							}
+							else
+							{
+								searchIgnores.Add($"Ignoring directory: {newPath}");
+							}
 						}
 					}
 
@@ -162,7 +166,7 @@ class BackgroundSearch
 							}
 							else
 							{
-								searchIgnores.Add(newPath);
+								searchIgnores.Add($"Ignoring file: {newPath}");
 							}
 						}
 					}
@@ -395,7 +399,7 @@ class BackgroundSearch
 
 	void BackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 	{
-		File.ReadAllBytes("sdsdsddsdsd");
+		//File.ReadAllBytes("sdsdsddsdsd");
 
 		startTime = DateTime.UtcNow;
 
