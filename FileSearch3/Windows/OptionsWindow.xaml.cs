@@ -61,7 +61,7 @@ public partial class OptionsWindow : Window
 		get
 		{
 			WindowsIdentity wi = WindowsIdentity.GetCurrent();
-			WindowsPrincipal wp = new WindowsPrincipal(wi);
+			WindowsPrincipal wp = new(wi);
 
 			return wp.IsInRole(WindowsBuiltInRole.Administrator);
 		}

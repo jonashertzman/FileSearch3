@@ -6,7 +6,7 @@ namespace FileSearch;
 internal static class Log
 {
 
-	public static Window mainWindow { get; set; }
+	public static Window MainWindowInstance { get; set; }
 
 	public static void LogUnhandledException(Exception exception, string source)
 	{
@@ -15,9 +15,9 @@ internal static class Log
 		Directory.CreateDirectory(Path.GetDirectoryName(AppSettings.LogPath));
 		File.AppendAllText(AppSettings.LogPath, errorText);
 
-		ExceptionWindow exceptionWindow = new ExceptionWindow()
+		ExceptionWindow exceptionWindow = new()
 		{
-			Owner = mainWindow,
+			Owner = MainWindowInstance,
 			ExceptionType = exception.GetType().Name,
 			ExceptionMessage = exception.Message,
 			Source = source,

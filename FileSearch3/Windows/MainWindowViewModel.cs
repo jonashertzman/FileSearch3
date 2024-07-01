@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -12,7 +11,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
 	#region Members
 
-	readonly DispatcherTimer timer = new DispatcherTimer();
+	readonly DispatcherTimer timer = new();
 
 	#endregion
 

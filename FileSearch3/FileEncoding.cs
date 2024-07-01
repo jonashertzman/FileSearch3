@@ -2,20 +2,8 @@
 
 namespace FileSearch;
 
-public class FileEncoding
+public class FileEncoding(Encoding type, bool bom, NewlineMode newline, bool endOfFileNewline)
 {
-
-	#region Constructor
-
-	public FileEncoding(Encoding type, bool bom, NewlineMode newline, bool endOfFileNewline)
-	{
-		this.Type = type;
-		this.Bom = bom;
-		this.Newline = newline;
-		this.EndOfFileNewline = endOfFileNewline;
-	}
-
-	#endregion
 
 	#region Overrides
 
@@ -58,13 +46,13 @@ public class FileEncoding
 
 	#region Properties
 
-	public Encoding Type { get; private set; }
+	public Encoding Type { get; private set; } = type;
 
-	public bool Bom { get; private set; }
+	public bool Bom { get; private set; } = bom;
 
-	public NewlineMode Newline { get; private set; }
+	public NewlineMode Newline { get; private set; } = newline;
 
-	public bool EndOfFileNewline { get; private set; }
+	public bool EndOfFileNewline { get; private set; } = endOfFileNewline;
 
 	public Encoding GetEncoding
 	{

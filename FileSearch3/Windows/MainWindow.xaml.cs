@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 
 	MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
 
-	readonly DispatcherTimer updatePreviewTimer = new DispatcherTimer();
+	readonly DispatcherTimer updatePreviewTimer = new();
 
 	int firstHit = -1;
 	int lastHit = -1;
@@ -46,7 +46,7 @@ public partial class MainWindow : Window
 		standardColumnCount = dataGridFileList.Columns.Count;
 
 		UpdateStats();
-		Log.mainWindow = this;
+		Log.MainWindowInstance = this;
 	}
 
 	#endregion
@@ -145,7 +145,7 @@ public partial class MainWindow : Window
 
 	private void AddNewSearch(string searchDirectory = "")
 	{
-		SearchInstance newInstance = new SearchInstance();
+		SearchInstance newInstance = new();
 		if (searchDirectory != "")
 		{
 			newInstance.SearchDirectories.Add(new TextAttribute(searchDirectory));
@@ -321,7 +321,7 @@ public partial class MainWindow : Window
 
 						foreach (Match newLine in newLines)
 						{
-							Line previewLine = new Line
+							Line previewLine = new()
 							{
 								Text = allText[lineSourceIndex..newLine.Index],
 								CurrentFile = currentFile.Path,
@@ -362,7 +362,7 @@ public partial class MainWindow : Window
 				{
 					foreach (string line in allLines)
 					{
-						Line previewLine = new Line();
+						Line previewLine = new();
 						bool[] hitCharacters = new bool[line.Length];
 						previewLine.Text = line;
 						previewLine.CurrentFile = currentFile.Path;
@@ -734,7 +734,7 @@ public partial class MainWindow : Window
 
 	private void DataGridFileList_RowDoubleClick(object sender, MouseButtonEventArgs e)
 	{
-		using Process p = new Process();
+		using Process p = new();
 
 		p.StartInfo.FileName = ((FileHit)((DataGridRow)sender).Item).Path;
 		p.StartInfo.ErrorDialog = true;
@@ -770,7 +770,7 @@ public partial class MainWindow : Window
 	{
 		TextAttribute t = (sender as Button).DataContext as TextAttribute;
 
-		BrowseFolderWindow browseFolderWindow = new BrowseFolderWindow() { DataContext = ViewModel, Owner = this, SelectedPath = t?.Text };
+		BrowseFolderWindow browseFolderWindow = new() { DataContext = ViewModel, Owner = this, SelectedPath = t?.Text };
 		browseFolderWindow.ShowDialog();
 
 		if (browseFolderWindow.DialogResult == true)
@@ -788,13 +788,13 @@ public partial class MainWindow : Window
 
 	private void ErrorCountHyperlink_Click(object sender, RoutedEventArgs e)
 	{
-		LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.Errors };
+		LogWindow logWindow = new() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.Errors };
 		logWindow.ShowDialog();
 	}
 
 	private void IgnoredFilesCountHyperlink_Click(object sender, RoutedEventArgs e)
 	{
-		LogWindow logWindow = new LogWindow() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
+		LogWindow logWindow = new() { DataContext = ActiveSearch, Owner = this, Type = LogWindowType.IgnoredFiles };
 		logWindow.ShowDialog();
 	}
 
@@ -861,7 +861,7 @@ public partial class MainWindow : Window
 		var oldLightTheme = AppSettings.LightTheme.Clone();
 		var oldTheme = ViewModel.Theme;
 
-		OptionsWindow optionsWindow = new OptionsWindow() { DataContext = ViewModel, Owner = this };
+		OptionsWindow optionsWindow = new() { DataContext = ViewModel, Owner = this };
 		optionsWindow.ShowDialog();
 
 		if (optionsWindow.DialogResult == true)
@@ -887,13 +887,13 @@ public partial class MainWindow : Window
 	{
 		CheckForNewVersion(true);
 
-		AboutWindow aboutWindow = new AboutWindow() { Owner = this, DataContext = ViewModel };
+		AboutWindow aboutWindow = new() { Owner = this, DataContext = ViewModel };
 		aboutWindow.ShowDialog();
 	}
 
 	private void CommandRenameTab_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		RenameTabWindow renameTabWindow = new RenameTabWindow() { TabName = ActiveSearch.Name };
+		RenameTabWindow renameTabWindow = new() { TabName = ActiveSearch.Name };
 		renameTabWindow.ShowDialog();
 
 		if (renameTabWindow.DialogResult == true)
@@ -906,7 +906,7 @@ public partial class MainWindow : Window
 	private void CommandOpenContainingFolder_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
 		string args = $"/Select, {((FileHit)dataGridFileList.SelectedItem).Path}";
-		ProcessStartInfo pfi = new ProcessStartInfo("Explorer.exe", args);
+		ProcessStartInfo pfi = new("Explorer.exe", args);
 		Process.Start(pfi);
 	}
 
@@ -927,7 +927,7 @@ public partial class MainWindow : Window
 
 	private void CommandCopyResultsToClipboard_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		StringBuilder s = new StringBuilder();
+		StringBuilder s = new();
 
 		foreach (FileHit r in dataGridFileList.Items)
 		{
@@ -950,7 +950,7 @@ public partial class MainWindow : Window
 
 	private void CommandCopyResultsAsCsv_Executed(object sender, ExecutedRoutedEventArgs e)
 	{
-		StringBuilder s = new StringBuilder();
+		StringBuilder s = new();
 
 		s.Append("File,Size,Date");
 		foreach (string phrase in ActiveSearch.StoredSearchPhrases)
@@ -1047,7 +1047,7 @@ public partial class MainWindow : Window
 
 	private void CommandDuplicateSearch_Executed(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
 	{
-		SearchInstance newInstance = new SearchInstance { CaseSensitive = ActiveSearch.CaseSensitive, RegexSearch = ActiveSearch.RegexSearch };
+		SearchInstance newInstance = new() { CaseSensitive = ActiveSearch.CaseSensitive, RegexSearch = ActiveSearch.RegexSearch };
 
 		foreach (TextAttribute attribute in ActiveSearch.SearchPhrases)
 		{
@@ -1081,7 +1081,7 @@ public partial class MainWindow : Window
 		{
 			try
 			{
-				using StreamWriter sw = new StreamWriter(filePath, false, ViewModel.FileEncoding.GetEncoding);
+				using StreamWriter sw = new(filePath, false, ViewModel.FileEncoding.GetEncoding);
 
 				if (ViewModel.PreviewLines.Count > 1 || ViewModel.PreviewLines[0].Text.Length > 0) // No new line in empty file
 				{

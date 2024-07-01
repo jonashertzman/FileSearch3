@@ -5,6 +5,7 @@ namespace FileSearch;
 
 public class ErrorTextBox : TextBox
 {
+
 	#region Dependency Properties
 
 	public static readonly DependencyProperty ErrorProperty = DependencyProperty.Register("Error", typeof(bool), typeof(ErrorTextBox));
@@ -19,4 +20,5 @@ public class ErrorTextBox : TextBox
 	}
 
 	#endregion
+
 }

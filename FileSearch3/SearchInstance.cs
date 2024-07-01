@@ -70,11 +70,11 @@ public class SearchInstance : INotifyPropertyChanged
 		set { regexSearch = value; OnPropertyChanged(nameof(RegexSearch)); }
 	}
 
-	bool findAllPrases;
+	bool findAllPhrases;
 	public bool FindAllPhrases
 	{
-		get { return findAllPrases; }
-		set { findAllPrases = value; OnPropertyChanged(nameof(FindAllPhrases)); }
+		get { return findAllPhrases; }
+		set { findAllPhrases = value; OnPropertyChanged(nameof(FindAllPhrases)); }
 	}
 
 	bool showOnlyHits;
@@ -220,7 +220,7 @@ public class SearchInstance : INotifyPropertyChanged
 	{
 		get
 		{
-			StringBuilder checksum = new StringBuilder();
+			StringBuilder checksum = new();
 
 			foreach (string s in StoredSearchPhrases)
 			{

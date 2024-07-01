@@ -9,12 +9,12 @@ public class FileHit : INotifyPropertyChanged
 
 	#region Members
 
-	readonly (string kind, SolidColorBrush foreground)[] flags = new[] {
+	readonly (string kind, SolidColorBrush foreground)[] flags = [
 		("None", Brushes.Transparent),
 		("CheckCircleOutline", Brushes.Green),
 		("CancelCircleOutline", Brushes.IndianRed),
 		("AlertCircleOutline", Brushes.DodgerBlue),
-	};
+	];
 
 	#endregion
 

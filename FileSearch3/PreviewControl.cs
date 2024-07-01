@@ -31,8 +31,8 @@ public class PreviewControl : Control
 
 	private Typeface typeface;
 
-	private readonly DispatcherTimer blinkTimer = new DispatcherTimer(DispatcherPriority.Render);
-	private readonly Stopwatch stopwatch = new Stopwatch();
+	private readonly DispatcherTimer blinkTimer = new(DispatcherPriority.Render);
+	private readonly Stopwatch stopwatch = new();
 
 	#endregion
 
@@ -113,7 +113,7 @@ public class PreviewControl : Control
 			lineNumberLength = Lines.Count.ToString().Length;
 		}
 
-		Pen borderPen = new Pen(AppSettings.BorderForeground, RoundToWholePixels(1));
+		Pen borderPen = new(AppSettings.BorderForeground, RoundToWholePixels(1));
 		borderPen.Freeze();
 		GuidelineSet borderGuide = CreateGuidelineSet(borderPen);
 
@@ -208,7 +208,7 @@ public class PreviewControl : Control
 						// Draw selection
 						if (Selection != null && lineIndex >= Selection.TopLine && lineIndex <= Selection.BottomLine)
 						{
-							Rect selectionRect = new Rect(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
+							Rect selectionRect = new(0 - textMargin + HorizontalOffset, 0, this.ActualWidth + HorizontalOffset, characterHeight);
 							if (Selection.TopLine == lineIndex && Selection.TopCharacter > 0)
 							{
 								selectionRect.X = Math.Max(0, CharacterPosition(lineIndex, Selection.TopCharacter));
@@ -847,7 +847,7 @@ public class PreviewControl : Control
 
 	private GuidelineSet CreateGuidelineSet(Pen pen)
 	{
-		GuidelineSet guidelineSet = new GuidelineSet();
+		GuidelineSet guidelineSet = new();
 		guidelineSet.GuidelinesX.Add(pen.Thickness / 2);
 		guidelineSet.GuidelinesY.Add(pen.Thickness / 2);
 		guidelineSet.Freeze();
@@ -912,7 +912,7 @@ public class PreviewControl : Control
 
 	private void CopyToClipboard()
 	{
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new();
 		int lineIndex = Selection.TopLine;
 		do
 		{
