@@ -12,7 +12,7 @@ public partial class BrowseFolderWindow : Window
 
 	#region Members
 
-	private readonly DispatcherTimer renderTimer = new DispatcherTimer();
+	private readonly DispatcherTimer renderTimer = new();
 
 	ScrollViewer folderTreeScrollViewer;
 
@@ -49,7 +49,7 @@ public partial class BrowseFolderWindow : Window
 
 	private TreeViewItem CreateTreeItem(object source)
 	{
-		TreeViewItem item = new TreeViewItem { Tag = source };
+		TreeViewItem item = new() { Tag = source };
 		switch (source)
 		{
 			case DriveInfo drive:

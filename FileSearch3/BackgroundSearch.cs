@@ -12,8 +12,8 @@ class BackgroundSearch
 	readonly SearchInstance searchInstance;
 
 	DateTime lastStatusUpdateTime = DateTime.UtcNow;
-	DateTime startTime = new DateTime();
-	DateTime endTime = new DateTime();
+	DateTime startTime = new();
+	DateTime endTime = new();
 	readonly List<TextAttribute> searchPhrases = [];
 	readonly List<TextAttribute> searchDirectories = [];
 	readonly List<TextAttribute> searchFiles = [];
@@ -25,7 +25,7 @@ class BackgroundSearch
 	readonly List<FileHit> searchResults = [];
 	readonly List<string> searchErrors = [];
 	readonly List<string> searchIgnores = [];
-	readonly BackgroundWorker backgroundWorker = new BackgroundWorker();
+	readonly BackgroundWorker backgroundWorker = new();
 
 	bool abortPosted = false;
 
@@ -113,7 +113,7 @@ class BackgroundSearch
 	{
 		if (!abortPosted)
 		{
-			IntPtr INVALID_HANDLE_VALUE = new IntPtr(-1);
+			IntPtr INVALID_HANDLE_VALUE = new(-1);
 			IntPtr findHandle = WinApi.FindFirstFile(Path.Combine(searchDirectory, "*"), out WIN32_FIND_DATA findData);
 
 			string uppercaseFileName;

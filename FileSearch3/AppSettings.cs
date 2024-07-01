@@ -13,7 +13,7 @@ public static class AppSettings
 
 	#region Members
 
-	private static readonly SettingsData Settings = new SettingsData();
+	private static readonly SettingsData Settings = new();
 
 	private static readonly string AppDataDirectory = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "FileSearch3");
 	public static readonly string SettingsPath = Path.Combine(AppDataDirectory, "Settings.xml");
@@ -559,7 +559,7 @@ public static class AppSettings
 
 	private static SettingsData ReadSettingsFromDisk()
 	{
-		DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
+		DataContractSerializer xmlSerializer = new(typeof(SettingsData));
 
 		if (File.Exists(SettingsPath))
 		{
@@ -581,7 +581,7 @@ public static class AppSettings
 	{
 		try
 		{
-			DataContractSerializer xmlSerializer = new DataContractSerializer(typeof(SettingsData));
+			DataContractSerializer xmlSerializer = new(typeof(SettingsData));
 			var xmlWriterSettings = new XmlWriterSettings { Indent = true, IndentChars = " " };
 
 			Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath));

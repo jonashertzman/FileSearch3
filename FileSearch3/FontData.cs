@@ -2,20 +2,12 @@
 
 namespace FileSearch;
 
-class FontData
+class FontData(GlyphTypeface glyphTypeface, double topDistance, double bottomDistance, bool heightsCalculated)
 {
 
-	public FontData(GlyphTypeface glyphTypeface, double topDistance, double bottomDistance, bool heightsCalculated)
-	{
-		GlyphTypeface = glyphTypeface;
-		TopDistance = topDistance;
-		BottomDistance = bottomDistance;
-		HeightsCalculated = heightsCalculated;
-	}
-
-	public GlyphTypeface GlyphTypeface { get; internal set; }
-	public double TopDistance { get; internal set; }
-	public double BottomDistance { get; internal set; }
-	public bool HeightsCalculated { get; internal set; }
+	public GlyphTypeface GlyphTypeface { get; internal set; } = glyphTypeface;
+	public double TopDistance { get; internal set; } = topDistance;
+	public double BottomDistance { get; internal set; } = bottomDistance;
+	public bool HeightsCalculated { get; internal set; } = heightsCalculated;
 
 }
