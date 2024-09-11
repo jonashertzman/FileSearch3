@@ -90,8 +90,6 @@
 		<Grid x:Name="GridMenu" Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
@@ -123,33 +121,41 @@
 			</Border>
 
 			<!--  Instance Tabs  -->
-			<ItemsControl x:Name="Tab" Grid.Row="0" Grid.Column="1" d:ItemsSource="{d:SampleData ItemCount=4}" ItemsSource="{Binding SearchInstances}" IsTabStop="False">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
-							<StackPanel MinWidth="20" Margin="2,0" Orientation="Vertical">
-								<TextBlock Margin="0,0,0,1" HorizontalAlignment="Center" Text="{Binding Name}" />
-								<StackPanel Height="2">
-									<ProgressBar Height="2" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}" />
+			<Grid Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<ItemsControl x:Name="Tab" Grid.Row="0" Grid.Column="0" d:ItemsSource="{d:SampleData ItemCount=4}" ItemsSource="{Binding SearchInstances}" IsTabStop="False">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Click="TabButton_Click" ContextMenuOpening="TabButton_ContextMenuOpening" Tag="{Binding}" Style="{StaticResource TabButtonStyle}" ContextMenu="{StaticResource ContextMenuTabButton}">
+								<StackPanel MinWidth="20" Margin="2,0" Orientation="Vertical">
+									<TextBlock Margin="0,0,0,1" HorizontalAlignment="Center" Text="{Binding Name}" />
+									<StackPanel Height="2">
+										<ProgressBar Height="2" Visibility="{Binding SearchInProgress, Converter={StaticResource BooleanToVisibilityConverter}}" Value="{Binding Progress}" />
+									</StackPanel>
 								</StackPanel>
-							</StackPanel>
-						</Button>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-				<ItemsControl.ItemsPanel>
-					<ItemsPanelTemplate>
-						<StackPanel Orientation="Horizontal" />
-					</ItemsPanelTemplate>
-				</ItemsControl.ItemsPanel>
-			</ItemsControl>
+							</Button>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Horizontal" />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+				</ItemsControl>
+				<Button x:Name="ButtonNewSearchInstance" Grid.Column="1" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource Theme.Dialog}" BorderBrush="{StaticResource Theme.BorderLight}" />
+				<Border Grid.Column="2" BorderThickness="0,0,0,1" />
+			</Grid>
 
-			<Button x:Name="ButtonNewSearchInstance" Grid.Column="2" MinWidth="26" Margin="0,4,0,0" Content="*" Command="local:Commands.NewTab" Background="{StaticResource Theme.Dialog}" BorderBrush="{StaticResource Theme.BorderLight}" />
-			<Border Grid.Column="3" BorderThickness="0,0,0,1" />
+			<!--  Dark Mode / Update Panel  -->
 			<Border Grid.Column="4" BorderThickness="0,0,0,1">
 				<Grid>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="auto" />
-						<ColumnDefinition Width="auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 					<StackPanel x:Name="UpdatePanel" Grid.Column="0" VerticalAlignment="Center" Visibility="{Binding Path=NewBuildAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
 						<Label Margin="3,3,5,3" Padding="0">
@@ -545,7 +551,7 @@
 						<Grid Grid.Row="1" d:Background="White">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
-								<RowDefinition Height="auto" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition />
@@ -580,11 +586,11 @@
 		<Grid x:Name="GridStatusbar" Grid.Row="4" Background="{StaticResource Theme.Dialog}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition Width="auto" />
-				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<TextBlock Margin="6,3,3,3" d:Text="Status text" Style="{StaticResource StyledTextBlock}" Text="{Binding ActiveSearchInstance.StatusText}" />
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
