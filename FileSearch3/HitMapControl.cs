@@ -32,7 +32,7 @@ public class HitMapControl : Control
 
 	protected override void OnRender(DrawingContext drawingContext)
 	{
-		Debug.Print("DiffMap OnRender");
+		Debug.Print("HitMap OnRender");
 
 		// Fill background
 		drawingContext.DrawRectangle(AppSettings.DialogBackground, null, new Rect(0, 0, this.ActualWidth, this.ActualHeight));
